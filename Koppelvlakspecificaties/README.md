@@ -60,7 +60,9 @@ Leesvolgorde: eerst deze instap, dan [`Koppelingspecificaties/gedeeld/`](Koppeli
 
 ### Wat staat waar
 
-De koppelingen staan onder [`Koppelingspecificaties/`](Koppelingspecificaties/), elk in een eigen map:
+Het pakket bestaat uit vier delen: deze instap, de [uitgangspunten](uitgangspunten.md) die voor alles gelden, de koppelingen onder [`Koppelingspecificaties/`](Koppelingspecificaties/), en de [`templates/`](templates/) waarmee je er een nieuwe schrijft.
+
+De koppelingen staan elk in een eigen map:
 
 | Map | Koppeling | Inhoud | Herkomst |
 |---|---|---|---|
@@ -71,7 +73,7 @@ De koppelingen staan onder [`Koppelingspecificaties/`](Koppelingspecificaties/),
 
 Gedeelde payload-specificaties staan **éénmaal centraal** in `gedeeld/`. Elke koppelingspecificatie definieert een **gebruiksprofiel**: welke objecten en velden van de centrale payload die koppeling gebruikt. Het studentinformatiesysteem krijgt de volledige leeruitkomst-laag, planning alleen de leeruitkomst-ids als opaque sleutels ([ADR 0023](../Referentiemateriaal/adr/0023-leeruitkomsten-als-opaque-sleutels-in-koppeling-oc-p-en-r.md)), en de leeromgeving de inhoudsvelden. Koppeling-specifieke payloads staan in de koppeling-map.
 
-Leidende prioriteringsvraag: wat moeten deze drie koppelingen uitgewisseld hebben om klaar te zijn voor de start van de student? De documenten dragen geen metadatakop; auteurschap en datums staan in de git-historie, de samenhang in de issues en pull requests.
+Leidende prioriteringsvraag: wat moeten deze drie koppelingen uitgewisseld hebben om klaar te zijn voor de start van de student? De documenten dragen geen metadatakop: auteurschap en datums staan in de git-historie, en de aanleiding staat uitgeschreven in de inleiding van elk document.
 
 **Herkomst.** Deze specificaties zijn uitgewerkt in de meta-repository ([`Npuls-OKx/meta`](https://github.com/Npuls-OKx/meta)), waar de kaderstelling ontstaat, en zijn van daaruit als releaseartefact naar deze repository overgebracht. De besluiten waarop ze steunen staan in [`Referentiemateriaal/`](../Referentiemateriaal/). Verwijzingen naar achtergronddocumenten die niet zijn meeverhuisd, wijzen gepind naar meta-commit [`d47bb0c`](https://github.com/Npuls-OKx/meta/tree/d47bb0c74ec899a4384d06331692f74b9bd1db58), zodat ze niet met de bron meebewegen.
 
@@ -79,8 +81,8 @@ Leidende prioriteringsvraag: wat moeten deze drie koppelingen uitgewisseld hebbe
 
 Begin bij de [uitgangspunten](uitgangspunten.md) en kopieer daarna het passende template:
 
-- [template-koppelingspecificatie.md](../Werkwijze/templates/template-koppelingspecificatie.md) voor een informatiestroom tussen twee componenten;
-- [template-payload-specificatie.md](../Werkwijze/templates/template-payload-specificatie.md) voor de JSON die over zo'n koppeling gaat.
+- [template-koppelingspecificatie.md](templates/template-koppelingspecificatie.md) voor een informatiestroom tussen twee componenten;
+- [template-payload-specificatie.md](templates/template-payload-specificatie.md) voor de JSON die over zo'n koppeling gaat.
 
 Beide templates bevatten instructies tussen HTML-commentaar die je verwijdert als het onderdeel af is. Werk je met een AI-agent, dan hanteert de skill [`okx-koppelingspecificatie`](https://github.com/Npuls-OKx/meta/blob/d47bb0c74ec899a4384d06331692f74b9bd1db58/.agents/skills/okx-koppelingspecificatie/SKILL.md) dezelfde opbouw.
 

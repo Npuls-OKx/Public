@@ -115,6 +115,6 @@ De bredere schrijfstijl staat in [`.cursor/rules/docs-style.mdc`](https://github
 
 ## Gerelateerde documenten
 
-- [Template koppelingspecificatie](../Werkwijze/templates/template-koppelingspecificatie.md) en [template payload-specificatie](../Werkwijze/templates/template-payload-specificatie.md): de lege opzet om mee te beginnen.
+- [Template koppelingspecificatie](templates/template-koppelingspecificatie.md) en [template payload-specificatie](templates/template-payload-specificatie.md): de lege opzet om mee te beginnen.
 - [Instap voor nieuwkomers](README.md): ketenoverzicht, hoofdplaat, afkortingenlegenda en leesvolgorde.
 - [OKx-architectuurprincipes](../Referentiemateriaal/principes/principes.md) en [OKx-uitgangspunten](../Referentiemateriaal/principes/uitgangspunten.md): de richting waarop deze uitgangspunten steunen.

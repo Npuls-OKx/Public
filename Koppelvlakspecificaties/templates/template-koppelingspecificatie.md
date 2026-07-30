@@ -1,8 +1,8 @@
 # Template koppelingspecificatie
 
-Kopieer dit bestand naar `<koppeling>/<datum>_<naam>.md` en vul het in. De vaste opbouw houdt de documenten onderling vergelijkbaar, zodat een verwijzing als "§7" over alle koppelingspecificaties heen klopt.
+Kopieer dit bestand naar `../Koppelingspecificaties/<koppeling>/koppelingspecificatie-<koppeling>.md` en vul het in. Geen datum of versienummer in de bestandsnaam: die staan in de git-historie. De vaste opbouw houdt de documenten onderling vergelijkbaar, zodat een verwijzing als "§7" over alle koppelingspecificaties heen klopt.
 
-Lees eerst de [uitgangspunten](../../Koppelvlakspecificaties/uitgangspunten.md). Herhaal die niet: noem het uitgangspunt in één regel en link erheen. Dat scheelt herstructureerwerk zodra een uitgangspunt wijzigt.
+Lees eerst de [uitgangspunten](../uitgangspunten.md). Herhaal die niet: noem het uitgangspunt in één regel en link erheen. Dat scheelt herstructureerwerk zodra een uitgangspunt wijzigt.
 
 **Instructies staan tussen `<!-- -->` en verdwijnen in de weergave.** Verwijder ze als het onderdeel af is.
 
@@ -38,9 +38,9 @@ Lees eerst de [uitgangspunten](../../Koppelvlakspecificaties/uitgangspunten.md).
 
 **Aanleiding.** \<Welk probleem of welke waarneming maakte dit document nodig, in twee of drie zinnen.\>
 
-Waar deze koppeling in de keten zit: \<in twee of drie zinnen\>. Dit is stroom \<n\> in het [Projectoverzicht](https://github.com/Npuls-OKx/meta/blob/d47bb0c74ec899a4384d06331692f74b9bd1db58/doc/OKx_Projectoverzicht.md). Ketenoverzicht, begrippen en afkortingen: de [instap in de README](../../Koppelvlakspecificaties/README.md#context).
+Waar deze koppeling in de keten zit: \<in twee of drie zinnen\>. Dit is stroom \<n\> in het [Projectoverzicht](https://github.com/Npuls-OKx/meta/blob/d47bb0c74ec899a4384d06331692f74b9bd1db58/doc/OKx_Projectoverzicht.md). Ketenoverzicht, begrippen en afkortingen: de [instap in de README](../README.md#context).
 
-Scenario en persona conform [U9](../../Koppelvlakspecificaties/uitgangspunten.md#u9-scenarios-en-personas): leerroute 1, persona Jochem. \<Wat betekent dat concreet voor deze koppeling?\>
+Scenario en persona conform [U9](../uitgangspunten.md#u9-scenarios-en-personas): leerroute 1, persona Jochem. \<Wat betekent dat concreet voor deze koppeling?\>
 
 \<Hoe is dit document ontstaan, en waar bouwt het op voort?\>
 
@@ -49,7 +49,7 @@ Scenario en persona conform [U9](../../Koppelvlakspecificaties/uitgangspunten.md
 <!-- Twee dingen: welke vragen beantwoordt dit document, en wanneer is het geslaagd.
      Geen doelen die buiten het document liggen. -->
 
-Deze koppelingbeschrijving is indicatief en onderbouwend, geen voorschrift aan de sector ([U1](../../Koppelvlakspecificaties/uitgangspunten.md#u1-indicatief-en-onderbouwend-niet-voorschrijvend)).
+Deze koppelingbeschrijving is indicatief en onderbouwend, geen voorschrift aan de sector ([U1](../uitgangspunten.md#u1-indicatief-en-onderbouwend-niet-voorschrijvend)).
 
 Het document beantwoordt \<aantal\> vragen:
 
@@ -77,7 +77,7 @@ Al het overige valt buiten dit document, waaronder \<voorbeelden\>.
 
 <!-- Noem de twee principes in één regel met een link; herhaal de motivering niet. -->
 
-Resource-eigenaarschap ([U3](../../Koppelvlakspecificaties/uitgangspunten.md#u3-resource-eigenaarschap)): \<wie bezit wat in deze koppeling\>. Notify-then-pull ([U4](../../Koppelvlakspecificaties/uitgangspunten.md#u4-notify-then-pull)): de bezitter publiceert een dun event met een referentie, de consument haalt de resource op wanneer het hem uitkomt.
+Resource-eigenaarschap ([U3](../uitgangspunten.md#u3-resource-eigenaarschap)): \<wie bezit wat in deze koppeling\>. Notify-then-pull ([U4](../uitgangspunten.md#u4-notify-then-pull)): de bezitter publiceert een dun event met een referentie, de consument haalt de resource op wanneer het hem uitkomt.
 
 ```mermaid
 flowchart LR
@@ -96,7 +96,7 @@ Wat het diagram niet toont: \<het asynchrone karakter, wat er inhoudelijk gebeur
 
 ## 3. Interactieoverzicht
 
-De interacties op deze koppeling, met per interactie het messaging-patroon. Betrouwbaarheidseisen volgen [ADR 0018](../../Referentiemateriaal/adr/0018-enterprise-messaging-patronen-voor-betrouwbare-koppelvlakken.md); wat wij vastleggen is het bericht en niet het kanaal ([U5](../../Koppelvlakspecificaties/uitgangspunten.md#u5-bericht-versus-kanaal)).
+De interacties op deze koppeling, met per interactie het messaging-patroon. Betrouwbaarheidseisen volgen [ADR 0018](../../Referentiemateriaal/adr/0018-enterprise-messaging-patronen-voor-betrouwbare-koppelvlakken.md); wat wij vastleggen is het bericht en niet het kanaal ([U5](../uitgangspunten.md#u5-bericht-versus-kanaal)).
 
 | # | Interactie | Initiator | Patroon | Synchroniciteit | Gedrag bij dubbele ontvangst | Foutafhandeling |
 |---|---|---|---|---|---|---|
@@ -143,7 +143,7 @@ sequenceDiagram
 
 ## 6. Payload-specificaties (verwijzing) en gebruiksprofiel
 
-Gedeelde payloads staan éénmaal centraal in [`gedeeld/`](../../Koppelvlakspecificaties/Koppelingspecificaties/gedeeld/); dit document herhaalt ze niet maar benoemt welk deel het gebruikt.
+Gedeelde payloads staan éénmaal centraal in [`gedeeld/`](../Koppelingspecificaties/gedeeld/); dit document herhaalt ze niet maar benoemt welk deel het gebruikt.
 
 | Onderdeel | Gebruik in deze koppeling |
 |---|---|
@@ -160,7 +160,7 @@ Endpoints die **\<systeem\>** serveert:
 |---|---|---|---|---|---|
 | `/\<pad\>/{id}` | GET | \<interactie\> | \<parameters\> | \<respons\> | 200, 400, 404 |
 
-De events staan hier uitgewerkt als webhook-aflevering. Dat is een voorbeeld van een kanaal, geen voorschrift ([U5](../../Koppelvlakspecificaties/uitgangspunten.md#u5-bericht-versus-kanaal)).
+De events staan hier uitgewerkt als webhook-aflevering. Dat is een voorbeeld van een kanaal, geen voorschrift ([U5](../uitgangspunten.md#u5-bericht-versus-kanaal)).
 
 ## 8. Reviewvragen
 
@@ -178,5 +178,5 @@ De events staan hier uitgewerkt als webhook-aflevering. Dat is een voorbeeld van
 
 ## 10. Gerelateerde uitwerkingen
 
-- [Uitgangspunten voor koppelingspecificaties](../../Koppelvlakspecificaties/uitgangspunten.md): de gedeelde aannames waarop dit document steunt.
+- [Uitgangspunten voor koppelingspecificaties](../uitgangspunten.md): de gedeelde aannames waarop dit document steunt.
 - \<andere documenten, als echte links\>

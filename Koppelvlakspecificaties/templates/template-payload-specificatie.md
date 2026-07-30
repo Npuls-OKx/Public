@@ -1,6 +1,6 @@
 # Template payload-specificatie
 
-Kopieer dit bestand naar `<koppeling>/<datum>_<naam>-payload-json.md` of naar `gedeeld/` als meerdere koppelingen de payload delen. Lees eerst de [uitgangspunten](../../Koppelvlakspecificaties/uitgangspunten.md).
+Kopieer dit bestand naar `../Koppelingspecificaties/<koppeling>/payload-<objectnaam>.md`, of naar `../Koppelingspecificaties/gedeeld/` als meerdere koppelingen de payload delen. Geen datum of versienummer in de bestandsnaam: die staan in de git-historie. Lees eerst de [uitgangspunten](../uitgangspunten.md).
 
 De kern staat voorin: een lezer heeft de payload binnen twee schermen. Alle motivering komt erachter.
 
@@ -37,13 +37,13 @@ De kern staat voorin: een lezer heeft de payload binnen twee schermen. Alle moti
 
 \<Wat is dit object, in twee of drie zinnen die beginnen bij het onderwijs.\>
 
-\<Welke begrippenfamilie uit de ankertabel is dit, en hoe verhoudt het zich tot de buren?\> Zie [U6](../../Koppelvlakspecificaties/uitgangspunten.md#u6-semantiek-uit-de-ankertabel).
+\<Welke begrippenfamilie uit de ankertabel is dit, en hoe verhoudt het zich tot de buren?\> Zie [U6](../uitgangspunten.md#u6-semantiek-uit-de-ankertabel).
 
-Scenario en persona conform [U9](../../Koppelvlakspecificaties/uitgangspunten.md#u9-scenarios-en-personas). Ketenoverzicht en afkortingen: de [instap in de README](../../Koppelvlakspecificaties/README.md#context).
+Scenario en persona conform [U9](../uitgangspunten.md#u9-scenarios-en-personas). Ketenoverzicht en afkortingen: de [instap in de README](../README.md#context).
 
 ### 1.2 Doel
 
-Deze payload is indicatief en onderbouwt welke velden het koppelvlak nodig heeft ([U1](../../Koppelvlakspecificaties/uitgangspunten.md#u1-indicatief-en-onderbouwend-niet-voorschrijvend)).
+Deze payload is indicatief en onderbouwt welke velden het koppelvlak nodig heeft ([U1](../uitgangspunten.md#u1-indicatief-en-onderbouwend-niet-voorschrijvend)).
 
 Het document beantwoordt \<aantal\> vragen:
 
@@ -117,9 +117,22 @@ Het schema legt de exacte vorm vast: welke velden er zijn, welke verplicht zijn 
 
 Dezelfde vorm, leesbaar:
 
-<!-- Laat de marker leeg staan en draai: python3 scripts/json-tree.py --write <bestand> -->
+<!-- De bomen hieronder zijn gegenereerd uit de voorbeeld-JSON in dit template en dienen als
+     illustratie. Vervang de JSON door die van jouw payload en draai daarna, vanuit de repo-root:
+     python3 scripts/json-tree.py --write <bestand>
+     Dat overschrijft alles tussen de markers. Draai --check vóór een commit. -->
 
 <!-- json-tree:begin kind=schema -->
+```text
+<Objectnaam>  (Alfa en indicatief. Deze vorm onderbouwt welke velden het koppelvlak nodig heeft en kan wijzigen zolang de payload niet is vastgesteld.)
+
+{root}
+`-- <array>[]                         verplicht
+    +-- id                                uuid
+    +-- <type>                            <waarde1> | <waarde2>
+    +-- versie                            string
+    `-- bovenliggend<Soort>Id             string of null, optioneel
+```
 <!-- json-tree:end -->
 
 ### 2.2 Het voorbeeld
@@ -144,6 +157,12 @@ De boom die in deze platte lijst verborgen zit, met de verwijzingen opgelost:
 <!-- Eén marker per platte array. entity=<naam> alleen als de objecten geen typeveld hebben. -->
 
 <!-- json-tree:begin kind=instance array=<array> id=id parent=bovenliggend<Soort>Id label=naam type=<type> attrs=versie -->
+```text
+<array>  (1 objecten, 1 root, boom via bovenliggend<Soort>Id)
+
+<WAARDE1>                                                     <uuid>
+  versie: 0.1.0
+```
 <!-- json-tree:end -->
 
 <!-- Zet hier de duiding die de boom zelf niet geeft: waarom bepaalde objecten losse
@@ -158,7 +177,7 @@ De boom die in deze platte lijst verborgen zit, met de verwijzingen opgelost:
 
 ### 3.1 Ontwerpkeuzes
 
-- **Plat met verwijzingen** ([U7](../../Koppelvlakspecificaties/uitgangspunten.md#u7-payload-plat-met-verwijzingen-en-de-sleutelconventie)). \<Wat betekent dat specifiek voor deze payload?\>
+- **Plat met verwijzingen** ([U7](../uitgangspunten.md#u7-payload-plat-met-verwijzingen-en-de-sleutelconventie)). \<Wat betekent dat specifiek voor deze payload?\>
 - **\<keuze\>.** \<motivering\>
 
 ### 3.2 \<Deelmodel of achtergrond\>
@@ -175,5 +194,5 @@ De boom die in deze platte lijst verborgen zit, met de verwijzingen opgelost:
 
 <!-- Alleen echte verwijzingen. Open punten horen in hoofdstuk 4. -->
 
-- [Uitgangspunten voor koppelingspecificaties](../../Koppelvlakspecificaties/uitgangspunten.md): de gedeelde aannames waarop deze payload steunt.
+- [Uitgangspunten voor koppelingspecificaties](../uitgangspunten.md): de gedeelde aannames waarop deze payload steunt.
 - \<andere documenten, als echte links\>
