@@ -1,10 +1,8 @@
 # Koppelingspecificatie onderwijscatalogus naar studentinformatiesysteem
 
-Relateert aan: Npuls-OKx/meta#98, Npuls-OKx/meta#119, Npuls-OKx/meta#105, Npuls-OKx/meta#110. Terminologie: [ADR 0021](../../../Referentiemateriaal/adr/0021-koppeling-versus-koppelvlak-terminologie.md).
-
 ## Inhoudsopgave
 
-1. [Inleiding](#1-inleiding) (context, doel, scope)
+1. [Inleiding](#1-inleiding) (aanleiding, context, doel, scope)
 2. [Procesbeeld](#2-procesbeeld)
 3. [Interactieoverzicht](#3-interactieoverzicht)
 4. [Informatiemodel](#4-informatiemodel)
@@ -17,7 +15,9 @@ Relateert aan: Npuls-OKx/meta#98, Npuls-OKx/meta#119, Npuls-OKx/meta#105, Npuls-
 
 ## 1. Inleiding
 
-### 1.1 Context
+### 1.1 Aanleiding en context
+
+**Aanleiding.** Nadat de koppeling naar planning was uitgewerkt, was de vraag of hetzelfde patroon, resource-eigenaarschap met referenties en dunne events, houdbaar blijft wanneer het niet om aanbod gaat maar om verbintenissen, voortgang en resultaten. Dit document beproeft dat patroon op de koppeling naar het studentinformatiesysteem. Het is **afgeleid**: er is nog geen werksessie met de betrokken partijen geweest.
 
 Waar deze koppeling in de keten zit: de onderwijscatalogus (OC) levert de gepubliceerde structuur aan het studentinformatiesysteem (SIS, de combinatie kernregistratie KRS en studentvolgsysteem SVS). Het gaat om de stroom OC naar SVS: nominale leerroute (detail), keuzeaanbod (detail) en resultaatstructuren (stroom 3, prioriteit 2). Stroomnummers volgen de interpretatietabel in het [Projectoverzicht](https://github.com/Npuls-OKx/meta/blob/d47bb0c74ec899a4384d06331692f74b9bd1db58/doc/OKx_Projectoverzicht.md); het ketenoverzicht en de actuele [hoofdplaat v1.7](../../README.md#context) staan in de instap van de README.
 

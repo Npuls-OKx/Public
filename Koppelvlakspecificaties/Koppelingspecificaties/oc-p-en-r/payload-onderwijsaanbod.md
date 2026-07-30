@@ -1,10 +1,8 @@
 # Onderwijsaanbod als JSON-payload
 
-Relateert aan: Npuls-OKx/meta#98, Npuls-OKx/meta#119, Npuls-OKx/meta#105, Npuls-OKx/meta#84. Waarden in het voorbeeld zijn indicatief.
-
 ## Inhoudsopgave
 
-1. [Inleiding](#1-inleiding) (context, doel, scope)
+1. [Inleiding](#1-inleiding) (aanleiding, context, doel, scope)
 2. [Payload](#2-payload)
    - [2.1 De vorm](#21-de-vorm)
    - [2.2 Het voorbeeld](#22-het-voorbeeld)
@@ -14,7 +12,9 @@ Relateert aan: Npuls-OKx/meta#98, Npuls-OKx/meta#119, Npuls-OKx/meta#105, Npuls-
 
 ## 1. Inleiding
 
-### 1.1 Context
+### 1.1 Aanleiding en context
+
+**Aanleiding.** De koppelingspecificatie OC naar P&R legt vast dat het planningssysteem het aanbod bezit en over de koppeling alleen een referentie meldt. Daarmee bleef open wat een opvrager terugkrijgt zodra hij dat aanbod daadwerkelijk ophaalt. Dit document beschrijft die inhoud, zodat de afspraak over de koppeling ook uitvoerbaar is.
 
 Het planningssysteem vertaalt een gepubliceerde onderwijsspecificatie naar **onderwijsaanbod**: wanneer wordt het onderwijs gegeven, waar, met welke groepen en door welk team. De [koppelingspecificatie onderwijscatalogus naar planning en roostering](koppelingspecificatie-oc-p-en-r.md) legt vast dat het planningssysteem dat aanbod bezit en alleen een referentie (uuid) over de koppeling meldt. Dit document beschrijft wat een opvrager terugkrijgt wanneer die het aanbod vervolgens ophaalt.
 
@@ -282,6 +282,9 @@ De knelpuntcodes staan toegelicht in [§3.4](#34-knelpunten-plannen-als-constrai
 
 ### 2.2 Het voorbeeld
 
+De waarden in dit voorbeeld zijn **indicatief**: ze illustreren de vorm en de samenhang, niet de inhoud van een bestaande opleiding.
+
+
 Leerroute 1. De `specificatieVerwijzing`-uuid's komen uit de [onderwijsspecificatie-payload](../gedeeld/payload-onderwijsspecificatie.md).
 
 ```json
@@ -501,7 +504,7 @@ Loopt de planning vast, dan bestaat de instantie wel maar draagt die status en k
 - **Plat met verwijzingen.** De objecten staan in platte lijsten (`aanbodInstanties`, `locaties`, `organisatieEenheden`) en de samenhang loopt via id-verwijzingen (`bovenliggendAanbodId`, `locatieId`, `uitvoerendTeamId`, `valtBinnenLocatieId`, `bovenliggendeEenheidId`) in plaats van via fysieke nesting. Dat maakt elk object los adresseerbaar en los te versioneren, en voorkomt dat je een halve boom moet meesturen om één les te wijzigen. De prijs is dat de hiërarchie niet meer uit de JSON zelf blijkt; daarom staat er een instantieboom bij.
 - **Zelfde mechaniek als de specificatie-payload.** Uuid's, `versie` (semver), identiteit los van versie, en dezelfde recursie via een ouder-verwijzing.
 - **Status en knelpunten op de instantie.** De uitkomst van het planproces leeft op de aanbod-instantie zelf, met knelpuntcodes (§3.4).
-- **Groepen als koppeling.** Een groep hangt aan een `leergelegenheid` of `onderwijseenheid-aanbod` en maakt de combinatie specificatie, locatie en periode herkenbaar (Npuls-OKx/meta#84 R4).
+- **Groepen als koppeling.** Een groep hangt aan een `leergelegenheid` of `onderwijseenheid-aanbod` en maakt de combinatie specificatie, locatie en periode herkenbaar.
 
 ### 3.2 Locatiemodel
 
@@ -544,7 +547,7 @@ Deze tabel is een aanzet; de genormeerde codelijst met foutmodel (structuur, ern
 
 | Vraag | Vervolgstap |
 |---|---|
-| Is een landelijke locatie-identificatie nodig, zodat instellingen onderling weten waar aanbod plaatsvindt? | Uitzoeken bij de vervolgvraag uit Npuls-OKx/meta#84; `codes` op de locatie is de aanhaakplek. |
+| Is een landelijke locatie-identificatie nodig, zodat instellingen onderling weten waar aanbod plaatsvindt? | Uit te zoeken in de vervolguitwerking; `codes` op de locatie is de aanhaakplek. |
 | Welke `eenheidType`-waarden zijn normatief, en wie is bron van de organisatiestructuur? | Voorleggen aan de instellingen bij de stakeholderreview van de koppelingspecificatie. |
 | Hoe koppelen inzet en beschikbaarheid van professionals aan dit aanbod? | Eigen koppeling met het plan-van-inzetsysteem; buiten deze payload. |
 | Welke knelpuntcodes zijn genormeerd, en welk foutmodel hoort erbij? | Eigen issue aanmaken met codelijst, ernstniveaus en herstelacties. |

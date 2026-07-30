@@ -6,7 +6,7 @@ Datum: 2026-07-23
 
 ### Context
 
-Bij het uitwerken van de eerste koppelingspecificatie (OC naar P, Npuls-OKx/meta#98) en de payload-specificaties (Npuls-OKx/meta#119) bleek de term "koppelvlak" op twee manieren gebruikt te worden: voor de gestandaardiseerde informatiestroom tussen twee componenten, en voor de technische aansluiting van één component. De AMIGO-ladder (informatiestroom, koppeling, koppelvlak) in het agent-harnas maakte dit onderscheid al deels, maar de documenten en mapnamen niet.
+Bij het uitwerken van de eerste koppelingspecificatie (OC naar P) en de payload-specificaties bleek de term "koppelvlak" op twee manieren gebruikt te worden: voor de gestandaardiseerde informatiestroom tussen twee componenten, en voor de technische aansluiting van één component. De AMIGO-ladder (informatiestroom, koppeling, koppelvlak) in het agent-harnas maakte dit onderscheid al deels, maar de documenten en mapnamen niet.
 
 ### Beslissing
 
@@ -27,7 +27,6 @@ Bij het uitwerken van de eerste koppelingspecificatie (OC naar P, Npuls-OKx/meta
 
 ### Relaties en links
 
-- Issues: Npuls-OKx/meta#98, Npuls-OKx/meta#119, Npuls-OKx/meta#105
 - Docs: `architecture/agent-artifacts/design-docs/koppelingspecificaties/`
 - Agent-harnas: `.cursor/skills/amigo-aanpak/SKILL.md` (ladder informatiestroom, koppeling, koppelvlak)
 - ArchiMate model: `architecture/model/model.archimate` (koppelvlak-views per component, bv. `Koppelvlak: Onderwijscatalogus (obv 1.7)`)

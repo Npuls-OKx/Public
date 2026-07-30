@@ -1,10 +1,8 @@
 # Koppelingspecificatie onderwijscatalogus naar leermanagementsysteem
 
-Relateert aan: Npuls-OKx/meta#98, Npuls-OKx/meta#119, Npuls-OKx/meta#105. Terminologie: [ADR 0021](../../../Referentiemateriaal/adr/0021-koppeling-versus-koppelvlak-terminologie.md).
-
 ## Inhoudsopgave
 
-1. [Inleiding](#1-inleiding) (context, doel, scope)
+1. [Inleiding](#1-inleiding) (aanleiding, context, doel, scope)
 2. [Procesbeeld](#2-procesbeeld)
 3. [Interactieoverzicht](#3-interactieoverzicht)
 4. [Informatiemodel](#4-informatiemodel)
@@ -17,7 +15,9 @@ Relateert aan: Npuls-OKx/meta#98, Npuls-OKx/meta#119, Npuls-OKx/meta#105. Termin
 
 ## 1. Inleiding
 
-### 1.1 Context
+### 1.1 Aanleiding en context
+
+**Aanleiding.** Bij de leeromgeving speelt een afbakeningsvraag die bij de andere koppelingen niet speelt: hoe ver moet de onderwijscatalogus gaan richting het lesniveau? Onderwijsontwikkelaars werken de specificatie in de leeromgeving verder uit tot lesplannen en werkinstructies, en het is niet vanzelfsprekend welk deel daarvan terug moet naar de catalogus. Dit document legt die grens vast. Het is **afgeleid** van het patroon met planning; er is nog geen werksessie met de betrokken partijen geweest.
 
 Waar deze koppeling in de keten zit: de onderwijscatalogus (OC) levert de gepubliceerde onderwijsspecificatiestructuur aan het leermanagementsysteem (LMS), dat daarmee de leeromgeving inricht; het LMS levert een leermiddelkoppeling terug (stroom 4, "van leermiddel te voorziene aanbod"). Deze koppeling is dus tweerichtingsverkeer. Stroomnummers volgen de interpretatietabel in het [Projectoverzicht](https://github.com/Npuls-OKx/meta/blob/d47bb0c74ec899a4384d06331692f74b9bd1db58/doc/OKx_Projectoverzicht.md); het ketenoverzicht en de actuele [hoofdplaat v1.7](../../README.md#context) staan in de instap van de README.
 

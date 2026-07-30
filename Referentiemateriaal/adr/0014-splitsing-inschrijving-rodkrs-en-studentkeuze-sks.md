@@ -44,7 +44,6 @@ We leggen vast dat het OKx-proces en de koppelvlakspecificaties **inschrijving**
   - [0009](0009-sks-svs-rollenverdeling-keuze-vs-resultaat-voortgang.md) — rollenverdeling SKS/SVS
   - [0011](https://github.com/Npuls-OKx/meta/blob/d47bb0c74ec899a4384d06331692f74b9bd1db58/architecture/dr/0011-keuzeniveau-leeractiviteit-leervormen-als-aanbodkenmerk.md) — leeractiviteit als keuzeniveau
   - [0012](https://github.com/Npuls-OKx/meta/blob/d47bb0c74ec899a4384d06331692f74b9bd1db58/architecture/dr/0012-leerroute-onafhankelijk-keuzegate-nominaal-maatwerk.md) — keuzegate nominaal/maatwerk, leerroute vs leertraject
-- Issues: #(te koppelen)
 - PR: #(te vullen)
 - Meetings: `architecture/meetings/20260409_okx_kernteam_inhoud_verdiepen_student_keuze_criteria_en_plaatsing/summary.md`
 - ArchiMate model: `architecture/model/model.archimate` (splits processtappen en relaties tussen KRS/inschrijving en SKS/studentkeuze expliciet in relevante views)

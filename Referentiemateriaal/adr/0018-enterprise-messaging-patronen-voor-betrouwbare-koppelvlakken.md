@@ -49,7 +49,6 @@ Deze beslissing is technologie-agnostisch (broker, queue, eventbus, API met outb
   - [0001](https://github.com/Npuls-OKx/meta/blob/d47bb0c74ec899a4384d06331692f74b9bd1db58/architecture/dr/0001-publieke-repo-en-samenwerkingsmodel.md) — governance/traceerbaarheid via issues/PR’s (relevant voor wijziging van NFR’s)
   - [0003](0003-student-kiest-leeruitkomsten-domeinprincipes.md) — messaging-patronen genoemd als randvoorwaarde
   - [0015](https://github.com/Npuls-OKx/meta/blob/d47bb0c74ec899a4384d06331692f74b9bd1db58/architecture/dr/0015-request-for-offering-haalbaarheidstoets-tussen-sks-en-planning.md) — RFO-stroom vereist robuuste foutafhandeling/ordering in iteratief proces
-- Issues: #(te koppelen)
 - PR: #(te vullen)
 - Meetings: `architecture/meetings/20260325_okx_kernteam_inhoud_uitwerken_studentkiest_flexibelonderwijs_overeenkomst/summary.md`
 - ArchiMate model: `architecture/model/model.archimate` (leg messaging‑capabilities/NFR’s vast bij relevante interfaces/stromen; modelleer waar DLQ/monitoring conceptueel hoort in de technology/integration laag)

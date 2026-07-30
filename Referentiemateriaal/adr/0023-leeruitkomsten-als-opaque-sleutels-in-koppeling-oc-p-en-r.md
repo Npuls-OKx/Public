@@ -17,7 +17,7 @@ Regelset-voorwaarden zijn uitgedrukt in behaalde leeruitkomsten (ADR 0022): je m
 ### Alternatieven
 
 - Optie A: volledige leeruitkomst-laag ook naar planning. Afgewezen: planning doet niets met de betekenis; meesturen vergroot de koppelvlakoppervlakte en de afhankelijkheid zonder functie (dataminimalisatie).
-- Optie B: voorwaarden voor planning projecteren naar specificatie-verwijzingen (OC vertaalt). Afgewezen: introduceert een vertaalslag en een tweede waarheid over dezelfde regel; de regel blijft zo niet één bron (Npuls-OKx/meta#84 R8, één regel met twee consumenten).
+- Optie B: voorwaarden voor planning projecteren naar specificatie-verwijzingen (OC vertaalt). Afgewezen: introduceert een vertaalslag en een tweede waarheid over dezelfde regel; de regel blijft zo niet één bron (één regel met twee consumenten).
 
 ### Consequenties
 
@@ -27,7 +27,6 @@ Regelset-voorwaarden zijn uitgedrukt in behaalde leeruitkomsten (ADR 0022): je m
 
 ### Relaties en links
 
-- Issues: Npuls-OKx/meta#98, Npuls-OKx/meta#119, Npuls-OKx/meta#84
 - ADR's: 0021 (gebruiksprofielen), 0022 (resultaatbegrippen conform ROSA KOI)
 - Docs: `architecture/agent-artifacts/design-docs/koppelingspecificaties/`
 

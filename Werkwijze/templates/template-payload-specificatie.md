@@ -1,4 +1,4 @@
-# Sjabloon payload-specificatie
+# Template payload-specificatie
 
 Kopieer dit bestand naar `<koppeling>/<datum>_<naam>-payload-json.md` of naar `gedeeld/` als meerdere koppelingen de payload delen. Lees eerst de [uitgangspunten](../../Koppelvlakspecificaties/uitgangspunten.md).
 
@@ -10,11 +10,9 @@ De kern staat voorin: een lezer heeft de payload binnen twee schermen. Alle moti
 
 # \<Objectnaam\> als JSON-payload
 
-Relateert aan: #\<issue\>. Waarden in het voorbeeld zijn indicatief.
-
 ## Inhoudsopgave
 
-1. [Inleiding](#1-inleiding) (context, doel, scope)
+1. [Inleiding](#1-inleiding) (aanleiding, context, doel, scope)
 2. [Payload](#2-payload)
    - [2.1 De vorm](#21-de-vorm)
    - [2.2 Het voorbeeld](#22-het-voorbeeld)
@@ -24,9 +22,17 @@ Relateert aan: #\<issue\>. Waarden in het voorbeeld zijn indicatief.
 
 ## 1. Inleiding
 
-### 1.1 Context
+### 1.1 Aanleiding en context
 
-<!-- Wat is dit object in de werkelijkheid, en welke plek heeft het in de ankertabel?
+<!-- Aanleiding: welk probleem, welke waarneming of welke vraag gaf aanleiding tot dit document?
+     Schrijf dat uit. Verwijs NIET naar een issue- of PR-nummer: deze documenten worden
+     gereleased en moeten leesbaar zijn voor iemand zonder toegang tot het werkproces (U10).
+     Daarna de context: waar zit dit in de keten, voor wie is het document, hoe is het ontstaan
+     (werksessie, afgeleid van een ander patroon, voortbouwend op). Een bron is invoer, geen context. -->
+
+**Aanleiding.** \<Welk probleem of welke waarneming maakte dit document nodig, in twee of drie zinnen.\>
+
+<!-- Daarna: wat is dit object in de werkelijkheid, en welke plek heeft het in de ankertabel?
      Wie maakt het, wie gebruikt het? Begin bij het onderwijs, niet bij de JSON. -->
 
 \<Wat is dit object, in twee of drie zinnen die beginnen bij het onderwijs.\>

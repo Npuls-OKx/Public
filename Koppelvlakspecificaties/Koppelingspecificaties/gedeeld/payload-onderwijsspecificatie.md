@@ -1,14 +1,12 @@
 # Onderwijsspecificatie als JSON-payload
 
-Relateert aan: Npuls-OKx/meta#119, Npuls-OKx/meta#105, Npuls-OKx/meta#84, Npuls-OKx/meta#120. Waarden in het voorbeeld zijn indicatief.
-
 > **Centrale specificatie.** Dit document is de ene bron voor de onderwijsspecificatie-payload. Welke objecten en velden een koppeling gebruikt staat in het **gebruiksprofiel** van de betreffende koppelingspecificatie (OC-P&R, OC-SIS, OC-LMS). Leeruitkomst-inhoudsvelden zijn optioneel en profiel-afhankelijk; binnen OC-P&R zijn leeruitkomst-ids opaque sleutels ([ADR 0023](../../../Referentiemateriaal/adr/0023-leeruitkomsten-als-opaque-sleutels-in-koppeling-oc-p-en-r.md)).
 
 
 
 ## Inhoudsopgave
 
-1. [Inleiding](#1-inleiding) (context, doel, scope)
+1. [Inleiding](#1-inleiding) (aanleiding, context, doel, scope)
 2. [Payload](#2-payload)
    - [2.1 De vorm](#21-de-vorm)
    - [2.2 Het voorbeeld](#22-het-voorbeeld)
@@ -23,7 +21,9 @@ Relateert aan: Npuls-OKx/meta#119, Npuls-OKx/meta#105, Npuls-OKx/meta#84, Npuls-
 
 ## 1. Inleiding
 
-### 1.1 Context
+### 1.1 Aanleiding en context
+
+**Aanleiding.** Drie afnemers, planning, leeromgeving en studentinformatiesysteem, hebben elk een ander deel van dezelfde onderwijsspecificatie nodig. Bij het uitwerken van de eerste koppeling bleek dat elke koppeling zonder ingrijpen een eigen vorm van die specificatie zou krijgen, met per koppeling andere veldnamen voor hetzelfde begrip. Daarom is de payload hier **eenmaal centraal** beschreven; een koppeling legt in een gebruiksprofiel vast welk deel zij afneemt.
 
 Een onderwijsontwerper vertaalt een kwalificatiedossier naar een **onderwijsspecificatie**: de beschrijving van wat een instelling gaat organiseren, nog los van wanneer en met wie. Die beschrijving is gelaagd, van opleiding tot leeronderdeel, en de onderwijscatalogus publiceert hem naar planning, het leermanagementsysteem en het studentinformatiesysteem.
 
@@ -434,7 +434,10 @@ Het `manifest` pint per specificatie de versies van haar onderdelen vast: `relat
 
 ### 2.2 Het voorbeeld
 
-Leerroute 1, waarden indicatief. De `studielast` telt bottom-up op binnen onderdeel-van: de kerntaken 2000 plus 1200 plus 880 is 4080, plus de keuzeruimte van 720 komt op 4800 onder Regulier BOL. Programma-varianten tellen niet op. De inhoud hangt hier onder één doelgroep (Regulier BOL); de andere varianten zijn leeg gelaten. De voorwaarde vooraf van Wiskunde 1 voor Ruimtelijk inzicht komt uit Npuls-OKx/meta#84.
+De waarden in dit voorbeeld zijn **indicatief**: ze illustreren de vorm en de samenhang, niet de inhoud van een bestaande opleiding.
+
+
+Leerroute 1, waarden indicatief. De `studielast` telt bottom-up op binnen onderdeel-van: de kerntaken 2000 plus 1200 plus 880 is 4080, plus de keuzeruimte van 720 komt op 4800 onder Regulier BOL. Programma-varianten tellen niet op. De inhoud hangt hier onder één doelgroep (Regulier BOL); de andere varianten zijn leeg gelaten. De voorwaarde vooraf van Wiskunde 1 voor Ruimtelijk inzicht komt uit de uitwerking van de keuzedeel-regels.
 
 ```json
 {
@@ -1350,7 +1353,7 @@ Leerroute 1, waarden indicatief. De `studielast` telt bottom-up op binnen onderd
       "id": "e4037953-17d6-40a4-9e59-92ec1f9c19a8",
       "versie": "0.1.0",
       "naam": "Kiesbare keuzedelen voor Apothekersassistent (LR1)",
-      "omschrijving": "Bepaalt welke keuzedelen in de keuzedeelruimte kiesbaar zijn. Deelname-voorwaarden zijn uitgedrukt in behaalde leeruitkomsten ([ADR 0022](../../../Referentiemateriaal/adr/0022-resultaatbegrippen-conform-rosa-koi.md)). Regelstructuur wordt uitgewerkt in Npuls-OKx/meta#84 en Npuls-OKx/meta#120; onderstaande regels zijn indicatief.",
+      "omschrijving": "Bepaalt welke keuzedelen in de keuzedeelruimte kiesbaar zijn. Deelname-voorwaarden zijn uitgedrukt in behaalde leeruitkomsten ([ADR 0022](../../../Referentiemateriaal/adr/0022-resultaatbegrippen-conform-rosa-koi.md)). De regelstructuur wordt in een aparte uitwerking behandeld; onderstaande regels zijn indicatief.",
       "vanToepassingOp": "fb5be5ae-faa0-4b4b-8085-474fce9aae08",
       "regels": [
         {
@@ -1375,7 +1378,7 @@ Leerroute 1, waarden indicatief. De `studielast` telt bottom-up op binnen onderd
 
 
 
-De voorwaarde vooraf (Ruimtelijk inzicht vereist Wiskunde 1) staat in de regelset, niet in de specificatie, en is uitgedrukt in de **behaalde leeruitkomst** (`vereisteLeeruitkomstId`), niet in een afgeronde specificatie. Zo blijft de regel los van het item (Npuls-OKx/meta#84 R2, Npuls-OKx/meta#120) en toetst hij op wat er werkelijk behaald is ([ADR 0022](../../../Referentiemateriaal/adr/0022-resultaatbegrippen-conform-rosa-koi.md)).
+De voorwaarde vooraf (Ruimtelijk inzicht vereist Wiskunde 1) staat in de regelset, niet in de specificatie, en is uitgedrukt in de **behaalde leeruitkomst** (`vereisteLeeruitkomstId`), niet in een afgeronde specificatie. Zo blijft de regel los van het item en toetst hij op wat er werkelijk behaald is ([ADR 0022](../../../Referentiemateriaal/adr/0022-resultaatbegrippen-conform-rosa-koi.md)).
 
 De bomen die in deze platte lijsten verborgen zitten, met de verwijzingen opgelost:
 
@@ -1616,7 +1619,7 @@ Voorstel: optie C.
 - `bovenliggendSpecificatieId` draagt twee betekenissen: onderdeel-van (additief, bv. kerntaak onder programma) en variant-van (alternatief, bv. doelgroep onder leerweg). De aggregatie-invariant geldt alleen voor onderdeel-van.
 - Niveau, leeruitkomsten en leerroute zijn afleidbaar uit de structuur, niet als losse specificatie-velden. Het NLQF-niveau hangt aan de leeruitkomst. Wie een bepaalde set kerntaken en werkprocessen heeft afgerond, voldoet aan de kwalificatie. Leerroute-typen zijn indicatief voor wat mogelijk wordt en horen niet in het datamodel. Leeruitkomsten worden naar verwachting later flexibeler ([ADR 0003](../../../Referentiemateriaal/adr/0003-student-kiest-leeruitkomsten-domeinprincipes.md), 0004).
 - Keuzeruimte is een eigen specificatie (`keuzedeelruimtespecificatie`) met studielast, herbruikbaar.
-- Regels los van de onderwijsspecificatie. `regelsetVerwijzingen` op een specificatie verwijst naar losse `regelsets`. De regelset draagt de kiesbaarheid (welke keuzedelen) en de voorwaarde vooraf (prerequisite), uitgedrukt in **behaalde leeruitkomsten** in plaats van afgeronde specificaties: je moet bepaalde leeruitkomsten behaald hebben om deel te nemen ([ADR 0022](../../../Referentiemateriaal/adr/0022-resultaatbegrippen-conform-rosa-koi.md)). Interne structuur van de regelset: Npuls-OKx/meta#84 en Npuls-OKx/meta#120.
+- Regels los van de onderwijsspecificatie. `regelsetVerwijzingen` op een specificatie verwijst naar losse `regelsets`. De regelset draagt de kiesbaarheid (welke keuzedelen) en de voorwaarde vooraf (prerequisite), uitgedrukt in **behaalde leeruitkomsten** in plaats van afgeronde specificaties: je moet bepaalde leeruitkomsten behaald hebben om deel te nemen ([ADR 0022](../../../Referentiemateriaal/adr/0022-resultaatbegrippen-conform-rosa-koi.md)). De interne structuur van de regelset wordt apart uitgewerkt.
 - Elke specificatie kan `regelsetVerwijzingen` hebben (generiek), niet alleen de keuzeruimte.
 - Keuzedelen zijn zelfstandige programma-specificaties (zonder ouder-verwijzing), zelf opgebouwd als programma naar onderwijseenheid naar leeronderdeel. Herbruikbaar over opleidingen (N:M via regelset-verwijzingen).
 - Aggregatie-invariant: `studielast` telt bottom-up op binnen onderdeel-van (SOM children = ouder). Niet over varianten (leerweg, doelgroep).
@@ -1681,14 +1684,14 @@ In §2.2 staat het manifest uitgewerkt op drie niveaus: de `opleidingsspecificat
 | Vraag | Vervolgstap |
 |---|---|
 | Hoe bindt `specificatieType` aan de Open Onderwijs API? De enum daar (program, cluster, course) mapt niet een-op-een op onze conceptniveaus. | Binding vaststellen in de gegevensanalyse; als signalering melden, geen wijziging aan de OEAPI-kern voorstellen. |
-| Wat is de interne structuur van een regelset (regeltypes, parameters, evaluatie)? | Wordt uitgewerkt in Npuls-OKx/meta#84 en Npuls-OKx/meta#120; deze payload verwijst er alleen naar. |
+| Wat is de interne structuur van een regelset (regeltypes, parameters, evaluatie)? | Wordt in een aparte uitwerking behandeld; deze payload verwijst er alleen naar. |
 | Is een ouder-verwijzing de juiste vorm, of toch geneste kinderen? | Bevestigen bij de stakeholderreview; een geneste weergave blijft afleidbaar. |
 | `bovenliggendSpecificatieId` draagt twee betekenissen, onderdeel-van en variant-van. Moet dat expliciet? | Voorstel voor een apart veld voor de relatiesoort uitwerken en voorleggen. |
 | Herhalen we kwalificatie-inhoud per doelgroep-variant, of refereren we? | Nu hangt de inhoud onder een doelgroep; keuze maken bij de uitwerking van leerroute 2 en 3. |
 | Horen `startdatum` en `cohort` bij de specificatie of bij het aanbod? | Plaatsing bevestigen; ze raken het planbaar-stadium. |
 | Zijn `naam` en `omschrijving` meertalig nodig (OEAPI `LanguageTypedString[]`)? | Nu string; meenemen bij de OEAPI-binding. |
 | Kan een specificatie meerdere leeruitkomsten dekken? | Nu een `leeruitkomstId` per specificatie; een array-vorm is een latere uitbreiding. |
-| Hoe leggen we dwarsdoorsnedes vast (een certificaat dat leeruitkomsten uit meerdere takken bundelt)? | Vraagt een N-op-M-vorm naast de huidige boom; uitwerken met [ADR 0022](../../../Referentiemateriaal/adr/0022-resultaatbegrippen-conform-rosa-koi.md) en Npuls-OKx/meta#84 R12. |
+| Hoe leggen we dwarsdoorsnedes vast (een certificaat dat leeruitkomsten uit meerdere takken bundelt)? | Vraagt een N-op-M-vorm naast de huidige boom; uitwerken met [ADR 0022](../../../Referentiemateriaal/adr/0022-resultaatbegrippen-conform-rosa-koi.md) en de nadere uitwerking van de regelset. |
 | Wat kwantificeert `indicatieveOmvang` precies, en hoe verhoudt die zich tot `studielast`? | Bepalen met het oog op de aansluiting op hbo en wo ([ADR 0004](../../../Referentiemateriaal/adr/0004-leeruitkomsten-sbu-ec-logistieke-containergrootte.md)). |
 | Wanneer haakt de leeruitkomst-standaard aan (CompetentNL of vergelijkbaar)? | `bron` op het leeruitkomst-object is de aanhaakplek; vaststellen zodra die standaard beschikbaar is. |
 | Welke toegestane waarden gelden definitief per veld? | De enums in het schema zijn concept; vaststellen met de stakeholders. |

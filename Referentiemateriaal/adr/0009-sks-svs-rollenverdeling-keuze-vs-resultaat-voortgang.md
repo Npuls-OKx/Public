@@ -39,7 +39,6 @@ Dit ADR **verfijnt** de architectuurgrens **zonder** [0005](https://github.com/N
 ### Relaties en links
 
 - **Gerelateerde ADR’s:** [0005](https://github.com/Npuls-OKx/meta/blob/d47bb0c74ec899a4384d06331692f74b9bd1db58/architecture/dr/0005-student-keuze-systeem-zelfstandige-referentiecomponent.md) (SKS als component); projectoverzicht voor **SVS**-stromen: `[doc/OKx_Projectoverzicht.md](https://github.com/Npuls-OKx/meta/blob/d47bb0c74ec899a4384d06331692f74b9bd1db58/doc/OKx_Projectoverzicht.md)`
-- Issues: #(te koppelen)
 - PR: #(te vullen)
 - Meetings: `architecture/meetings/20260331_okx_kernteam_inhoud_uitwerken_kaderstelling_student_keuze_criteria/summary.md`, `.../transcript.md`
 - ArchiMate: `architecture/model/model.archimate`

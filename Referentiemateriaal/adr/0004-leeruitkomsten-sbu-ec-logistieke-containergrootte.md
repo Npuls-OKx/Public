@@ -45,7 +45,6 @@ In de voorbereiding op de **leverancierssessie** (27 maart 2026) is benadrukt da
 ### Relaties en links
 
 - **Gerelateerde ADR’s:** [0002](https://github.com/Npuls-OKx/meta/blob/d47bb0c74ec899a4384d06331692f74b9bd1db58/architecture/dr/0002-prioriteitsketen-catalogus-drielagen-fundament.md), [0003](0003-student-kiest-leeruitkomsten-domeinprincipes.md)
-- Issues: #(te koppelen)
 - PR: #(te vullen)
 - Meetings:
   - `architecture/meetings/20260327_OKx_kernteam_inhoud_voorbereidingleveranciersessie/summary.md` — o.a. leeruitkomsten als standaard; SBU/EC; schaling leertraject

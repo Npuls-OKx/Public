@@ -1,4 +1,4 @@
-# Sjabloon koppelingspecificatie
+# Template koppelingspecificatie
 
 Kopieer dit bestand naar `<koppeling>/<datum>_<naam>.md` en vul het in. De vaste opbouw houdt de documenten onderling vergelijkbaar, zodat een verwijzing als "§7" over alle koppelingspecificaties heen klopt.
 
@@ -13,12 +13,9 @@ Lees eerst de [uitgangspunten](../../Koppelvlakspecificaties/uitgangspunten.md).
      Fout:  Koppelingspecificatie OC-P&R: interactiepatronen (alpha) -->
 # Koppelingspecificatie \<bronsysteem voluit\> naar \<doelsysteem voluit\>
 
-<!-- Alleen herkomst. Geen niveau, geen status, geen datum: die staan in de git-historie (U10). -->
-Relateert aan: #\<issue\>. Terminologie: [ADR 0021](../../Referentiemateriaal/adr/0021-koppeling-versus-koppelvlak-terminologie.md).
-
 ## Inhoudsopgave
 
-1. [Inleiding](#1-inleiding) (context, doel, scope)
+1. [Inleiding](#1-inleiding) (aanleiding, context, doel, scope)
 2. [Procesbeeld](#2-procesbeeld)
 3. [Interactieoverzicht](#3-interactieoverzicht)
 4. [Informatiemodel](#4-informatiemodel)
@@ -31,13 +28,15 @@ Relateert aan: #\<issue\>. Terminologie: [ADR 0021](../../Referentiemateriaal/ad
 
 ## 1. Inleiding
 
-### 1.1 Context
+### 1.1 Aanleiding en context
 
-<!-- Waar zit deze koppeling in de keten? Begin bij het probleem, niet bij het issue.
-     Noem: het stroomnummer uit het Projectoverzicht, voor wie het document is, en
-     hoe het is ontstaan (werksessie, afgeleid van een ander patroon, voortbouwend op).
-     Verwijs naar de instap in de README voor ketenoverzicht en afkortingen.
-     Geen opsomming van losse bronnen: een bron is invoer, geen context. -->
+<!-- Aanleiding: welk probleem, welke waarneming of welke vraag gaf aanleiding tot dit document?
+     Schrijf dat uit. Verwijs NIET naar een issue- of PR-nummer: deze documenten worden
+     gereleased en moeten leesbaar zijn voor iemand zonder toegang tot het werkproces (U10).
+     Daarna de context: waar zit dit in de keten, voor wie is het document, hoe is het ontstaan
+     (werksessie, afgeleid van een ander patroon, voortbouwend op). Een bron is invoer, geen context. -->
+
+**Aanleiding.** \<Welk probleem of welke waarneming maakte dit document nodig, in twee of drie zinnen.\>
 
 Waar deze koppeling in de keten zit: \<in twee of drie zinnen\>. Dit is stroom \<n\> in het [Projectoverzicht](https://github.com/Npuls-OKx/meta/blob/d47bb0c74ec899a4384d06331692f74b9bd1db58/doc/OKx_Projectoverzicht.md). Ketenoverzicht, begrippen en afkortingen: de [instap in de README](../../Koppelvlakspecificaties/README.md#context).
 

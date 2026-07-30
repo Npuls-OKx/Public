@@ -39,7 +39,6 @@ Dit raakt de **volgorde van uitwerking** en de **grenzen van MVP’s**: [0002](h
 ### Relaties en links
 
 - **Gerelateerde ADR’s:** [0001](https://github.com/Npuls-OKx/meta/blob/d47bb0c74ec899a4384d06331692f74b9bd1db58/architecture/dr/0001-publieke-repo-en-samenwerkingsmodel.md), [0002](https://github.com/Npuls-OKx/meta/blob/d47bb0c74ec899a4384d06331692f74b9bd1db58/architecture/dr/0002-prioriteitsketen-catalogus-drielagen-fundament.md), [0003](0003-student-kiest-leeruitkomsten-domeinprincipes.md), [0006](https://github.com/Npuls-OKx/meta/blob/d47bb0c74ec899a4384d06331692f74b9bd1db58/architecture/dr/0006-studentorientatie-trechter-ketenfase.md), [0007](https://github.com/Npuls-OKx/meta/blob/d47bb0c74ec899a4384d06331692f74b9bd1db58/architecture/dr/0007-student-keuze-criteria-als-query-parameters-onderwijs-aanbod.md)
-- Issues: #(te koppelen)
 - PR: #(te vullen)
 - Meetings: `architecture/meetings/20260331_okx_kernteam_inhoud_uitwerken_kaderstelling_student_keuze_criteria/summary.md`, `.../transcript.md`
 - ArchiMate: `architecture/model/model.archimate`

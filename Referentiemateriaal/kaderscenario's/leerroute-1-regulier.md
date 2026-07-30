@@ -1,10 +1,12 @@
 # Kaderscenario leerroute 1 — regulier
 
-Relateert aan: [Npuls-OKx/meta#119](https://github.com/Npuls-OKx/meta/issues/119).
-
 De **nominale route**: een student volgt de opleiding die de instelling vooraf heeft ontworpen, in het tempo waarin die is bedoeld. Dit document werkt die route uit tot een **kaderstellend scenario**: geen implementatievoorschrift, maar de gedeelde beschrijving van wat er in de keten gebeurt en welke informatie daarvoor moet bewegen.
 
 Leerroute 1 is de **baseline** van de negen Npuls-leerroutes. De andere routes worden beschreven als *verschil* ten opzichte van deze: leerroute 2 spreidt de opleiding bewust, leerroute 3 versnelt haar. Wie leerroute 2 of 3 wil begrijpen, leest eerst deze.
+
+## Aanleiding
+
+De Npuls-leerroutes zijn primair vanuit studentperspectief beschreven. Voor het onderwijskundige en onderwijslogistieke domein is dat niet genoeg: om een route werkend te krijgen moet ook vastliggen hoe het onderwijs wordt ontworpen, getoetst en georganiseerd, en welke informatie daarvoor tussen systemen beweegt. Zonder die uitwerking blijft een leerroute een intentie en is niet aanwijsbaar welke koppeling ervoor nodig is. Dit document maakt die vertaalslag voor de reguliere route.
 
 ## Waarvoor dit document dient
 
@@ -535,7 +537,7 @@ De `happy flow` en de incidentele varianten van temporiseren, versnellen en hybr
 | **Informatie** | Welke objecten wijzigen (`Opleidingsverbintenis`, certificaat-aanbod, resultaten) |
 | **Data** | Eenduidige identificatie van certificaten, vrijstellingen en resterende SBU/keuzedeelruimte |
 
-Vervolguitwerking (volledige scenario, negenvlak, interfaces): *See also #TBD*.
+De volledige scenario-uitwerking, het negenvlak en de interfaces volgen in een latere uitwerking.
 
 Deze leerroute volgt een **sterk aanbod-gestuurd model met hybride kenmerken**: het onderwijsaanbod wordt grotendeels vooraf ontwikkeld en gepland. Studenten schrijven zich in op vaste programma’s. Alleen bij uitzonderingen (zoals incidenteel temporiseren of incidenteel versnellen) wijkt men af van de hoofdroute en worden afwijkingen reactief beantwoord. Naast de **statische** kant van onderwijsontwerp speelt de **vraag uit de studentenpopulatie**: die fluctueert per periode, dagdeel, locatie en **BOL/BBL**-verdeling. Het is niet reëel dat niet-generiek aanbod elke periode kan worden ingepland; **afwijkingen cumuleren** wel tot **voorspelbare trendlijnen** waar periodeplanningen afwijken van het initiële jaarplan (§ *Het plan en rooster proces*).
 

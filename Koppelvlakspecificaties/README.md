@@ -65,7 +65,7 @@ De koppelingen staan onder [`Koppelingspecificaties/`](Koppelingspecificaties/),
 | Map | Koppeling | Inhoud | Herkomst |
 |---|---|---|---|
 | [`gedeeld/`](Koppelingspecificaties/gedeeld/) | alle koppelingen | Centrale onderwijsspecificatie-payload en lifecycle-uitwerking | Uitgewerkt vanuit de koppeling met planning |
-| [`oc-p-en-r/`](Koppelingspecificaties/oc-p-en-r/) | Onderwijscatalogus naar planning en roostering | Koppelingspecificatie, onderwijsaanbod-payload | Werksessie en schets bij issue Npuls-OKx/meta#98 |
+| [`oc-p-en-r/`](Koppelingspecificaties/oc-p-en-r/) | Onderwijscatalogus naar planning en roostering | Koppelingspecificatie, onderwijsaanbod-payload | Werksessie met de eerste schets van deze koppeling |
 | [`oc-sis-krs-svs/`](Koppelingspecificaties/oc-sis-krs-svs/) | Onderwijscatalogus naar studentinformatiesysteem | Koppelingspecificatie, resultaatstructuur en examenplan | Afgeleid van het patroon met planning; werksessie volgt |
 | [`oc-lms/`](Koppelingspecificaties/oc-lms/) | Onderwijscatalogus naar leermanagementsysteem | Koppelingspecificatie; leermiddelkoppeling-payload volgt | Afgeleid van het patroon met planning; werksessie volgt |
 
@@ -77,12 +77,12 @@ Leidende prioriteringsvraag: wat moeten deze drie koppelingen uitgewisseld hebbe
 
 ### Voor schrijvers
 
-Begin bij de [uitgangspunten](uitgangspunten.md) en kopieer daarna het passende sjabloon:
+Begin bij de [uitgangspunten](uitgangspunten.md) en kopieer daarna het passende template:
 
-- [sjabloon-koppelingspecificatie.md](../Werkwijze/sjablonen/sjabloon-koppelingspecificatie.md) voor een informatiestroom tussen twee componenten;
-- [sjabloon-payload-specificatie.md](../Werkwijze/sjablonen/sjabloon-payload-specificatie.md) voor de JSON die over zo'n koppeling gaat.
+- [template-koppelingspecificatie.md](../Werkwijze/templates/template-koppelingspecificatie.md) voor een informatiestroom tussen twee componenten;
+- [template-payload-specificatie.md](../Werkwijze/templates/template-payload-specificatie.md) voor de JSON die over zo'n koppeling gaat.
 
-Beide sjablonen bevatten instructies tussen HTML-commentaar die je verwijdert als het onderdeel af is. Werk je met een AI-agent, dan hanteert de skill [`okx-koppelingspecificatie`](https://github.com/Npuls-OKx/meta/blob/d47bb0c74ec899a4384d06331692f74b9bd1db58/.agents/skills/okx-koppelingspecificatie/SKILL.md) dezelfde opbouw.
+Beide templates bevatten instructies tussen HTML-commentaar die je verwijdert als het onderdeel af is. Werk je met een AI-agent, dan hanteert de skill [`okx-koppelingspecificatie`](https://github.com/Npuls-OKx/meta/blob/d47bb0c74ec899a4384d06331692f74b9bd1db58/.agents/skills/okx-koppelingspecificatie/SKILL.md) dezelfde opbouw.
 
 Elke payload-specificatie draagt een **JSON Schema** (alfa en indicatief) plus ASCII-bomen: een **schemaboom** die de vorm leesbaar toont, en per platte array een **instantieboom** die de verwijzingen oplost en de hiërarchie zichtbaar maakt die in de JSON verborgen blijft. Beide worden gegenereerd; draai vóór een commit:
 

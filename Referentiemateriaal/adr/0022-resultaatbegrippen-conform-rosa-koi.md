@@ -6,7 +6,7 @@ Datum: 2026-07-23
 
 ### Context
 
-Bij het uitwerken van de koppelingspecificatie OC-SIS (Npuls-OKx/meta#98, Npuls-OKx/meta#119) ontstond een informatiemodel waarin een verbintenis direct aan een onderwijsspecificatie hing en waarin een verzonnen term ("resultaatregistratie") werd gebruikt. Dat wijkt af van het [ROSA Kernmodel Onderwijsinformatie (KOI)](https://rosa.wikixl.nl/index.php/Kernmodel_Onderwijsinformatie) en van de ankertabel (specificatie, aanbod, verbintenis, resultaat). ADR 0019 legt de conceptuele gelaagdheid (kwalificatiekader, specificatie, aanbod) al langs ROSA/KOI; dit ADR doet hetzelfde voor de resultaatkant.
+Bij het uitwerken van de koppelingspecificatie OC-SIS ontstond een informatiemodel waarin een verbintenis direct aan een onderwijsspecificatie hing en waarin een verzonnen term ("resultaatregistratie") werd gebruikt. Dat wijkt af van het [ROSA Kernmodel Onderwijsinformatie (KOI)](https://rosa.wikixl.nl/index.php/Kernmodel_Onderwijsinformatie) en van de ankertabel (specificatie, aanbod, verbintenis, resultaat). ADR 0019 legt de conceptuele gelaagdheid (kwalificatiekader, specificatie, aanbod) al langs ROSA/KOI; dit ADR doet hetzelfde voor de resultaatkant.
 
 ### Beslissing
 
@@ -16,7 +16,7 @@ Bij het uitwerken van de koppelingspecificatie OC-SIS (Npuls-OKx/meta#98, Npuls-
 4. **Verbintenis hoort bij het aanbod.** Conform de ankertabel (kolom verbintenis) gaat een verbintenis over deelname aan aanbod, niet over een specificatie.
 5. **Nominaal template en individuele structuur.** Het SIS hanteert de gepubliceerde onderwijsspecificatiestructuur als nominaal template per student. De student vult via het SKS de keuzedeelruimte in; de individuele structuur van de student is het template plus de ingevulde keuzedelen. In LR1-3 wijken nominaal en feitelijk gevolgd uitsluitend daarin af; ook bij versnellen of vertragen (LR2, LR3) blijft het programma en de wijze van afdichten gelijk.
 6. **Nominaal en individueel examenplan.** Dezelfde symmetrie geldt voor het examenplan. Een keuzedeel kent een eigen examenplandeel met eigen toetsonderdelen die naar een eigen onderwijsresultaat mappen. Het individuele examenplan van de student is de samenstelling van het nominale examenplan plus de examenplandelen van de gekozen keuzedelen.
-7. **Korrelgrootte leeruitkomsten.** Voor nu zijn leeruitkomsten de eenheden uit het SBB-kwalificatiekader (kwalificatiedossier, kerntaak, werkproces, keuzedeel). Fijnmazigere leeruitkomsten volgen later; het model moet die verfijning aankunnen (zie ook Npuls-OKx/meta#84 R12).
+7. **Korrelgrootte leeruitkomsten.** Voor nu zijn leeruitkomsten de eenheden uit het SBB-kwalificatiekader (kwalificatiedossier, kerntaak, werkproces, keuzedeel). Fijnmazigere leeruitkomsten volgen later; het model moet die verfijning aankunnen.
 
 ### Alternatieven
 
@@ -31,7 +31,6 @@ Bij het uitwerken van de koppelingspecificatie OC-SIS (Npuls-OKx/meta#98, Npuls-
 
 ### Relaties en links
 
-- Issues: Npuls-OKx/meta#98, Npuls-OKx/meta#119, Npuls-OKx/meta#110
 - ROSA KOI: `https://rosa.wikixl.nl/index.php/Kernmodel_Onderwijsinformatie`
 - ADR's: 0019 (conceptuele gelaagdheid ROSA/KOI), 0009 (SKS/SVS-rollen), 0021 (koppeling versus koppelvlak)
 - Docs: `architecture/agent-artifacts/design-docs/koppelingspecificaties/oc-sis-krs-svs/`

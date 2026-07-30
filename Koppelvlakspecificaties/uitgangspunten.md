@@ -1,10 +1,10 @@
 # Uitgangspunten voor koppelingspecificaties
 
-Relateert aan: Npuls-OKx/meta#98, Npuls-OKx/meta#105, Npuls-OKx/meta#119.
+**Aanleiding.** Bij het uitwerken van de eerste koppelingen bleek dat elk document dezelfde aannames opnieuw uitlegde: waarom een beschrijving indicatief is, wie welke resource bezit, waarom een event dun blijft. Die herhaling maakte de documenten langer dan nodig en, erger, liet de redenering op meerdere plekken uit elkaar lopen zodra er iets wijzigde. Daarom staan de gedeelde aannames hier eenmaal.
 
 Deze uitgangspunten gelden voor **elke** koppelingspecificatie en payload-specificatie in deze map. Een individueel document noemt het uitgangspunt in één regel en verwijst hierheen; het herhaalt de motivering niet. Zo hoeft een wijziging in de redenering maar op één plek te gebeuren.
 
-De uitgangspunten zijn genummerd (U1 tot en met U10) zodat je er in een document, een review of een issue naar kunt verwijzen: "conform U5".
+De uitgangspunten zijn genummerd (U1 tot en met U10) zodat je er in een document of een review naar kunt verwijzen: "conform U5".
 
 Herkomst: de [OKx-architectuurprincipes](../Referentiemateriaal/principes/principes.md) en [OKx-uitgangspunten](../Referentiemateriaal/principes/uitgangspunten.md), plus de architectuurbesluiten in [`Referentiemateriaal/adr/`](../Referentiemateriaal/adr/). Waar een uitgangspunt op een besluit steunt, staat dat erbij. Alle aangehaalde besluiten hebben op dit moment de status voorstel.
 
@@ -107,13 +107,14 @@ De route en de persona staan volledig uitgewerkt in het [kaderscenario leerroute
 - **Scope sluit af.** Een document benoemt positief wat in scope is, noemt de afbakeningen die anders verwarring geven, en sluit af met de regel dat al het overige buiten het document valt. Een lezer hoeft dan niet te raden of iets vergeten of bewust weggelaten is.
 - **Doel is toetsbaar.** Een document benoemt welke vragen het beantwoordt en wanneer het geslaagd is.
 - **Geen statusaanduiding in de inhoud.** Woorden als "alpha" of "een eerste versie" horen niet in een titel, doel of scope. De volwassenheid van een artefact noteer je op dat artefact (bijvoorbeeld op het schema); de status van het werk staat in de pull request en de git-historie.
-- **Geen metadatakop.** Auteurschap en datums komen uit de git-historie. Bovenaan staat alleen een regel met de herkomst (`Relateert aan: #12`).
+- **Geen metadatakop, geen issueverwijzingen.** Auteurschap en datums komen uit de git-historie; de weg waarlangs een document tot stand kwam staat in de pull requests. Deze documenten worden gereleased en moeten leesbaar zijn voor iemand die geen toegang heeft tot het werkproces erachter. Een verwijzing naar een issuenummer zegt zo'n lezer niets en veroudert bovendien: schrijf in plaats daarvan de **aanleiding** uit in de inleiding.
+- **De inleiding is zelfdragend.** Ze benoemt de **aanleiding** (welk probleem of welke waarneming aanleiding gaf tot dit document), de **context** (waar het in de keten zit), het **doel** (welke vragen het beantwoordt) en de **scope** (wat er wel en niet in staat). Wie alleen de inleiding leest, weet of dit document zijn vraag beantwoordt.
 - **Verwijzingen zijn links**, ook naar besluiten en naar andere documenten in deze map.
 
 De bredere schrijfstijl staat in [`.cursor/rules/docs-style.mdc`](https://github.com/Npuls-OKx/meta/blob/d47bb0c74ec899a4384d06331692f74b9bd1db58/.cursor/rules/docs-style.mdc).
 
 ## Gerelateerde documenten
 
-- [Sjabloon koppelingspecificatie](../Werkwijze/sjablonen/sjabloon-koppelingspecificatie.md) en [sjabloon payload-specificatie](../Werkwijze/sjablonen/sjabloon-payload-specificatie.md): de lege opzet om mee te beginnen.
+- [Template koppelingspecificatie](../Werkwijze/templates/template-koppelingspecificatie.md) en [template payload-specificatie](../Werkwijze/templates/template-payload-specificatie.md): de lege opzet om mee te beginnen.
 - [Instap voor nieuwkomers](README.md): ketenoverzicht, hoofdplaat, afkortingenlegenda en leesvolgorde.
 - [OKx-architectuurprincipes](../Referentiemateriaal/principes/principes.md) en [OKx-uitgangspunten](../Referentiemateriaal/principes/uitgangspunten.md): de richting waarop deze uitgangspunten steunen.

@@ -41,7 +41,6 @@ Flexibilisering en **“student kiest”** vereisen dat **onderwijskundige** en 
 ### Relaties en links
 
 - **Gerelateerde ADR’s:** [0001](https://github.com/Npuls-OKx/meta/blob/d47bb0c74ec899a4384d06331692f74b9bd1db58/architecture/dr/0001-publieke-repo-en-samenwerkingsmodel.md) (repo en workflow), [0002](https://github.com/Npuls-OKx/meta/blob/d47bb0c74ec899a4384d06331692f74b9bd1db58/architecture/dr/0002-prioriteitsketen-catalogus-drielagen-fundament.md) (keten en fundament), [0004](0004-leeruitkomsten-sbu-ec-logistieke-containergrootte.md) (SBU/EC als logistieke grootte bij leeruitkomsten), [0005](https://github.com/Npuls-OKx/meta/blob/d47bb0c74ec899a4384d06331692f74b9bd1db58/architecture/dr/0005-student-keuze-systeem-zelfstandige-referentiecomponent.md) (SKS als referentiecomponent)
-- Issues: #(te koppelen)
 - PR: #(te vullen)
 - Meetings:
   - `architecture/meetings/20260325_okx_kernteam_inhoud_uitwerken_studentkiest_flexibelonderwijs_overeenkomst/summary.md`

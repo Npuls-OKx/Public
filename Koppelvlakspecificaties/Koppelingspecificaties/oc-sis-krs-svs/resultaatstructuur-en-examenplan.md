@@ -1,10 +1,8 @@
 # Resultaatstructuur en examenplan als JSON-payload
 
-Relateert aan: Npuls-OKx/meta#119, Npuls-OKx/meta#110, Npuls-OKx/meta#105, Npuls-OKx/meta#84. Waarden in het voorbeeld zijn indicatief.
-
 ## Inhoudsopgave
 
-1. [Inleiding](#1-inleiding) (context, doel, scope)
+1. [Inleiding](#1-inleiding) (aanleiding, context, doel, scope)
 2. [Payload](#2-payload)
    - [2.1 De vorm](#21-de-vorm)
    - [2.2 Het voorbeeld](#22-het-voorbeeld)
@@ -14,11 +12,13 @@ Relateert aan: Npuls-OKx/meta#119, Npuls-OKx/meta#110, Npuls-OKx/meta#105, Npuls
 
 ## 1. Inleiding
 
-### 1.1 Context
+### 1.1 Aanleiding en context
+
+**Aanleiding.** Bij het uitwerken van de koppeling naar het studentinformatiesysteem bleek dat onderwijsresultaten niet aan de onderwijsspecificatie hangen maar aan een **tweede boom**: de resultaatstructuur, met het examenplan als wortel. Die twee bomen werden tot dan toe door elkaar gebruikt, terwijl ze een verschillende eigenaar en een verschillend wijzigingsritme hebben. Dit document scheidt ze en legt vast hoe ze via leeruitkomsten aan elkaar hangen.
 
 De onderwijsspecificatie beschrijft wat een student leert. De **resultaatstructuur** beschrijft hoe dat wordt getoetst en gewogen richting het diploma. Het zijn twee aparte bomen die via **leeruitkomsten** aan elkaar hangen: de leeruitkomst is de sleutel waarop een onderwijsresultaat wordt behaald ([ADR 0022](../../../Referentiemateriaal/adr/0022-resultaatbegrippen-conform-rosa-koi.md)).
 
-De `examenplanspecificatie`, in de praktijk de onderwijs- en examenregeling, is de wortel van die tweede boom. Aanleiding is de memo "Onderwijs PDCA-cyclus" van Niels (PR Npuls-OKx/meta#110): het examenplan kent de zwaarste eisen omdat het een contractuele afspraak met de student is, en beschrijft de summatieve resultaatstructuur met scope, relatie tot kerntaken, wegingen en formules.
+De `examenplanspecificatie`, in de praktijk de onderwijs- en examenregeling, is de wortel van die tweede boom. De memo "Onderwijs PDCA-cyclus" van Niels leverde hiervoor de invoer: het examenplan kent de zwaarste eisen omdat het een contractuele afspraak met de student is, en beschrijft de summatieve resultaatstructuur met scope, relatie tot kerntaken, wegingen en formules.
 
 Scenario is leerroute 1, persona [Jochem](https://github.com/Npuls-OKx/meta/blob/d47bb0c74ec899a4384d06331692f74b9bd1db58/architecture/docs/specificatie/okx-oeapi-consumer-profiel/doc/persona_jochem.md), opleiding Apothekersassistent (kwalificatie 27141). Ketenoverzicht, begrippen en afkortingen: de [instap in de README](../../README.md#context).
 
@@ -282,6 +282,9 @@ Resultaatstructuur en examenplan  (Alfa en indicatief. Deze vorm onderbouwt welk
 
 ### 2.2 Het voorbeeld
 
+De waarden in dit voorbeeld zijn **indicatief**: ze illustreren de vorm en de samenhang, niet de inhoud van een bestaande opleiding.
+
+
 ```json
 {
   "onderwijsspecificaties": [
@@ -460,7 +463,7 @@ Resultaatstructuur en examenplan  (Alfa en indicatief. Deze vorm onderbouwt welk
       "id": "132f165a-973c-41c2-98df-e58d4ca6d7eb",
       "versie": "0.1.0",
       "naam": "Meetellende keuzedeelresultaten Apothekersassistent",
-      "omschrijving": "Bepaalt welke keuzedeelresultaten meetellen voor het diploma. Regelstructuur wordt uitgewerkt in Npuls-OKx/meta#84 en Npuls-OKx/meta#120; onderstaande regels zijn indicatief.",
+      "omschrijving": "Bepaalt welke keuzedeelresultaten meetellen voor het diploma. De regelstructuur wordt in een aparte uitwerking behandeld; onderstaande regels zijn indicatief.",
       "vanToepassingOp": "df0d3e50-c7c3-416e-b694-12fe5791eb7c",
       "regels": [
         { "type": "minimaleStudielast", "waarde": 720, "eenheid": "SBU", "bron": "fb5be5ae-faa0-4b4b-8085-474fce9aae08" },
@@ -527,7 +530,7 @@ Zelfde ontwerpkeuze als de onderwijsspecificatie-payload (optie C: recursief pla
 - **Weging bovenin, niet in het blad.** Een `resultaateenheidspecificatie` draagt `aggregatie` (hoe onderliggende resultaten samenkomen) en haar eigen `weging` binnen de ouder. Zo staat de rekenregel op het niveau waar hij geldt.
 - **Aard expliciet.** `aard` onderscheidt `summatief` (telt mee voor het diploma) van `formatief` (ontwikkelingsgericht, weging 0).
 - **Resultaatmodel per niveau.** `resultaatmodel` legt schaal, cesuur en afronding vast, zodat elk systeem dezelfde uitkomst berekent.
-- **Regels los van de specificatie.** Dynamische delen (bijvoorbeeld welke keuzedeelresultaten meetellen) staan in een `regelset`, niet in de specificatie. Zelfde principe als Npuls-OKx/meta#84 en Npuls-OKx/meta#120. Dit maakt de modulaire resultaatstructuur mogelijk die de memo van Niels vraagt: keuzes kunnen worden ingevuld met onderdelen die nog niet bestonden toen het examenplan werd vastgesteld.
+- **Regels los van de specificatie.** Dynamische delen (bijvoorbeeld welke keuzedeelresultaten meetellen) staan in een `regelset`, niet in de specificatie. Zelfde principe als bij de regelset-uitwerking. Dit maakt de modulaire resultaatstructuur mogelijk die de memo van Niels vraagt: keuzes kunnen worden ingevuld met onderdelen die nog niet bestonden toen het examenplan werd vastgesteld.
 - **Manifest.** Elke specificatie met onderdelen pint de versies daarvan, inclusief de kruisverwijzing naar de `opleidingsprogrammaspecificatie` (`relatie: referentie`).
 
 
@@ -535,7 +538,7 @@ Zelfde ontwerpkeuze als de onderwijsspecificatie-payload (optie C: recursief pla
 
 Zelfde mechaniek als de onderwijsspecificatie: semver per specificatie, identiteit los van versie, manifest dat onderliggende versies pint, en `geldigVanaf`/`geldigTot` voor gelijktijdig actieve versies. Zie [§3.3 van de onderwijsspecificatie-payload](../gedeeld/payload-onderwijsspecificatie.md#33-lifecycle-versionering-en-manifest) en de [lifecycle-uitwerking](../gedeeld/lifecycle-en-versionering.md).
 
-Eén verschil: de `examenplanspecificatie` heeft de **strengste acceptatieregels**. Het is een contractuele afspraak met de student, dus een wijziging vraagt altijd expliciete impactanalyse en besluitvorming, ook wanneer die technisch niet-brekend lijkt (memo van Niels, PR Npuls-OKx/meta#110).
+Eén verschil: de `examenplanspecificatie` heeft de **strengste acceptatieregels**. Het is een contractuele afspraak met de student, dus een wijziging vraagt altijd expliciete impactanalyse en besluitvorming, ook wanneer die technisch niet-brekend lijkt (memo van Niels).
 
 ## 4. Open punten
 

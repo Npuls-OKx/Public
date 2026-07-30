@@ -1,10 +1,8 @@
 # Koppelingspecificatie onderwijscatalogus naar planning en roostering
 
-Relateert aan: Npuls-OKx/meta#98, Npuls-OKx/meta#119, Npuls-OKx/meta#105. Terminologie: [ADR 0021](../../../Referentiemateriaal/adr/0021-koppeling-versus-koppelvlak-terminologie.md).
-
 ## Inhoudsopgave
 
-1. [Inleiding](#1-inleiding) (context, doel, scope)
+1. [Inleiding](#1-inleiding) (aanleiding, context, doel, scope)
 2. [Procesbeeld](#2-procesbeeld)
 3. [Interactieoverzicht](#3-interactieoverzicht)
 4. [Informatiemodel](#4-informatiemodel)
@@ -17,7 +15,9 @@ Relateert aan: Npuls-OKx/meta#98, Npuls-OKx/meta#119, Npuls-OKx/meta#105. Termin
 
 ## 1. Inleiding
 
-### 1.1 Context
+### 1.1 Aanleiding en context
+
+**Aanleiding.** Dit is de eerste koppeling die OKx volledig heeft uitgewerkt. In een werksessie over de vraag hoe de onderwijscatalogus haar gepubliceerde specificaties bij het planningssysteem krijgt, bleek dat partijen het begrip "koppelvlak" op twee manieren gebruikten en dat niemand precies kon aanwijzen welk systeem welk gegeven bezit. Dat maakt afspraken over uitwisseling onmogelijk. Deze specificatie legt beide vast en dient tegelijk als **patroon** voor de andere koppelingen vanuit de catalogus.
 
 Waar deze koppeling in de keten zit: een curriculum-ontwerptool (CO) levert onderwijsspecificaties aan de onderwijscatalogus (OC); de OC publiceert die en het planningssysteem (P) maakt er planbaar `opleidingsaanbod` van. Dit document beschrijft die stap, de koppeling OC naar P&R (stroom 2 in het [Projectoverzicht](https://github.com/Npuls-OKx/meta/blob/d47bb0c74ec899a4384d06331692f74b9bd1db58/doc/OKx_Projectoverzicht.md), "te plannen aanbod"). Het ketenoverzicht en de actuele [hoofdplaat v1.7](../../README.md#context) staan in de instap van de README.
 
@@ -141,7 +141,7 @@ Berichten op deze koppeling:
 
 ## 5. Sequentiediagrammen
 
-Geformaliseerd uit de schets bij Npuls-OKx/meta#98. Notatie: `-)` is een asynchroon event, `->>` een synchrone aanroep, `-->>` een respons.
+Geformaliseerd uit de schets van de werksessie over deze koppeling. Notatie: `-)` is een asynchroon event, `->>` een synchrone aanroep, `-->>` een respons.
 
 ### 5.1 Happy flow: specificatie is planbaar
 
@@ -272,7 +272,7 @@ De payload van de aanbod-instantie is een eigen document: [onderwijsaanbod-paylo
 
 - Volledig Nederlands, plat met verwijzingen (foreign keys): `aanbodInstanties`, `locaties`, `organisatieEenheden`.
 - Elke aanbod-instantie verwijst via `specificatieVerwijzing` (specificatieId + versie) naar de onderliggende onderwijsspecificatie.
-- Locatiemodel geïnspireerd op OEAPI-issue [Better Location support (#635)](https://github.com/open-education-api/specification/issues/635); organisatie-inrichting (onderwijsteams, professionals als uuid-verwijzing) op basis van het organogram uit het profiel.
+- Locatiemodel geïnspireerd op het openstaande voorstel [Better Location support](https://github.com/open-education-api/specification/issues/635) in de OEAPI-specificatie; organisatie-inrichting (onderwijsteams, professionals als uuid-verwijzing) op basis van het organogram uit het profiel.
 - `status` en `knelpunten` dragen de planuitkomst; de knelpuntcodes zijn uitgewerkt als constraint-categorieën (plannen als constraint satisfaction problem).
 
 ## 7. Endpointbeschrijvingen (REST)
