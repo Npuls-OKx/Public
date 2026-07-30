@@ -33,6 +33,10 @@ feature/...  ->  dev  ->  release branch N      (actuele major)
 - Koppel een pull request aan het issue dat eraan ten grondslag ligt (`Fixes #...`, `See also #...`). **Dat geldt voor de pull request en de commit message, niet voor de documenten zelf**: zie de regel over gereleasde documenten.
 - Is een wijziging een architectuurbesluit, dan hoort dat besluit als ADR in de meta-repository thuis, niet als losse tekst hier.
 
+## Entrypoint
+
+`CLAUDE.md` in de root is het startpunt voor een agent; `AGENTS.md` is een symlink daarheen. Rules komen automatisch mee, commands start je met `/`, en de skills staan in `.agents/skills/` met shims op `.claude/skills` en `.cursor/skills` zodat beide tools ze vinden.
+
 ## Voordat je iets voorstelt
 
 Draai vanuit de repo-root:

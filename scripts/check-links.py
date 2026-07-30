@@ -23,6 +23,7 @@ Gebruik:
 
 from __future__ import annotations
 
+import os
 import re
 import sys
 from pathlib import Path
@@ -52,14 +53,36 @@ def slugs(tekst: str) -> set[str]:
     return gevonden
 
 
+def doorlopen_symlink(doel: Path, root: Path) -> Path | None:
+    """De symlink die dit pad doorloopt, of None.
+
+    GitHub volgt symlinks niet in blob-URL's. Een link door een symlink heen
+    werkt dus lokaal wel en in de webweergave niet.
+    """
+    try:
+        deel_pad = doel.relative_to(root)
+    except ValueError:
+        return None
+    huidig = root
+    for deel in deel_pad.parts:
+        huidig = huidig / deel
+        if huidig.is_symlink():
+            return huidig
+    return None
+
+
 def markdown_bestanden(paden: list[str], root: Path) -> list[Path]:
+    def uit_map(p: Path) -> list[Path]:
+        # Symlinks overslaan: die leveren hetzelfde bestand nog een keer op.
+        return [q for q in p.rglob("*.md") if ".git" not in q.parts and not q.is_symlink()]
+
     if not paden:
-        return sorted(p for p in root.rglob("*.md") if ".git" not in p.parts)
+        return sorted(uit_map(root))
     uit: list[Path] = []
     for pad in paden:
         p = Path(pad).resolve()
         if p.is_dir():
-            uit += [q for q in p.rglob("*.md") if ".git" not in q.parts]
+            uit += uit_map(p)
         elif p.suffix == ".md":
             uit.append(p)
     return sorted(set(uit))
@@ -91,7 +114,13 @@ def main(argv: list[str]) -> int:
             pad, _, fragment = link.partition("#")
             hier = bestand.relative_to(root)
 
-            doel = bestand if not pad else (bestand.parent / unquote(pad)).resolve()
+            # Lexicaal normaliseren, niet resolven: GitHub lost paden ook
+            # lexicaal op en volgt daarbij geen symlinks.
+            doel = (
+                bestand
+                if not pad
+                else Path(os.path.normpath(bestand.parent / unquote(pad)))
+            )
 
             if not str(doel).startswith(str(root)):
                 print(f"ONTSNAPT     {hier} -> {link}")
@@ -101,6 +130,16 @@ def main(argv: list[str]) -> int:
 
             if not doel.exists():
                 print(f"DOOD         {hier} -> {link}")
+                problemen += 1
+                continue
+
+            schakel = doorlopen_symlink(doel, root)
+            if schakel is not None:
+                print(f"VIA SYMLINK  {hier} -> {link}")
+                print(
+                    f"             loopt door {schakel.relative_to(root)}; "
+                    "GitHub volgt symlinks niet, verwijs naar het echte pad"
+                )
                 problemen += 1
                 continue
 

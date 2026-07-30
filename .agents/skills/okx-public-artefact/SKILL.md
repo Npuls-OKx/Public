@@ -27,7 +27,7 @@ Deze zijn allemaal een keer misgegaan.
 
 **`main` en `dev` van meta zijn uiteengelopen.** Ze dragen verschillende inhoud en zelfs verschillende ADR's onder hetzelfde nummer. Ga nooit uit van "main is de stabiele lijn"; controleer per pad waar het staat en of het op de gekozen commit bestaat.
 
-**`.cursor/skills/` in meta is een symlink.** GitHub volgt symlinks niet in blob-URL's, dus zo'n link is daar altijd dood. Pin op het echte pad, `.agents/skills/`.
+**GitHub volgt symlinks niet in blob-URL's.** Een link door een symlink werkt lokaal wel en in de webweergave niet. In meta is `.cursor/skills` op sommige commits een gewone map en op andere een symlink naar `.agents/skills`; controleer dat per commit met `git ls-tree <sha> -- <pad>` (mode `120000` is een symlink) en pin dan op het echte pad. Binnen dit repository geldt hetzelfde: verwijs naar `.agents/skills/...`, niet naar de shims `.claude/skills/` of `.cursor/skills/`.
 
 **Een regel met een issueverwijzing draagt vaak meer.** Sta er ook "Terminologie: ADR 0021" of "Waarden in het voorbeeld zijn indicatief" op, dan verdwijnt die zin mee als je de hele regel schrapt. Zet hem terug op de plek waar hij hoort.
 

@@ -1,6 +1,6 @@
 # Agent harness
 
-Configuratie voor de AI-agents die in dit repository werken: rules die automatisch meekomen, en commands die je met `/` start.
+Configuratie voor de AI-agents die in dit repository werken. Het **entrypoint** is [`CLAUDE.md`](../CLAUDE.md) in de root: dat leest een agent als eerste en het verwijst hierheen. `AGENTS.md` is een symlink naar hetzelfde bestand, voor agents die die naam hanteren.
 
 | Map | Wat erin staat |
 |---|---|
@@ -8,9 +8,19 @@ Configuratie voor de AI-agents die in dit repository werken: rules die automatis
 | [`commands/`](commands/) | Workflows die je met `/` start: nieuwe specificatie, document controleren, overhevelen uit meta, release voorbereiden |
 | [`../.agents/skills/`](../.agents/skills/) | Skills met de domeinkennis en de valkuilen |
 
-## Waarom skills in `.agents/` staan
+## Hoe de skills gevonden worden
 
-De meta-repository gebruikt `.cursor/skills` als **symlink** naar `.agents/skills`. Dat werkt lokaal, maar GitHub volgt symlinks niet in blob-URL's: elke link naar `.cursor/skills/...` is daar dood. Omdat de documenten hier gereleased worden en hun links moeten kloppen, staan de skills op hun echte plek en verwijzen we daarheen.
+De inhoud staat op één plek, `.agents/skills/`, met twee symlinks ernaartoe zodat beide tools hem ontdekken:
+
+```
+.agents/skills/          <- de echte inhoud; hierheen verwijzen
+.claude/skills  -> ../.agents/skills
+.cursor/skills  -> ../.agents/skills
+```
+
+**Verwijs altijd naar het `.agents/`-pad.** GitHub volgt symlinks niet in blob-URL's, dus een link naar `.claude/skills/...` of `.cursor/skills/...` is in de webweergave dood. `check-links.py` meldt zo'n link als `VIA SYMLINK`.
+
+Dat is precies de fout die in de meta-repository zit, waar de skills alleen achter een symlink bereikbaar zijn en elke verwijzing ernaartoe stukloopt.
 
 ## Wat een script doet, hoort niet alleen in een rule
 

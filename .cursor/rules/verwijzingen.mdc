@@ -38,16 +38,30 @@ fout:  https://github.com/Npuls-OKx/meta/blob/main/architecture/dr/0021-....md
 
 Een gereleased document mag niet meebewegen met de bron. Wie op `main` of `dev` linkt, publiceert een bewerend document met een veranderlijke onderbouwing.
 
-Drie dingen om te weten over die bron:
+Twee dingen om te weten over die bron:
 
-- **`main` en `dev` van meta zijn uiteengelopen.** Ze dragen verschillende inhoud en zelfs verschillende ADR's onder hetzelfde nummer. Controleer altijd of het pad dat je pint op die specifieke commit bestaat.
-- **`.cursor/skills/` in meta is een symlink** naar `.agents/skills/`. GitHub volgt symlinks niet in blob-URL's, dus een link naar `.cursor/skills/...` is daar altijd dood. Pin op het echte pad.
-- **Controleer dat een gepind pad bestaat** voordat je het opneemt:
+- **`main` en `dev` van meta zijn uiteengelopen.** Ze dragen verschillende inhoud en zelfs verschillende ADR's onder hetzelfde nummer. Ga niet uit van "main is de stabiele lijn".
+- **Controleer dat een gepind pad op die specifieke commit bestaat**, en of het daar een bestand is of een symlink:
   ```bash
-  git -C <pad-naar-meta> cat-file -e <sha>:<pad>
+  git -C <pad-naar-meta> cat-file -e <sha>:<pad>     # bestaat het?
+  git -C <pad-naar-meta> ls-tree <sha> -- <pad>      # 120000 = symlink
   ```
+  Dat verschilt per commit. `.cursor/skills` is op sommige meta-branches een gewone map en op andere een symlink naar `.agents/skills`; pin in het tweede geval op het echte pad.
 
 `check-conventies.py` meldt een link naar een branch als `BRANCHLINK`.
+
+## Nooit door een symlink heen linken
+
+GitHub volgt symlinks niet in blob-URL's. Een link door een symlink werkt lokaal wel en in de webweergave niet.
+
+Dat geldt ook binnen dit repository: `.claude/skills` en `.cursor/skills` zijn symlinks naar `.agents/skills`, zodat beide tools de skills vinden. Verwijs altijd naar het **echte** pad:
+
+```
+goed:  [okx-public-artefact](.agents/skills/okx-public-artefact/SKILL.md)
+fout:  [okx-public-artefact](.claude/skills/okx-public-artefact/SKILL.md)
+```
+
+`check-links.py` meldt dit als `VIA SYMLINK`.
 
 ## Verwijzingen zijn links
 

@@ -88,7 +88,8 @@ def markdown_bestanden(paden: list[str], root: Path) -> list[Path]:
                 alles += list(p.rglob("*.md"))
             elif p.suffix == ".md":
                 alles.append(p)
-    return sorted({p for p in alles if ".git" not in p.parts})
+    # Symlinks overslaan: die leveren hetzelfde bestand nog een keer op.
+    return sorted({p for p in alles if ".git" not in p.parts and not p.is_symlink()})
 
 
 def controleer(bestand: Path, root: Path) -> list[str]:
