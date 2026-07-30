@@ -40,7 +40,7 @@ Daarnaast: om **attribuutniveau** en OEAPI-consequentie te borgen, wordt in hetz
 
 - **Koppelvlakspecificaties** moeten endpoints/events onderscheiden voor **create**, **uitwerken**, **publiceren** en **wijzigen**, met duidelijke **idempotency**- en **ordering**-overwegingen waar van toepassing.
 - **Leveranciers** van CO en OC krijgen een referentieproces voor **POC’s** (happy flow eerst intra-instelling, zie [0008](0008-scope-planning-eerst-intra-instelling.md)).
-- **OEAPI:** mapping van de flow naar bestaande OEAPI-concepten blijft verplicht uitgangspunt ([0017](https://github.com/Npuls-OKx/meta/blob/d47bb0c74ec899a4384d06331692f74b9bd1db58/architecture/dr/0017-hierarchisch-datamodel-aanbodstructuur-leeruitkomsten-en-sbuec-aggregatie.md) en `[architecture/docs/principes.md](../principes.md)`); tooling om de volledige spec te laden is een **implementatiehulp** voor auteurs.
+- **OEAPI:** mapping van de flow naar bestaande OEAPI-concepten blijft verplicht uitgangspunt ([0017](https://github.com/Npuls-OKx/meta/blob/d47bb0c74ec899a4384d06331692f74b9bd1db58/architecture/dr/0017-hierarchisch-datamodel-aanbodstructuur-leeruitkomsten-en-sbuec-aggregatie.md) en `[architecture/docs/principes.md](../principes/principes.md)`); tooling om de volledige spec te laden is een **implementatiehulp** voor auteurs.
 
 ### Overlap en relatie met bestaande ADR’s (expliciet)
 

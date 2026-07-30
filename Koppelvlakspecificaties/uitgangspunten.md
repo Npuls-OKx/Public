@@ -6,7 +6,7 @@ Deze uitgangspunten gelden voor **elke** koppelingspecificatie en payload-specif
 
 De uitgangspunten zijn genummerd (U1 tot en met U10) zodat je er in een document, een review of een issue naar kunt verwijzen: "conform U5".
 
-Herkomst: de [OKx-ontwerpprincipes](../Referentiemateriaal/principes.md) en de architectuurbesluiten in [`architecture/dr/`](../Referentiemateriaal/adr/). Waar een uitgangspunt op een besluit steunt, staat dat erbij. Alle aangehaalde besluiten hebben op dit moment de status voorstel.
+Herkomst: de [OKx-architectuurprincipes](../Referentiemateriaal/principes/principes.md) en [OKx-uitgangspunten](../Referentiemateriaal/principes/uitgangspunten.md), plus de architectuurbesluiten in [`Referentiemateriaal/adr/`](../Referentiemateriaal/adr/). Waar een uitgangspunt op een besluit steunt, staat dat erbij. Alle aangehaalde besluiten hebben op dit moment de status voorstel.
 
 ## U1. Indicatief en onderbouwend, niet voorschrijvend
 
@@ -23,7 +23,7 @@ flowchart LR
 
 De beschreven koppelingen zijn **niet uitputtend**. Nieuwe functionaliteit kan operaties vragen die niet uit de huidige scenario's naar voren komen. Voorbeeld: een studentkeuzesysteem dat namens een student onderwijs aanvraagt dat nog niet bestaat. Zo'n behoefte komt binnen als nieuw scenario met een eigen koppelingbeschrijving, en onderbouwt daarmee een nieuwe operatie op het koppelvlak. Het koppelvlak houdt die ruimte.
 
-Sluit aan op principe 1 (design first) en principe 5 (uitbreidbaarheid).
+Sluit aan op [OKx-AP02 — Semantiek vóór techniek](../Referentiemateriaal/principes/principes.md#okx-ap02--semantiek-vóór-techniek) (geen API-first zonder voorafgaande keten- en informatiemodelcontext) en [OKx-AP06 — Contracten zijn versieerbaar en evolueerbaar](../Referentiemateriaal/principes/principes.md#okx-ap06--contracten-zijn-versieerbaar-en-evolueerbaar).
 
 ## U2. Koppeling versus koppelvlak
 
@@ -66,7 +66,7 @@ De laatste is de scherpste. Twee implementaties die allebei "een bericht sturen"
 
 ## U6. Semantiek uit de ankertabel
 
-Begrippen komen uit de ankertabel van het [OEAPI consumer-profiel](https://github.com/Npuls-OKx/meta/blob/d47bb0c74ec899a4384d06331692f74b9bd1db58/architecture/docs/specificatie/okx-oeapi-consumer-profiel/README.md) (§3.2.6): kader, beoogde leeruitkomst, specificatie, aanbod, verbintenis, resultaat. Geen verzonnen termen; subtypen voluit met backquotes.
+Begrippen komen uit de [ankertabel](../Referentiemateriaal/kaderscenario's/leerroute-1-regulier.md#betrokken-informatie-bij-proces): kader, beoogde leeruitkomst, specificatie, aanbod, verbintenis, resultaat. Geen verzonnen termen; subtypen voluit met backquotes.
 
 De **leeruitkomst is de sleutel**. Specificaties verankeren erop, en onderwijsresultaten worden erop behaald ([ADR 0022](../Referentiemateriaal/adr/0022-resultaatbegrippen-conform-rosa-koi.md), conform het ROSA Kernmodel Onderwijsinformatie). Verankering gebeurt op de uuid van de leeruitkomst, niet op een tekstcode; een leesbare aanduiding mag ernaast staan.
 
@@ -76,7 +76,7 @@ Objecten staan in **platte arrays** met een zelfverwijzende ouder-pointer, niet 
 
 **Sleutelconventie.** Het eigen sleutelveld van een object binnen zijn array heet `id`. Zodra een veld naar een ander object wijst, draagt het een expliciete naam die zegt waarheen: `bovenliggendSpecificatieId`, `bovenliggendAanbodId`, `leeruitkomstId`, `locatieId`, `specificatieVerwijzing.specificatieId`. Een kaal `bovenliggendId` is context-gevoelig en dus niet toegestaan.
 
-Dit wijkt bewust af van de Open Onderwijs API, die getypeerde sleutels hanteert zoals `educationSpecificationId`. De payloads zijn Nederlandstalig en indicatief, dus die afwijking bestond al; te betrekken bij de latere binding (principe 2, OEAPI als voorkeur tenzij).
+Dit wijkt bewust af van de Open Onderwijs API, die getypeerde sleutels hanteert zoals `educationSpecificationId`. De payloads zijn Nederlandstalig en indicatief, dus die afwijking bestond al; te betrekken bij de latere binding (uitgangspunt [OEAPI, tenzij](../Referentiemateriaal/principes/uitgangspunten.md#technologie-en-standaarden)).
 
 **Taal.** Veldnamen en waarden in het Nederlands, met de Engelse of OEAPI-term tussen haakjes waar dat helpt.
 
@@ -93,7 +93,7 @@ Waarom ASCII en geen interactieve viewer: de documentatie moet GitHub-renderbaar
 
 Draai `python3 scripts/json-tree.py --check <document>` vóór een commit. Het script faalt bij drift, dode ouder-verwijzingen, cykels en schemafouten.
 
-Sluit aan op principe 3 (machine-interpreteerbare formaten) en principe 4 (show don't tell).
+Sluit aan op de uitgangspunten [machine-interpreteerbare formaten](../Referentiemateriaal/principes/uitgangspunten.md#technologie-en-standaarden) en [show don't tell](../Referentiemateriaal/principes/uitgangspunten.md#afstemming-en-beschrijvingswijze).
 
 ## U9. Scenario's en persona's
 
@@ -116,4 +116,4 @@ De bredere schrijfstijl staat in [`.cursor/rules/docs-style.mdc`](https://github
 
 - [Sjabloon koppelingspecificatie](../Werkwijze/sjablonen/sjabloon-koppelingspecificatie.md) en [sjabloon payload-specificatie](../Werkwijze/sjablonen/sjabloon-payload-specificatie.md): de lege opzet om mee te beginnen.
 - [Instap voor nieuwkomers](README.md): ketenoverzicht, hoofdplaat, afkortingenlegenda en leesvolgorde.
-- [OKx-ontwerpprincipes](../Referentiemateriaal/principes.md): de principes waarop deze uitgangspunten steunen.
+- [OKx-architectuurprincipes](../Referentiemateriaal/principes/principes.md) en [OKx-uitgangspunten](../Referentiemateriaal/principes/uitgangspunten.md): de richting waarop deze uitgangspunten steunen.

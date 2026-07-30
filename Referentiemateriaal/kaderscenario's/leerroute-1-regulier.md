@@ -19,7 +19,7 @@ Het document is geslaagd als een lezer die de keten niet kent, na lezing kan aan
 
 ## Scope
 
-Dit document beschrijft **leerroute 1 (regulier)** volledig: de studentjourney, de instellingsjourney, de procesfasen met bijbehorende informatiestromen, en het concept-informatiemodel. Persona **Jochem** (opleiding Apothekersassistent) is de rode draad en staat integraal in [Persona Jochem](#persona-jochem) onderaan.
+Dit document beschrijft **leerroute 1 (regulier)** volledig: de studentjourney, de instellingsjourney, de procesfasen met bijbehorende informatiestromen, en het concept-informatiemodel. Persona **Jochem** (opleiding Apothekersassistent) is de rode draad; zijn volledige journey staat in [persona Jochem](../persona's/jochem.md).
 
 Buiten scope: leerroute 2 (temporiseren) en 3 (versnellen) krijgen elk een eigen kaderscenario in deze map; leerroutes 4 tot en met 9 zijn nog niet uitgewerkt. Het begrippenkader en de ankertabel, de scenario-uitwerkingen per scenariocode en de OEAPI-mapping horen bij het bronspecificatiedocument en niet hier. Al het overige valt buiten dit document.
 
@@ -37,7 +37,7 @@ Verwijzingen in de tekst met een paragraafteken (`§3.2`, `§12.2`) wijzen naar 
 
 De 9 leerroutes zijn:
 
-- **Standaard route**: [(1) Regulier](#persona-jochem), [(2) Temporiseren](https://github.com/Npuls-OKx/meta/blob/d47bb0c74ec899a4384d06331692f74b9bd1db58/architecture/docs/specificatie/okx-oeapi-consumer-profiel/doc/persona_larissa.md), [(3) Versnellen](https://github.com/Npuls-OKx/meta/blob/d47bb0c74ec899a4384d06331692f74b9bd1db58/architecture/docs/specificatie/okx-oeapi-consumer-profiel/doc/persona_linda.md)
+- **Standaard route**: [(1) Regulier](../persona's/jochem.md), [(2) Temporiseren](https://github.com/Npuls-OKx/meta/blob/d47bb0c74ec899a4384d06331692f74b9bd1db58/architecture/docs/specificatie/okx-oeapi-consumer-profiel/doc/persona_larissa.md), [(3) Versnellen](https://github.com/Npuls-OKx/meta/blob/d47bb0c74ec899a4384d06331692f74b9bd1db58/architecture/docs/specificatie/okx-oeapi-consumer-profiel/doc/persona_linda.md)
 - **Personaliseren diplomaroute**: (4) Binnen de instelling, (5) Buiten de instelling, binnen de sector, (6) Buiten de instelling, over sectoren heen
 - **Modulair studeren**: (7) Vrije keuze, (8) Bundelen, (9) Stapelen
 
@@ -567,15 +567,26 @@ Samengevat:
 
 De volgende tabel is daarmee de brug tussen het **begrippenkader** en het **gegevensmodel**. Het begrippenkader zegt *welke concepten we moeten onderscheiden*; de informatie-objecten maken zichtbaar *welke objecten daarbij horen, op welk niveau van het kwalificatiekader ze bestaan, en hoe ze zich tot elkaar verhouden*. Zo wordt bijvoorbeeld duidelijk dat `Onderwijsspecificatie` niet hetzelfde is als `Onderwijsaanbod`, en dat `Onderwijsverbintenis` weer iets anders is dan het aanbod zelf: het is de relatie tussen student of medewerker en een concreet aanbod.
 
-| **1. Kwalificatiekader** | **2. Onderwijsspecificatie** | **3. Onderwijsaanbod** | **4. Onderwijsverbintenis** | **5. Onderwijsresultaat** |
-| --- | --- | --- | --- | --- |
-| `Kwalificatiedossier` | `Opleidingsspecificatie` | `Opleidingsaanbod` | `Opleidingsverbintenis` | `Opleidingsverbintenis resultaat` |
-| `Kwalificatie` | `Opleidingsprogramma-specificatie` | `Opleidingsprogramma-aanbod` | `Opleidingsprogramma-verbintenis` | `Opleidingsprogramma-verbintenis resultaat` |
-| `Kerntaak` | `Onderwijseenheid-specificatie` | `Onderwijseenheid-aanbod` | `Onderwijseenheid-verbintenis` | `Onderwijseenheid-verbintenis resultaat` |
-| `Werkproces` | `Leeronderdeel-specificatie` | `Leergelegenheid` | `Leergelegenheid-verbintenis` | `Leergelegenheid-verbintenis resultaat` |
-| *n.v.t. binnen kwalificatiekader — eigen beleid instelling* | `Lesspecificatie` | `Lesgelegenheid` | `Lesgelegenheid-verbintenis` | `Lesgelegenheid-verbintenis resultaat` |
-| *n.v.t. binnen kwalificatiekader — toetsing* | `Toetsonderdeel-specificatie` | `Toetsgelegenheid` | `Toetsgelegenheid-verbintenis` | `Toetsgelegenheid-verbintenis resultaat` |
-| Doorgaands `Werkproces` | `Examenonderdeel-specificatie` | `Examengelegenheid` | `Examengelegenheid-verbintenis` | `Examengelegenheid-verbintenis resultaat` |
+| **1. Kwalificatiekader** | **2. Beoogde leeruitkomst** | **3. Onderwijsspecificatie** | **4. Onderwijsaanbod** | **5. Onderwijsverbintenis** | **6. Onderwijsresultaat** |
+| --- | --- | --- | --- | --- | --- |
+| `Kwalificatiedossier` | *n.v.t. op dit niveau — leeruitkomsten hangen lager in de boom* | `Opleidingsspecificatie` | `Opleidingsaanbod` | `Opleidingsverbintenis` | `Opleidingsverbintenis resultaat` |
+| `Kwalificatie` | *n.v.t. op dit niveau — aggregatie van onderliggende leeruitkomsten* | `Opleidingsprogramma-specificatie` | `Opleidingsprogramma-aanbod` | `Opleidingsprogramma-verbintenis` | `Opleidingsprogramma-verbintenis resultaat` |
+| `Kerntaak` | Collectie van leeruitkomst-collecties (één per onderliggend werkproces) | `Onderwijseenheid-specificatie` | `Onderwijseenheid-aanbod` | `Onderwijseenheid-verbintenis` | `Onderwijseenheid-verbintenis resultaat` |
+| `Werkproces` | `Leeruitkomst`-collectie (summatief) | `Leeronderdeel-specificatie` | `Leergelegenheid` | `Leergelegenheid-verbintenis` | `Leergelegenheid-verbintenis resultaat` |
+| *n.v.t. binnen kwalificatiekader — eigen beleid instelling* | `Lesuitkomst` (formatief; hangt onder een `Leeruitkomst`) | `Lesspecificatie` | `Lesgelegenheid` | `Lesgelegenheid-verbintenis` | `Lesgelegenheid-verbintenis resultaat` |
+| *n.v.t. binnen kwalificatiekader — toetsing* | Scope van toetsing: set `Leeruitkomst` en/of `Lesuitkomst` | `Toetsonderdeel-specificatie` | `Toetsgelegenheid` | `Toetsgelegenheid-verbintenis` | `Toetsgelegenheid-verbintenis resultaat` |
+| Doorgaands `Werkproces` | Te behalen `Leeruitkomst`-set, vastgesteld door de examencommissie | `Examenonderdeel-specificatie` | `Examengelegenheid` | `Examengelegenheid-verbintenis` | `Examengelegenheid-verbintenis resultaat` |
+
+**Waarom de leeruitkomst een eigen kolom heeft.** Zonder deze kolom lijkt de tabel te zeggen dat een specificatie rechtstreeks uit het kwalificatiekader volgt. Dat klopt niet: daartussen zit de **vertaalslag van de onderwijskundige**, die het kader omzet in concreet en observeerbaar geformuleerde leeruitkomsten. Die leeruitkomsten zijn het scharnierpunt van de hele tabel:
+
+- **De leeruitkomst is de sleutel.** Specificaties (kolom 3) verankeren erop, en onderwijsresultaten (kolom 6) worden erop behaald. Verankering gebeurt op de identifier van de leeruitkomst, niet op een tekstcode; een leesbare aanduiding mag ernaast staan.
+- **Ze is het enige object dat de kolommen doorkruist.** Kader, specificatie, aanbod, verbintenis en resultaat zijn opeenvolgende stadia; de leeruitkomst loopt er dwars doorheen en verbindt wat ontworpen is met wat behaald is. Daarom heet dit een *anker*tabel.
+- **Ze bestaat niet op elk niveau.** Op dossier- en kwalificatieniveau is er geen eigen leeruitkomst; daar is sprake van aggregatie van wat er lager hangt. De summatieve leeruitkomsten hangen aan het **werkproces**; formatieve lesuitkomsten hangen daar weer onder.
+- **De relatie is veel-op-veel, niet één-op-één.** Dezelfde leeruitkomst kan over meerdere onderdelen verdeeld zijn, en één onderdeel kan meerdere leeruitkomsten dekken (zie de cardinaliteit hieronder). Dat is precies waarom ze niet in de specificatiekolom past en een eigen kolom nodig heeft.
+
+Kolom 2 heet **beoogde** leeruitkomst omdat ze het ontwerp-intentie-niveau weergeeft: wat de student moet kennen en kunnen. Wat een student daadwerkelijk heeft behaald, staat in kolom 6.
+
+> **Nog vast te stellen.** Deze kolom is een aanvulling ten opzichte van de tabel zoals die in het OKx OEAPI consumer-profiel stond. Het Kernteam OKx bevestigt of deze uitwerking per niveau klopt voordat andere artefacten erop bouwen.
 
 **Voetnoot**: Examenonderdelen zijn `speciale` instanties van toetsonderdelen. Examinering vormt echter een gescheiden keten binnen de instelling (zie ook de instelling journey): deze keten kent eigen examenspecificaties, examen-aanbod (gelegenheden), verbintenissen en resultaten. Hoewel de onderliggende informatie in grote lijnen gelijksoortig is aan die van toetsonderdelen, is het doel fundamenteel verschillend: toetsen zijn primair formatief van aard (gericht op leerproces en ontwikkeling), terwijl examens in het kader van kwalificatie, diplomering en/of certificering juist summatief zijn. Voor examens speelt bovendien het verantwoordings- en toezichtaspect richting bijvoorbeeld federale overheidsorganen zoals DUO. Dit verantwoordt de gescheiden keten — onder andere om te borgen dat de beoordelaar (‘de slager’) niet zijn eigen werk beoordeelt (‘eigen vlees keurt’) en scheidt de custody chain en governance van exameninformatie dus bewust af van die van toetsinformatie. Examen-gerelateerde gegevens krijgen doorgaans een striktere (en mogelijk geheel aparte) route van vastleggen, toegang en governance dan toets-gerelateerde gegevens.
 
@@ -1102,120 +1113,3 @@ LEERONDERDEEL-SPECIFICATIE = B1-K1-W1 "Neemt de zorg-/adviesvraag in behandeling
 
 > **Van detail naar uitvoering.** Deze detailspecificaties voeden **OC → LMS** ter inrichting (§12.2, fase 4). Op dezelfde specificaties ontstaat het **geroosterde aanbod** — `leergelegenheid` en `lesgelegenheid` (stadium 2b) — en vervolgens de **verbintenis** en het **resultaat** (kolommen 5–6 van de ankertabel), minimaal gedragen door `Association.state` (§3.2.4). De boom blijft hier bewust **conceptueel**: geen concrete lokalen, personen of payloads.
 
----
-
-## Persona Jochem
-![Npuls leerroute 1](img/npuls-leerroute1-regulier-jochem.png)
-
-### Studentjourney
-
-#### Oriënteren
-
-Jochem oriënteert zich op een opleiding via de website van mbo-instelling en socialmediakanalen.
-Hij bezoekt een open dag om een beeld te krijgen van de opleiding.
-
-#### Aanmelden
-
-Jochem meldt zich aan bij mbo-instelling met de juiste vooropleiding.
-Hij heeft geen specifieke ondersteunings- of maatwerkvragen.
-
-#### Inschrijven
-
-Jochem voert een intakegesprek voor de opleiding waarvoor hij zich heeft aangemeld.
-Er wordt vastgesteld dat hij het standaard leertraject kan volgen en geen verdere ondersteuningsbehoefte heeft. 
-Jochem ontvangt een bewijs van inschrijving.
-
-#### Informeren
-
-Jochem bekijkt bij de start van de opleiding het volledige geplande leertraject, inclusief modules, BPV en examenplanning.
-Hij verdiept zich in de leeruitkomsten en onderwijsproducten.
-Jochem weet welke modules hij gaat volgen en wat er van hem verwacht wordt.
-
-#### Studeren
-
-Jochem volgt onderwijs volgens het standaardprogramma: klassikaal, online, individueel of op locatie.
-Hij werkt aan de leeruitkomsten op basis van het rooster en de geplande modules.
-Jochem formuleert leerdoelen en werkt gestructureerd aan zijn studie.
-
-#### BPV
-
-Jochem oriënteert zich op een BPV-plek en kiest een passend leerbedrijf.
-Hij zorgt dat de praktijkovereenkomst (POK) wordt geregeld en start met zijn BPV volgens de standaard planning.
-Tijdens de BPV ontwikkelt hij zijn beroepsvaardigheden.
-
-#### Kiezen keuzedelen
-
-Jochem oriënteert zich op het aanbod van keuzedelen.
-Hij bekijkt inhoud, studielast en examenvereisten en maakt keuzes die passen binnen zijn traject.
-Hij zorgt dat hij minimaal het benodigde aantal SBU behaalt.
-Na zijn keuze worden de keuzedelen opgenomen in zijn leerroute en examenoverzicht.
-
-#### Studievoortgang
-
-Jochem ontvangt regelmatig feedback, feed-up en feedforward op zijn voortgang.
-Hij monitort welke leeruitkomsten hij heeft behaald en wat nog nodig is.
-In gesprek met zijn slb’er evalueert hij zijn voortgang en stuurt hij bij waar nodig.
-
-#### Examineren
-
-Jochem legt examens af volgens het examenplan.
-Hij rondt de opleiding af via passende examenvormen, zoals proeven van bekwaamheid, praktijkexamens of portfolio-beoordeling.
-
-#### Uitstroom
-
-Jochem bespreekt samen met zijn slb’er zijn vervolgstap, zoals werk of een vervolgopleiding.
-
-#### Diploma
-
-Jochem ontvangt zijn diploma en voltooit daarmee zijn opleiding.
-
-### Instellingsjourney
-
-#### Oriënteren
-De onderwijsinstelling heeft een duidelijk beeld welke opleidingen (en keuzedelen) er worden aangeboden in het eerst volgende instroommoment/schooljaar.
-Dit aanbod staat gepubliceerd op de website en is voorzien van voldoende informatie om studenten te informeren en te verleiden tot inschrijven. Via socialmedia kanalen worden bijzonderheden over het opleidingsaanbod extra onder de aandacht gebracht. De onderwijsinstelling organiseert open dagen om de aspirant studenten een goed beeld en gevoel te geven bij de faciliteiten, docenten en inspirerende inhoud. 
-
-#### Aanmelden
-Om mogelijk te maken dat Jochem zich kan aanmelden voor de opleiding apothekersassistent heeft de onderwijsinstelling het aanmeld systeem (CAMBO/AII) ingericht en de aanmeld functie op de eigen website daaraan gekoppeld. Daar kan Jochem het gewenste startmoment kiezen en de aanmelding voltooien. Zodra de de onderwijsinstelling de aanmelding van Jochem heeft ontvangen, start de vervolg communicatie die door de instelling of opleidingsteam wordt opgepakt. Dit gebeurd volgens een gestandariseerd proces waarbij toelatingseisen worden gecontroleerd en er wordt nagevraagd of er sprake is van een ondersteuningsbehoefte. Als dat het geval is, dan zal er later bij de instelling een uitgebreide intake plaatsvinden waarin die ondersteuningsbehoefte wordt bepaald en vastgelegd.  
-
-#### Inschrijven
-Jochem wordt op basis van de uitkomst van de intake in de opleiding geplaatst en ingeschreven. De student dient daarvoor een bewijs van inschrijving te ontvangen. 
-Om een student te kunnen inschrijven en plaatsen heeft de onderwijsinstelling het kern registratie systeem(KRS) ingericht. De student wordt als entiteit aangemaakt en verbonden aan o.s. een opleidingsteam, locatie, stam/plaatsinggroep, (start) cohort/periode, OER, leerroute- en resultaat structuur. Er wordt een studentaccount aangemaakt en de accountprovisioning stromen richting alle systemen waar Jochem gebruik van kan maken worden geinitieerd. 
-Nadat het bewijs van inschrijving is uitgegeven, wordt Jochem's registratie uitgewisseld met ROD.
-
-#### Informeren
-De onderwijsinstelling verstuurd meerdere berichten naar Jochem. Allereest de inloggegevens en instructie hoe Jochem bij de studentenportaal kan komen. Om niet volledig afhankelijk te zijn van de digitale vaardigheden van Jochem, worden de basisgegevens zoals een leermiddelenlijst ook direct aangeboden.
-In het studentenportaal worden alle relevante gegevens uit meerdere systemen ontsloten of allerminst links aangeboden. Jochem's leertraject vormt daarin de basis, van daaruit dient hij inzicht te verkrijgen in de verschillende modules; welke leeruitkomsten daarin kunnen worden bereikt en welke leermiddelen erbij nodig zijn. De docenten hebben ook al een voorbereiding neergezet voor de eerste les. 
-Ondertussen wordt er hard gewerkt om de roosters beschikbaar te stellen. De eerste periode start op een maandag met een introductiedag, maar daarna moet het duidelijk zijn hoe laat en waar Jochem wordt verwacht en wat hij zelf moet meenemen. Tevens wordt er een SLB-er aan Jochem toegewezen die hem zal begeleiden in zijn leertraject. Wie exact Jochem zal begeiden in zijn BPV hoeft nog niet bepaald te zijn, de BPV periode vindt pas in de 4e periode. Hiervoor wordt wel tijd gealloceerd voor de BPV begeleiders. 
-
-#### Studeren
-In de studeren fase van Jochem is ook voor de onderwijsinstelling de belangrijkste fase, er wordt onderwezen. Docenten hebben hun lessen voorbereid en zijn conform het rooster op de juiste tijd op de juiste plek, om Jochem stappen te laten maken richting zijn felbegeerde leeruitkomsten. Voor de start van de les, neemt de docent de aanwezigheid op. De docent kan immers in het systeem zien wie er, naast Jochem nog meer in de les wordt verwacht. Om Jochem later zijn diploma te kunnen uitrijken, dient de instelling aan te kunnen tonen dat Jochem voldoende onderwijstijd heeft mogen genieten. Ook wanneer bijvoorbeeld de docent ziek zou zijn, dient de onderwijsinstelling een vervanger te plannen of het op een later moment in te halen. Mocht de les uitvallen, stelt Jochem het zeer op prijs dat hij hier vooraf over geinformeerd wordt. 
-Voor elk onderwijsproduct is er in het LMS een omgeving ingericht waarmee de docent, Jochem en zijn medestudenten, samen (of individueel) de beoogde leertaken kunnen oppaken en de voortgang kunnen toetsen.
-
-#### BPV
-Jochem blijkt een voorbeeldig student en volgt exact het beoogde schema van het leertraject. Dit betekent dat de BPV periode in het zicht komt en er door de onderwijsinstelling een BPV begeleider aangesteld wordt. Hij/zij helpt vroegtijdig Jochem met het vinden van die ideale BPV-plek, bespreekt wat er van Jochem wordt verwacht om zijn BPV-stage goed af te ronden. Jochem sluit perfect aan bij het aanbod van erkende leerbedrijven en heeft na een kort intakegesprek een ondertekende POK in handen. Deze wordt in het KRS opgeslagen.
-Tijdens de BPV volgt Jochem geen lessen op school. Maar kan hij wel inloggen op zijn BPV-omgeving waar hij verslagen kan maken en kan aangeven welke leeruitkomsten hij verder heeft kunnen ontwikkelen. Ook de stagebegeleider houdt een oog in het zeil en komt minimaal een keer op bezoek bij het leerbedrijf. 
-
-#### Kiezen keuzedelen
-Jochem blijkt een voorbeeldig student en volgt exact het beoogde schema van het leertraject. Bij een regulier traject als Jochem zijn is de keuzedeelruimte voorgeprogrammeerd en kan hij elke 3e periode van het schooljaar een keuzedeel volgen.
-Dit betekent dat zijn eerste keuzedeel ruimte nadert en hij een keuze moet gaan maken voor die periode. De onderwijsinstelling heeft het aanbod aan keuzedelen ontsloten in de onderwijscatalogus. Het is niet haalbaar Jochem zomaar uit alle mogelijk keuzedelen te laten kiezen. De onderwijscatalogus(of keuzesysteem) toont in eerste instantie alleen de keuzedelen, die vanuit de instelling voorgesorteerd zijn. De logische keuzes binnen het aanbod van de onderwijsinstellen waar zijn leerroute (en keuzedeelruimte), type keuzedeel (gekoppeld/generiek), domein en locatie op afgestemd zijn. Door deze voorsortering kan de onderwijsinstelling het haalbaar en betaalbaar organiseren. Echter, mocht Jochem op basis van een goede onderbouwing toch een ander keuzedeel willen kiezen dat beter past bij zijn ambitie, interesse en talent, moet hier ook maatwerk mogelijk zijn.
-
-Als onderwijsstelling is het niet alleen van groot belang dat Jochem een keuze maakt, maar ook dat hij deze tijdig maakt. De opties dienen door de SLB-er al ruimschoots voor het keuzemoment onder de aandacht gebracht te worden. Los van het informeren en inspireren, is het van belang om ook een animo check te doen voor planning. Hoe eerder er een beeld is van wat populaire keuzes zijn, des te beter kan het organisatorische impact worden bepaald.
-
-De onderwijsinstelling heeft ter voorbereiding van de definitieve keuzedeel-keuze de systemen zo ingericht dat:
-De keuze wordt vastgelegd in het KRS ter verantwoordeing en eventuele uitgave van een certificaat, in het SVS formatieve en summatieve structuren gekoppeld worden, Jochem's keuze in de planning verwerkt wordt (plaatsen van juiste lesgroep), in het LMS aan de juiste leeromgeving gekoppeld wordt, de leermiddelenlijst wordt gedeeld en de examenplanning wordt geïnitieerd.      
-
-#### Studievoortgang
-Jochem blijkt een voorbeeldig student en volgt exact het beoogde schema van het leertraject. Ondanks dat Jochem's resultaten goed zijn en er weinig reden is tot ingrijpen, houdt de SLB'er goed contact met Jochem en legt gespreksverslagen vast in het SIS. Mocht er toch iets aan de hand zijn, blijft de drempel laag om contact te hebben.
-
-De SLB'er heeft goed inzichtelijk hoe Jochem's leertraject verloopt, welke leeruitkomsten hij bereikt heeft en in welke context. De SLB'er attendeert Jochem op de aanstaande examens en adviseert hem wat hij nog extra kan doen ter voorbereiding.   
-
-#### Examineren
-Jochem ligt nog steeds op schema en heeft al enkele examens voltooid. De kennisexamens voor Nederlands, rekenen en engels stonden al vroeg op zijn programma en zijn reeds behaald. De resultaten zijn verwerkt in het SVS en de details van de examens opgenomen in het examendossier. De onderwijsinstelling heeft de OER goed nageleefd en het is duidelijk hoe de nog af te nemen examens in relatie staan tot het kwalificatie dossier. Het laatste examen, de proeve van bekwaamheid, heeft echter nog een planningsuitdaging. Jochem is er klaar voor en heeft zich voorbereid, nu is het afwachten tot de casus zich voor doet. Jochem dient bij zijn BPV tandarts te assisteren bij een echte wortelkanaal behandeling. Hij en de examinator zijn er klaar voor en staan stand-by totdat een patient zich meldt.   
-
-#### Uitstroom
-Jochem weet glashelder wat hij wil en dat is zo snel mogelijk aan het werk. Samen met de SLB'er bespreekt hij toch nog de mogelijkheid tot een vervolg, maar daar ziet hij van af. Wel toont hij nog interesse om in het kader van leven lang leren in de toekomst eventueel nog een keuzedeel of interessante module te volgen. 
-De SLB'er legt de interesse goed vast en registreert Jochem voor de LLO/alumni nieuwsbrief 
-
-#### Diploma
-Jochem heeft zijn opleiding voltooid en alle examens behaald. Voordat zijn diploma wordt gedrukt en uitgereikt wordt wel nog even gecontroleerd of Jochem aan alle eisen heeft voldaan, waaronder de 3075u aan BOT en BPV over alle leerjaren heen. Dit is het geval. Jochem krijgt zijn diploma.

@@ -48,7 +48,7 @@ Flexibilisering en **“student kiest”** vereisen dat **onderwijskundige** en 
   - `architecture/meetings/20260325_okx_kernteam_inhoud_uitwerken_studentkiest_flexibelonderwijs_overeenkomst/transcript.md`
   - `architecture/meetings/20260324_okx_si_team_afstemming_josvdarend/okx_si_team_afstemming_josvdarend_aanhaken_voortgang_okx_240326_summary.md` (context bredere OKx-aanpak)
 - ArchiMate: `architecture/model/model.archimate`
-- Docs: [`doc/OKx_Projectoverzicht.md`](https://github.com/Npuls-OKx/meta/blob/d47bb0c74ec899a4384d06331692f74b9bd1db58/doc/OKx_Projectoverzicht.md), [`architecture/docs/principes.md`](../principes.md)
+- Docs: [`doc/OKx_Projectoverzicht.md`](https://github.com/Npuls-OKx/meta/blob/d47bb0c74ec899a4384d06331692f74b9bd1db58/doc/OKx_Projectoverzicht.md), [OKx-architectuurprincipes](../principes/principes.md)
 
 ### Vervangt (optioneel)
 
