@@ -45,6 +45,18 @@ META_BRANCH = re.compile(
 INLEIDING = re.compile(r"^#{2,3}\s+1\.\s+Inleiding", re.MULTILINE)
 
 
+INLINE_CODE = re.compile(r"`[^`]*`")
+
+
+def zonder_inline_code(regel: str) -> str:
+    """Wat tussen backticks staat is een letterlijke weergave, geen verwijzing.
+
+    Een document dat uitlegt dat je nooit `#123` moet schrijven, schrijft dat
+    voorbeeld als code. Dat is geen issueverwijzing.
+    """
+    return INLINE_CODE.sub("", regel)
+
+
 def regels_buiten_codeblokken(inhoud: str):
     """(regelnummer, regel) voor alles buiten ``` -blokken en HTML-commentaar."""
     in_codeblok = False
@@ -97,7 +109,7 @@ def controleer(bestand: Path, root: Path) -> list[str]:
 
     kop_marge = 12  # een metadatakop staat bovenaan, niet halverwege
     for nr, regel in regels_buiten_codeblokken(inhoud):
-        for treffer in ISSUE.finditer(regel):
+        for treffer in ISSUE.finditer(zonder_inline_code(regel)):
             fragment = regel[treffer.start(): treffer.start() + 12]
             if ANCHOR_ACHTIG.match(fragment.lstrip("]").lstrip("(")):
                 continue

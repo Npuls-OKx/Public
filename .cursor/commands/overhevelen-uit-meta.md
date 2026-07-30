@@ -43,7 +43,7 @@ Let op verwijzingen die het brondocument zelf al kapot had; repareer die en meld
 
 Weg met `Relateert aan: #...`, `- Issues: ...`, `See also #TBD` en kale nummers in lopende tekst.
 
-Inline verwijzingen **herschrijf** je met behoud van betekenis, je schrapt ze niet: "wordt uitgewerkt in #84" wordt "wordt in een aparte uitwerking behandeld".
+Inline verwijzingen **herschrijf** je met behoud van betekenis, je schrapt ze niet: `wordt uitgewerkt in #84` wordt `wordt in een aparte uitwerking behandeld`.
 
 Kijk uit: een `Relateert aan`-regel draagt vaak méér dan issuenummers. Sta er ook "Terminologie: ADR 0021" of "Waarden in het voorbeeld zijn indicatief" op, zet die zin dan terug op de plek waar hij hoort.
 
