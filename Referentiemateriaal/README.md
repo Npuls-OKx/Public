@@ -4,6 +4,10 @@ Bronmateriaal dat de releasepakketten onderbouwt maar er zelf **geen onderdeel**
 
 Deze map is de container *Reference Material* uit het repo-setupmodel: bronmateriaal dat aan OKx gerelateerd is maar niet direct deel uitmaakt van de releasepakketten.
 
+## Kaderscenario's
+
+[`kaderscenario's/`](kaderscenario's/) bevat per Npuls-leerroute de kaderstellende uitwerking: wat er in de keten gebeurt, welke informatie ontstaat en wat er tussen systemen beweegt. Dit is de gedeelde basis waarop de koppelingspecificaties doorbouwen. [Leerroute 1 — regulier](kaderscenario's/leerroute-1-regulier.md) is de baseline; leerroute 2 en 3 worden als verschil daarop beschreven en volgen nog.
+
 ## Ontwerpprincipes
 
 [`principes.md`](principes.md) bevat de OKx-ontwerpprincipes. De uitgangspunten van de koppelingspecificaties ([`Koppelvlakspecificaties/uitgangspunten.md`](../Koppelvlakspecificaties/uitgangspunten.md), U1 tot en met U10) steunen hierop en verwijzen ernaar.

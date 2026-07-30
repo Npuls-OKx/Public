@@ -9,7 +9,7 @@ OKx werkt aan uniforme koppelvlakken zodat systemen in de onderwijsketen beter s
 | Map | Container | Inhoud |
 | --- | --- | --- |
 | [`Koppelvlakspecificaties/`](Koppelvlakspecificaties/) | Source Material | Het releasepakket **koppelvlakspecificatie**: uitgangspunten en de koppelingspecificaties per informatiestroom (OC naar P&R, LMS en SIS) met hun payload-specificaties |
-| [`Referentiemateriaal/`](Referentiemateriaal/) | Reference Material | Architectuurbesluiten (ADR's) en ontwerpprincipes waarop de specificaties steunen; onderbouwing, geen onderdeel van een releasepakket |
+| [`Referentiemateriaal/`](Referentiemateriaal/) | Reference Material | De kaderscenario's per leerroute, de architectuurbesluiten (ADR's) en de ontwerpprincipes waarop de specificaties steunen; onderbouwing, geen onderdeel van een releasepakket |
 | [`Werkwijze/`](Werkwijze/) | Documentation | Hoe we werken: de sjablonen waarmee een specificatie wordt opgezet |
 | [`scripts/`](scripts/) | CI/CD | Gereedschap, waaronder de generator en validator voor de schema- en instantiebomen in de payload-specificaties |
 
