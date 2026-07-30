@@ -40,6 +40,6 @@ Een **ADR** (architecture decision record) legt één besluit vast: de context, 
 | [0022](adr/0022-resultaatbegrippen-conform-rosa-koi.md) | Resultaatbegrippen conform ROSA Kernmodel Onderwijsinformatie | Resultaten hangen aan leeruitkomsten (U6) |
 | [0023](adr/0023-leeruitkomsten-als-opaque-sleutels-in-koppeling-oc-p-en-r.md) | Leeruitkomsten als opaque sleutels in de koppeling OC naar P&R | Waarom planning alleen ids krijgt en geen leeruitkomst-laag |
 
-**Niet uitputtend.** Dit is de selectie die de specificaties in dit repository aanhalen, niet de volledige besluitenlijst. De complete reeks staat in [`architecture/dr/` in de meta-repository](https://github.com/Npuls-OKx/meta/tree/main/architecture/dr). Verwijzingen naar besluiten die hier niet staan, wijzen uit deze documenten gepind naar meta-commit [`d47bb0c`](https://github.com/Npuls-OKx/meta/tree/d47bb0c74ec899a4384d06331692f74b9bd1db58).
+**Niet uitputtend.** Dit is de selectie die de specificaties in dit repository aanhalen, niet de volledige besluitenlijst. De complete reeks staat in [`architecture/dr/` in de meta-repository](https://github.com/Npuls-OKx/meta/tree/d47bb0c74ec899a4384d06331692f74b9bd1db58/architecture/dr). Verwijzingen naar besluiten die hier niet staan, wijzen uit deze documenten gepind naar meta-commit [`d47bb0c`](https://github.com/Npuls-OKx/meta/tree/d47bb0c74ec899a4384d06331692f74b9bd1db58).
 
 Al het overige bronmateriaal (ArchiMate-model, meeting-notulen, het OEAPI consumer-profiel, projectdocumentatie) blijft in de meta-repository en valt buiten deze map.
