@@ -1,0 +1,48 @@
+---
+description: Waar inhoud landt in dit repository, en waarom daar
+alwaysApply: true
+---
+
+De mapindeling volgt de containers uit het repo-setupmodel (`Project and repo setup.drawio`). Zet nieuwe inhoud in de container die bij het **karakter** ervan past, niet bij het onderwerp.
+
+| Map | Container | Wat erin hoort |
+|---|---|---|
+| `Koppelvlakspecificaties/` | Source Material | Het releasepakket: wat een afnemer gebruikt om te bouwen |
+| `Referentiemateriaal/` | Reference Material | Onderbouwing: waarom de keuzes in het pakket zo zijn. Geen onderdeel van een release |
+| `scripts/` | CI/CD | Gereedschap: generatoren en validators |
+
+De container *Documentation* wordt ingevuld door de README's per map, niet door een aparte map.
+
+## Binnen het releasepakket
+
+```
+Koppelvlakspecificaties/
+├── README.md                    instap: keten, afkortingen, leesvolgorde
+├── uitgangspunten.md            U1 t/m U10, gelden voor alles hieronder
+├── templates/                   om een nieuwe specificatie te schrijven
+└── Koppelingspecificaties/
+    ├── gedeeld/                 payloads die meerdere koppelingen delen
+    └── <koppeling>/             per informatiestroom een eigen map
+```
+
+Een **koppeling** is de gestandaardiseerde informatiestroom tussen twee referentiecomponenten. Een **koppelvlak** is de verzameling koppelingen die één component raken. De koppelvlakspecificatie is dus de optelsom van de koppelingen, en daarom zitten de koppelingspecificaties ín het koppelvlakspecificatie-pakket.
+
+Gedeelde payloads staan **eenmaal centraal** in `gedeeld/`. Een koppelingspecificatie legt in een **gebruiksprofiel** vast welke objecten en velden zij daarvan afneemt. Kopieer nooit een payload naar een koppelingmap omdat je er net iets anders mee wilt.
+
+## Binnen het referentiemateriaal
+
+```
+Referentiemateriaal/
+├── principes/                   architectuurprincipes en OKx-uitgangspunten
+├── kaderscenario's/             per Npuls-leerroute de kaderstellende uitwerking
+├── persona's/                   de studenten die als rode draad door die scenario's lopen
+└── adr/                         de architectuurbesluiten die de specificaties aanhalen
+```
+
+`adr/` bevat een **selectie**: de besluiten die vanuit het pakket worden aangehaald, niet de volledige reeks. Die leeft in meta.
+
+## Vaste gewoonten
+
+- **Templates staan bij hun onderwerp**, niet in een aparte werkwijze-map. Wie een koppelingspecificatie schrijft, vindt het template naast de uitgangspunten en de bestaande specificaties waar hij zich toch aan spiegelt.
+- **Elke map heeft een README** die zegt wat erin staat en in welke volgorde je het leest. Maak je een nieuw document, werk dan de index van de bovenliggende README bij.
+- **Afbeeldingen staan in een `img/` naast het document** dat ze gebruikt, niet in een centrale beeldmap. Verhuist het document, dan verhuizen de afbeeldingen mee.

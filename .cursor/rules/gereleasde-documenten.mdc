@@ -1,0 +1,52 @@
+---
+description: Conventies voor documenten die gereleased worden
+globs: "**/*.md"
+alwaysApply: false
+---
+
+Documenten hier worden **gereleased**. De lezer is een architect, ontwikkelaar of beleidsmedewerker bij een instelling of leverancier. Die heeft geen toegang tot het werkproces erachter: geen issues, geen pull requests, geen kennis van welke werksessie waartoe leidde. Elke conventie hieronder volgt daaruit.
+
+## Geen issueverwijzingen
+
+Schrijf nooit `#123`, `Npuls-OKx/meta#123`, `Relateert aan: #12` of `See also #TBD` in een document. Zo'n nummer zegt de lezer niets en veroudert bovendien.
+
+Wat een issueverwijzing impliciet droeg is de **aanleiding**. Schrijf die uit in de inleiding. Niet "zie #98" maar: "In een werksessie over hoe de onderwijscatalogus haar specificaties bij planning krijgt, bleek dat partijen het begrip koppelvlak op twee manieren gebruikten."
+
+Uitzondering: een verwijzing naar een **externe** bron die toevallig een issue is, zoals een voorstel in de OEAPI-governance, mag blijven. Schrijf hem dan als bronvermelding met een link, niet als ticketnummer.
+
+Issueverwijzingen in **commit messages en pull requests** zijn juist gewenst. Die horen bij het werkproces, niet bij het product.
+
+## De inleiding is zelfdragend
+
+Wie alleen de inleiding leest, weet of dit document zijn vraag beantwoordt. Vier onderdelen:
+
+| Onderdeel | Beantwoordt |
+|---|---|
+| **Aanleiding** | Welk probleem of welke waarneming maakte dit document nodig? |
+| **Context** | Waar zit dit in de keten, en hoe verhoudt het zich tot de buren? |
+| **Doel** | Welke vragen beantwoordt het, en wanneer is het geslaagd? |
+| **Scope** | Wat staat erin, en wat expliciet niet? |
+
+De scope **sluit af**: benoem positief wat erin zit, noem de afbakeningen die anders verwarring geven, en eindig met de regel dat al het overige buiten het document valt. Een lezer hoeft dan niet te raden of iets vergeten of bewust weggelaten is.
+
+## Geen metadatakop
+
+Geen `Status:`, `Datum:`, `Auteur:` of `Versie:` bovenaan een document. Auteurschap en datum komen uit de git-historie; de status van het werk staat in de pull request.
+
+Uitzondering: overgenomen bronmateriaal in `Referentiemateriaal/` behoudt de vorm van de bron. Een ADR **hoort** een status en datum te dragen; dat is onderdeel van het ADR-format.
+
+## Geen statusaanduiding in de inhoud
+
+Woorden als "alpha", "concept" of "een eerste versie" horen niet in een titel, doel of scope. De volwassenheid van een artefact noteer je **op dat artefact**: bij een JSON Schema in `$comment`, niet in de documenttitel.
+
+## Bestandsnamen
+
+Beschrijvend en zonder datum- of versieprefix. `koppelingspecificatie-oc-p-en-r.md`, niet `20260723_1156_okx-lr1-koppelingspecificatie-oc-p-en-r.md`. De datum staat in de git-historie; een prefix in de naam is een werkproces-conventie die niet in een releaseartefact thuishoort.
+
+Bij een grote herziening: wijzig het document, geen nieuw bestand met een suffix.
+
+## Controleer voor je voorstelt
+
+```bash
+python3 scripts/check-conventies.py <bestand>
+```
