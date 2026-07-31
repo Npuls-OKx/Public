@@ -9,6 +9,7 @@ Deze map is de container *Reference Material* uit het repo-setupmodel: bronmater
 | [`principes/`](principes/) | De architectuurprincipes (AP01–AP13) en de OKx-uitgangspunten: waarom en hoe we werken |
 | [`kaderscenario's/`](kaderscenario's/) | Per Npuls-leerroute de kaderstellende uitwerking van de keten |
 | [`persona's/`](persona's/) | De studenten die als rode draad door die scenario's lopen |
+| [`memos/`](memos/) | Ingebrachte analyses die als invoer dienen voor een uitwerking |
 | [`adr/`](adr/) | De architectuurbesluiten die de specificaties aanhalen |
 
 ## Principes en uitgangspunten
@@ -22,6 +23,10 @@ Niet te verwarren met de uitgangspunten U1 tot en met U10 van de koppelingspecif
 [`kaderscenario's/`](kaderscenario's/) bevat per Npuls-leerroute de kaderstellende uitwerking: wat er in de keten gebeurt, welke referentiecomponenten daarvoor nodig zijn, welke informatie ontstaat en wat er tussen die componenten beweegt. Dit is de gedeelde basis waarop de koppelingspecificaties doorbouwen. [Leerroute 1 — regulier](kaderscenario's/leerroute-1-regulier.md) is de baseline; leerroute 2 en 3 worden als verschil daarop beschreven en volgen nog.
 
 De persona die als rode draad door een scenario loopt, staat als eigen document in [`persona's/`](persona's/) — [Jochem](persona's/jochem.md) hoort bij leerroute 1.
+
+## Memo's
+
+[`memos/`](memos/) bevat analyses die door een persoon zijn ingebracht en die als invoer dienen voor een uitwerking in het releasepakket. Waar een besluit vastlegt *wat* er is afgesproken, draagt een memo de **waarneming** waarop dat besluit steunt. De [Onderwijs PDCA-cyclus](memos/onderwijs-pdca-cyclus.md) voedt de lifecycle- en versioneringsuitwerking en de acceptatieregels rond het examenplan.
 
 ## Architectuurbesluiten (ADR's)
 

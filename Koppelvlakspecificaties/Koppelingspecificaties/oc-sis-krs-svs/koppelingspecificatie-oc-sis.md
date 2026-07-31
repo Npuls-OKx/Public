@@ -137,7 +137,7 @@ sequenceDiagram
 
 ### 5.2 Faalpad: wijziging examenplan bij lopende verbintenissen
 
-Strengste acceptatieregels (memo van Niels): het examenplan is een contractuele afspraak met de student.
+Strengste acceptatieregels ([memo van Niels](../../../Referentiemateriaal/memos/onderwijs-pdca-cyclus.md)): het examenplan is een contractuele afspraak met de student.
 
 ```mermaid
 sequenceDiagram

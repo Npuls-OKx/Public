@@ -23,7 +23,7 @@ Waar deze koppeling in de keten zit: een curriculum-ontwerptool (CO) levert onde
 
 Scenario is leerroute 1 (regulier), uitgewerkt aan de hand van persona [Jochem](https://github.com/Npuls-OKx/meta/blob/d47bb0c74ec899a4384d06331692f74b9bd1db58/architecture/docs/specificatie/okx-oeapi-consumer-profiel/doc/persona_jochem.md): hij volgt de voltijd mbo-4-opleiding Apothekersassistent (SBB-kwalificatiedossier 23450, kwalificatie 27141) in een aanbod-gestuurd traject en kiest uit wat de instelling aanbiedt. Leerroute 2 en 3 volgen later als verschil. Volledige leerroutes, persona's en het begrippenkader (ankertabel, zes families): het [OEAPI consumer-profiel](https://github.com/Npuls-OKx/meta/blob/d47bb0c74ec899a4384d06331692f74b9bd1db58/architecture/docs/specificatie/okx-oeapi-consumer-profiel/README.md). Let op: dat profiel gebruikt nog een oudere hoofdplaat; leidend is v1.7.
 
-Dit document is ontstaan als interactie-analyse, de derde stap van de [AMIGO-aanpak](https://github.com/Npuls-OKx/meta/blob/d47bb0c74ec899a4384d06331692f74b9bd1db58/.agents/skills/amigo-aanpak/SKILL.md) van Edustandaard, en werkt toe naar de interfacespecificatie in stap 6. Het bouwt voort op de centrale [onderwijsspecificatie-payload](../gedeeld/payload-onderwijsspecificatie.md), waarvan de berichten de structuur, het manifest en de versienummers dragen, op de [lifecycle-uitwerking](../gedeeld/lifecycle-en-versionering.md) en op de memo van Niels over de onderwijs-PDCA-cyclus.
+Dit document is ontstaan als interactie-analyse, de derde stap van de [AMIGO-aanpak](https://github.com/Npuls-OKx/meta/blob/d47bb0c74ec899a4384d06331692f74b9bd1db58/.agents/skills/amigo-aanpak/SKILL.md) van Edustandaard, en werkt toe naar de interfacespecificatie in stap 6. Het bouwt voort op de centrale [onderwijsspecificatie-payload](../gedeeld/payload-onderwijsspecificatie.md), waarvan de berichten de structuur, het manifest en de versienummers dragen, op de [lifecycle-uitwerking](../gedeeld/lifecycle-en-versionering.md) en op de [memo van Niels](../../../Referentiemateriaal/memos/onderwijs-pdca-cyclus.md) over de onderwijs-PDCA-cyclus.
 
 De hoofdstukken 15 tot en met 18 van het consumer-profiel beschrijven interactiepatronen en sequentiediagrammen op een beperkter referentiekader en gelden als **verouderd**; dit document vervangt die lijn (zie de signalering in §9).
 
@@ -223,7 +223,7 @@ sequenceDiagram
 
 ### 5.4 Faalpad: wijziging na afgeronde planning
 
-Acceptatieregels uit de lifecycle-uitwerking en de memo van Niels: wijzigen na planning alleen bij uitzondering en na ketenafstemming.
+Acceptatieregels uit de lifecycle-uitwerking en de [memo van Niels](../../../Referentiemateriaal/memos/onderwijs-pdca-cyclus.md): wijzigen na planning alleen bij uitzondering en na ketenafstemming.
 
 ```mermaid
 sequenceDiagram
@@ -239,7 +239,7 @@ sequenceDiagram
         P-)OC: I3 Status: versieverwijzing bijgewerkt, geen herplanning
     else Brekend of planimpact
         P-)OC: I3 Status: wijziging niet verwerkt, ketenafstemming vereist
-        Note over OC,P: Besluit buiten deze koppeling (memo van Niels),<br/>uitzonderlijk accepteren en herplannen, of terugdraaien
+        Note over OC,P: Besluit buiten deze koppeling ([memo van Niels](../../../Referentiemateriaal/memos/onderwijs-pdca-cyclus.md)),<br/>uitzonderlijk accepteren en herplannen, of terugdraaien
     end
 ```
 

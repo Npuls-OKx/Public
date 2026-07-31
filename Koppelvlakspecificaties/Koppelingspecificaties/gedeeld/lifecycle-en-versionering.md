@@ -13,13 +13,13 @@
 
 ### 1.1 Aanleiding en context
 
-**Aanleiding.** Bij het beschrijven van de centrale payload bleef één vraag onbeantwoord: wat gebeurt er als een specificatie wijzigt terwijl studenten al zijn ingeschreven en planning het aanbod al heeft klaargezet? Zonder afspraak daarover weet een afnemer niet waarop hij plant, en kan dezelfde specificatie bij twee systemen een andere betekenis krijgen. De memo "Onderwijs PDCA-cyclus" van Niels leverde de invoer over hoe een instelling haar onderwijs cyclisch herziet.
+**Aanleiding.** Bij het beschrijven van de centrale payload bleef één vraag onbeantwoord: wat gebeurt er als een specificatie wijzigt terwijl studenten al zijn ingeschreven en planning het aanbod al heeft klaargezet? Zonder afspraak daarover weet een afnemer niet waarop hij plant, en kan dezelfde specificatie bij twee systemen een andere betekenis krijgen. De [memo "Onderwijs PDCA-cyclus"](../../../Referentiemateriaal/memos/onderwijs-pdca-cyclus.md) van Niels leverde de invoer over hoe een instelling haar onderwijs cyclisch herziet.
 
 Onderwijs staat niet stil. Een kerntaak wordt herzien, een keuzedeel vervangen, een examenplan aangescherpt, en dat gebeurt terwijl studenten al aan een opleiding zijn begonnen en planning het aanbod al heeft klaargezet. De vraag is dus niet óf specificaties wijzigen, maar hoe een afnemer weet waarop hij plant of inricht, en wat er gebeurt met wat er al staat.
 
 De [onderwijsspecificatie-payload](payload-onderwijsspecificatie.md) zet daarom een `versie` (semver) op elk niveau en houdt de identiteit van een specificatie los van die versie. Dit document legt uit waarom, en wat dat betekent voor de keten. Ketenoverzicht en begrippen: de [instap in de README](../../README.md#context).
 
-De memo "Onderwijs PDCA-cyclus" van Niels is de invoer: die beschrijft hoe een instelling haar onderwijs cyclisch herziet. De uitgangspunten daaruit staan in [§2](#2-uitgangspunten), vertaald naar wat ze voor de oplossing betekenen.
+De [memo "Onderwijs PDCA-cyclus"](../../../Referentiemateriaal/memos/onderwijs-pdca-cyclus.md) van Niels is de invoer: die beschrijft hoe een instelling haar onderwijs cyclisch herziet. De uitgangspunten daaruit staan in [§2](#2-uitgangspunten), vertaald naar wat ze voor de oplossing betekenen.
 
 **Twee dingen die op elkaar lijken maar het niet zijn.** Dit document gaat over de lifecycle van **onderwijsspecificaties**: de inhoud die over de koppeling gaat. Dat is iets anders dan het release-management van de **koppelvlakspecificatie** zelf, dus van de standaard en haar documenten; dat staat in [`doc/OKx_Release-management-en-versionering.md`](https://github.com/Npuls-OKx/meta/blob/d47bb0c74ec899a4384d06331692f74b9bd1db58/doc/OKx_Release-management-en-versionering.md). Een instelling die haar kerntaak herziet raakt het eerste, niet het tweede.
 
@@ -50,7 +50,7 @@ Al het overige valt buiten dit document.
 
 ## 2. Uitgangspunten
 
-Uit de memo van Niels, met per uitgangspunt wat het voor de oplossing betekent.
+Uit de [memo van Niels](../../../Referentiemateriaal/memos/onderwijs-pdca-cyclus.md), met per uitgangspunt wat het voor de oplossing betekent.
 
 | Uitgangspunt | Wat het betekent voor de oplossing |
 |---|---|
