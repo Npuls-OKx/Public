@@ -31,7 +31,7 @@ feature/...  ->  dev  ->  release branch N      (actuele major)
 
 - Iedereen mag issues openen en pull requests indienen; alleen het verantwoordelijke OKx-team merget.
 - Koppel een pull request aan het issue dat eraan ten grondslag ligt (`Fixes #...`, `See also #...`). **Dat geldt voor de pull request en de commit message, niet voor de documenten zelf**: zie de regel over gereleasde documenten.
-- Is een wijziging een architectuurbesluit, dan hoort dat besluit als ADR in de meta-repository thuis, niet als losse tekst hier.
+- Is een wijziging een architectuurbesluit, leg het dan vast als **ADR** in [`Referentiemateriaal/adr/`](../../Referentiemateriaal/adr/), niet als losse tekst in een specificatie. De besluiten leven hier, niet meer in meta.
 
 ## Entrypoint
 

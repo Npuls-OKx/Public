@@ -45,4 +45,4 @@ De inhoud staat in [`.agents/skills/`](.agents/skills/); `.claude/skills` en `.c
 
 ## Wat hier niet thuishoort
 
-Kaderstelling, architectuurbesluiten en materiaal dat nog in beweging is rijpen in [`Npuls-OKx/meta`](https://github.com/Npuls-OKx/meta) en komen hierheen zodra ze releasebaar zijn. De OpenAPI-specificatie leeft in [`Npuls-OKx/specification`](https://github.com/Npuls-OKx/specification). Twijfel je of iets hier hoort: kan een afnemer ermee bouwen, of onderbouwt het iets waarmee hij bouwt? Zo niet, dan hoort het in meta.
+Kaderstelling en materiaal dat nog in beweging is rijpen in [`Npuls-OKx/meta`](https://github.com/Npuls-OKx/meta) en komen hierheen zodra ze releasebaar zijn. **Architectuurbesluiten leven hier**, in [`Referentiemateriaal/adr/`](Referentiemateriaal/adr/). De OpenAPI-specificatie leeft in [`Npuls-OKx/specification`](https://github.com/Npuls-OKx/specification). Twijfel je of iets hier hoort: kan een afnemer ermee bouwen, of onderbouwt het iets waarmee hij bouwt? Zo niet, dan hoort het in meta.
