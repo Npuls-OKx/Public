@@ -45,7 +45,7 @@ Elke release (major, minor of patch) wordt via dezelfde **standaardroute** gecom
 
 De contributor vult aan de hand van een template de change notes van een feature in bij het maken van een merge request, deze wordt meegenomen als change notes tijdens een release, bij een release met meerdere changes worden de release notes van alle changes samengevoegd. 
 
-**Eigenaar van de communicatie: PM**, tenzij het toepassingsdocument van een pakket iets anders vastlegt. stemt inhoud en timing af met het eigenaar-team ([template §3](Release-management-template.md#3-eigenaarschap)) en zorgt ervoor dat release notes daadwerkelijk verschijnen en bij belanghebbenden landen.
+**Eigenaar van de communicatie: Product Manager**, tenzij het toepassingsdocument van een pakket iets anders vastlegt. stemt inhoud en timing af met het eigenaar-team ([template §3](Release-management-template.md#3-eigenaarschap)) en zorgt ervoor dat release notes daadwerkelijk verschijnen en bij belanghebbenden landen.
 
 ---
 
@@ -55,6 +55,14 @@ Dit hoofdstuk legt vast hoe het process van feature tot release pakket is uitgel
 
 ![Branching setup](./src/branching%20setup.drawio.png)
 
+**Rollen**
+| Rol | Beschrijving |
+|---|---|
+| **Contributor** | Persoon die functionele bijdrages levert aan het project, via change requests op een feature branch. |
+| **Maintainer** | Persoon die de repository beheert: reviewt en keurt change requests goed en bepaalt wat er op de release branches landt. |
+| **Tester / project manager** | Persoon die releases beheert en artifacts toetst aan de kwaliteitsrichtlijnen (Quality Assurance). |
+
+**Procesbeschrijving**
 1. Contributor dient een change request in op een feature branch; Maintainer reviewt en keurt goed, waarna de feature branch naar de dev branch merget.
 2. De dev branch merget door naar release branch N; niet-breaking wijzigingen worden ook op release branch N-1 toegepast, zodat beide release-lijnen actueel blijven.
 3. Voor de wijzigingen wordt de bump bepaald (zwaarste wijziging wint, [§3](#3-versienummering)); voor afhankelijke artifacts wordt ook de compatibiliteit gecheckt ([§4](#4-compatibiliteit-tussen-afhankelijke-artifacts)).
@@ -62,7 +70,6 @@ Dit hoofdstuk legt vast hoe het process van feature tot release pakket is uitgel
 5. Na goedkeuring krijgt de baseline het versielabel (`vMAJOR.MINOR.PATCH`) en landt ze als releasepakket (N of N-1) in de release store.
 6. Release notes worden gepubliceerd via de standaardroute ([§5](#5-communicatie-naar-belanghebbenden)); PM is eigenaar.
 
-**Cross-artifact:** bij een MAJOR-bump van artifact A opent het eigenaar-team van elk afhankelijk artifact B een issue/milestone voor de bijbehorende re-baseline en plant het migratievenster samen met PM.
 
 ### 6.1 Branchstrategie
 
@@ -71,5 +78,28 @@ De branches in het diagram volgen het GitFlow-patroon: een feature branch is een
 OKx wijkt op één punt af: er staan twee release branches naast elkaar. Release branch N draagt de actuele major-versie en ontvangt alle wijzigingen uit de dev branch; release branch N-1 draagt de vorige major-versie en ontvangt daaruit alleen minor- en patch-wijzigingen ([§3](#3-versienummering)). Zo blijft de vorige major-versie onderhouden zonder dat er breaking changes in landen.
 
 Elke wijziging loopt via de dev branch. Contributors hebben leestoegang tot de release branches en releasepakketten maar wijzigen die niet direct; de Maintainer beheert wat er op de release branches landt.
+
+```mermaid
+%%{init: { 'theme': 'base', 'themeVariables': { 'git0': '#4C72B0', 'git1': '#55A868', 'git2': '#DD8452', 'git3': '#8172B2' }, 'gitGraph': { 'mainBranchName': 'dev' } } }%%
+gitGraph
+    commit id: "init"
+    branch release-N
+    checkout release-N
+    commit id: "vN.0.0" tag: "vN.0.0"
+    checkout dev
+    branch release-N-1
+    checkout release-N-1
+    commit id: "vN-1.0.0" tag: "vN-1.0.0"
+    checkout dev
+    branch feature
+    checkout feature
+    commit id: "feature change"
+    checkout dev
+    merge feature id: "merge to dev"
+    checkout release-N
+    merge dev id: "merge to release-N"
+    checkout release-N-1
+    cherry-pick id: "feature change" tag: "minor/patch only"
+```
 
 ---
