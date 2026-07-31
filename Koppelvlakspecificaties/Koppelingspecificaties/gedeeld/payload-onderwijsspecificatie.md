@@ -107,7 +107,7 @@ In scope is de specificatiestructuur van opleiding tot leeronderdeel: `opleiding
 Vier afbakeningen die anders verwarring geven:
 
 - De **lesspecificatie** valt erbuiten: het lesniveau leeft in het leermanagementsysteem en wordt binnen dit programma niet gerealiseerd. De diepte is verder geen harde grens.
-- De **interne structuur van een regelset** staat hier niet; deze payload verwijst er alleen naar.
+- De **interne structuur van een regelset** staat hier niet; deze payload verwijst er alleen naar. Die structuur staat in [regelset als JSON-payload](payload-regelset.md).
 - **Generieke onderdelen** (taal, rekenen, burgerschap, Engels) zitten niet in dit voorbeeld.
 - Het **aanbod** (wanneer, waar, met wie), de **endpoints** en de **binding met de Open Onderwijs API** zijn eigen uitwerkingen.
 
@@ -1684,7 +1684,7 @@ In §2.2 staat het manifest uitgewerkt op drie niveaus: de `opleidingsspecificat
 | Vraag | Vervolgstap |
 |---|---|
 | Hoe bindt `specificatieType` aan de Open Onderwijs API? De enum daar (program, cluster, course) mapt niet een-op-een op onze conceptniveaus. | Binding vaststellen in de gegevensanalyse; als signalering melden, geen wijziging aan de OEAPI-kern voorstellen. |
-| Wat is de interne structuur van een regelset (regeltypes, parameters, evaluatie)? | Wordt in een aparte uitwerking behandeld; deze payload verwijst er alleen naar. |
+| Wat is de interne structuur van een regelset (regeltypes, parameters, evaluatie)? | Uitgewerkt in [regelset als JSON-payload](payload-regelset.md); deze payload verwijst er alleen naar. |
 | Is een ouder-verwijzing de juiste vorm, of toch geneste kinderen? | Bevestigen bij de stakeholderreview; een geneste weergave blijft afleidbaar. |
 | `bovenliggendSpecificatieId` draagt twee betekenissen, onderdeel-van en variant-van. Moet dat expliciet? | Voorstel voor een apart veld voor de relatiesoort uitwerken en voorleggen. |
 | Herhalen we kwalificatie-inhoud per doelgroep-variant, of refereren we? | Nu hangt de inhoud onder een doelgroep; keuze maken bij de uitwerking van leerroute 2 en 3. |

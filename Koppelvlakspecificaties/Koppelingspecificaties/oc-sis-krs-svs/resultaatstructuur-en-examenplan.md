@@ -530,7 +530,7 @@ Zelfde ontwerpkeuze als de onderwijsspecificatie-payload (optie C: recursief pla
 - **Weging bovenin, niet in het blad.** Een `resultaateenheidspecificatie` draagt `aggregatie` (hoe onderliggende resultaten samenkomen) en haar eigen `weging` binnen de ouder. Zo staat de rekenregel op het niveau waar hij geldt.
 - **Aard expliciet.** `aard` onderscheidt `summatief` (telt mee voor het diploma) van `formatief` (ontwikkelingsgericht, weging 0).
 - **Resultaatmodel per niveau.** `resultaatmodel` legt schaal, cesuur en afronding vast, zodat elk systeem dezelfde uitkomst berekent.
-- **Regels los van de specificatie.** Dynamische delen (bijvoorbeeld welke keuzedeelresultaten meetellen) staan in een `regelset`, niet in de specificatie. Zelfde principe als bij de regelset-uitwerking. Dit maakt de modulaire resultaatstructuur mogelijk die de [memo van Niels](../../../Referentiemateriaal/memos/onderwijs-pdca-cyclus.md) vraagt: keuzes kunnen worden ingevuld met onderdelen die nog niet bestonden toen het examenplan werd vastgesteld.
+- **Regels los van de specificatie.** Dynamische delen (bijvoorbeeld welke keuzedeelresultaten meetellen) staan in een `regelset`, niet in de specificatie. Zelfde principe als bij de [regelset](../gedeeld/payload-regelset.md). Dit maakt de modulaire resultaatstructuur mogelijk die de [memo van Niels](../../../Referentiemateriaal/memos/onderwijs-pdca-cyclus.md) vraagt: keuzes kunnen worden ingevuld met onderdelen die nog niet bestonden toen het examenplan werd vastgesteld.
 - **Manifest.** Elke specificatie met onderdelen pint de versies daarvan, inclusief de kruisverwijzing naar de `opleidingsprogrammaspecificatie` (`relatie: referentie`).
 
 

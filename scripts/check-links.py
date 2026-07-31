@@ -32,6 +32,18 @@ from urllib.parse import unquote
 LINK = re.compile(r"\]\(([^)]+)\)")
 HEADING = re.compile(r"^#{1,6}\s+(.*)")
 EXTERN = ("http://", "https://", "mailto:", "tel:")
+# Markdown staat een titel toe achter het doel: [tekst](pad "titel"). Het doel
+# mag daarnaast tussen punthaken staan: [tekst](<pad met spaties>).
+DOEL_MET_TITEL = re.compile(r'^(\S+)(?:\s+(?:"[^"]*"|\'[^\']*\'|\([^)]*\)))?$', re.S)
+
+
+def alleen_doel(link: str) -> str:
+    """Het pad uit een linkdoel, zonder een eventuele titel."""
+    link = link.strip()
+    if link.startswith("<") and ">" in link:
+        return link[1 : link.index(">")]
+    treffer = DOEL_MET_TITEL.match(link)
+    return treffer.group(1) if treffer else link
 
 
 def slugs(tekst: str) -> set[str]:
@@ -48,6 +60,12 @@ def slugs(tekst: str) -> set[str]:
         if not kop:
             continue
         s = kop.group(1).strip().lower()
+        # Een kop mag zelf een link bevatten. GitHub slugt de zichtbare tekst,
+        # dus eerst [tekst](url) terugbrengen tot tekst.
+        for _ in range(3):  # geneste links een paar keer uitvouwen
+            s, aantal = re.subn(r"\[([^\[\]]*)\]\([^()]*\)", r"\1", s)
+            if not aantal:
+                break
         s = re.sub(r"[^\w\s-]", "", s)   # leestekens weg, spaties blijven
         gevonden.add(re.sub(r"\s", "-", s))  # elke spatie apart
     return gevonden
@@ -107,7 +125,7 @@ def main(argv: list[str]) -> int:
             continue
 
         for treffer in LINK.finditer(inhoud):
-            link = treffer.group(1).strip()
+            link = alleen_doel(treffer.group(1))
             if link.startswith(EXTERN) or not link:
                 continue
 

@@ -9,6 +9,7 @@ Deze map is de container *Reference Material* uit het repo-setupmodel: bronmater
 | [`principes/`](principes/) | De architectuurprincipes (AP01–AP13) en de OKx-uitgangspunten: waarom en hoe we werken |
 | [`kaderscenario's/`](kaderscenario's/) | Per Npuls-leerroute de kaderstellende uitwerking van de keten |
 | [`persona's/`](persona's/) | De studenten die als rode draad door die scenario's lopen |
+| [`requirements/`](requirements/) | Wat de standaard moet kunnen, als toetsbare eisen |
 | [`memos/`](memos/) | Ingebrachte analyses die als invoer dienen voor een uitwerking |
 | [`adr/`](adr/) | De architectuurbesluiten die de specificaties aanhalen |
 
@@ -23,6 +24,10 @@ Niet te verwarren met de uitgangspunten U1 tot en met U10 van de koppelingspecif
 [`kaderscenario's/`](kaderscenario's/) bevat per Npuls-leerroute de kaderstellende uitwerking: wat er in de keten gebeurt, welke referentiecomponenten daarvoor nodig zijn, welke informatie ontstaat en wat er tussen die componenten beweegt. Dit is de gedeelde basis waarop de koppelingspecificaties doorbouwen. [Leerroute 1 — regulier](kaderscenario's/leerroute-1-regulier.md) is de baseline; leerroute 2 en 3 worden als verschil daarop beschreven en volgen nog.
 
 De persona die als rode draad door een scenario loopt, staat als eigen document in [`persona's/`](persona's/) — [Jochem](persona's/jochem.md) hoort bij leerroute 1.
+
+## Requirements
+
+[`requirements/`](requirements/) legt vast **wat de standaard moet kunnen**, voordat er attributen en endpoints worden gekozen: genummerde, toetsbare eisen met acceptatiecriteria. Een afnemer bouwt daar niet mee, maar leest er wel in waarom een uitwerking de vorm heeft die hij heeft. De [eisen rond keuzes bij onderwijsspecificaties](requirements/keuzes-rond-onderwijsspecificaties.md) dragen de [regelset-payload](../Koppelvlakspecificaties/Koppelingspecificaties/gedeeld/payload-regelset.md) in het pakket.
 
 ## Memo's
 
