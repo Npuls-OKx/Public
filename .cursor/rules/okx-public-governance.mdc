@@ -33,6 +33,19 @@ feature/...  ->  dev  ->  release branch N      (actuele major)
 - Koppel een pull request aan het issue dat eraan ten grondslag ligt (`Fixes #...`, `See also #...`). **Dat geldt voor de pull request en de commit message, niet voor de documenten zelf**: zie de regel over gereleasde documenten.
 - Is een wijziging een architectuurbesluit, leg het dan vast als **ADR** in [`Referentiemateriaal/adr/`](../../Referentiemateriaal/adr/), niet als losse tekst in een specificatie. De besluiten leven hier, niet meer in meta.
 
+## Noem altijd de repository
+
+OKx werkt met twee repositories die elk hun eigen nummering hebben voor issues en pull requests. Nummers overlappen dus, en beide hebben een `dev`. Issue 1 in `Npuls-OKx/Public` is iets heel anders dan issue 1 in `Npuls-OKx/meta`.
+
+Noem daarom bij elke branch, pull request of issue **expliciet om welke repository het gaat**, in rapportage aan een mens net zo goed als in een pull request-beschrijving of commit message:
+
+```
+goed:  PR #7 in Npuls-OKx/Public   ·   Npuls-OKx/meta#82   ·   `feature/adr-naar-public` in Npuls-OKx/Public
+fout:  PR #7   ·   #82   ·   de dev-branch
+```
+
+Bij de eerste vermelding voluit; daarna mag de korte vorm zolang er geen verwarring kan ontstaan. Een cross-repo issueverwijzing in een commit of pull request schrijf je altijd volledig gekwalificeerd, want GitHub linkt hem anders naar het verkeerde nummer in de eigen repository.
+
 ## Entrypoint
 
 `CLAUDE.md` in de root is het startpunt voor een agent; `AGENTS.md` is een symlink daarheen. Rules komen automatisch mee, commands start je met `/`, en de skills staan in `.agents/skills/` met shims op `.claude/skills` en `.cursor/skills` zodat beide tools ze vinden.
