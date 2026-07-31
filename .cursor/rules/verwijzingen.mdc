@@ -1,0 +1,68 @@
+---
+description: Hoe links binnen dit repository en naar de meta-repository werken
+globs: "**/*.md"
+alwaysApply: false
+---
+
+## Binnen dit repository: relatief
+
+Gebruik relatieve paden. Nooit een absolute URL naar een bestand in deze repository: die breekt op forks en in de release-branches.
+
+Controleer met `python3 scripts/check-links.py`. Dat script vangt drie dingen:
+
+**Dode links.** Het doelbestand bestaat niet.
+
+**Ontsnappingen.** Een link met genoeg `../` erin wijst buiten de repository. Die kan lokaal toevallig resolveren naar een bestand in een naburige map en dus ten onrechte goed lijken, terwijl hij op GitHub altijd stuk is. Dit is precies hoe een verwijzing naar de meta-repository ooit ongemerkt door de controle kwam.
+
+**Dode anchors.** Een fragment (`#kopje`) zonder bijbehorende kop.
+
+## Anchors: het algoritme van GitHub
+
+GitHub maakt een anchor door de kop klein te maken, leestekens te schrappen en daarna **elke spatie afzonderlijk** te vervangen door een koppelstreep. Een em-streep in een kop laat dus twee spaties achter en levert een **dubbele** koppelstreep op:
+
+```
+### OKx-AP05 — Referentiecomponenten als gedeeld referentiekader
+     ->  #okx-ap05--referentiecomponenten-als-gedeeld-referentiekader
+```
+
+Wie hier `\s+` in plaats van `\s` gebruikt, krijgt één koppelstreep en concludeert ten onrechte dat de link stuk is. Verzin geen anchor: kopieer hem uit de bron of laat `check-links.py` het uitwijzen.
+
+## Naar de meta-repository: gepind op een commit
+
+Verwijzingen naar materiaal dat niet is meeverhuisd, wijzen naar een **commit-SHA**, nooit naar een branch:
+
+```
+goed:  https://github.com/Npuls-OKx/meta/blob/d47bb0c.../architecture/dr/0021-....md
+fout:  https://github.com/Npuls-OKx/meta/blob/main/architecture/dr/0021-....md
+```
+
+Een gereleased document mag niet meebewegen met de bron. Wie op `main` of `dev` linkt, publiceert een bewerend document met een veranderlijke onderbouwing.
+
+Twee dingen om te weten over die bron:
+
+- **`main` en `dev` van meta zijn uiteengelopen.** Ze dragen verschillende inhoud en zelfs verschillende ADR's onder hetzelfde nummer. Ga niet uit van "main is de stabiele lijn".
+- **Controleer dat een gepind pad op die specifieke commit bestaat**, en of het daar een bestand is of een symlink:
+  ```bash
+  git -C <pad-naar-meta> cat-file -e <sha>:<pad>     # bestaat het?
+  git -C <pad-naar-meta> ls-tree <sha> -- <pad>      # 120000 = symlink
+  ```
+  Dat verschilt per commit. `.cursor/skills` is op sommige meta-branches een gewone map en op andere een symlink naar `.agents/skills`; pin in het tweede geval op het echte pad.
+
+`check-conventies.py` meldt een link naar een branch als `BRANCHLINK`.
+
+## Nooit door een symlink heen linken
+
+GitHub volgt symlinks niet in blob-URL's. Een link door een symlink werkt lokaal wel en in de webweergave niet.
+
+Dat geldt ook binnen dit repository: `.claude/skills` en `.cursor/skills` zijn symlinks naar `.agents/skills`, zodat beide tools de skills vinden. Verwijs altijd naar het **echte** pad:
+
+```
+goed:  [okx-public-artefact](.agents/skills/okx-public-artefact/SKILL.md)
+fout:  [okx-public-artefact](.claude/skills/okx-public-artefact/SKILL.md)
+```
+
+`check-links.py` meldt dit als `VIA SYMLINK`.
+
+## Verwijzingen zijn links
+
+Besluiten, documenten en mappen als echte markdown-link, niet als kale tekst. Niet "zie ADR 0021" maar `[ADR 0021](../Referentiemateriaal/adr/0021-koppeling-versus-koppelvlak-terminologie.md)`. Ook binnen tabellen.

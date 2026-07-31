@@ -1,0 +1,48 @@
+---
+description: Wat dit repository is, wie erin merget, en hoe wijzigingen er landen
+alwaysApply: true
+---
+
+Dit is **Public source** van OKx (Onderwijskoppelingen): de publieke bron van de **releaseartefacten**. Het is geen kennisbasis en geen werkomgeving. Wat hier staat wordt gepubliceerd en door instellingen en leveranciers gebruikt om koppelvlakken te bouwen.
+
+Het onderscheid met de andere repositories bepaalt wat hier wel en niet thuishoort:
+
+| Repository | Rol | Wat er leeft |
+|---|---|---|
+| [`Npuls-OKx/meta`](https://github.com/Npuls-OKx/meta) | Kaderstelling | Referentiekader, ArchiMate-model, meeting-notulen, besluitvorming in wording |
+| **`Npuls-OKx/Public`** (hier) | Bron van releaseartefacten | Wat rijp genoeg is om gepubliceerd te worden |
+| `Npuls-OKx/specification` | Technische implementatie | OpenAPI-specificatie |
+
+Werk rijpt in **meta** en komt hierheen zodra het releasebaar is. Materiaal dat nog in beweging is hoort niet hier.
+
+## Branchmodel
+
+```
+feature/...  ->  dev  ->  release branch N      (actuele major)
+                     ->  release branch N-1     (alleen minor en patch)
+```
+
+- Werk altijd op een `feature/...`-branch, getakt vanaf `dev`.
+- Pull requests gaan naar `dev`. Nooit rechtstreeks committen op `dev` of op een release branch.
+- Release branch N draagt de actuele major en ontvangt alles uit `dev`; N-1 draagt de vorige major en ontvangt daaruit alleen minor- en patchwijzigingen.
+- Een releasepakket krijgt een versielabel `vMAJOR.MINOR.PATCH` volgens SemVer.
+
+## Governance
+
+- Iedereen mag issues openen en pull requests indienen; alleen het verantwoordelijke OKx-team merget.
+- Koppel een pull request aan het issue dat eraan ten grondslag ligt (`Fixes #...`, `See also #...`). **Dat geldt voor de pull request en de commit message, niet voor de documenten zelf**: zie de regel over gereleasde documenten.
+- Is een wijziging een architectuurbesluit, dan hoort dat besluit als ADR in de meta-repository thuis, niet als losse tekst hier.
+
+## Entrypoint
+
+`CLAUDE.md` in de root is het startpunt voor een agent; `AGENTS.md` is een symlink daarheen. Rules komen automatisch mee, commands start je met `/`, en de skills staan in `.agents/skills/` met shims op `.claude/skills` en `.cursor/skills` zodat beide tools ze vinden.
+
+## Voordat je iets voorstelt
+
+Draai vanuit de repo-root:
+
+```bash
+python3 scripts/check-links.py        # dode links, ontsnappingen, dode anchors
+python3 scripts/check-conventies.py   # issueverwijzingen, metadatakoppen, branchlinks
+python3 scripts/json-tree.py --check <document>.md   # payload-documenten
+```

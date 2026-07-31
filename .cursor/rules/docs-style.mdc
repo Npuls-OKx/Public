@@ -1,0 +1,44 @@
+---
+description: Schrijfstijl voor de documenten in dit repository
+globs: "**/*.md"
+alwaysApply: false
+---
+
+Schrijf Nederlands, simpel en consistent, ASCII waar het kan.
+
+## Leesbaarheid
+
+- **Geen vulwoorden.** "Kort", "conceptueel", "een eerste", "eenvoudige" voegen niets toe in een kopje of zin. Schrap ze.
+- **Eén drager per informatie-eenheid.** Een diagram, een tabel en een alinea die alle drie hetzelfde zeggen is redundantie. Kies er één; laat de andere staan alleen als die iets toevoegt wat de eerste niet toont.
+- **Een kopje dekt de lading.** Een sectie "Context" geeft context, geen opsomming van bronnen. Een inleiding leidt in, en is geen lijst losse feiten.
+- **Afkortingen voluit bij eerste gebruik**, daarna mag de korte vorm. Geldt ook voor mapnamen: leg in een README uit waar `adr/` of `oc-p-en-r/` voor staat. Bij veel afkortingen: een legenda.
+- **Bouw de verhaallijn niet op een nummer.** Niet "conform het besluit uit de sessie van juli" maar de inhoud zelf, met een link naar het besluit.
+
+## Show don't tell
+
+Liever een diagram, een schema, een payload of een tabel dan een lange lap tekst. Voeg een mermaid-diagram toe wanneer dat iets toont wat de tekst niet toont; laat het weg wanneer het de tekst herhaalt.
+
+Diagrammen in **mermaid**, zodat ze diffbaar zijn en meebewegen met een tekstwijziging. Een plaatje dat alleen als afbeelding bestaat, veroudert stil.
+
+## Machine-interpreteerbaar waar het kan
+
+Payload-specificaties dragen een **JSON Schema** (draft 2020-12) dat de vorm vastlegt: types, verplicht of optioneel, enums en patronen. Enumeraties horen daar, niet in een aparte tabel ernaast die uit de pas gaat lopen.
+
+Daarnaast twee gegenereerde ASCII-bomen tussen HTML-comment-markers: een **schemaboom** die de vorm leesbaar toont, en per platte array een **instantieboom** die de verwijzingen oplost en de hiërarchie zichtbaar maakt die in de JSON verborgen blijft.
+
+ASCII en geen inklapbare `<details>`: de documentatie moet GitHub-renderbaar blijven en naar PDF kunnen. Pandoc laat raw HTML vallen en print-to-PDF drukt dichtgeklapt af, waardoor de payload stil uit de PDF zou verdwijnen. ASCII heeft bovendien een voordeel dat een plaatje niet heeft: het is regel-voor-regel diffbaar in een review.
+
+Genereren en controleren:
+
+```bash
+python3 scripts/json-tree.py --write <document>.md   # bomen bijwerken
+python3 scripts/json-tree.py --check <document>.md   # faalt bij drift of schemafouten
+```
+
+## Tabellen
+
+Een tabel heeft een kop die de kolommen benoemt en rijen die allemaal hetzelfde soort ding bevatten. Gebruik geen tabel voor twee regels tekst.
+
+## README's
+
+Elke map heeft er een: wat staat hier, in welke volgorde lees je het, en waar hoort het bij. Maak je een nieuw document, werk dan de index van de bovenliggende README bij.

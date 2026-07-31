@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Kaderstelling en architectuurbesluiten
+    url: https://github.com/Npuls-OKx/meta/issues
+    about: Gaat het over het referentiekader, een architectuurbesluit of een scenario dat nog niet uitgewerkt is? Dat werk rijpt in de meta-repository.
+  - name: De OpenAPI-specificatie
+    url: https://github.com/Npuls-OKx/specification/issues
+    about: Gaat het over de technische implementatie van het OEAPI-profiel? Dat leeft in de specification-repository.
