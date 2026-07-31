@@ -39,7 +39,7 @@ Referentiemateriaal/
 └── adr/                         de architectuurbesluiten die de specificaties aanhalen
 ```
 
-`adr/` bevat een **selectie**: de besluiten die vanuit het pakket worden aangehaald, niet de volledige reeks. Die leeft in meta.
+`adr/` bevat de **volledige reeks** architectuurbesluiten. Die leefde eerder in de meta-repository en is hierheen verhuisd: een besluit onderbouwt wat er in het pakket staat, dus het hoort bij wat gepubliceerd wordt. Nieuwe besluiten komen hier, op basis van [`adr/template.md`](../../Referentiemateriaal/adr/template.md).
 
 ## Vaste gewoonten
 
