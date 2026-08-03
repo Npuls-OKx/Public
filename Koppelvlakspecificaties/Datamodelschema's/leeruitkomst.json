@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://okx.npuls.nl/schema/leeruitkomst/alfa",
+  "title": "Leeruitkomst",
+  "$comment": "Alfa en indicatief. Deze vorm onderbouwt welke velden het koppelvlak nodig heeft en kan wijzigen zolang de payload niet is vastgesteld.",
+  "type": "object",
+  "required": ["id", "versie", "naam", "bron", "bovenliggendLeeruitkomstId", "indicatieveOmvang"],
+  "properties": {
+    "id": { "type": "string", "format": "uuid" },
+    "versie": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$" },
+    "naam": { "type": "string" },
+    "bron": { "$ref": "./bron.json" },
+    "bovenliggendLeeruitkomstId": { "type": ["string", "null"], "format": "uuid" },
+    "indicatieveOmvang": {
+      "type": "array",
+      "items": { "$ref": "./omvang.json" }
+    },
+    "nlqfNiveau": { "type": "integer", "minimum": 1, "maximum": 8 },
+    "waardedocument": { "type": "string", "$comment": "open lijst: diploma, mbo-certificaat, microcredential" },
+    "omschrijving": { "type": "string" },
+    "resultaat": { "type": "string" },
+    "gedrag": { "type": "array", "items": { "type": "string" } }
+  }
+}

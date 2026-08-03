@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://okx.npuls.nl/schema/onderwijsspecificatie/alfa",
+  "title": "Onderwijsspecificatie",
+  "$comment": "Alfa en indicatief. Deze vorm onderbouwt welke velden het koppelvlak nodig heeft en kan wijzigen zolang de payload niet is vastgesteld.",
+  "type": "object",
+  "required": ["onderwijsspecificaties"],
+  "$comment_required": "Alleen onderwijsspecificaties is altijd aanwezig. Of leeruitkomsten en regelsets meekomen bepaalt het gebruiksprofiel van de koppeling; binnen onderwijscatalogus naar planning en roostering blijven leeruitkomsten weg ([ADR 0023](../../Referentiemateriaal/adr/0023-leeruitkomsten-als-opaque-sleutels-in-koppeling-oc-p-en-r.md)).",
+  "properties": {
+    "leeruitkomsten": {
+      "type": "array",
+      "items": { "$ref": "./leeruitkomst.json" }
+    },
+    "onderwijsspecificaties": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "specificatieType", "versie", "bovenliggendSpecificatieId", "naam", "studielast"],
+        "properties": {
+          "id": { "type": "string", "format": "uuid" },
+          "specificatieType": { "enum": ["opleidingsspecificatie", "opleidingsprogrammaspecificatie", "onderwijseenheidspecificatie", "leeronderdeelspecificatie", "keuzedeelruimtespecificatie", "toetsonderdeelspecificatie", "examenplanspecificatie", "resultaateenheidspecificatie"] },
+          "versie": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$" },
+          "bovenliggendSpecificatieId": { "type": ["string", "null"], "format": "uuid" },
+          "leeruitkomstId": { "type": "string", "format": "uuid" },
+          "naam": { "type": "string" },
+          "omschrijving": { "type": "string" },
+          "status": { "enum": ["concept", "vastgesteld", "gepubliceerd", "gedeactiveerd", "vervallen", "gearchiveerd"] },
+          "studielast": { "$ref": "./omvang.json" },
+          "curriculumtype": { "enum": ["nominaal", "hybride", "flexibel"] },
+          "programmatype": { "type": "string", "$comment": "open lijst: diplomaprogramma, keuzedeelprogramma, certificaatprogramma" },
+          "programmaLaag": { "enum": ["leerweg", "doelgroep"] },
+          "leerweg": { "enum": ["BOL", "BBL"] },
+          "doelgroep": { "type": "string", "$comment": "open lijst: regulier, zijinstromer, hybride, organisatiespecifiek" },
+          "keuzedeelKlasse": { "type": "string", "$comment": "open lijst: algemeen-verbredend, beroepsspecifiek-verdiepend" },
+          "organisatie": { "$ref": "./organisatie-eenheid.json", "$comment": "de organisatie waarvoor deze variant geldt, bijvoorbeeld een leerbedrijf" },
+          "cohort": { "type": "string" },
+          "startdatum": { "type": "string", "format": "date" },
+          "geldigVanaf": { "type": "string", "format": "date" },
+          "geldigTot": { "type": ["string", "null"], "format": "date" },
+          "tijdsverdeling": { "type": "string", "$comment": "open lijst: BOT (begeleide onderwijstijd), OOT (overige onderwijstijd), BPV" },
+          "toelichting": { "type": "string" },
+          "regelsetVerwijzingen": { "type": "array", "items": { "type": "string", "format": "uuid" } },
+          "manifest": {
+            "type": "array",
+            "items": { "$ref": "./manifest-item.json" }
+          }
+        }
+      }
+    },
+    "regelsets": {
+      "type": "array",
+      "items": { "$ref": "./regelset.json" }
+    }
+  }
+}

@@ -2,7 +2,7 @@
 
 Het releasepakket **koppelvlakspecificatie**: de specificaties waarmee een partij een koppelvlak kan bouwen op de standaarden die OKx uitbrengt.
 
-Het pakket is opgebouwd uit **koppelingspecificaties**. Per **koppeling** (gestandaardiseerde informatiestroom tussen twee referentiecomponenten) staat in [`Koppelingspecificaties/`](Koppelingspecificaties/) een eigen map met de koppelingspecificatie en de payload-specificaties voor de data binnen het afgekaderde informatiemodel van die koppeling. Het **koppelvlak** van een component is de verzameling van alle koppelingspecificaties die dat component raken; de koppelvlakspecificatie per component is dus de optelsom van de koppelingen hieronder. Terminologie: [ADR 0021](../Referentiemateriaal/adr/0021-koppeling-versus-koppelvlak-terminologie.md).
+Het pakket is opgebouwd uit **koppelingspecificaties**. Per **koppeling** (gestandaardiseerde informatiestroom tussen twee referentiecomponenten) staat in [`Koppelingspecificaties/`](Koppelingspecificaties/) een eigen map met de koppelingspecificatie en de payload-specificaties voor de data binnen het afgekaderde informatiemodel van die koppeling. Het **koppelvlak** van een component is de verzameling van alle koppelingspecificaties die dat component raken; de koppelvlakspecificatie per component is dus de optelsom van de koppelingen hieronder. Die optelsom staat, per referentiecomponent, in [`Referentiecomponenten/`](Referentiecomponenten/). Terminologie: [ADR 0021](../Referentiemateriaal/adr/0021-koppeling-versus-koppelvlak-terminologie.md).
 
 ## Context
 
@@ -11,9 +11,9 @@ De keten in het kort: een **curriculum-ontwerptool (CO)** levert onderwijsspecif
 ```mermaid
 flowchart LR
     CO["Curriculum-ontwerptool"] --> OC["Onderwijscatalogus (OC)<br/>distributiepunt"]
-    OC -->|"OC-P&R: te plannen aanbod"| PR["Planning en Roostering"]
-    OC -->|"OC-LMS: structuur, leermiddelen terug"| LMS["Leermanagementsysteem"]
-    OC -->|"OC-SIS: nominaal template, resultaatstructuur"| SIS["Studentinformatiesysteem (KRS/SVS)"]
+    OC -->|"onderwijscatalogus naar planning en roostering: te plannen aanbod"| PR["Planning en Roostering"]
+    OC -->|"onderwijscatalogus naar leermanagementsysteem: structuur, leermiddelen terug"| LMS["Leermanagementsysteem"]
+    OC -->|"onderwijscatalogus naar studentinformatiesysteem: nominaal template, resultaatstructuur"| SIS["Studentinformatiesysteem (KRS/SVS)"]
     SKS["Student Keuze Systeem"] -. "eigen koppeling, buiten scope hier" .-> SIS
 ```
 
@@ -60,16 +60,16 @@ Leesvolgorde: eerst deze instap, dan [`Koppelingspecificaties/gedeeld/`](Koppeli
 
 ### Wat staat waar
 
-Het pakket bestaat uit vier delen: deze instap, de [uitgangspunten](uitgangspunten.md) die voor alles gelden, de koppelingen onder [`Koppelingspecificaties/`](Koppelingspecificaties/), en de [`templates/`](templates/) waarmee je er een nieuwe schrijft.
+Het pakket bestaat uit vijf delen: deze instap, de [uitgangspunten](uitgangspunten.md) die voor alles gelden, de [auth-standaard](auth-standaard.md) die voor elk endpoint geldt, de koppelingen onder [`Koppelingspecificaties/`](Koppelingspecificaties/), en de [`templates/`](templates/) waarmee je er een nieuwe schrijft.
 
 De koppelingen staan elk in een eigen map:
 
 | Map | Koppeling | Inhoud | Herkomst |
 |---|---|---|---|
 | [`gedeeld/`](Koppelingspecificaties/gedeeld/) | alle koppelingen | Centrale onderwijsspecificatie-payload en lifecycle-uitwerking | Uitgewerkt vanuit de koppeling met planning |
-| [`oc-p-en-r/`](Koppelingspecificaties/oc-p-en-r/) | Onderwijscatalogus naar planning en roostering | Koppelingspecificatie, onderwijsaanbod-payload | Werksessie met de eerste schets van deze koppeling |
-| [`oc-sis-krs-svs/`](Koppelingspecificaties/oc-sis-krs-svs/) | Onderwijscatalogus naar studentinformatiesysteem | Koppelingspecificatie, resultaatstructuur en examenplan | Afgeleid van het patroon met planning; werksessie volgt |
-| [`oc-lms/`](Koppelingspecificaties/oc-lms/) | Onderwijscatalogus naar leermanagementsysteem | Koppelingspecificatie; leermiddelkoppeling-payload volgt | Afgeleid van het patroon met planning; werksessie volgt |
+| [`onderwijscatalogus-planning-en-roostering/`](Koppelingspecificaties/onderwijscatalogus-planning-en-roostering/) | Onderwijscatalogus naar planning en roostering | Koppelingspecificatie, onderwijsaanbod-payload | Werksessie met de eerste schets van deze koppeling |
+| [`onderwijscatalogus-studentinformatiesysteem/`](Koppelingspecificaties/onderwijscatalogus-studentinformatiesysteem/) | Onderwijscatalogus naar studentinformatiesysteem | Koppelingspecificatie, resultaatstructuur en examenplan | Afgeleid van het patroon met planning; werksessie volgt |
+| [`onderwijscatalogus-leermanagementsysteem/`](Koppelingspecificaties/onderwijscatalogus-leermanagementsysteem/) | Onderwijscatalogus naar leermanagementsysteem | Koppelingspecificatie; leermiddelkoppeling-payload volgt | Afgeleid van het patroon met planning; werksessie volgt |
 
 Gedeelde payload-specificaties staan **éénmaal centraal** in `gedeeld/`. Elke koppelingspecificatie definieert een **gebruiksprofiel**: welke objecten en velden van de centrale payload die koppeling gebruikt. Het studentinformatiesysteem krijgt de volledige leeruitkomst-laag, planning alleen de leeruitkomst-ids als opaque sleutels ([ADR 0023](../Referentiemateriaal/adr/0023-leeruitkomsten-als-opaque-sleutels-in-koppeling-oc-p-en-r.md)), en de leeromgeving de inhoudsvelden. Koppeling-specifieke payloads staan in de koppeling-map.
 

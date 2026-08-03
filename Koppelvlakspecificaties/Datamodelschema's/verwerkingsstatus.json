@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://okx.npuls.nl/schema/verwerkingsstatus/alfa",
+  "title": "Verwerkingsstatus",
+  "$comment": "Alfa en indicatief. Deze vorm onderbouwt welke velden het koppelvlak nodig heeft en kan wijzigen zolang de payload niet is vastgesteld.",
+  "type": "object",
+  "required": ["status", "specificatieVerwijzing"],
+  "properties": {
+    "status": { "enum": ["ontvangen", "gestart", "afgekeurd", "gelukt", "nietGelukt"] },
+    "opleidingsaanbodId": { "type": ["string", "null"], "format": "uuid" },
+    "specificatieVerwijzing": { "$ref": "./specificatie-referentie.json" }
+  }
+}

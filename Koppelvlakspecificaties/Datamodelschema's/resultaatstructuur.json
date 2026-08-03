@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://okx.npuls.nl/schema/resultaatstructuur/alfa",
+  "title": "Resultaatstructuur en examenplan",
+  "$comment": "Alfa en indicatief. Deze vorm onderbouwt welke velden het koppelvlak nodig heeft en kan wijzigen zolang de payload niet is vastgesteld.",
+  "type": "object",
+  "required": ["onderwijsspecificaties"],
+  "properties": {
+    "onderwijsspecificaties": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "specificatieType", "versie", "bovenliggendSpecificatieId", "naam", "status", "resultaatmodel"],
+        "properties": {
+          "id": { "type": "string", "format": "uuid" },
+          "specificatieType": { "enum": ["examenplanspecificatie", "resultaateenheidspecificatie", "toetsonderdeelspecificatie"] },
+          "versie": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$" },
+          "bovenliggendSpecificatieId": { "type": ["string", "null"], "format": "uuid" },
+          "naam": { "type": "string" },
+          "omschrijving": { "type": "string" },
+          "status": { "type": "string" },
+          "geldigVanaf": { "type": "string", "format": "date" },
+          "geldigTot": { "type": ["string", "null"], "format": "date" },
+          "geldtVoor": { "type": "string", "format": "uuid", "$comment": "de opleidingsprogrammaspecificatie waarvoor dit examenplan geldt" },
+          "beoordeelt": { "type": "string", "format": "uuid", "$comment": "de specificatie die deze resultaateenheid beoordeelt" },
+          "leeruitkomstId": { "type": "string", "format": "uuid", "$comment": "verwijst naar de leeruitkomst in de onderwijsspecificatie-payload; dit is de sleutel waarop het onderwijsresultaat wordt behaald (ADR 0022)" },
+          "leeruitkomst": { "$ref": "./leeruitkomst-aanduiding.json" },
+          "aard": { "enum": ["summatief", "formatief"] },
+          "toetsvorm": { "type": "string", "$comment": "open lijst: proeveVanBekwaamheid, kennistoets, praktijkopdracht, portfolio, criteriumgesprek" },
+          "aggregatie": { "enum": ["gewogenGemiddelde", "som", "allenVoldoende", "minimaalAantal"] },
+          "weging": { "type": "number", "$comment": "relatief binnen de ouder; 0 bij formatief" },
+          "verplicht": { "type": "boolean" },
+          "resultaatmodel": { "$ref": "./resultaatmodel.json" },
+          "regelsetVerwijzingen": { "type": "array", "items": { "type": "string", "format": "uuid" } },
+          "manifest": {
+            "type": "array",
+            "items": { "$ref": "./manifest-item.json" }
+          }
+        }
+      }
+    },
+    "regelsets": {
+      "type": "array",
+      "items": { "$ref": "./regelset.json" }
+    }
+  }
+}

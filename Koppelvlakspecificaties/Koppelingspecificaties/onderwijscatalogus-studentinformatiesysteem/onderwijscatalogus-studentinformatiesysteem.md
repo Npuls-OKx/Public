@@ -23,7 +23,7 @@ Waar deze koppeling in de keten zit: de onderwijscatalogus (OC) levert de gepubl
 
 Scenario is leerroute 1 (regulier), persona [Jochem](https://github.com/Npuls-OKx/meta/blob/d47bb0c74ec899a4384d06331692f74b9bd1db58/architecture/docs/specificatie/okx-oeapi-consumer-profiel/doc/persona_jochem.md), opleiding Apothekersassistent (SBB-kwalificatiedossier 23450, kwalificatie 27141): de student volgt het nominale programma en het SIS registreert zijn verbintenis, voortgang en resultaten. Leerroute 2 en 3 volgen als verschil. Begrippenkader (ankertabel, zes families; de leeruitkomst is de sleutel voor de resultaatstructuur) en de volledige leerroutes: het [OEAPI consumer-profiel](https://github.com/Npuls-OKx/meta/blob/d47bb0c74ec899a4384d06331692f74b9bd1db58/architecture/docs/specificatie/okx-oeapi-consumer-profiel/README.md). Dat profiel gebruikt nog een oudere hoofdplaat; leidend is v1.7.
 
-Rolverdeling ([ADR 0009](../../../Referentiemateriaal/adr/0009-sks-svs-rollenverdeling-keuze-vs-resultaat-voortgang.md), [ADR 0014](../../../Referentiemateriaal/adr/0014-splitsing-inschrijving-rodkrs-en-studentkeuze-sks.md)): het SIS registreert de verbintenis (op aanbod), de individuele structuur, voortgang en onderwijsresultaten. De onderwijskundige keuze leeft bij het studentkeuzesysteem (SKS, aparte koppeling, buiten scope). OC bezit de onderwijsspecificaties en de resultaatstructuren (`examenplanspecificatie`). Deze koppelingspecificatie is afgeleid (geen werksessie) en volgt het patroon van de [koppeling OC-P&R](../oc-p-en-r/koppelingspecificatie-oc-p-en-r.md): resource-eigenaarschap, referenties en dunne events.
+Rolverdeling ([ADR 0009](../../../Referentiemateriaal/adr/0009-sks-svs-rollenverdeling-keuze-vs-resultaat-voortgang.md), [ADR 0014](../../../Referentiemateriaal/adr/0014-splitsing-inschrijving-rodkrs-en-studentkeuze-sks.md)): het SIS registreert de verbintenis (op aanbod), de individuele structuur, voortgang en onderwijsresultaten. De onderwijskundige keuze leeft bij het studentkeuzesysteem (SKS, aparte koppeling, buiten scope). OC bezit de onderwijsspecificaties en de resultaatstructuren (`examenplanspecificatie`). Deze koppelingspecificatie is afgeleid (geen werksessie) en volgt het patroon van de [koppeling onderwijscatalogus naar planning en roostering](../onderwijscatalogus-planning-en-roostering/onderwijscatalogus-planning-en-roostering.md): resource-eigenaarschap, referenties en dunne events.
 
 ### 1.2 Doel
 
@@ -56,7 +56,7 @@ Al het overige valt buiten dit document, waaronder cross-instelling.
 ```mermaid
 flowchart LR
     OC["Onderwijscatalogus<br/>bezit: specificaties en resultaatstructuren"]
-    subgraph KOP["deze koppeling: OC-SIS"]
+    subgraph KOP["deze koppeling: onderwijscatalogus naar studentinformatiesysteem"]
         OC -. "1: event specificatie beschikbaar" .-> SIS["SIS (KRS/SVS)<br/>bezit: verbintenissen, individuele structuren, resultaten"]
         OC -- "2: onderwijsspecificatiestructuur (pull door SIS)" --> SIS
         OC -- "3: resultaatstructuur (pull door SIS)" --> SIS
@@ -161,7 +161,7 @@ sequenceDiagram
 
 Gebruiksprofiel van deze koppeling op de centrale [onderwijsspecificatie-payload](../gedeeld/payload-onderwijsspecificatie.md) ([ADR 0021](../../../Referentiemateriaal/adr/0021-koppeling-versus-koppelvlak-terminologie.md)):
 
-| Onderdeel | Gebruik in OC-SIS |
+| Onderdeel | Gebruik in onderwijscatalogus naar studentinformatiesysteem |
 |---|---|
 | `onderwijsspecificaties` | Volledig, inclusief manifest (nominaal template) |
 | `leeruitkomsten` | **Volledig**, inclusief aggregatie (`bovenliggendLeeruitkomstId`), `waardedocument` en `indicatieveOmvang`: de sleutel tussen specificatie, resultaatstructuur en onderwijsresultaat ([ADR 0022](../../../Referentiemateriaal/adr/0022-resultaatbegrippen-conform-rosa-koi.md)) |
@@ -173,7 +173,7 @@ Gebruiksprofiel van deze koppeling op de centrale [onderwijsspecificatie-payload
 
 ## 7. Endpointbeschrijvingen (REST)
 
-Nog niet uitgewerkt. De endpoints volgen zodra de interacties in §3 zijn bevestigd, in dezelfde vorm als bij de [koppeling met planning](../oc-p-en-r/koppelingspecificatie-oc-p-en-r.md#7-endpointbeschrijvingen-rest): per endpoint de methode, de operatie, de parameters en de statuscodes, met de events als webhook-aflevering.
+Nog niet uitgewerkt. De endpoints volgen zodra de interacties in §3 zijn bevestigd, in dezelfde vorm als bij de [koppeling met planning](../onderwijscatalogus-planning-en-roostering/onderwijscatalogus-planning-en-roostering.md#7-endpointbeschrijvingen-rest): per endpoint de methode, de operatie, de parameters en de statuscodes, met de events als webhook-aflevering.
 
 ## 8. Reviewvragen
 
@@ -189,7 +189,7 @@ Nog niet uitgewerkt. De endpoints volgen zodra de interacties in §3 zijn bevest
 
 ## 10. Gerelateerde uitwerkingen
 
-- [Koppelingspecificatie OC-P&R](../oc-p-en-r/koppelingspecificatie-oc-p-en-r.md) (het patroon waarop deze koppeling voortbouwt).
+- [Koppelingspecificatie onderwijscatalogus naar planning en roostering](../onderwijscatalogus-planning-en-roostering/onderwijscatalogus-planning-en-roostering.md) (het patroon waarop deze koppeling voortbouwt).
 - Memo "Onderwijs PDCA-cyclus" van Niels: `doc/OKx_PDCA cyclus onderwijsontwerp.md`.
 - [ADR 0009](../../../Referentiemateriaal/adr/0009-sks-svs-rollenverdeling-keuze-vs-resultaat-voortgang.md) (SKS/SVS-rollen), [ADR 0014](../../../Referentiemateriaal/adr/0014-splitsing-inschrijving-rodkrs-en-studentkeuze-sks.md) (splitsing inschrijving en keuze), [ADR 0021](../../../Referentiemateriaal/adr/0021-koppeling-versus-koppelvlak-terminologie.md) (koppeling versus koppelvlak), [ADR 0022](../../../Referentiemateriaal/adr/0022-resultaatbegrippen-conform-rosa-koi.md) (resultaatbegrippen conform ROSA KOI).
 - [ROSA Kernmodel Onderwijsinformatie](https://rosa.wikixl.nl/index.php/Kernmodel_Onderwijsinformatie).

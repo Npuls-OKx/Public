@@ -11,7 +11,7 @@ Schrijf Nederlands, simpel en consistent, ASCII waar het kan.
 - **Geen vulwoorden.** "Kort", "conceptueel", "een eerste", "eenvoudige" voegen niets toe in een kopje of zin. Schrap ze.
 - **Eén drager per informatie-eenheid.** Een diagram, een tabel en een alinea die alle drie hetzelfde zeggen is redundantie. Kies er één; laat de andere staan alleen als die iets toevoegt wat de eerste niet toont.
 - **Een kopje dekt de lading.** Een sectie "Context" geeft context, geen opsomming van bronnen. Een inleiding leidt in, en is geen lijst losse feiten.
-- **Afkortingen voluit bij eerste gebruik**, daarna mag de korte vorm. Geldt ook voor mapnamen: leg in een README uit waar `adr/` of `oc-p-en-r/` voor staat. Bij veel afkortingen: een legenda.
+- **Afkortingen voluit bij eerste gebruik**, daarna mag de korte vorm. Geldt ook voor mapnamen: leg in een README uit waar een afkorting als `adr/` voor staat. Bij veel afkortingen: een legenda. Koppelingsmappen onder `Koppelingspecificaties/` heten voluit (`onderwijscatalogus-planning-en-roostering/`, niet `oc-p-en-r/`): de naam zelf hoeft dan geen legenda meer.
 - **Bouw de verhaallijn niet op een nummer.** Niet "conform het besluit uit de sessie van juli" maar de inhoud zelf, met een link naar het besluit.
 
 ## Show don't tell

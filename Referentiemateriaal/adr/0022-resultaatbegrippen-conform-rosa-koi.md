@@ -6,7 +6,7 @@ Datum: 2026-07-23
 
 ### Context
 
-Bij het uitwerken van de koppelingspecificatie OC-SIS ontstond een informatiemodel waarin een verbintenis direct aan een onderwijsspecificatie hing en waarin een verzonnen term ("resultaatregistratie") werd gebruikt. Dat wijkt af van het [ROSA Kernmodel Onderwijsinformatie (KOI)](https://rosa.wikixl.nl/index.php/Kernmodel_Onderwijsinformatie) en van de ankertabel (specificatie, aanbod, verbintenis, resultaat). ADR 0019 legt de conceptuele gelaagdheid (kwalificatiekader, specificatie, aanbod) al langs ROSA/KOI; dit ADR doet hetzelfde voor de resultaatkant.
+Bij het uitwerken van de koppelingspecificatie onderwijscatalogus naar studentinformatiesysteem ontstond een informatiemodel waarin een verbintenis direct aan een onderwijsspecificatie hing en waarin een verzonnen term ("resultaatregistratie") werd gebruikt. Dat wijkt af van het [ROSA Kernmodel Onderwijsinformatie (KOI)](https://rosa.wikixl.nl/index.php/Kernmodel_Onderwijsinformatie) en van de ankertabel (specificatie, aanbod, verbintenis, resultaat). ADR 0019 legt de conceptuele gelaagdheid (kwalificatiekader, specificatie, aanbod) al langs ROSA/KOI; dit ADR doet hetzelfde voor de resultaatkant.
 
 ### Beslissing
 
@@ -25,7 +25,7 @@ Bij het uitwerken van de koppelingspecificatie OC-SIS ontstond een informatiemod
 
 ### Consequenties
 
-- Het informatiemodel van de koppelingspecificatie OC-SIS volgt deze begrippen (onderwijsresultaat, toetsonderdeelresultaat, individuele onderwijsspecificatiestructuur).
+- Het informatiemodel van de koppelingspecificatie onderwijscatalogus naar studentinformatiesysteem volgt deze begrippen (onderwijsresultaat, toetsonderdeelresultaat, individuele onderwijsspecificatiestructuur).
 - De resultaatstructuur-payload wordt langs deze lijn omgebouwd (toetsonderdeelresultaat-mapping naar leeruitkomsten).
 - De term "resultaatregistratie" vervalt.
 
