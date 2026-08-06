@@ -34,6 +34,7 @@ Alle besluiten hebben op dit moment de status **voorstel**.
 | [0022](0022-resultaatbegrippen-conform-rosa-koi.md) | Resultaatbegrippen conform het ROSA Kernmodel Onderwijsinformatie |
 | [0023](0023-leeruitkomsten-als-opaque-sleutels-in-koppeling-oc-p-en-r.md) | Leeruitkomst-ids als opaque sleutels binnen de koppeling met planning |
 | [0024](0024-consolidatie-architectuurprincipes.md) | Consolidatie van de architectuurprincipes en de introductie van uitgangspunten |
+| [0025](0025-requirementsboom-als-koppeling-business-techniek.md) | Requirementsboom als getoonde koppeling tussen business en techniek |
 
 ## Een besluit toevoegen
 
