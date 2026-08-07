@@ -32,8 +32,9 @@ Alle besluiten hebben op dit moment de status **voorstel**.
 | [0020](0020-curriculumontwerp-onderwijscatalogus-happy-flow-synchronisatie-en-federatie-adopt-klonen.md) | Curriculumontwerp naar catalogus: notify-then-pull, adopt tegenover klonen |
 | [0021](0021-koppeling-versus-koppelvlak-terminologie.md) | Koppeling tegenover koppelvlak; de mapindeling die daaruit volgt |
 | [0022](0022-resultaatbegrippen-conform-rosa-koi.md) | Resultaatbegrippen conform het ROSA Kernmodel Onderwijsinformatie |
-| [0023](0023-leeruitkomsten-als-opaque-sleutels-in-koppeling-oc-p-en-r.md) | Leeruitkomst-ids als opaque sleutels binnen de koppeling met planning |
+| [0023](0023-leeruitkomsten-als-opaque-sleutels-in-koppeling-oc-p-en-r.md) | Leeruitkomst-ids als opaque sleutels binnen de koppeling met planning (vervangen door 0026) |
 | [0024](0024-consolidatie-architectuurprincipes.md) | Consolidatie van de architectuurprincipes en de introductie van uitgangspunten |
+| [0026](0026-leeruitkomst-als-verbindende-sleutel.md) | Leeruitkomst als verbindende sleutel (vervangt 0023) |
 
 ## Een besluit toevoegen
 

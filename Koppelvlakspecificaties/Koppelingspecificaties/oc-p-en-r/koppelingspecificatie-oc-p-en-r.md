@@ -121,8 +121,8 @@ Gebruiksprofiel van deze koppeling (welke onderdelen van de centrale payload OC 
 | Onderdeel | Gebruik in OC-P&R |
 |---|---|
 | `onderwijsspecificaties` | Volledig, inclusief manifest |
-| `regelsets` | Volledig; `voorwaardeVooraf` bevat leeruitkomst-ids uitsluitend als **opaque sleutels** voor volgordebepaling ([ADR 0023](../../../Referentiemateriaal/adr/0023-leeruitkomsten-als-opaque-sleutels-in-koppeling-oc-p-en-r.md)) |
-| `leeruitkomsten` | **Niet meegeleverd.** Planning heeft de betekenis, aggregatie en inhoud van leeruitkomsten niet nodig ([ADR 0023](../../../Referentiemateriaal/adr/0023-leeruitkomsten-als-opaque-sleutels-in-koppeling-oc-p-en-r.md)) |
+| `regelsets` | Volledig; `voorwaardeVooraf` bevat leeruitkomst-ids uitsluitend als **verbindende sleutels** voor volgordebepaling: planning gebruikt ze zonder de inhoud te kennen ([ADR 0026](../../../Referentiemateriaal/adr/0026-leeruitkomst-als-verbindende-sleutel.md)) |
+| `leeruitkomsten` | **Niet meegeleverd.** Planning heeft de betekenis, aggregatie en inhoud van leeruitkomsten niet nodig ([ADR 0026](../../../Referentiemateriaal/adr/0026-leeruitkomst-als-verbindende-sleutel.md)) |
 
 - Informatiemodel en ERD: [onderwijsspecificatie-payload §2.1](../gedeeld/payload-onderwijsspecificatie.md).
 - Datamodel en JSON: [onderwijsspecificatie-payload §2.2](../gedeeld/payload-onderwijsspecificatie.md).

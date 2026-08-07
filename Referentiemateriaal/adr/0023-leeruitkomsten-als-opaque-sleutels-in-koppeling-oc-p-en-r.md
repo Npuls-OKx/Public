@@ -1,6 +1,6 @@
 ## Leeruitkomsten als opaque sleutels in de koppeling OC-P&R
 
-Status: Voorstel
+Status: Vervangen door [ADR 0026](0026-leeruitkomst-als-verbindende-sleutel.md)
 
 Datum: 2026-07-23
 
