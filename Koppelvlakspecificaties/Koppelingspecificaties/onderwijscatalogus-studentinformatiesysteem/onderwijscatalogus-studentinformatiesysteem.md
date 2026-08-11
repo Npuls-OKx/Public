@@ -173,7 +173,32 @@ Gebruiksprofiel van deze koppeling op de centrale [onderwijsspecificatie-payload
 
 ## 7. Endpointbeschrijvingen (REST)
 
-Nog niet uitgewerkt. De endpoints volgen zodra de interacties in §3 zijn bevestigd, in dezelfde vorm als bij de [koppeling met planning](../onderwijscatalogus-planning-en-roostering/onderwijscatalogus-planning-en-roostering.md#7-endpointbeschrijvingen-rest): per endpoint de methode, de operatie, de parameters en de statuscodes, met de events als webhook-aflevering.
+Endpointset als opstap naar de interfacespecificatie, de zesde AMIGO-stap, in dezelfde vorm als bij de [koppeling met planning](../onderwijscatalogus-planning-en-roostering/onderwijscatalogus-planning-en-roostering.md#7-endpointbeschrijvingen-rest): per endpoint de methode, de operatie, de parameters en de statuscodes, met de events als webhook-aflevering. Zoals de rest van dit document (§1.1) is deze paragraaf afgeleid en nog niet bevestigd in een werksessie. Paden en parameters zijn indicatief; een uitgewerkte OpenAPI-beschrijving volgt later. De events (S1, S5) staan hier uitgewerkt als webhook-aflevering, dus een HTTP POST naar de abonnee. Dat is een voorbeeld van een kanaal, geen voorschrift: een bus, broker of cloud-pubsubdienst mag het vervangen zolang die de vier eigenschappen uit §3 levert. Het bericht blijft in alle gevallen gelijk.
+
+Endpoints die **OC** serveert:
+
+| Endpoint | Methode | Operatie | Parameters | Response | Statuscodes |
+|---|---|---|---|---|---|
+| `/onderwijsspecificaties/{id}` | GET | S2: volledige structuur ophalen | `versie` (optioneel, standaard laatst gepubliceerd) | Momentopname: `onderwijsspecificaties`, volledige `leeruitkomsten` en `regelsets` (gebruiksprofiel §6) | 200, 400, 404 |
+| `/onderwijsspecificaties/{id}/delta` | GET | S2: delta tussen twee versies | `van` (versie, verplicht), `naar` (versie, verplicht) | JSON Patch (RFC 6902) | 200, 400, 404 |
+| `/examenplanspecificaties/{id}` | GET | S3: resultaatstructuur ophalen | `versie` (optioneel, standaard laatst gepubliceerd) | Resultaatstructuur geworteld in de `examenplanspecificatie`: toetsonderdelen, weging en aggregatie ([resultaatstructuur en examenplan](resultaatstructuur-en-examenplan.md)) | 200, 400, 404 |
+
+SIS serveert in deze koppeling geen eigen endpoint: S4 draagt de referentie naar de inrichting al in het event zelf; een aparte pull-operatie op die referentie is in §3 niet gedefinieerd.
+
+Event-aflevering, in webhook-vorm:
+
+| Event | Interactie | Richting | Payload |
+|---|---|---|---|
+| `specificatie-en-resultaatstructuur-beschikbaar` | S1 | OC naar SIS | specificatie-id + versie, examenplan-id + versie |
+| `examenplanspecificatie-gewijzigd` | S5 | OC naar SIS | object-id, oude en nieuwe versie, wijzigingsklasse |
+| `inrichtingsstatus` | S4 | SIS naar OC | status + referentie naar de inrichting (uuid), specificatie-id + versie |
+
+Gedrag:
+
+- Alle GET's zijn alleen-lezen en zonder neveneffect; herhaald aanroepen geeft hetzelfde resultaat.
+- Event-aflevering: ontvanger bevestigt met 200; bij uitblijven daarvan herhaalt de verzender met backoff en daarna [Dead Letter Channel](https://www.enterpriseintegrationpatterns.com/patterns/messaging/DeadLetterChannel.html). Dubbele aflevering is onschadelijk door het event-id ([Idempotent Receiver](https://www.enterpriseintegrationpatterns.com/patterns/messaging/IdempotentReceiver.html)).
+- Registratie van een callback-URL, zoals `POST /abonnementen` bij de koppeling met planning (I8), is voor deze koppeling nog geen eigen interactie in §3; zolang die er niet is, is het afleveradres een inrichtingskeuze tussen OC en SIS, buiten dit document.
+- Mogelijke uitbreidingen (v-next): paginering bij grote structuren.
 
 ## 8. Reviewvragen
 
@@ -184,8 +209,8 @@ Nog niet uitgewerkt. De endpoints volgen zodra de interacties in §3 zijn bevest
 
 ## 9. Open punten
 
-- De resultaatstructuur-payload moet omgebouwd (naar `examenspecificatie`-model, Nederlandse veldnamen) voordat deze koppeling verder uitgewerkt wordt.
 - Stroom 9 (actualiseren resultaatstructuren op basis van keuzes) raakt het SKS; afbakening volgt bij de SKS-koppeling.
+- De resultaatstructuur-payload is alfa en indicatief; de resterende open punten (nominaal versus individueel examenplan, samengaan met het schema van de onderwijsspecificatie-payload) staan in [resultaatstructuur-en-examenplan §4](resultaatstructuur-en-examenplan.md#4-open-punten).
 
 ## 10. Gerelateerde uitwerkingen
 
