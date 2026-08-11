@@ -1,11 +1,12 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://okx.npuls.nl/schema/periode/alfa",
-  "title": "Periode",
+  "$id": "https://okx.npuls.nl/schema/geolocation/alfa",
+  "title": "Geolocation",
+  "DutchName": "Geolocatie",
   "$comment": "Alfa en indicatief. Deze vorm onderbouwt welke velden het koppelvlak nodig heeft en kan wijzigen zolang de payload niet is vastgesteld.",
   "type": "object",
   "properties": {
-    "start": { "type": "string", "format": "date" },
-    "eind": { "type": "string", "format": "date" }
+    "latitude": { "type": "number", "DutchName": "breedtegraad" },
+    "longitude": { "type": "number", "DutchName": "lengtegraad" }
   }
 }

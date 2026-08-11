@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://okx.npuls.nl/schema/location/alfa",
+  "title": "Location",
+  "DutchName": "Locatie",
+  "$comment": "Alfa en indicatief. Deze vorm onderbouwt welke velden het koppelvlak nodig heeft en kan wijzigen zolang de payload niet is vastgesteld.",
+  "type": "object",
+  "required": ["id", "locationType", "name"],
+  "properties": {
+    "id": { "type": "string", "format": "uuid", "DutchName": "id" },
+    "locationType": { "enum": ["campus", "vestiging", "gebouw", "ruimte", "balie", "adres", "geopunt", "virtueel"], "DutchName": "locatieType" },
+    "name": { "type": "string", "DutchName": "naam" },
+    "partOfLocationId": { "type": ["string", "null"], "format": "uuid", "DutchName": "valtBinnenLocatieId" },
+    "address": { "$ref": "./address.json", "DutchName": "adres" },
+    "geolocation": { "$ref": "./geolocation.json", "DutchName": "geolocatie" },
+    "floor": { "type": "string", "DutchName": "verdieping" },
+    "wing": { "type": "string", "DutchName": "vleugel" },
+    "url": { "type": "string", "DutchName": "url" },
+    "codes": {
+      "type": "array",
+      "items": { "$ref": "./code.json" },
+      "DutchName": "codes"
+    }
+  }
+}

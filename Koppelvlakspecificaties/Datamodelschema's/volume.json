@@ -1,12 +1,13 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://okx.npuls.nl/schema/specificatie-referentie/alfa",
-  "title": "Specificatie-referentie",
+  "$id": "https://okx.npuls.nl/schema/volume/alfa",
+  "title": "Volume",
+  "DutchName": "Omvang",
   "$comment": "Alfa en indicatief. Deze vorm onderbouwt welke velden het koppelvlak nodig heeft en kan wijzigen zolang de payload niet is vastgesteld.",
   "type": "object",
-  "required": ["specificatieId", "versie"],
+  "required": ["value", "unit"],
   "properties": {
-    "specificatieId": { "type": "string", "format": "uuid" },
-    "versie": { "type": "string" }
+    "value": { "type": "number", "DutchName": "waarde" },
+    "unit": { "enum": ["SBU", "EC"], "DutchName": "eenheid" }
   }
 }

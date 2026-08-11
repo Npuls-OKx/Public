@@ -1,12 +1,13 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://okx.npuls.nl/schema/leeruitkomst-aanduiding/alfa",
-  "title": "Leeruitkomst-aanduiding",
+  "$id": "https://okx.npuls.nl/schema/learning-outcome-designation/alfa",
+  "title": "Learning outcome designation",
+  "DutchName": "Leeruitkomst-aanduiding",
   "$comment": "Alfa en indicatief. Leesbare aanduiding naast de sleutel (leeruitkomstId); type en code komen uit het kwalificatiekader. Deze vorm onderbouwt welke velden het koppelvlak nodig heeft en kan wijzigen zolang de payload niet is vastgesteld.",
   "type": "object",
   "required": ["type", "code"],
   "properties": {
-    "type": { "type": "string" },
-    "code": { "type": "string" }
+    "type": { "type": "string", "DutchName": "type" },
+    "code": { "type": "string", "DutchName": "code" }
   }
 }
