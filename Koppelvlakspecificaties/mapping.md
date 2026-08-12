@@ -178,27 +178,6 @@ Velden per item in `offeringInstances`:
 | from | from |
 | value | value |
 
-## Onderwijsspecificatie-manifest — Education specification manifest (voorbeeldbestand)
-
-[`education-specification-manifest.json`](Datamodelschema's/education-specification-manifest.json)
-
-Voorbeeldpayload, geen JSON Schema; de velden zijn een subset van Onderwijsspecificatie, Omvang en Manifest-item hierboven.
-
-| English (UK) | Nederlands |
-|---|---|
-| educationSpecifications | onderwijsspecificaties |
-| id | id |
-| specificationType | specificatieType |
-| version | versie |
-| parentSpecificationId | bovenliggendSpecificatieId |
-| name | naam |
-| studyLoad | studielast |
-| value | waarde |
-| unit | eenheid |
-| manifest | manifest |
-| specificationId | specificatieId |
-| relation | relatie |
-
 ## Onderwijsspecificatie — Education specification
 
 [`education-specification.json`](Datamodelschema's/education-specification.json)
