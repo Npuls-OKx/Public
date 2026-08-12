@@ -2,7 +2,7 @@
 
 Het releasepakket **koppelvlakspecificatie**: de specificaties waarmee een partij een koppelvlak kan bouwen op de standaarden die OKx uitbrengt.
 
-Het pakket is opgebouwd uit **koppelingspecificaties**. Per **koppeling** (gestandaardiseerde informatiestroom tussen twee referentiecomponenten) staat in [`Koppelingspecificaties/`](Koppelingspecificaties/) een eigen map met de koppelingspecificatie en de payload-specificaties voor de data binnen het afgekaderde informatiemodel van die koppeling. Het **koppelvlak** van een component is de verzameling van alle koppelingspecificaties die dat component raken; de koppelvlakspecificatie per component is dus de optelsom van de koppelingen hieronder. Die optelsom staat, per referentiecomponent, in [`Referentiecomponenten/`](Referentiecomponenten/). Terminologie: [ADR 0021](../Referentiemateriaal/adr/0021-koppeling-versus-koppelvlak-terminologie.md).
+Het pakket is opgebouwd uit **koppelingspecificaties**. Per **koppeling** (gestandaardiseerde informatiestroom tussen twee referentiecomponenten) staat in [`Koppelingspecificaties/`](Koppelingspecificaties/) een eigen map met de koppelingspecificatie en de payload-specificaties voor de data binnen het afgekaderde informatiemodel van die koppeling. Het **koppelvlak** van een component is de verzameling van alle koppelingspecificaties die dat component raken; de koppelvlakspecificatie per component is dus de optelsom van de koppelingen hieronder. Die optelsom staat, per referentiesysteem, in [`Referentiesystemen/`](Referentiesystemen/). Terminologie: [ADR 0021](../Referentiemateriaal/adr/0021-koppeling-versus-koppelvlak-terminologie.md).
 
 ## Context
 

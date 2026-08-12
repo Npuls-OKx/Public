@@ -24,7 +24,7 @@ Koppelvlakspecificaties/
 ├── Koppelingspecificaties/
 │   ├── gedeeld/                 payloads die meerdere koppelingen delen
 │   └── <koppeling>/             per informatiestroom een eigen map
-└── Referentiecomponenten/       per systeem de optelsom van zijn koppelingen (het koppelvlak)
+└── Referentiesystemen/         per systeem de optelsom van zijn koppelingen (het koppelvlak)
 ```
 
 Een **koppeling** is de gestandaardiseerde informatiestroom tussen twee referentiecomponenten. Een **koppelvlak** is de verzameling koppelingen die één component raken. De koppelvlakspecificatie is dus de optelsom van de koppelingen, en daarom zitten de koppelingspecificaties ín het koppelvlakspecificatie-pakket.

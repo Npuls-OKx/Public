@@ -1,4 +1,4 @@
-# Referentiecomponenten
+# Referentiesystemen
 
 Het koppelvlak van een component is de optelsom van alle koppelingen die het raken ([instap-README](../README.md), [ADR 0021](../../Referentiemateriaal/adr/0021-koppeling-versus-koppelvlak-terminologie.md)). Deze map maakt die optelsom concreet: één document per systeem, met de endpoints en events die het raken, elk met een verwijzing naar de bron-interactie en de datamodellen die erbij horen. Het is een index, geen eigen bron — bij twijfel is de koppelingspecificatie leidend, en een koppeling zonder uitgewerkt §7 levert hier nog geen rijen op.
 
