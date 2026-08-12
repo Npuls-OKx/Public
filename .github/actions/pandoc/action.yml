@@ -1,0 +1,25 @@
+name: Pandoc installeren
+description: >
+  Installeert een vastgezette pandoc-versie. Vastgezet omdat een releaseartefact
+  reproduceerbaar moet zijn: dezelfde bron met dezelfde versie levert hetzelfde
+  document. De pandoc uit apt verschilt per runner-image en schuift mee.
+
+inputs:
+  versie:
+    description: Pandoc-versie
+    required: false
+    default: '3.1.11'
+
+runs:
+  using: composite
+  steps:
+    - name: Pandoc downloaden en installeren
+      shell: bash
+      run: |
+        set -euo pipefail
+        versie="${{ inputs.versie }}"
+        deb="pandoc-${versie}-1-amd64.deb"
+        curl -fsSL -o "/tmp/${deb}" \
+          "https://github.com/jgm/pandoc/releases/download/${versie}/${deb}"
+        sudo dpkg -i "/tmp/${deb}"
+        pandoc --version | head -1

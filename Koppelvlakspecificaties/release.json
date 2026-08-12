@@ -1,0 +1,31 @@
+{
+  "$comment": "Manifest van het releasepakket koppelvlakspecificatie. De workflow release.yml leest dit bestand: versie bepaalt het label van de release, documenten bepaalt de volgorde in het gebundelde document. Zie Algemeen/release-management/Release-management-algemeen.md.",
+  "naam": "Koppelvlakspecificatie",
+  "bestandsnaam": "koppelvlakspecificatie",
+  "versie": "0.1.0",
+  "omschrijving": "De specificaties waarmee een partij een koppelvlak kan bouwen op de standaarden die OKx uitbrengt.",
+  "documenten": [
+    "README.md",
+    "uitgangspunten.md",
+    "auth-standaard.md",
+    "Koppelingspecificaties/gedeeld/payload-onderwijsspecificatie.md",
+    "Koppelingspecificaties/gedeeld/lifecycle-en-versionering.md",
+    "Koppelingspecificaties/onderwijscatalogus-planning-en-roostering/onderwijscatalogus-planning-en-roostering.md",
+    "Koppelingspecificaties/onderwijscatalogus-planning-en-roostering/payload-onderwijsaanbod.md",
+    "Koppelingspecificaties/onderwijscatalogus-studentinformatiesysteem/onderwijscatalogus-studentinformatiesysteem.md",
+    "Koppelingspecificaties/onderwijscatalogus-studentinformatiesysteem/resultaatstructuur-en-examenplan.md",
+    "Koppelingspecificaties/onderwijscatalogus-leermanagementsysteem/onderwijscatalogus-leermanagementsysteem.md",
+    "Interactiepatronen/onderwijscatalogus-planning-en-roostering.md",
+    "Interactiepatronen/onderwijscatalogus-studentinformatiesysteem.md",
+    "Interactiepatronen/onderwijscatalogus-leermanagementsysteem.md",
+    "Referentiesystemen/README.md",
+    "Referentiesystemen/onderwijscatalogus.md",
+    "Referentiesystemen/planningssysteem.md",
+    "mapping.md",
+    "templates/template-koppelingspecificatie.md",
+    "templates/template-payload-specificatie.md"
+  ],
+  "meeleveren": [
+    "Datamodelschema's"
+  ]
+}

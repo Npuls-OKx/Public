@@ -1,0 +1,334 @@
+#!/usr/bin/env python3
+"""Bouwt het releasepakket van een specificatiepakket: docx uit de markdown-bronnen.
+
+Een pakket is een map met een release.json (het manifest). Dat manifest bepaalt de
+versie, de leesvolgorde van de documenten en wat er verder meegeleverd wordt.
+
+Wat dit script oplost dat pandoc alleen niet doet:
+
+- **Mermaid.** De specificaties dragen tientallen mermaid-diagrammen. Pandoc kent
+  mermaid niet en zou de codeblokken als letterlijke tekst afdrukken. Elk blok wordt
+  daarom vooraf met mermaid-cli naar een PNG gerenderd en vervangen door een
+  afbeeldingsverwijzing.
+- **Verwijzingen.** De documenten verwijzen naar elkaar met relatieve paden
+  (`../Koppelingspecificaties/...md#anchor`). In een docx bestaat dat pad niet. Voor
+  het gebundelde document worden die verwijzingen interne verwijzingen; voor de losse
+  documenten en voor alles buiten het pakket (Referentiemateriaal) worden het
+  GitHub-URL's, want die blijven altijd werken.
+- **Botsende anchors.** Meerdere documenten dragen een kop "3. Interactieoverzicht".
+  In een gebundeld document levert dat dubbele id's op en landt een verwijzing in het
+  verkeerde hoofdstuk. Elke kop krijgt daarom een id met het document als voorvoegsel.
+
+Uitvoer in de doelmap:
+
+    <bestandsnaam>-v<versie>.docx           het gebundelde document
+    <bestandsnaam>-v<versie>-documenten.zip de losse documenten, mapstructuur behouden
+
+Exitcodes: 0 gebouwd, 1 bouwfout, 2 pakket of manifest niet gevonden.
+"""
+
+import argparse
+import json
+import os
+import pathlib
+import re
+import shutil
+import subprocess
+import sys
+import tempfile
+import zipfile
+
+MERMAID = re.compile(r"^([ \t]*)```mermaid[ \t]*\n(.*?)^[ \t]*```[ \t]*$", re.DOTALL | re.MULTILINE)
+KOP = re.compile(r"^(#{1,6})[ \t]+(.+?)[ \t]*$", re.MULTILINE)
+LINK = re.compile(r"\[([^\]]*)\]\(([^)\s]+?)(?:\s+\"[^\"]*\")?\)")
+FENCE = re.compile(r"^```.*?^```", re.DOTALL | re.MULTILINE)
+
+STANDAARD_REPO_URL = "https://github.com/Npuls-OKx/Public"
+
+
+def slug(tekst: str) -> str:
+    """Zet een koptekst om in een anchor, zoals GitHub dat doet.
+
+    GitHub vervangt elke spatie afzonderlijk door een koppelstreep. Een em-streep
+    tussen spaties levert daardoor een dubbele koppelstreep op; dat gedrag wordt hier
+    nagebootst zodat de anchors overeenkomen met wat in de bron staat.
+    """
+    tekst = re.sub(r"<[^>]+>", "", tekst)
+    tekst = re.sub(r"[`*_]", "", tekst)
+    tekst = tekst.strip().lower()
+    tekst = re.sub(r"[^\w\s-]", "", tekst, flags=re.UNICODE)
+    return tekst.replace(" ", "-")
+
+
+def doc_slug(relatief_pad: str) -> str:
+    """Uniek voorvoegsel per document, afgeleid van het pad binnen het pakket."""
+    return re.sub(r"[^\w]+", "-", relatief_pad[:-3] if relatief_pad.endswith(".md") else relatief_pad).strip("-").lower()
+
+
+def maskeer_codeblokken(inhoud: str):
+    """Haalt fenced code blocks weg zodat regexen niet in code gaan zoeken."""
+    blokken = []
+
+    def vervang(m):
+        blokken.append(m.group(0))
+        return f"\x00CODE{len(blokken) - 1}\x00"
+
+    return FENCE.sub(vervang, inhoud), blokken
+
+
+def herstel_codeblokken(inhoud: str, blokken: list) -> str:
+    for i, blok in enumerate(blokken):
+        inhoud = inhoud.replace(f"\x00CODE{i}\x00", blok)
+    return inhoud
+
+
+def render_mermaid(inhoud: str, doc: str, beeldmap: pathlib.Path, teller: list) -> str:
+    """Vervangt elk mermaid-blok door een verwijzing naar een gerenderde PNG."""
+    beeldmap.mkdir(parents=True, exist_ok=True)
+    puppeteer = beeldmap / "puppeteer.json"
+    if not puppeteer.exists():
+        # Chrome draait in CI als root en zonder sandbox; zonder deze vlaggen start hij niet.
+        puppeteer.write_text(json.dumps({"args": ["--no-sandbox", "--disable-setuid-sandbox"]}))
+
+    def vervang(m):
+        inspringing, diagram = m.group(1), m.group(2)
+        teller[0] += 1
+        naam = f"{doc_slug(doc)}-{teller[0]:02d}"
+        bron = beeldmap / f"{naam}.mmd"
+        doel = beeldmap / f"{naam}.png"
+        bron.write_text(diagram, encoding="utf-8")
+        resultaat = subprocess.run(
+            ["npx", "--yes", "@mermaid-js/mermaid-cli",
+             "-i", str(bron), "-o", str(doel),
+             "-b", "white", "-s", "3", "-p", str(puppeteer)],
+            capture_output=True, text=True,
+        )
+        if resultaat.returncode != 0 or not doel.exists():
+            print(f"  mermaid faalde in {doc} (diagram {teller[0]}):", file=sys.stderr)
+            print("   ", (resultaat.stderr or resultaat.stdout).strip()[:400], file=sys.stderr)
+            raise SystemExit(1)
+        return f"{inspringing}![]({doel.as_posix()})"
+
+    return MERMAID.sub(vervang, inhoud)
+
+
+def bouw_anchorkaart(pakket: pathlib.Path, documenten: list) -> dict:
+    """Per document: van oorspronkelijk anchor naar uniek anchor in het gebundelde document."""
+    kaart = {}
+    for doc in documenten:
+        inhoud = (pakket / doc).read_text(encoding="utf-8")
+        zonder_code, _ = maskeer_codeblokken(inhoud)
+        gezien = {}
+        per_doc = {}
+        for m in KOP.finditer(zonder_code):
+            basis = slug(m.group(2))
+            n = gezien.get(basis, 0)
+            gezien[basis] = n + 1
+            origineel = basis if n == 0 else f"{basis}-{n}"
+            per_doc[origineel] = f"{doc_slug(doc)}--{origineel}"
+        kaart[doc] = per_doc
+    return kaart
+
+
+def eerste_kop_anchor(doc: str, kaart: dict) -> str:
+    """Het anchor van de H1 van een document, als landingspunt voor een verwijzing."""
+    per_doc = kaart.get(doc) or {}
+    return next(iter(per_doc.values()), doc_slug(doc))
+
+
+def herschrijf_links(inhoud: str, doc: str, pakket: pathlib.Path, documenten: list,
+                     kaart: dict, gebundeld: bool, repo_url: str, ref: str) -> str:
+    """Herschrijft relatieve verwijzingen zodat ze in een docx werken."""
+    hier = (pakket / doc).parent
+
+    def vervang(m):
+        tekst, doel = m.group(1), m.group(2)
+        if doel.startswith(("http://", "https://", "mailto:")):
+            return m.group(0)
+
+        pad, _, anchor = doel.partition("#")
+
+        # Verwijzing binnen hetzelfde document.
+        if not pad:
+            if gebundeld:
+                nieuw = (kaart.get(doc) or {}).get(anchor, f"{doc_slug(doc)}--{anchor}")
+                return f"[{tekst}](#{nieuw})"
+            return m.group(0)
+
+        doelpad = (hier / pad).resolve()
+        try:
+            binnen_pakket = doelpad.relative_to(pakket.resolve()).as_posix()
+        except ValueError:
+            binnen_pakket = None
+
+        # Document dat meegaat in het pakket.
+        if binnen_pakket in documenten:
+            if gebundeld:
+                if anchor:
+                    nieuw = (kaart.get(binnen_pakket) or {}).get(anchor, f"{doc_slug(binnen_pakket)}--{anchor}")
+                else:
+                    nieuw = eerste_kop_anchor(binnen_pakket, kaart)
+                return f"[{tekst}](#{nieuw})"
+            url = f"{repo_url}/blob/{ref}/{pakket.name}/{binnen_pakket}"
+            return f"[{tekst}]({url}#{anchor})" if anchor else f"[{tekst}]({url})"
+
+        # Alles daarbuiten (Referentiemateriaal, scripts, schema's): naar GitHub.
+        try:
+            vanaf_root = doelpad.relative_to(pakket.resolve().parent).as_posix()
+        except ValueError:
+            return m.group(0)
+        url = f"{repo_url}/blob/{ref}/{vanaf_root}"
+        return f"[{tekst}]({url}#{anchor})" if anchor else f"[{tekst}]({url})"
+
+    zonder_code, blokken = maskeer_codeblokken(inhoud)
+    zonder_code = LINK.sub(vervang, zonder_code)
+    return herstel_codeblokken(zonder_code, blokken)
+
+
+def geef_koppen_ids(inhoud: str, doc: str, kaart: dict) -> str:
+    """Zet een uniek id op elke kop, zodat anchors tussen documenten niet botsen."""
+    gezien = {}
+
+    def vervang(m):
+        hekjes, tekst = m.group(1), m.group(2)
+        basis = slug(tekst)
+        n = gezien.get(basis, 0)
+        gezien[basis] = n + 1
+        origineel = basis if n == 0 else f"{basis}-{n}"
+        nieuw = (kaart.get(doc) or {}).get(origineel, f"{doc_slug(doc)}--{origineel}")
+        return f"{hekjes} {tekst} {{#{nieuw}}}"
+
+    zonder_code, blokken = maskeer_codeblokken(inhoud)
+    zonder_code = KOP.sub(vervang, zonder_code)
+    return herstel_codeblokken(zonder_code, blokken)
+
+
+def verlaag_koppen(inhoud: str) -> str:
+    """Schuift alle koppen een niveau op, zodat de documenttitel een hoofdstuk wordt."""
+    zonder_code, blokken = maskeer_codeblokken(inhoud)
+    zonder_code = KOP.sub(lambda m: f"#{m.group(1)} {m.group(2)}", zonder_code)
+    return herstel_codeblokken(zonder_code, blokken)
+
+
+def pandoc(argumenten: list) -> None:
+    resultaat = subprocess.run(["pandoc", *argumenten], capture_output=True, text=True)
+    if resultaat.returncode != 0:
+        print("pandoc faalde:", file=sys.stderr)
+        print((resultaat.stderr or resultaat.stdout).strip()[:2000], file=sys.stderr)
+        raise SystemExit(1)
+
+
+def main(argv: list) -> int:
+    ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
+    ap.add_argument("pakket", type=pathlib.Path, help="map met release.json")
+    ap.add_argument("--uit", type=pathlib.Path, default=pathlib.Path("dist"), help="doelmap")
+    ap.add_argument("--versie", help="overschrijft de versie uit het manifest")
+    ap.add_argument("--ref", default=os.environ.get("GITHUB_REF_NAME", "dev"),
+                    help="git-ref waarnaar verwijzingen buiten het pakket wijzen")
+    ap.add_argument("--repo-url", default=os.environ.get("OKX_REPO_URL", STANDAARD_REPO_URL))
+    ap.add_argument("--alleen-controle", action="store_true",
+                    help="bouw naar een tijdelijke map; controleert de toolchain zonder artefacten achter te laten")
+    args = ap.parse_args(argv)
+
+    pakket = args.pakket
+    manifest_pad = pakket / "release.json"
+    if not manifest_pad.exists():
+        print(f"geen release.json in {pakket}", file=sys.stderr)
+        return 2
+
+    manifest = json.loads(manifest_pad.read_text(encoding="utf-8"))
+    versie = args.versie or manifest["versie"]
+    documenten = manifest["documenten"]
+    basisnaam = f"{manifest['bestandsnaam']}-v{versie}"
+
+    ontbreekt = [d for d in documenten if not (pakket / d).exists()]
+    if ontbreekt:
+        print("manifest noemt documenten die niet bestaan:", file=sys.stderr)
+        for d in ontbreekt:
+            print(f"  {d}", file=sys.stderr)
+        return 1
+
+    op_schijf = {p.relative_to(pakket).as_posix() for p in pakket.rglob("*.md")}
+    vergeten = sorted(op_schijf - set(documenten))
+    if vergeten:
+        print("let op: deze markdown-bestanden staan niet in het manifest en gaan niet mee:")
+        for d in vergeten:
+            print(f"  {d}")
+
+    uit = pathlib.Path(tempfile.mkdtemp(prefix="okx-release-")) if args.alleen_controle else args.uit
+    uit.mkdir(parents=True, exist_ok=True)
+
+    with tempfile.TemporaryDirectory(prefix="okx-bouw-") as tmp:
+        werk = pathlib.Path(tmp)
+        beelden = werk / "diagrammen"
+        kaart = bouw_anchorkaart(pakket, documenten)
+        teller = [0]
+
+        print(f"{manifest['naam']} v{versie}: {len(documenten)} documenten")
+
+        losse, gebundelde_delen = [], []
+        for doc in documenten:
+            ruw = (pakket / doc).read_text(encoding="utf-8")
+            met_beelden = render_mermaid(ruw, doc, beelden, teller)
+
+            # Losse variant: verwijzingen naar GitHub, eigen anchors blijven.
+            los = herschrijf_links(met_beelden, doc, pakket, documenten, kaart,
+                                   False, args.repo_url, args.ref)
+            los_pad = werk / "los" / doc
+            los_pad.parent.mkdir(parents=True, exist_ok=True)
+            los_pad.write_text(los, encoding="utf-8")
+            losse.append((doc, los_pad))
+
+            # Gebundelde variant: unieke kop-id's, interne verwijzingen, een niveau dieper.
+            deel = herschrijf_links(met_beelden, doc, pakket, documenten, kaart,
+                                    True, args.repo_url, args.ref)
+            deel = geef_koppen_ids(deel, doc, kaart)
+            deel = verlaag_koppen(deel)
+            gebundelde_delen.append(deel)
+
+        print(f"  {teller[0]} mermaid-diagrammen gerenderd")
+
+        # Gebundeld document.
+        titel = f"# {manifest['naam']}\n\n{manifest.get('omschrijving', '')}\n\nVersie {versie}\n\n"
+        gebundeld_md = werk / "gebundeld.md"
+        gebundeld_md.write_text(titel + "\n\n\\newpage\n\n".join(gebundelde_delen), encoding="utf-8")
+        gebundeld_docx = uit / f"{basisnaam}.docx"
+        pandoc([
+            "-f", "gfm+header_attributes+tex_math_dollars",
+            "-t", "docx", "--toc", "--toc-depth=3",
+            "--metadata", f"title={manifest['naam']} v{versie}",
+            "--resource-path", str(werk),
+            "-o", str(gebundeld_docx), str(gebundeld_md),
+        ])
+        print(f"  {gebundeld_docx.name}")
+
+        # Losse documenten in een zip, mapstructuur behouden.
+        zip_pad = uit / f"{basisnaam}-documenten.zip"
+        with zipfile.ZipFile(zip_pad, "w", zipfile.ZIP_DEFLATED) as z:
+            for doc, pad in losse:
+                docx = werk / "docx" / (doc[:-3] + ".docx")
+                docx.parent.mkdir(parents=True, exist_ok=True)
+                pandoc([
+                    "-f", "gfm+tex_math_dollars", "-t", "docx", "--toc", "--toc-depth=3",
+                    "--resource-path", str(werk),
+                    "-o", str(docx), str(pad),
+                ])
+                z.write(docx, doc[:-3] + ".docx")
+            for extra in manifest.get("meeleveren", []):
+                bron = pakket / extra
+                if bron.is_dir():
+                    for bestand in sorted(bron.rglob("*")):
+                        if bestand.is_file():
+                            z.write(bestand, bestand.relative_to(pakket).as_posix())
+                elif bron.is_file():
+                    z.write(bron, extra)
+        print(f"  {zip_pad.name}")
+
+    if args.alleen_controle:
+        shutil.rmtree(uit, ignore_errors=True)
+        print("controle geslaagd, artefacten verwijderd")
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main(sys.argv[1:]))

@@ -1,0 +1,122 @@
+name: Releasepakket
+
+# Bouwt het releasepakket bij elke push naar een release branch en zet het klaar als
+# concept-release. Het proces staat in Algemeen/release-management/Release-management-algemeen.md:
+# dev merget naar release branch N, de Tester toetst de baseline, en pas daarna landt
+# het pakket in de release store. Deze workflow automatiseert het bouwen en klaarzetten;
+# het publiceren blijft een handeling van een mens, zodat de QA-stap niet wordt overgeslagen.
+#
+# De versie komt uit release.json in de pakketmap, niet uit de tag. Zo bepaalt de bron
+# welke versie hij draagt en is de tag het gevolg, niet de invoer.
+
+on:
+  push:
+    branches:
+      - 'release-*'
+  workflow_dispatch:
+    inputs:
+      pakket:
+        description: Pakketmap (map met release.json)
+        required: false
+        default: Koppelvlakspecificaties
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  bouwen:
+    name: Bouwen en klaarzetten
+    runs-on: ubuntu-latest
+    env:
+      PAKKET: ${{ github.event.inputs.pakket || 'Koppelvlakspecificaties' }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Pandoc installeren
+        uses: ./.github/actions/pandoc
+
+      - name: Versie uit het manifest lezen
+        id: manifest
+        run: |
+          set -euo pipefail
+          manifest="${PAKKET}/release.json"
+          if [ ! -f "$manifest" ]; then
+            echo "::error::geen release.json in ${PAKKET}"
+            exit 1
+          fi
+          versie=$(jq -r '.versie' "$manifest")
+          naam=$(jq -r '.naam' "$manifest")
+          bestandsnaam=$(jq -r '.bestandsnaam' "$manifest")
+          if ! printf '%s' "$versie" | grep -Eq '^[0-9]+\.[0-9]+\.[0-9]+$'; then
+            echo "::error::versie '${versie}' volgt geen SemVer (MAJOR.MINOR.PATCH)"
+            exit 1
+          fi
+          {
+            echo "versie=${versie}"
+            echo "naam=${naam}"
+            echo "tag=${bestandsnaam}-v${versie}"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Controleren dat de versie nog niet gepubliceerd is
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ steps.manifest.outputs.tag }}
+        run: |
+          set -euo pipefail
+          if gh release view "$TAG" --json isDraft --jq .isDraft 2>/dev/null | grep -qx false; then
+            echo "::error::${TAG} is al gepubliceerd. Verhoog de versie in ${PAKKET}/release.json"
+            echo "::error::(zwaarste wijziging bepaalt de bump, zie Release-management-algemeen.md §3)"
+            exit 1
+          fi
+
+      - name: Pakket bouwen
+        run: python3 scripts/build-release.py "$PAKKET" --uit dist
+
+      - name: Concept-release bijwerken
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ steps.manifest.outputs.tag }}
+          NAAM: ${{ steps.manifest.outputs.naam }}
+          VERSIE: ${{ steps.manifest.outputs.versie }}
+        run: |
+          set -euo pipefail
+          titel="${NAAM} v${VERSIE}"
+          tekst=$(cat <<TEKST
+          Gebouwd uit \`${GITHUB_REF_NAME}\` (commit \`${GITHUB_SHA:0:7}\`).
+
+          | Artefact | Inhoud |
+          |---|---|
+          | \`${TAG}.docx\` | Alle documenten als één document, met inhoudsopgave |
+          | \`${TAG}-documenten.zip\` | De documenten los, mapstructuur behouden, plus de datamodelschema's |
+
+          Deze release staat als **concept**. Publiceren gebeurt met de hand, na de
+          kwaliteitstoets uit het releaseproces.
+
+          Release notes nog aan te vullen.
+          TEKST
+          )
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            gh release edit "$TAG" --title "$titel" --notes "$tekst" --target "$GITHUB_SHA"
+          else
+            gh release create "$TAG" --draft --title "$titel" --notes "$tekst" --target "$GITHUB_SHA"
+          fi
+          gh release upload "$TAG" dist/* --clobber
+
+      - name: Artefacten ook aan de run hangen
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ steps.manifest.outputs.tag }}
+          path: dist/
+          if-no-files-found: error

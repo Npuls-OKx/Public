@@ -1,0 +1,11 @@
+# Autosave-artefacten van draw.io, naast het echte bestand.
+.$*.drawio
+.$*.drawio.bkp
+*.drawio.dtmp
+
+# Python
+__pycache__/
+*.pyc
+
+# Bouwuitvoer van scripts/build-release.py
+dist/
