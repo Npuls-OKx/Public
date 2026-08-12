@@ -82,8 +82,15 @@ def herstel_codeblokken(inhoud: str, blokken: list) -> str:
     return inhoud
 
 
-def render_mermaid(inhoud: str, doc: str, beeldmap: pathlib.Path, teller: list) -> str:
-    """Vervangt elk mermaid-blok door een verwijzing naar een gerenderde PNG."""
+def render_mermaid(inhoud: str, doc: str, beeldmap: pathlib.Path, teller: list,
+                   mislukt: list, streng: bool) -> str:
+    """Vervangt elk mermaid-blok door een verwijzing naar een gerenderde PNG.
+
+    Een diagram dat niet rendert blijft als codeblok staan. Dat is geen noodgreep maar
+    het gewenste gedrag voor de templates: die dragen een skelet met invulplekken
+    (`\\<type\\>`) dat per definitie geen geldige mermaid is, en dan is de broncode
+    precies wat een schrijver wil zien. Met --streng faalt de bouw er alsnog op.
+    """
     beeldmap.mkdir(parents=True, exist_ok=True)
     puppeteer = beeldmap / "puppeteer.json"
     if not puppeteer.exists():
@@ -104,9 +111,13 @@ def render_mermaid(inhoud: str, doc: str, beeldmap: pathlib.Path, teller: list) 
             capture_output=True, text=True,
         )
         if resultaat.returncode != 0 or not doel.exists():
-            print(f"  mermaid faalde in {doc} (diagram {teller[0]}):", file=sys.stderr)
-            print("   ", (resultaat.stderr or resultaat.stdout).strip()[:400], file=sys.stderr)
-            raise SystemExit(1)
+            reden = (resultaat.stderr or resultaat.stdout).strip().splitlines()
+            mislukt.append((doc, teller[0], reden[0] if reden else "onbekende fout"))
+            if streng:
+                print(f"  mermaid faalde in {doc} (diagram {teller[0]}):", file=sys.stderr)
+                print("   ", "\n    ".join(reden[:6]), file=sys.stderr)
+                raise SystemExit(1)
+            return m.group(0)  # laat het codeblok staan
         return f"{inspringing}![]({doel.as_posix()})"
 
     return MERMAID.sub(vervang, inhoud)
@@ -226,6 +237,8 @@ def main(argv: list) -> int:
     ap.add_argument("--ref", default=os.environ.get("GITHUB_REF_NAME", "dev"),
                     help="git-ref waarnaar verwijzingen buiten het pakket wijzen")
     ap.add_argument("--repo-url", default=os.environ.get("OKX_REPO_URL", STANDAARD_REPO_URL))
+    ap.add_argument("--streng", action="store_true",
+                    help="faal ook op een mermaid-diagram dat niet rendert")
     ap.add_argument("--alleen-controle", action="store_true",
                     help="bouw naar een tijdelijke map; controleert de toolchain zonder artefacten achter te laten")
     args = ap.parse_args(argv)
@@ -262,14 +275,14 @@ def main(argv: list) -> int:
         werk = pathlib.Path(tmp)
         beelden = werk / "diagrammen"
         kaart = bouw_anchorkaart(pakket, documenten)
-        teller = [0]
+        teller, mislukt = [0], []
 
         print(f"{manifest['naam']} v{versie}: {len(documenten)} documenten")
 
         losse, gebundelde_delen = [], []
         for doc in documenten:
             ruw = (pakket / doc).read_text(encoding="utf-8")
-            met_beelden = render_mermaid(ruw, doc, beelden, teller)
+            met_beelden = render_mermaid(ruw, doc, beelden, teller, mislukt, args.streng)
 
             # Losse variant: verwijzingen naar GitHub, eigen anchors blijven.
             los = herschrijf_links(met_beelden, doc, pakket, documenten, kaart,
@@ -286,7 +299,9 @@ def main(argv: list) -> int:
             deel = verlaag_koppen(deel)
             gebundelde_delen.append(deel)
 
-        print(f"  {teller[0]} mermaid-diagrammen gerenderd")
+        print(f"  {teller[0] - len(mislukt)} van {teller[0]} mermaid-diagrammen gerenderd")
+        for doc, n, reden in mislukt:
+            print(f"    blijft codeblok: {doc} (diagram {n}) - {reden}")
 
         # Gebundeld document.
         titel = f"# {manifest['naam']}\n\n{manifest.get('omschrijving', '')}\n\nVersie {versie}\n\n"
@@ -294,7 +309,9 @@ def main(argv: list) -> int:
         gebundeld_md.write_text(titel + "\n\n\\newpage\n\n".join(gebundelde_delen), encoding="utf-8")
         gebundeld_docx = uit / f"{basisnaam}.docx"
         pandoc([
-            "-f", "gfm+header_attributes+tex_math_dollars",
+            # gfm+attributes, niet gfm+header_attributes: die laatste bestaat niet voor
+            # gfm en laat pandoc afbreken. Zie --list-extensions=gfm.
+            "-f", "gfm+attributes",
             "-t", "docx", "--toc", "--toc-depth=3",
             "--metadata", f"title={manifest['naam']} v{versie}",
             "--resource-path", str(werk),
@@ -309,7 +326,7 @@ def main(argv: list) -> int:
                 docx = werk / "docx" / (doc[:-3] + ".docx")
                 docx.parent.mkdir(parents=True, exist_ok=True)
                 pandoc([
-                    "-f", "gfm+tex_math_dollars", "-t", "docx", "--toc", "--toc-depth=3",
+                    "-f", "gfm", "-t", "docx", "--toc", "--toc-depth=3",
                     "--resource-path", str(werk),
                     "-o", str(docx), str(pad),
                 ])
