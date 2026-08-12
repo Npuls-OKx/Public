@@ -141,7 +141,54 @@ sequenceDiagram
 
 <!-- Minimaal één faalpad. Wat gebeurt er als het misgaat, en wie doet dan wat? -->
 
+## 6. Payload-specificaties (verwijzing) en gebruiksprofiel
 
+<!-- Herhaal de datamodellen niet: verwijs naar de centrale payload-specificatie en leg
+     hier alleen het gebruiksprofiel vast, dus welk deel van die payload deze koppeling
+     gebruikt. Dat is per koppeling verschillend en juist dat verschil hoort hier. -->
+
+| Onderdeel | Gebruik in \<naam koppeling\> |
+|---|---|
+| `\<onderdeel\>` | \<volledig, deels met welke velden, of niet meegeleverd met de reden\> |
+
+- \<verwijzing naar de payload-specificatie(s) waarop dit profiel steunt\>
+
+## 7. Endpointbeschrijvingen (REST)
+
+<!-- Opstap naar de interfacespecificatie, de zesde AMIGO-stap. Paden en parameters zijn
+     indicatief zolang er geen OpenAPI-beschrijving is; zeg dat er ook bij.
+     Events als webhook uitwerken is een voorbeeld van een kanaal, geen voorschrift:
+     een bus of broker mag het vervangen zolang die dezelfde eigenschappen levert (§3). -->
+
+Endpoints die **\<component A\>** serveert:
+
+| Endpoint | Methode | Operatie | Parameters | Response | Statuscodes |
+|---|---|---|---|---|---|
+| `/\<resource\>/{id}` | GET | \<interactie\>: \<wat het oplevert\> | \<parameter (verplicht of optioneel)\> | \<payload\> | 200, 400, 404 |
+
+Event-aflevering, in webhook-vorm:
+
+| Event | Interactie | Richting | Payload |
+|---|---|---|---|
+| `\<event-naam\>` | \<X1\> | \<A naar B\> | \<inhoud van het bericht\> |
+
+Gedrag:
+
+- \<idempotentie, retry, foutafhandeling, en wat een herhaalde aanroep doet\>
+
+## 8. Reviewvragen
+
+<!-- Waarop wil je dat stakeholders reageren? Stel de vragen zo dat het antwoord het
+     document verandert; een vraag die alleen met ja te beantwoorden is levert niets op. -->
+
+1. \<vraag\>
+
+## 9. Open punten
+
+<!-- Wat bewust is uitgesteld, en wat nog niet klopt. Een leeg hoofdstuk is verdacht:
+     het betekent meestal dat de scope niet scherp is afgebakend. -->
+
+- \<open punt, met wat er nodig is om het te sluiten\>
 
 ## 10. Gerelateerde uitwerkingen
 
