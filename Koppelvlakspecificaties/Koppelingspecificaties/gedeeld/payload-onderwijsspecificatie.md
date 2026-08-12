@@ -1,6 +1,6 @@
 # Onderwijsspecificatie als JSON-payload
 
-> **Centrale specificatie.** Dit document is de ene bron voor de onderwijsspecificatie-payload. Welke objecten en velden een koppeling gebruikt staat in het **gebruiksprofiel** van de betreffende koppelingspecificatie (OC-P&R, OC-SIS, OC-LMS). Leeruitkomst-inhoudsvelden zijn optioneel en profiel-afhankelijk; binnen OC-P&R zijn leeruitkomst-ids opaque sleutels ([ADR 0023](../../../Referentiemateriaal/adr/0023-leeruitkomsten-als-opaque-sleutels-in-koppeling-oc-p-en-r.md)).
+> **Centrale specificatie.** Dit document is de ene bron voor de onderwijsspecificatie-payload. Welke objecten en velden een koppeling gebruikt staat in het **gebruiksprofiel** van de betreffende koppelingspecificatie (OC-P&R, OC-SIS, OC-LMS). Leeruitkomst-inhoudsvelden zijn optioneel en profiel-afhankelijk; binnen OC-P&R zijn leeruitkomst-ids verbindende sleutels zonder meegeleverde inhoud ([ADR 0026](../../../Referentiemateriaal/adr/0026-leeruitkomst-als-verbindende-sleutel.md)).
 
 
 
@@ -249,7 +249,7 @@ Het schema legt de exacte vorm vast: welke velden er zijn, welke verplicht zijn 
   "$comment": "Alfa en indicatief. Deze vorm onderbouwt welke velden het koppelvlak nodig heeft en kan wijzigen zolang de payload niet is vastgesteld.",
   "type": "object",
   "required": ["onderwijsspecificaties"],
-  "$comment_required": "Alleen onderwijsspecificaties is altijd aanwezig. Of leeruitkomsten en regelsets meekomen bepaalt het gebruiksprofiel van de koppeling; binnen OC-P&R blijven leeruitkomsten weg ([ADR 0023](../../../Referentiemateriaal/adr/0023-leeruitkomsten-als-opaque-sleutels-in-koppeling-oc-p-en-r.md)).",
+  "$comment_required": "Alleen onderwijsspecificaties is altijd aanwezig. Of leeruitkomsten en regelsets meekomen bepaalt het gebruiksprofiel van de koppeling; binnen OC-P&R blijven leeruitkomsten weg ([ADR 0026](../../../Referentiemateriaal/adr/0026-leeruitkomst-als-verbindende-sleutel.md)).",
   "properties": {
     "leeruitkomsten": {
       "type": "array",
@@ -1702,4 +1702,4 @@ In §2.2 staat het manifest uitgewerkt op drie niveaus: de `opleidingsspecificat
 - [Resultaatstructuur en examenplan](../oc-sis-krs-svs/resultaatstructuur-en-examenplan.md): het examenplan en de summatieve resultaatstructuur die via leeruitkomsten aan deze payload hangt.
 - [Lifecycle en versionering](lifecycle-en-versionering.md): semver, identiteit versus versie, manifest en propagatie.
 - Memo "Onderwijs PDCA-cyclus" van Niels: `doc/OKx_PDCA cyclus onderwijsontwerp.md`.
-- Gebruiksprofielen: welke objecten en velden per koppeling worden meegeleverd staat in de koppelingspecificaties. Binnen de koppeling met planning zijn leeruitkomst-ids opaque sleutels ([ADR 0023](../../../Referentiemateriaal/adr/0023-leeruitkomsten-als-opaque-sleutels-in-koppeling-oc-p-en-r.md)).
+- Gebruiksprofielen: welke objecten en velden per koppeling worden meegeleverd staat in de koppelingspecificaties. Binnen de koppeling met planning zijn leeruitkomst-ids verbindende sleutels: planning gebruikt ze zonder de inhoud te kennen ([ADR 0026](../../../Referentiemateriaal/adr/0026-leeruitkomst-als-verbindende-sleutel.md)).
