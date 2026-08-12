@@ -23,7 +23,7 @@ Waar deze koppeling in de keten zit: de onderwijscatalogus (OC) levert de gepubl
 
 Scenario is leerroute 1 (regulier), persona [Jochem](https://github.com/Npuls-OKx/meta/blob/d47bb0c74ec899a4384d06331692f74b9bd1db58/architecture/docs/specificatie/okx-oeapi-consumer-profiel/doc/persona_jochem.md), opleiding Apothekersassistent: de student vindt zijn lesstof en leermiddelen in de leeromgeving die op de gepubliceerde structuur is ingericht. Leerroute 2 en 3 volgen als verschil. Begrippenkader (ankertabel, zes families; het LMS werkt de inhoudsvelden van de leeruitkomst uit) en de volledige leerroutes: het [OEAPI consumer-profiel](https://github.com/Npuls-OKx/meta/blob/d47bb0c74ec899a4384d06331692f74b9bd1db58/architecture/docs/specificatie/okx-oeapi-consumer-profiel/README.md). Dat profiel gebruikt nog een oudere hoofdplaat; leidend is v1.7.
 
-Beeld van het LMS in deze koppeling: een online leeromgeving die alles aan de student exposet (vergelijk een Coursera-achtig platform), inclusief e-learning. Het **ontwerp** gebeurt er niet in; wel de **gedetailleerde uitwerking** door onderwijsontwikkelaars, op lesniveau (lesplannen, werkinstructies). Van dat lesniveau hoeft OC niets te weten: de koppeling blijft op het niveau van de `leeronderdeelspecificatie`. Zelfde patroon als de [koppeling OC-P&R](../oc-p-en-r/koppelingspecificatie-oc-p-en-r.md): resource-eigenaarschap, referenties en dunne events. OC bezit de onderwijsspecificaties; het LMS bezit de leeromgeving-inrichting (inclusief het lesniveau) en de leermiddelkoppeling. Deze koppelingspecificatie is afgeleid; hij is nog niet uitgewerkt in samenwerking met de Kerngroep Techniek.
+Beeld van het LMS in deze koppeling: een online leeromgeving die alles aan de student exposet (vergelijk een Coursera-achtig platform), inclusief e-learning. Het **ontwerp** gebeurt er niet in; wel de **gedetailleerde uitwerking** door onderwijsontwikkelaars, op lesniveau (lesplannen, werkinstructies). Van dat lesniveau hoeft OC niets te weten: de koppeling blijft op het niveau van de `leeronderdeelspecificatie`. Zelfde patroon als de [koppeling onderwijscatalogus naar planning en roostering](../onderwijscatalogus-planning-en-roostering/onderwijscatalogus-planning-en-roostering.md): resource-eigenaarschap, referenties en dunne events. OC bezit de onderwijsspecificaties; het LMS bezit de leeromgeving-inrichting (inclusief het lesniveau) en de leermiddelkoppeling. Deze koppelingspecificatie is afgeleid; hij is nog niet uitgewerkt in samenwerking met de Kerngroep Techniek.
 
 ### 1.2 Doel
 
@@ -55,7 +55,7 @@ Al het overige valt buiten dit document, waaronder leermiddelenlogistiek, licent
 ```mermaid
 flowchart LR
     OC["Onderwijscatalogus<br/>bezit: specificaties"]
-    subgraph KOP["deze koppeling: OC-LMS"]
+    subgraph KOP["deze koppeling: onderwijscatalogus naar leermanagementsysteem"]
         OC -. "1: event specificatie beschikbaar" .-> LMS["LMS<br/>bezit: leeromgeving-inrichting en leermiddelkoppeling"]
         OC -- "2: onderwijsspecificatiestructuur (pull door LMS)" --> LMS
         LMS -. "3: status inrichting + referentie" .-> OC
@@ -145,7 +145,7 @@ sequenceDiagram
 
 Gebruiksprofiel van deze koppeling op de centrale [onderwijsspecificatie-payload](../gedeeld/payload-onderwijsspecificatie.md) ([ADR 0021](../../../Referentiemateriaal/adr/0021-koppeling-versus-koppelvlak-terminologie.md)):
 
-| Onderdeel | Gebruik in OC-LMS |
+| Onderdeel | Gebruik in onderwijscatalogus naar leermanagementsysteem |
 |---|---|
 | `onderwijsspecificaties` | Volledig tot en met `leeronderdeelspecificatie` |
 | `leeruitkomsten` | **Met inhoudsvelden** (`omschrijving`, `resultaat`, `gedrag`): dat is precies wat het LMS uitwerkt en aan de student exposet |
@@ -157,7 +157,36 @@ Gebruiksprofiel van deze koppeling op de centrale [onderwijsspecificatie-payload
 
 ## 7. Endpointbeschrijvingen (REST)
 
-Nog niet uitgewerkt. De endpoints volgen zodra de interacties in §3 zijn bevestigd, in dezelfde vorm als bij de [koppeling met planning](../oc-p-en-r/koppelingspecificatie-oc-p-en-r.md#7-endpointbeschrijvingen-rest): per endpoint de methode, de operatie, de parameters en de statuscodes, met de events als webhook-aflevering.
+Endpointset als opstap naar de interfacespecificatie, de zesde AMIGO-stap, in dezelfde vorm als bij de [koppeling met planning](../onderwijscatalogus-planning-en-roostering/onderwijscatalogus-planning-en-roostering.md#7-endpointbeschrijvingen-rest): per endpoint de methode, de operatie, de parameters en de statuscodes, met de events als webhook-aflevering. Zoals de rest van dit document (§1.1) is deze paragraaf afgeleid en nog niet bevestigd in een werksessie. Paden en parameters zijn indicatief; een uitgewerkte OpenAPI-beschrijving volgt later. De events (L1, L3, L4, L6) staan hier uitgewerkt als webhook-aflevering, dus een HTTP POST naar de abonnee. Dat is een voorbeeld van een kanaal, geen voorschrift: een bus, broker of cloud-pubsubdienst mag het vervangen zolang die de vier eigenschappen uit §3 levert. Het bericht blijft in alle gevallen gelijk.
+
+Endpoints die **OC** serveert:
+
+| Endpoint | Methode | Operatie | Parameters | Response | Statuscodes |
+|---|---|---|---|---|---|
+| `/onderwijsspecificaties/{id}` | GET | L2: volledige structuur ophalen | `versie` (optioneel, standaard laatst gepubliceerd) | Momentopname: `onderwijsspecificaties` tot en met `leeronderdeelspecificatie`, inclusief leeruitkomsten met inhoudsvelden (gebruiksprofiel §6) | 200, 400, 404 |
+| `/onderwijsspecificaties/{id}/delta` | GET | L2: delta tussen twee versies | `van` (versie, verplicht), `naar` (versie, verplicht) | JSON Patch (RFC 6902) | 200, 400, 404 |
+
+Endpoints die **LMS** serveert:
+
+| Endpoint | Methode | Operatie | Parameters | Response | Statuscodes |
+|---|---|---|---|---|---|
+| `/leermiddelkoppelingen/{id}` | GET | L5: leermiddelkoppeling ophalen | — | Leermiddelkoppeling-instantie: leermiddelgroepen per specificatie (§6) | 200, 400, 404 |
+
+Event-aflevering, in webhook-vorm:
+
+| Event | Interactie | Richting | Payload |
+|---|---|---|---|
+| `specificatie-beschikbaar` | L1 | OC naar LMS | specificatie-id + versie |
+| `specificatie-gewijzigd` | L6 | OC naar LMS | object-id, oude en nieuwe versie, wijzigingsklasse |
+| `inrichtingsstatus` | L3 | LMS naar OC | status + referentie naar de inrichting (uuid), specificatie-id + versie |
+| `leermiddelkoppeling-beschikbaar` | L4 | LMS naar OC | referentie (uuid) naar de leermiddelkoppeling, specificatie-id + versie |
+
+Gedrag:
+
+- Alle GET's zijn alleen-lezen en zonder neveneffect; herhaald aanroepen geeft hetzelfde resultaat.
+- Event-aflevering: ontvanger bevestigt met 200; bij uitblijven daarvan herhaalt de verzender met backoff en daarna [Dead Letter Channel](https://www.enterpriseintegrationpatterns.com/patterns/messaging/DeadLetterChannel.html). Dubbele aflevering is onschadelijk door het event-id ([Idempotent Receiver](https://www.enterpriseintegrationpatterns.com/patterns/messaging/IdempotentReceiver.html)).
+- Registratie van een callback-URL, zoals `POST /abonnementen` bij de koppeling met planning (I8), is voor deze koppeling nog geen eigen interactie in §3; zolang die er niet is, is het afleveradres een inrichtingskeuze tussen OC en LMS, buiten dit document.
+- Mogelijke uitbreidingen (v-next): paginering bij grote structuren, filter op deelstructuur-selectie bij het ophalen van de structuur.
 
 ## 8. Reviewvragen
 
@@ -176,7 +205,7 @@ Nog niet uitgewerkt. De endpoints volgen zodra de interacties in §3 zijn bevest
 
 ## 10. Gerelateerde uitwerkingen
 
-- [Koppelingspecificatie OC-P&R](../oc-p-en-r/koppelingspecificatie-oc-p-en-r.md) (het patroon waarop deze koppeling voortbouwt).
-- [Koppelingspecificatie OC-SIS](../oc-sis-krs-svs/koppelingspecificatie-oc-sis.md).
+- [Koppelingspecificatie onderwijscatalogus naar planning en roostering](../onderwijscatalogus-planning-en-roostering/onderwijscatalogus-planning-en-roostering.md) (het patroon waarop deze koppeling voortbouwt).
+- [Koppelingspecificatie onderwijscatalogus naar studentinformatiesysteem](../onderwijscatalogus-studentinformatiesysteem/onderwijscatalogus-studentinformatiesysteem.md).
 - [OKx OEAPI consumer-profiel](https://github.com/Npuls-OKx/meta/blob/d47bb0c74ec899a4384d06331692f74b9bd1db58/architecture/docs/specificatie/okx-oeapi-consumer-profiel/README.md): inrichting van de leeromgeving en de specificatie-catalogus met `leermiddelengroepen`.
 - [ADR 0021](../../../Referentiemateriaal/adr/0021-koppeling-versus-koppelvlak-terminologie.md) (koppeling versus koppelvlak).

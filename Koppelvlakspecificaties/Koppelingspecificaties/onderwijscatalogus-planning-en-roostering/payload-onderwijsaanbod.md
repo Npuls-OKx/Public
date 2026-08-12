@@ -16,7 +16,7 @@
 
 **Aanleiding.** De koppelingspecificatie OC naar P&R legt vast dat het planningssysteem het aanbod bezit en over de koppeling alleen een referentie meldt. Daarmee bleef open wat een opvrager terugkrijgt zodra hij dat aanbod daadwerkelijk ophaalt. Dit document beschrijft die inhoud, zodat de afspraak over de koppeling ook uitvoerbaar is.
 
-Het planningssysteem vertaalt een gepubliceerde onderwijsspecificatie naar **onderwijsaanbod**: wanneer wordt het onderwijs gegeven, waar, met welke groepen en door welk team. De [koppelingspecificatie onderwijscatalogus naar planning en roostering](koppelingspecificatie-oc-p-en-r.md) legt vast dat het planningssysteem dat aanbod bezit en alleen een referentie (uuid) over de koppeling meldt. Dit document beschrijft wat een opvrager terugkrijgt wanneer die het aanbod vervolgens ophaalt.
+Het planningssysteem vertaalt een gepubliceerde onderwijsspecificatie naar **onderwijsaanbod**: wanneer wordt het onderwijs gegeven, waar, met welke groepen en door welk team. De [koppelingspecificatie onderwijscatalogus naar planning en roostering](onderwijscatalogus-planning-en-roostering.md) legt vast dat het planningssysteem dat aanbod bezit en alleen een referentie (uuid) over de koppeling meldt. Dit document beschrijft wat een opvrager terugkrijgt wanneer die het aanbod vervolgens ophaalt.
 
 Het aanbod is de vierde begrippenfamilie uit de ankertabel: de specificatie zegt wat we organiseren, het aanbod zegt wanneer en met wie. Elke aanbod-instantie instantieert precies één onderwijsspecificatie en verwijst via `specificatieVerwijzing` (specificatieId plus versie) naar de exacte versie waarop de planning is gebaseerd.
 
@@ -475,7 +475,7 @@ INSTELLING                                                    2f1bd932
 ```
 <!-- json-tree:end -->
 
-Loopt de planning vast, dan bestaat de instantie wel maar draagt die status en knelpunten. Zie het faalpad in de [koppelingspecificatie §5.3](koppelingspecificatie-oc-p-en-r.md):
+Loopt de planning vast, dan bestaat de instantie wel maar draagt die status en knelpunten. Zie het faalpad in de [koppelingspecificatie §5.3](onderwijscatalogus-planning-en-roostering.md):
 
 ```json
 {
@@ -556,7 +556,7 @@ Deze tabel is een aanzet; de genormeerde codelijst met foutmodel (structuur, ern
 
 ## 5. Gerelateerde uitwerkingen
 
-- [Koppelingspecificatie onderwijscatalogus naar planning en roostering](koppelingspecificatie-oc-p-en-r.md): de interacties waarin deze payload de opvraagbare instantie is.
+- [Koppelingspecificatie onderwijscatalogus naar planning en roostering](onderwijscatalogus-planning-en-roostering.md): de interacties waarin deze payload de opvraagbare instantie is.
 - [Onderwijsspecificatie-payload](../gedeeld/payload-onderwijsspecificatie.md): de specificaties waarnaar `specificatieVerwijzing` wijst.
 - [Lifecycle en versionering](../gedeeld/lifecycle-en-versionering.md): semver en identiteit los van versie.
 - [Open Onderwijs API, issue 635](https://github.com/open-education-api/specification/issues/635): inspiratie voor het locatiemodel.

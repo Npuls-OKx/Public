@@ -21,7 +21,7 @@ Volg de containers uit de rule over repo-structuur. Bepaal per bestand of het **
 
 ## 3. Schoon de bestandsnamen op
 
-Weg met datum- en versieprefixen. `20260723_1156_okx-lr1-koppelingspecificatie-oc-p-en-r.md` wordt `koppelingspecificatie-oc-p-en-r.md`. Die prefixen zijn een werkproces-conventie uit meta en horen niet in een releaseartefact.
+Weg met datum- en versieprefixen. `20260723_1156_okx-lr1-koppelingspecificatie-oc-p-en-r.md` wordt `onderwijscatalogus-planning-en-roostering.md`. Die prefixen zijn een werkproces-conventie uit meta en horen niet in een releaseartefact.
 
 ## 4. Herschrijf alle verwijzingen
 

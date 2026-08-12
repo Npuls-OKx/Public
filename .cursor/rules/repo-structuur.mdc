@@ -19,10 +19,12 @@ De container *Documentation* wordt ingevuld door de README's per map, niet door 
 Koppelvlakspecificaties/
 ├── README.md                    instap: keten, afkortingen, leesvolgorde
 ├── uitgangspunten.md            U1 t/m U10, gelden voor alles hieronder
+├── auth-standaard.md            authenticatiemechanisme, geldt voor elk endpoint
 ├── templates/                   om een nieuwe specificatie te schrijven
-└── Koppelingspecificaties/
-    ├── gedeeld/                 payloads die meerdere koppelingen delen
-    └── <koppeling>/             per informatiestroom een eigen map
+├── Koppelingspecificaties/
+│   ├── gedeeld/                 payloads die meerdere koppelingen delen
+│   └── <koppeling>/             per informatiestroom een eigen map
+└── Referentiesystemen/         per systeem de optelsom van zijn koppelingen (het koppelvlak)
 ```
 
 Een **koppeling** is de gestandaardiseerde informatiestroom tussen twee referentiecomponenten. Een **koppelvlak** is de verzameling koppelingen die één component raken. De koppelvlakspecificatie is dus de optelsom van de koppelingen, en daarom zitten de koppelingspecificaties ín het koppelvlakspecificatie-pakket.

@@ -1,6 +1,6 @@
 # Template koppelingspecificatie
 
-Kopieer dit bestand naar `../Koppelingspecificaties/<koppeling>/koppelingspecificatie-<koppeling>.md` en vul het in. Geen datum of versienummer in de bestandsnaam: die staan in de git-historie. De vaste opbouw houdt de documenten onderling vergelijkbaar, zodat een verwijzing als "§7" over alle koppelingspecificaties heen klopt.
+Kopieer dit bestand naar `../Koppelingspecificaties/<bronsysteem>-<doelsysteem>/<bronsysteem>-<doelsysteem>.md` en vul het in. Zowel de map als de bestandsnaam heten voluit, zonder afkortingen (zie de titelinstructie hieronder); het woord "koppelingspecificatie" blijft weg uit de bestandsnaam, want dat is al duidelijk uit de plek in `Koppelingspecificaties/`. Geen datum of versienummer in de bestandsnaam: die staan in de git-historie. De vaste opbouw houdt de documenten onderling vergelijkbaar, zodat een verwijzing als "§7" over alle koppelingspecificaties heen klopt.
 
 Lees eerst de [uitgangspunten](../uitgangspunten.md). Herhaal die niet: noem het uitgangspunt in één regel en link erheen. Dat scheelt herstructureerwerk zodra een uitgangspunt wijzigt.
 
@@ -15,7 +15,7 @@ Lees eerst de [uitgangspunten](../uitgangspunten.md). Herhaal die niet: noem het
 
 ## Inhoudsopgave
 
-1. [Inleiding](#1-inleiding) (aanleiding, context, doel, scope)
+1. [Inleiding](#1-inleiding)
 2. [Procesbeeld](#2-procesbeeld)
 3. [Interactieoverzicht](#3-interactieoverzicht)
 4. [Informatiemodel](#4-informatiemodel)
@@ -141,40 +141,7 @@ sequenceDiagram
 
 <!-- Minimaal één faalpad. Wat gebeurt er als het misgaat, en wie doet dan wat? -->
 
-## 6. Payload-specificaties (verwijzing) en gebruiksprofiel
 
-Gedeelde payloads staan éénmaal centraal in [`gedeeld/`](../Koppelingspecificaties/gedeeld/); dit document herhaalt ze niet maar benoemt welk deel het gebruikt.
-
-| Onderdeel | Gebruik in deze koppeling |
-|---|---|
-| `\<object\>` | \<volledig, deels, of niet meegeleverd, met de reden\> |
-
-## 7. Endpointbeschrijvingen (REST)
-
-<!-- Nog niet uitgewerkt? Laat de sectie staan en zet erin waarom niet en wanneer
-     wel. Zo blijft de nummering over alle documenten heen gelijk. -->
-
-Endpoints die **\<systeem\>** serveert:
-
-| Endpoint | Methode | Operatie | Parameters | Response | Statuscodes |
-|---|---|---|---|---|---|
-| `/\<pad\>/{id}` | GET | \<interactie\> | \<parameters\> | \<respons\> | 200, 400, 404 |
-
-De events staan hier uitgewerkt als webhook-aflevering. Dat is een voorbeeld van een kanaal, geen voorschrift ([U5](../uitgangspunten.md#u5-bericht-versus-kanaal)).
-
-## 8. Reviewvragen
-
-<!-- Vragen aan stakeholders, niet aan jezelf. Concreet genoeg om ja of nee op te zeggen. -->
-
-1. \<vraag\>
-
-## 9. Open punten
-
-<!-- Elk open punt krijgt een concrete vraag en een vervolgstap, anders vervalt het. -->
-
-| Vraag | Vervolgstap |
-|---|---|
-| \<vraag\> | \<wie doet wat, en wanneer\> |
 
 ## 10. Gerelateerde uitwerkingen
 

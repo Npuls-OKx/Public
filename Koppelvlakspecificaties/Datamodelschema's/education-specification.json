@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://okx.npuls.nl/schema/education-specification/alfa",
+  "title": "Education specification",
+  "DutchName": "Onderwijsspecificatie",
+  "$comment": "Alfa en indicatief. Deze vorm onderbouwt welke velden het koppelvlak nodig heeft en kan wijzigen zolang de payload niet is vastgesteld.",
+  "type": "object",
+  "required": ["educationSpecifications"],
+  "$comment_required": "Alleen onderwijsspecificaties is altijd aanwezig. Of leeruitkomsten en regelsets meekomen bepaalt het gebruiksprofiel van de koppeling; binnen onderwijscatalogus naar planning en roostering blijven leeruitkomsten weg ([ADR 0023](../../Referentiemateriaal/adr/0023-leeruitkomsten-als-opaque-sleutels-in-koppeling-oc-p-en-r.md)).",
+  "properties": {
+    "learningOutcomes": {
+      "type": "array",
+      "items": { "$ref": "./learning-outcome.json" },
+      "DutchName": "leeruitkomsten"
+    },
+    "educationSpecifications": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "specificationType", "version", "parentSpecificationId", "name", "studyLoad"],
+        "properties": {
+          "id": { "type": "string", "format": "uuid", "DutchName": "id" },
+          "specificationType": { "enum": ["opleidingsspecificatie", "opleidingsprogrammaspecificatie", "onderwijseenheidspecificatie", "leeronderdeelspecificatie", "keuzedeelruimtespecificatie", "toetsonderdeelspecificatie", "examenplanspecificatie", "resultaateenheidspecificatie"], "DutchName": "specificatieType" },
+          "version": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$", "DutchName": "versie" },
+          "parentSpecificationId": { "type": ["string", "null"], "format": "uuid", "DutchName": "bovenliggendSpecificatieId" },
+          "learningOutcomeId": { "type": "string", "format": "uuid", "DutchName": "leeruitkomstId" },
+          "name": { "type": "string", "DutchName": "naam" },
+          "description": { "type": "string", "DutchName": "omschrijving" },
+          "status": { "enum": ["concept", "vastgesteld", "gepubliceerd", "gedeactiveerd", "vervallen", "gearchiveerd"], "DutchName": "status" },
+          "studyLoad": { "$ref": "./volume.json", "DutchName": "studielast" },
+          "curriculumType": { "enum": ["nominaal", "hybride", "flexibel"], "DutchName": "curriculumtype" },
+          "programmeType": { "type": "string", "$comment": "open lijst: diplomaprogramma, keuzedeelprogramma, certificaatprogramma", "DutchName": "programmatype" },
+          "programmeLayer": { "enum": ["leerweg", "doelgroep"], "DutchName": "programmaLaag" },
+          "learningPathway": { "enum": ["BOL", "BBL"], "DutchName": "leerweg" },
+          "targetGroup": { "type": "string", "$comment": "open lijst: regulier, zijinstromer, hybride, organisatiespecifiek", "DutchName": "doelgroep" },
+          "electiveUnitClass": { "type": "string", "$comment": "open lijst: algemeen-verbredend, beroepsspecifiek-verdiepend", "DutchName": "keuzedeelKlasse" },
+          "organisation": { "$ref": "./organisation-unit.json", "$comment": "de organisatie waarvoor deze variant geldt, bijvoorbeeld een leerbedrijf", "DutchName": "organisatie" },
+          "cohort": { "type": "string", "DutchName": "cohort" },
+          "startDate": { "type": "string", "format": "date", "DutchName": "startdatum" },
+          "validFrom": { "type": "string", "format": "date", "DutchName": "geldigVanaf" },
+          "validUntil": { "type": ["string", "null"], "format": "date", "DutchName": "geldigTot" },
+          "timeDistribution": { "type": "string", "$comment": "open lijst: BOT (begeleide onderwijstijd), OOT (overige onderwijstijd), BPV", "DutchName": "tijdsverdeling" },
+          "explanation": { "type": "string", "DutchName": "toelichting" },
+          "ruleSetReferences": { "type": "array", "items": { "type": "string", "format": "uuid" }, "DutchName": "regelsetVerwijzingen" },
+          "manifest": {
+            "type": "array",
+            "items": { "$ref": "./manifest-item.json" },
+            "DutchName": "manifest"
+          }
+        }
+      },
+      "DutchName": "onderwijsspecificaties"
+    },
+    "ruleSets": {
+      "type": "array",
+      "items": { "$ref": "./rule-set.json" },
+      "DutchName": "regelsets"
+    }
+  }
+}

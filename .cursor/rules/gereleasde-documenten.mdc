@@ -41,7 +41,7 @@ Woorden als "alpha", "concept" of "een eerste versie" horen niet in een titel, d
 
 ## Bestandsnamen
 
-Beschrijvend en zonder datum- of versieprefix. `koppelingspecificatie-oc-p-en-r.md`, niet `20260723_1156_okx-lr1-koppelingspecificatie-oc-p-en-r.md`. De datum staat in de git-historie; een prefix in de naam is een werkproces-conventie die niet in een releaseartefact thuishoort.
+Beschrijvend en zonder datum- of versieprefix. `onderwijscatalogus-planning-en-roostering.md`, niet `20260723_1156_okx-lr1-koppelingspecificatie-oc-p-en-r.md`. De datum staat in de git-historie; een prefix in de naam is een werkproces-conventie die niet in een releaseartefact thuishoort.
 
 Bij een grote herziening: wijzig het document, geen nieuw bestand met een suffix.
 

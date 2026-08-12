@@ -58,7 +58,7 @@ Twee gedeelde principes bepalen het verkeer over deze koppeling. **Resource-eige
 ```mermaid
 flowchart LR
     CO["Curriculum-ontwerptool"] -- "onderwijsspecificatie" --> OC["Onderwijscatalogus<br/>bezit: specificaties"]
-    subgraph KOP["deze koppeling: OC-P&R"]
+    subgraph KOP["deze koppeling: onderwijscatalogus naar planning en roostering"]
         OC -. "1: event specificatie planbaar" .-> P["Planningssysteem<br/>bezit: opleidingsaanbod"]
         OC -- "2: onderwijsspecificatiestructuur (pull door P)" --> P
         P -. "3: status + referentie opleidingsaanbod (uuid)" .-> OC
@@ -75,6 +75,8 @@ Wat het diagram niet toont: het planningssysteem bouwt de planning **asynchroon*
 De interacties op deze koppeling, met per interactie het messaging-patroon. Betrouwbaarheidseisen volgen [ADR 0018](../../../Referentiemateriaal/adr/0018-enterprise-messaging-patronen-voor-betrouwbare-koppelvlakken.md). De events zijn dunne notificaties ([Event Message](https://www.enterpriseintegrationpatterns.com/patterns/messaging/EventMessage.html)): ze dragen de aanleiding (id en versie), niet de inhoud.
 Wat hier wordt vastgelegd is het **bericht**, niet het **kanaal**: hoe het bericht bij de ontvanger komt is een inrichtingskeuze van instelling en leverancier, binnen de vier eigenschappen die [ADR 0018](../../../Referentiemateriaal/adr/0018-enterprise-messaging-patronen-voor-betrouwbare-koppelvlakken.md) eist. Zie [uitgangspunt U5](../../uitgangspunten.md#u5-bericht-versus-kanaal).
 
+I1 tot en met I5 zijn uitgewerkt in §5 tot sequentiediagrammen. I6 tot en met I8 zijn nodig om I1, I3 en I4 in productie te kunnen laten werken (statuswijziging los van versie, hersynchronisatie na een verloren event, en de abonnementen waar de webhook-events I1/I3/I4 op leunen) en horen daarom net zo goed bij deze koppeling; ze volgen het patroon van de interactie die ze het dichtst benaderen (I6 spiegelt I4, I7 en I8 spiegelen I2/I5).
+
 | # | Interactie | Initiator | Patroon | Synchroniciteit | Gedrag bij dubbele ontvangst | Foutafhandeling |
 |---|---|---|---|---|---|---|
 | I1 | Specificatie planbaar melden | OC | [Event Message](https://www.enterpriseintegrationpatterns.com/patterns/messaging/EventMessage.html) (id + versie) | Asynchroon | Geen effect: ontvanger herkent event-id ([Idempotent Receiver](https://www.enterpriseintegrationpatterns.com/patterns/messaging/IdempotentReceiver.html)) | [Guaranteed Delivery](https://www.enterpriseintegrationpatterns.com/patterns/messaging/GuaranteedDelivery.html); [Dead Letter Channel](https://www.enterpriseintegrationpatterns.com/patterns/messaging/DeadLetterChannel.html) |
@@ -82,8 +84,13 @@ Wat hier wordt vastgelegd is het **bericht**, niet het **kanaal**: hoe het beric
 | I3 | Verwerkingsstatus melden, met referentie naar het `opleidingsaanbod` | P | [Event Message](https://www.enterpriseintegrationpatterns.com/patterns/messaging/EventMessage.html) (status: ontvangen/gestart, afgekeurd, gelukt, niet gelukt) | Asynchroon | Geen effect: status-id | Retry met backoff, daarna [Dead Letter Channel](https://www.enterpriseintegrationpatterns.com/patterns/messaging/DeadLetterChannel.html) |
 | I4 | Specificatiewijziging melden | OC | [Event Message](https://www.enterpriseintegrationpatterns.com/patterns/messaging/EventMessage.html) (object-id, oude en nieuwe versie, wijzigingsklasse) | Asynchroon | Geen effect: event-id | [Guaranteed Delivery](https://www.enterpriseintegrationpatterns.com/patterns/messaging/GuaranteedDelivery.html); [Dead Letter Channel](https://www.enterpriseintegrationpatterns.com/patterns/messaging/DeadLetterChannel.html) |
 | I5 | `opleidingsaanbod` ophalen | OC (of R) | [Request-Reply](https://www.enterpriseintegrationpatterns.com/patterns/messaging/RequestReply.html) op referentie (GET uuid, alleen-lezen) | Synchroon | Geen effect (alleen-lezen) | HTTP-foutcodes |
+| I6 | Specificatiestatus gewijzigd, los van versie (bv. `gepubliceerd` naar `gedeactiveerd`, [lifecycle-uitwerking §3](../gedeeld/lifecycle-en-versionering.md#3-versioneringsmechaniek)) | OC | [Event Message](https://www.enterpriseintegrationpatterns.com/patterns/messaging/EventMessage.html) (object-id, oude status, nieuwe status) | Asynchroon | Geen effect: event-id ([Idempotent Receiver](https://www.enterpriseintegrationpatterns.com/patterns/messaging/IdempotentReceiver.html)) | [Guaranteed Delivery](https://www.enterpriseintegrationpatterns.com/patterns/messaging/GuaranteedDelivery.html); [Dead Letter Channel](https://www.enterpriseintegrationpatterns.com/patterns/messaging/DeadLetterChannel.html) |
+| I7 | Reconciliatie: gepubliceerde specificaties of aanbod-instanties opnieuw opvragen na een event in de Dead Letter Channel | OC of P | [Request-Reply](https://www.enterpriseintegrationpatterns.com/patterns/messaging/RequestReply.html) (GET, lijst-/queryoperatie, alleen-lezen) | Synchroon | Geen effect (alleen-lezen) | HTTP-foutcodes |
+| I8 | Abonnement registreren voor de events I1, I3, I4 en I6 | OC en P (over en weer, elk voor de events die de ander van hem ontvangt) | [Request-Reply](https://www.enterpriseintegrationpatterns.com/patterns/messaging/RequestReply.html) (registratie: callback-URL + event-typen) | Synchroon | Idempotent op callback-URL + event-type: herregistratie overschrijft, geen dubbele aflevering | HTTP-foutcodes |
 
 Referentie voor de patroontaal: [Enterprise Integration Patterns, Messaging](https://www.enterpriseintegrationpatterns.com/patterns/messaging/). De koppelingspecificatie legt de patronen op dit niveau vast; implementatiekeuzes (bus, broker, polling) schrijft ze niet voor.
+
+Buiten deze koppeling, maar wel tussen dezelfde twee systemen: capaciteitsterugkoppeling en het door P annuleren van een reeds gepland aanbod buiten de I4-flow. Bewust uitgesteld, zie [§9](#9-open-punten).
 
 Context, buiten deze koppeling maar zelfde patroon: P meldt R "planning beschikbaar" (referenties), R meldt OC en P "rooster bekend" (referentie). Zie §5.5.
 
@@ -118,7 +125,7 @@ Geen herhaling van de modellen; de bron is de centrale [onderwijsspecificatie-pa
 
 Gebruiksprofiel van deze koppeling (welke onderdelen van de centrale payload OC aan P levert):
 
-| Onderdeel | Gebruik in OC-P&R |
+| Onderdeel | Gebruik in onderwijscatalogus naar planning en roostering |
 |---|---|
 | `onderwijsspecificaties` | Volledig, inclusief manifest |
 | `regelsets` | Volledig; `voorwaardeVooraf` bevat leeruitkomst-ids uitsluitend als **verbindende sleutels** voor volgordebepaling: planning gebruikt ze zonder de inhoud te kennen ([ADR 0026](../../../Referentiemateriaal/adr/0026-leeruitkomst-als-verbindende-sleutel.md)) |
@@ -138,6 +145,10 @@ Berichten op deze koppeling:
 | Verwerkingsstatus (event) | I3 | P naar OC | Status (ontvangen/gestart, afgekeurd, gelukt, niet gelukt) plus de referentie (uuid) naar het `opleidingsaanbod` | De specificatieversie waarop de planning is gebaseerd |
 | Specificatie gewijzigd (event) | I4 | OC naar P | Object-id, oude en nieuwe versie, wijzigingsklasse (lifecycle-classificatie) | Oude en nieuwe versie |
 | `onderwijsaanbod` (instantie) | I5 | Planning naar opvrager | De instantie van het nieuw gecreëerde onderwijsaanbod, eigen document (§6) | Per aanbod-instantie `specificatieVerwijzing` (specificatieId + versie) |
+| Specificatiestatus gewijzigd (event) | I6 | OC naar P | Object-id, oude status, nieuwe status ([lifecycle-uitwerking §3](../gedeeld/lifecycle-en-versionering.md#3-versioneringsmechaniek): `concept`, `vastgesteld`, `gepubliceerd`, `gedeactiveerd`, `gearchiveerd`, `vervallen`) | Niet van toepassing: status staat los van `versie` |
+| Onderwijsspecificaties sinds tijdstip (lijst) | I7 | OC naar P | Lijst van specificatie-id's met status `gepubliceerd` en hun laatste versie, gefilterd op wijzigingstijdstip | Laatste versie per specificatie |
+| `opleidingsaanbod` per specificatie (lijst) | I7 | Planning naar OC | Lijst van aanbod-instanties die een gegeven specificatieId + versie instantiëren | specificatieId + versie (query) |
+| Abonnement (registratie) | I8 | OC naar P, en P naar OC | Callback-URL en de events waarop wordt geabonneerd | Niet van toepassing |
 
 ## 5. Sequentiediagrammen
 
@@ -245,7 +256,7 @@ sequenceDiagram
 
 ### 5.5 Context: doorwerking naar het roostersysteem
 
-Buiten de koppeling OC-P&R, maar hetzelfde patroon (referentie + event). Ter illustratie van de consistente lijn.
+Buiten de koppeling onderwijscatalogus naar planning en roostering, maar hetzelfde patroon (referentie + event). Ter illustratie van de consistente lijn.
 
 ```mermaid
 sequenceDiagram
@@ -285,12 +296,16 @@ Endpoints die **OC** serveert:
 |---|---|---|---|---|---|
 | `/onderwijsspecificaties/{id}` | GET | I2: volledige structuur ophalen | `versie` (optioneel, standaard laatst gepubliceerd) | Momentopname: `onderwijsspecificaties` + `regelsets` (payload-uitwerking) | 200, 400, 404 |
 | `/onderwijsspecificaties/{id}/delta` | GET | I2: delta tussen twee versies | `van` (versie, verplicht), `naar` (versie, verplicht) | JSON Patch (RFC 6902) | 200, 400, 404 |
+| `/onderwijsspecificaties` | GET | I7: reconciliatie — gepubliceerde specificaties opnieuw opvragen na een gemist event | `status` (optioneel, standaard `gepubliceerd`), `gewijzigdSinds` (optioneel, timestamp) | Lijst van specificatie-id's met laatste versie | 200, 400 |
+| `/abonnementen` | POST | I8: P registreert een callback-URL bij OC voor I1, I4, I6 | Body: `callbackUrl`, `events` (array uit I1, I4, I6) | Abonnement-id | 201, 400 |
 
 Endpoints die **P** serveert:
 
 | Endpoint | Methode | Operatie | Parameters | Response | Statuscodes |
 |---|---|---|---|---|---|
-| `/onderwijsaanbod/{id}` | GET | I5: aanbod-instantie ophalen | `status` (optioneel filter op onderliggende instanties) | `aanbodInstanties` (onderwijsaanbod-payload, §6) | 200, 400, 404 |
+| `/onderwijsaanbod/{id}` | GET | I5: aanbod-instantie ophalen, inclusief onderliggende instanties (de subtree via `bovenliggendAanbodId` vanaf dit knooppunt) | `status` (optioneel filter op onderliggende instanties) | `aanbodInstanties` (onderwijsaanbod-payload, §6): de gevraagde instantie plus haar subtree | 200, 400, 404 |
+| `/onderwijsaanbod` | GET | I7: reconciliatie — aanbod-instanties opnieuw opvragen na een gemist I3-event | `specificatieId` (verplicht), `versie` (optioneel, standaard alle versies) | `aanbodInstanties` die deze specificatie instantiëren | 200, 400 |
+| `/abonnementen` | POST | I8: OC registreert een callback-URL bij P voor I3 | Body: `callbackUrl`, `events` (array, hier alleen I3) | Abonnement-id | 201, 400 |
 
 Event-aflevering, in webhook-vorm:
 
@@ -298,19 +313,22 @@ Event-aflevering, in webhook-vorm:
 |---|---|---|---|
 | `specificatie-planbaar` | I1 | OC naar P | specificatie-id + versie |
 | `specificatie-gewijzigd` | I4 | OC naar P | object-id, oude en nieuwe versie, wijzigingsklasse |
+| `specificatie-status-gewijzigd` | I6 | OC naar P | object-id, oude status, nieuwe status |
 | `verwerkingsstatus` | I3 | P naar OC | status + referentie naar `opleidingsaanbod` (uuid), specificatie-id + versie |
 
 Gedrag:
 
 - Alle GET's zijn alleen-lezen en zonder neveneffect; herhaald aanroepen geeft hetzelfde resultaat.
 - Event-aflevering: ontvanger bevestigt met 200; bij uitblijven daarvan herhaalt de verzender met backoff en daarna [Dead Letter Channel](https://www.enterpriseintegrationpatterns.com/patterns/messaging/DeadLetterChannel.html). Dubbele aflevering is onschadelijk door het event-id ([Idempotent Receiver](https://www.enterpriseintegrationpatterns.com/patterns/messaging/IdempotentReceiver.html)).
-- Mogelijke uitbreidingen (v-next): filter op `specificatieType` of deelstructuur-selectie bij het ophalen van de structuur, paginering bij grote structuren, abonnementenbeheer (wie ontvangt welke events).
+- `POST /abonnementen`: idempotent op de combinatie callback-URL + event-type. Een herhaalde registratie overschrijft de vorige, geen dubbel geregistreerde aflevering. Alleen bestemd voor de webhook-events (I1, I3, I4, I6); vervalt zodra event-aflevering via bus of broker loopt (§3).
+- `/onderwijsspecificaties` en `/onderwijsaanbod` (zonder `{id}`) zijn de reconciliatie-route: bedoeld voor herstel na een event in de Dead Letter Channel, niet voor reguliere polling. De reguliere flow blijft event-gedreven (I1, I3, I4, I6).
+- Mogelijke uitbreidingen (v-next): filter op `specificatieType` of deelstructuur-selectie bij het ophalen van de structuur, paginering bij grote structuren.
 
 ## 8. Reviewvragen
 
 > Wordt aangevuld tijdens de uitwerking. Geagendeerd:
 
-1. Dekken de vijf interacties (I1-I5) de koppeling, of missen er flows voor jullie praktijk?
+1. Dekken de acht interacties (I1-I8) de koppeling, of missen er nog flows voor jullie praktijk? I6-I8 zijn bij een doorlichting van dit document toegevoegd (statuswijziging los van versie, reconciliatie, abonnementen) — geen van drieën stond in de oorspronkelijke werksessie.
 2. **Trigger-granulariteit (uit de schets):** bij welke veld- of objectwijziging stuurt OC de wijzigingsnotificatie (I4)? Voorstel: koppelen aan de wijzigingsklasse uit de lifecycle-uitwerking (semver: PATCH stil, MINOR/MAJOR notificeren). Klopt dat voor de planpraktijk?
 3. **Delta versus volledige structuur (uit de schets):** wat moet het I4-event minimaal dragen zodat de consument kan kiezen tussen de delta (JSON Patch, RFC 6902) en de volledige structuur?
 4. **Referentie in plaats van instantie (uitgangspunt):** P levert alleen de referentie (uuid) naar het `opleidingsaanbod`, niet de instantie zelf. Werkt dat voor alle consumenten (OC, R), of zijn er gevallen waarin de resource mee moet?
@@ -322,7 +340,7 @@ Gedrag:
 ## 9. Open punten
 
 - Profiel-hoofdstukken 15-18 zijn verouderd; deze memo is de vervangende lijn. Het profiel bijwerken is een aparte actie buiten deze branch.
-- Capaciteitsterugkoppeling (bezetting, parallelle groepen) valt bewust buiten deze uitwerking en volgt in een volgende iteratie.
+- Capaciteitsterugkoppeling (bezetting, parallelle groepen) valt bewust buiten deze uitwerking en volgt in een volgende iteratie. Hetzelfde geldt voor het geval waarin P een reeds `gepland` aanbod nadien annuleert buiten de I4-flow om (bv. onderbezetting, wegvallen van een docent): zonder capaciteitsterugkoppeling heeft OC daar nu geen zicht op. Beide horen bij dezelfde vervolgiteratie.
 - De [onderwijsaanbod-payload](payload-onderwijsaanbod.md) concretiseert de eerdere signalering "suggestieve aanbod-attributen" uit de onderwijsspecificatie-payload.
 - Knelpuntcodes (planfouten als constraint-categorieën): aanzet in de onderwijsaanbod-payload §3.4; genormeerde codelijst en foutmodel zijn een eigen issue waard.
 
@@ -331,7 +349,7 @@ Gedrag:
 - [Onderwijsspecificatie-payload](../gedeeld/payload-onderwijsspecificatie.md) (de berichtinhoud van deze koppeling).
 - [Onderwijsaanbod-payload](payload-onderwijsaanbod.md) (de opvraagbare aanbod-instantie, I5).
 - [Lifecycle en versionering](../gedeeld/lifecycle-en-versionering.md) (wijzigingsklassen, acceptatie).
-- [Resultaatstructuur en examenplan](../oc-sis-krs-svs/resultaatstructuur-en-examenplan.md) (hoort bij de koppeling OC-SIS, daar verder uit te werken).
+- [Resultaatstructuur en examenplan](../onderwijscatalogus-studentinformatiesysteem/resultaatstructuur-en-examenplan.md) (hoort bij de koppeling onderwijscatalogus naar studentinformatiesysteem, daar verder uit te werken).
 - Memo "Onderwijs PDCA-cyclus" van Niels: `doc/OKx_PDCA cyclus onderwijsontwerp.md`.
-- [Koppelingspecificatie OC-SIS (KRS/SVS)](../oc-sis-krs-svs/koppelingspecificatie-oc-sis.md) en [OC-LMS](../oc-lms/koppelingspecificatie-oc-lms.md): dezelfde patronen, afgeleid van deze koppeling.
+- [Koppelingspecificatie onderwijscatalogus naar studentinformatiesysteem (KRS/SVS)](../onderwijscatalogus-studentinformatiesysteem/onderwijscatalogus-studentinformatiesysteem.md) en [onderwijscatalogus naar leermanagementsysteem](../onderwijscatalogus-leermanagementsysteem/onderwijscatalogus-leermanagementsysteem.md): dezelfde patronen, afgeleid van deze koppeling.
 - [ADR 0018](../../../Referentiemateriaal/adr/0018-enterprise-messaging-patronen-voor-betrouwbare-koppelvlakken.md) (messaging-patronen), [ADR 0020](../../../Referentiemateriaal/adr/0020-curriculumontwerp-onderwijscatalogus-happy-flow-synchronisatie-en-federatie-adopt-klonen.md) (pub/sub bij mutaties), [ADR 0008](../../../Referentiemateriaal/adr/0008-scope-planning-eerst-intra-instelling.md) (intra-instelling eerst), [ADR 0021](../../../Referentiemateriaal/adr/0021-koppeling-versus-koppelvlak-terminologie.md) (koppeling versus koppelvlak).

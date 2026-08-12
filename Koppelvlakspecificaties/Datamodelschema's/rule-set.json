@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://okx.npuls.nl/schema/rule-set/alfa",
+  "title": "Rule set",
+  "DutchName": "Regelset",
+  "$comment": "Alfa en indicatief. Deze vorm onderbouwt welke velden het koppelvlak nodig heeft en kan wijzigen zolang de payload niet is vastgesteld.",
+  "type": "object",
+  "required": ["id", "version", "name", "appliesTo", "rules"],
+  "properties": {
+    "id": { "type": "string", "format": "uuid", "DutchName": "id" },
+    "version": { "type": "string", "DutchName": "versie" },
+    "name": { "type": "string", "DutchName": "naam" },
+    "description": { "type": "string", "DutchName": "omschrijving" },
+    "appliesTo": { "type": "string", "format": "uuid", "DutchName": "vanToepassingOp" },
+    "rules": { "type": "array", "items": { "type": "object" }, "DutchName": "regels" }
+  }
+}
