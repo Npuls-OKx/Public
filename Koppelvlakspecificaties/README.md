@@ -66,7 +66,7 @@ De koppelingen staan elk in een eigen map:
 
 | Map | Koppeling | Inhoud | Herkomst |
 |---|---|---|---|
-| [`gedeeld/`](Koppelingspecificaties/gedeeld/) | alle koppelingen | Centrale onderwijsspecificatie-payload en lifecycle-uitwerking | Uitgewerkt vanuit de koppeling met planning |
+| [`gedeeld/`](Koppelingspecificaties/gedeeld/) | alle koppelingen | Centrale onderwijsspecificatie-payload, de regelset waarmee kiesbaarheid en voorwaarden worden vastgelegd, en de lifecycle-uitwerking | Uitgewerkt vanuit de koppeling met planning |
 | [`oc-p-en-r/`](Koppelingspecificaties/oc-p-en-r/) | Onderwijscatalogus naar planning en roostering | Koppelingspecificatie, onderwijsaanbod-payload | Werksessie met de eerste schets van deze koppeling |
 | [`oc-sis-krs-svs/`](Koppelingspecificaties/oc-sis-krs-svs/) | Onderwijscatalogus naar studentinformatiesysteem | Koppelingspecificatie, resultaatstructuur en examenplan | Afgeleid van het patroon met planning; werksessie volgt |
 | [`oc-lms/`](Koppelingspecificaties/oc-lms/) | Onderwijscatalogus naar leermanagementsysteem | Koppelingspecificatie; leermiddelkoppeling-payload volgt | Afgeleid van het patroon met planning; werksessie volgt |

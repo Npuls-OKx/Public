@@ -107,7 +107,7 @@ In scope is de specificatiestructuur van opleiding tot leeronderdeel: `opleiding
 Vier afbakeningen die anders verwarring geven:
 
 - De **lesspecificatie** valt erbuiten: het lesniveau leeft in het leermanagementsysteem en wordt binnen dit programma niet gerealiseerd. De diepte is verder geen harde grens.
-- De **interne structuur van een regelset** staat hier niet; deze payload verwijst er alleen naar.
+- De **interne structuur van een regelset** staat hier niet; deze payload verwijst er alleen naar. Die structuur staat in [regelset als JSON-payload](payload-regelset.md).
 - **Generieke onderdelen** (taal, rekenen, burgerschap, Engels) zitten niet in dit voorbeeld.
 - Het **aanbod** (wanneer, waar, met wie), de **endpoints** en de **binding met de Open Onderwijs API** zijn eigen uitwerkingen.
 
@@ -1613,7 +1613,7 @@ Voorstel: optie C.
 - **Leeruitkomsten op elk niveau, met een eigen orde van grootte.** Een leeruitkomst bestaat op elk specificatieniveau: op opleidingsniveau is hij van grote orde (jaren werk, een NLQF-kwalificatie, leidend tot een diploma), op onderwijseenheid- en leeronderdeelniveau van kleinere orde (een deelverzameling kan tot een certificaat leiden), en straks op lessenreeks- of lesniveau (aangetoonde kennis, inzichten of vaardigheden). Leeruitkomsten aggregeren onderling via `bovenliggendLeeruitkomstId`: bottom-up telt klein op naar groot, top-down is een grote leeruitkomst te ontleden. Zo is van de grond af zichtbaar welke volgende onderwijsspecificaties je verder brengen richting een waardepapier of microcredential (`waardedocument`). Elke leeruitkomst draagt een `indicatieveOmvang` (kwantificatie in SBU en/of EC naast elkaar, voor aansluiting met HBO en WO; [ADR 0004](../../../Referentiemateriaal/adr/0004-leeruitkomsten-sbu-ec-logistieke-containergrootte.md)): de logistieke containergrootte van wat je behaalt. Daarnaast kent de leeruitkomst **optionele inhoudsvelden** (`omschrijving`, `resultaat`, `gedrag`, uit het kwalificatiedossier): meegeleverd waar het gebruiksprofiel dat vraagt (OC-LMS wel, OC-P&R niet). Voorbeeld: werkproces B1-K1-W1 in de payload.
 - **Sleutels en verwijzingen** volgen [uitgangspunt U7](../../uitgangspunten.md#u7-payload-plat-met-verwijzingen-en-de-sleutelconventie): `id` voor de eigen sleutel, een expliciete naam zodra een veld ergens anders heen wijst (`bovenliggendSpecificatieId`, `leeruitkomstId`, `regelsetVerwijzingen`, `manifest[].specificatieId`). Alle id's zijn uuid's.
 - Versionering per specificatie met semver (`MAJOR.MINOR.PATCH`). MAJOR = wijziging die betekenis of uitkomst raakt (leeruitkomsten, structuur, studielast), MINOR = additief zonder bestaande betekenis te breken, PATCH = correctie. Temporele geldigheid apart via `geldigVanaf`/`geldigTot` en cohort, niet als versienummer.
-- Identiteit los van versie (uitgangspunt, memo van Niels). Het `id` van een specificatie is stabiel; `versie` verandert bij een wijziging binnen dezelfde identiteit. Een fundamentele wijziging (nieuw kwalificatiedossier, nieuwe wettelijke eisen) is een nieuwe specificatie met een nieuw id, niet alleen een MAJOR-bump.
+- Identiteit los van versie (uitgangspunt, [memo van Niels](../../../Referentiemateriaal/memos/onderwijs-pdca-cyclus.md)). Het `id` van een specificatie is stabiel; `versie` verandert bij een wijziging binnen dezelfde identiteit. Een fundamentele wijziging (nieuw kwalificatiedossier, nieuwe wettelijke eisen) is een nieuwe specificatie met een nieuw id, niet alleen een MAJOR-bump.
 - Kwalificatie op programma-niveau, dossier op opleiding-niveau (zie de conceptniveaus in §1.1).
 - `programmaLaag` onderscheidt leerweg- en doelgroep-programma. Beide zijn `programma`.
 - `bovenliggendSpecificatieId` draagt twee betekenissen: onderdeel-van (additief, bv. kerntaak onder programma) en variant-van (alternatief, bv. doelgroep onder leerweg). De aggregatie-invariant geldt alleen voor onderdeel-van.
@@ -1684,7 +1684,7 @@ In §2.2 staat het manifest uitgewerkt op drie niveaus: de `opleidingsspecificat
 | Vraag | Vervolgstap |
 |---|---|
 | Hoe bindt `specificatieType` aan de Open Onderwijs API? De enum daar (program, cluster, course) mapt niet een-op-een op onze conceptniveaus. | Binding vaststellen in de gegevensanalyse; als signalering melden, geen wijziging aan de OEAPI-kern voorstellen. |
-| Wat is de interne structuur van een regelset (regeltypes, parameters, evaluatie)? | Wordt in een aparte uitwerking behandeld; deze payload verwijst er alleen naar. |
+| Wat is de interne structuur van een regelset (regeltypes, parameters, evaluatie)? | Uitgewerkt in [regelset als JSON-payload](payload-regelset.md); deze payload verwijst er alleen naar. |
 | Is een ouder-verwijzing de juiste vorm, of toch geneste kinderen? | Bevestigen bij de stakeholderreview; een geneste weergave blijft afleidbaar. |
 | `bovenliggendSpecificatieId` draagt twee betekenissen, onderdeel-van en variant-van. Moet dat expliciet? | Voorstel voor een apart veld voor de relatiesoort uitwerken en voorleggen. |
 | Herhalen we kwalificatie-inhoud per doelgroep-variant, of refereren we? | Nu hangt de inhoud onder een doelgroep; keuze maken bij de uitwerking van leerroute 2 en 3. |
