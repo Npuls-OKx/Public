@@ -95,7 +95,10 @@ def markdown_bestanden(paden: list[str], root: Path) -> list[Path]:
 def controleer(bestand: Path, root: Path) -> list[str]:
     hier = bestand.relative_to(root)
     inhoud = bestand.read_text(encoding="utf-8")
-    is_template = "templates" in bestand.parts
+    # Een template herken je aan de map waarin hij staat of aan zijn naam. De
+    # inleiding van een template is een invulinstructie; die kan per definitie
+    # geen uitgeschreven aanleiding, doel en scope dragen.
+    is_template = "templates" in bestand.parts or "template" in bestand.stem.lower()
     # Referentiemateriaal is overgenomen bronmateriaal. Een ADR hoort een status
     # en een datum te dragen; dat is onderdeel van het ADR-format en niet het
     # soort metadatakop dat we in het releasepakket willen vermijden.
@@ -132,14 +135,20 @@ def controleer(bestand: Path, root: Path) -> list[str]:
             )
 
     if INLEIDING.search(inhoud) and not is_template:
+        # Twee vormen zijn goed: een genummerde subkop (specificaties) of een
+        # vetgedrukte aanhef in de lopende tekst (kortere beleidsdocumenten).
+        # De conventie gaat over de inhoud, niet over de vorm van de kop.
         ontbreekt = [
             naam
-            for naam, patroon in (
-                ("aanleiding", r"\*\*Aanleiding\.\*\*|#{3,4}\s+1\.1\s+Aanleiding"),
-                ("doel", r"#{3,4}\s+1\.2\s+Doel"),
-                ("scope", r"#{3,4}\s+1\.3\s+Scope"),
+            for naam, woord in (
+                ("aanleiding", "Aanleiding"),
+                ("doel", "Doel"),
+                ("scope", "Scope"),
             )
-            if not re.search(patroon, inhoud)
+            if not re.search(
+                rf"\*\*{woord}\.?\*\*|#{{2,4}}\s+\d+(?:\.\d+)*\.?\s+{woord}\b",
+                inhoud,
+            )
         ]
         if ontbreekt:
             meldingen.append(

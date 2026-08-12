@@ -1,6 +1,8 @@
+# OKx: release management, algemene regels
+
 ## Inhoudsopgave
 
-1. [Introductie](#1-introductie)
+1. [Inleiding](#1-inleiding)
 2. [Wat is een release?](#2-wat-is-een-release)
 3. [Versienummering](#3-versienummering)
 4. [Compatibiliteit tussen afhankelijke artifacts](#4-compatibiliteit-tussen-afhankelijke-artifacts)
@@ -12,7 +14,11 @@
 
 ## 1. Inleiding
 
-Dit document legt generieke release management- en versioneringsregels vast die voor **alle** OKx-artifacts gelden.
+**Aanleiding.** OKx levert meerdere artifacts die elk hun eigen ritme en eigen afnemers hebben. Zonder gedeelde regels bepaalt elk team zelf wanneer iets een release is, wat een versienummer betekent en wat afnemers mogen verwachten. Dan zegt dezelfde versiesprong bij het ene artifact iets anders dan bij het andere, en kan een afnemer er niets aan aflezen.
+
+**Doel.** Dit document legt de release management- en versioneringsregels vast die voor **alle** OKx-artifacts gelden: wat een release is, hoe versienummers worden bepaald, hoe afhankelijke artifacts zich tot elkaar verhouden, en hoe releases worden gecommuniceerd.
+
+**Scope.** Alleen wat voor elk artifact hetzelfde is. Wat per artifact verschilt (eigenaarschap en RACI, wat "breaking" concreet betekent, compatibiliteit met andere artifacts) legt elk artifact zelf vast met het [release management template](Release-management-template.md). Support en deprecatie, de development lifecycle en het inhoudelijke voortbrengingsproces vallen buiten dit document; al het overige eveneens.
 
 
 ---
