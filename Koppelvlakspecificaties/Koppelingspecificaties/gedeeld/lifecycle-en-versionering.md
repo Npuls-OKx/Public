@@ -15,7 +15,7 @@
 
 **Aanleiding.** Bij het beschrijven van de centrale payload bleef één vraag onbeantwoord: wat gebeurt er als een specificatie wijzigt terwijl studenten al zijn ingeschreven en planning het aanbod al heeft klaargezet? Zonder afspraak daarover weet een afnemer niet waarop hij plant, en kan dezelfde specificatie bij twee systemen een andere betekenis krijgen. De [memo "Onderwijs PDCA-cyclus"](../../../Referentiemateriaal/memos/onderwijs-pdca-cyclus.md) van Niels leverde de invoer over hoe een instelling haar onderwijs cyclisch herziet.
 
-Onderwijs staat niet stil. Een kerntaak wordt herzien, een keuzedeel vervangen, een examenplan aangescherpt, en dat gebeurt terwijl studenten al aan een opleiding zijn begonnen en planning het aanbod al heeft klaargezet. De vraag is dus niet óf specificaties wijzigen, maar hoe een afnemer weet waarop hij plant of inricht, en wat er gebeurt met wat er al staat.
+Onderwijs staat niet stil. Onderwijseenheden worden herzien, een keuzedeel vervangen, een examenplan aangescherpt, en dat gebeurt terwijl studenten al aan een opleiding zijn begonnen en planning het aanbod al heeft klaargezet. 
 
 De [onderwijsspecificatie-payload](payload-onderwijsspecificatie.md) zet daarom een `versie` (semver) op elk niveau en houdt de identiteit van een specificatie los van die versie. Dit document legt uit waarom, en wat dat betekent voor de keten. Ketenoverzicht en begrippen: de [instap in de README](../../README.md#context).
 
