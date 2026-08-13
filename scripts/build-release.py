@@ -45,6 +45,9 @@ FENCE = re.compile(r"^```.*?^```", re.DOTALL | re.MULTILINE)
 
 STANDAARD_REPO_URL = "https://github.com/Npuls-OKx/Public"
 
+# Een docx kent \newpage niet; dat zou als letterlijke tekst in het document belanden.
+PAGINA_EINDE = '\n\n```{=openxml}\n<w:p><w:r><w:br w:type="page"/></w:r></w:p>\n```\n\n'
+
 
 def slug(tekst: str) -> str:
     """Zet een koptekst om in een anchor, zoals GitHub dat doet.
@@ -139,6 +142,41 @@ def bouw_anchorkaart(pakket: pathlib.Path, documenten: list) -> dict:
             per_doc[origineel] = f"{doc_slug(doc)}--{origineel}"
         kaart[doc] = per_doc
     return kaart
+
+
+def koppen_van(pakket: pathlib.Path, doc: str, kaart: dict) -> list:
+    """(niveau, tekst, uniek anchor) per kop in een document."""
+    zonder_code, _ = maskeer_codeblokken((pakket / doc).read_text(encoding="utf-8"))
+    gezien, uit = {}, []
+    for m in KOP.finditer(zonder_code):
+        niveau, tekst = len(m.group(1)), m.group(2).strip()
+        basis = slug(tekst)
+        n = gezien.get(basis, 0)
+        gezien[basis] = n + 1
+        origineel = basis if n == 0 else f"{basis}-{n}"
+        uit.append((niveau, tekst, (kaart.get(doc) or {}).get(origineel)))
+    return uit
+
+
+def bouw_inhoudsopgave(pakket: pathlib.Path, documenten: list, kaart: dict, diepte: int = 2) -> str:
+    """Een inhoudsopgave als gewone tekst met interne verwijzingen.
+
+    Pandoc kan met --toc een Word-veld plaatsen, maar zo'n veld blijft leeg tot de lezer
+    de velden bijwerkt. Of dat gebeurt hangt af van het programma en van een klik van de
+    lezer; een releaseartefact hoort niet leeg open te gaan. Deze inhoudsopgave staat er
+    dus gewoon als tekst in, met dezelfde interne verwijzingen als de rest van het
+    document. Prijs: geen paginanummers, want die kent alleen de renderer.
+    """
+    regels = ["## Inhoudsopgave", ""]
+    for doc in documenten:
+        for niveau, tekst, anchor in koppen_van(pakket, doc, kaart):
+            if niveau > diepte or anchor is None:
+                continue
+            if slug(tekst) == "inhoudsopgave":
+                continue  # de documenten dragen er zelf al een
+            schoon = re.sub(r"[`*]", "", tekst)
+            regels.append(f"{'  ' * (niveau - 1)}- [{schoon}](#{anchor})")
+    return "\n".join(regels)
 
 
 def eerste_kop_anchor(doc: str, kaart: dict) -> str:
@@ -304,15 +342,19 @@ def main(argv: list) -> int:
             print(f"    blijft codeblok: {doc} (diagram {n}) - {reden}")
 
         # Gebundeld document.
-        titel = f"# {manifest['naam']}\n\n{manifest.get('omschrijving', '')}\n\nVersie {versie}\n\n"
+        titel = (f"# {manifest['naam']}\n\n{manifest.get('omschrijving', '')}\n\n"
+                 f"Versie {versie}\n")
+        inhoud = bouw_inhoudsopgave(pakket, documenten, kaart)
         gebundeld_md = werk / "gebundeld.md"
-        gebundeld_md.write_text(titel + "\n\n\\newpage\n\n".join(gebundelde_delen), encoding="utf-8")
+        gebundeld_md.write_text(
+            titel + PAGINA_EINDE + inhoud + PAGINA_EINDE
+            + PAGINA_EINDE.join(gebundelde_delen), encoding="utf-8")
         gebundeld_docx = uit / f"{basisnaam}.docx"
         pandoc([
             # gfm+attributes, niet gfm+header_attributes: die laatste bestaat niet voor
             # gfm en laat pandoc afbreken. Zie --list-extensions=gfm.
-            "-f", "gfm+attributes",
-            "-t", "docx", "--toc", "--toc-depth=3",
+            "-f", "gfm+attributes+raw_attribute",
+            "-t", "docx",
             "--metadata", f"title={manifest['naam']} v{versie}",
             "--resource-path", str(werk),
             "-o", str(gebundeld_docx), str(gebundeld_md),
@@ -326,8 +368,8 @@ def main(argv: list) -> int:
                 docx = werk / "docx" / (doc[:-3] + ".docx")
                 docx.parent.mkdir(parents=True, exist_ok=True)
                 pandoc([
-                    "-f", "gfm", "-t", "docx", "--toc", "--toc-depth=3",
-                    "--resource-path", str(werk),
+                    "-f", "gfm", "-t", "docx",
+                            "--resource-path", str(werk),
                     "-o", str(docx), str(pad),
                 ])
                 z.write(docx, doc[:-3] + ".docx")
