@@ -337,7 +337,7 @@ Aanbod-attributen (suggestief, nog vast te stellen). Relatie: Specificatie 1..n 
 Open vragen:
 
 - OC naar planning: welke studentgegevens (eerder afgerond of ingeschreven) heeft planning nodig, en van welk systeem? Raakt ADR 0009.
-- Landelijke locatietabel (zoals BRIN in het VO) nodig of niet? (#84, vraag 2.)
+- Landelijke locatietabel (RIO - Onderwijslocatie) nodig of niet? (#84, vraag 2.)
 - Plek van de regels (bij de specificatie, het aanbod of het programma): later in de gegevensanalyse.
 - Afstemming met de koppelingen-lijn (#98/#119): daar zijn R7, R14 en R15 inmiddels vastgelegd als ADR 0022 (resultaatbegrippen conform ROSA KOI) en ADR 0023 (leeruitkomst-ids als opaque sleutels binnen OC-P&R). Na merge verwijzen beide lijnen naar elkaar.
 
