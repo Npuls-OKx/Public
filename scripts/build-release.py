@@ -259,6 +259,103 @@ def verlaag_koppen(inhoud: str) -> str:
     return herstel_codeblokken(zonder_code, blokken)
 
 
+# Opmaak van codeblokken. Pandoc's eigen SourceCode-stijl draagt geen lettergrootte,
+# geen inspringing en geen achtergrond, waardoor een JSON-blok even groot is als de
+# lopende tekst, zonder zichtbare rand, en een afgebroken regel links uitlijnt alsof
+# het een nieuwe regel is. Juist bij JSON verdwijnt daarmee de nesting uit beeld.
+CODE_STIJL = """<w:style w:type="paragraph" w:customStyle="1" w:styleId="SourceCode">
+  <w:name w:val="Source Code"/><w:basedOn w:val="Normal"/><w:link w:val="VerbatimChar"/>
+  <w:pPr>
+    <w:wordWrap w:val="off"/>
+    <w:spacing w:before="0" w:after="0" w:line="240" w:lineRule="auto"/>
+    <w:ind w:left="340" w:hanging="340"/>
+    <w:shd w:val="clear" w:color="auto" w:fill="F4F4F4"/>
+  </w:pPr>
+  <w:rPr><w:rFonts w:ascii="Consolas" w:hAnsi="Consolas"/><w:sz w:val="18"/></w:rPr>
+</w:style>"""
+
+TABEL_STIJL_RPR = '<w:rPr><w:sz w:val="18"/></w:rPr>'
+
+
+# 2 cm rondom in plaats van de standaard 2,54 cm: dat scheelt ruim tien tekens per
+# regel in een codeblok, en de brede tabellen krijgen er ook lucht van.
+MARGES = ('<w:pgSz w:w="11906" w:h="16838"/>'
+          '<w:pgMar w:top="1134" w:right="1134" w:bottom="1134" w:left="1134"'
+          ' w:header="709" w:footer="709" w:gutter="0"/>')
+
+
+def referentiedocument(werk: pathlib.Path) -> pathlib.Path:
+    """Pandoc's eigen referentiedocument, met codeblokken leesbaar opgemaakt.
+
+    Het document komt uit pandoc zelf en wordt hier aangepast, zodat er geen binair
+    bestand in het repository hoeft te staan dat bij een pandoc-upgrade stilletjes
+    veroudert.
+    """
+    resultaat = subprocess.run(["pandoc", "--print-default-data-file", "reference.docx"],
+                               capture_output=True)
+    if resultaat.returncode != 0 or not resultaat.stdout:
+        print("kon het referentiedocument niet uit pandoc halen:", file=sys.stderr)
+        print((resultaat.stderr or b"").decode("utf-8", "ignore")[:400], file=sys.stderr)
+        raise SystemExit(1)
+
+    ruw = werk / "referentie-ruw.docx"
+    ruw.write_bytes(resultaat.stdout)
+    ref = werk / "referentie.docx"
+    with zipfile.ZipFile(ruw) as bron, zipfile.ZipFile(ref, "w", zipfile.ZIP_DEFLATED) as doel:
+        for item in bron.infolist():
+            data = bron.read(item.filename)
+            if item.filename == "word/styles.xml":
+                tekst = data.decode("utf-8")
+                # Kleinere letter voor code binnen een alinea, zodat een lange regel
+                # minder snel afbreekt.
+                tekst = re.sub(r'(w:styleId="VerbatimChar".*?<w:sz w:val=")\d+',
+                               r"\g<1>18", tekst, count=1, flags=re.DOTALL)
+                # Tabellen een punt kleiner, anders past een tabel met vijf kolommen niet.
+                # De volgorde van de kinderen van een stijl ligt vast in OOXML: rPr hoort
+                # vlak voor tblPr te staan, anders negeert Word de hele stijl.
+                def kleiner(m):
+                    blok = m.group(0)
+                    if "<w:rPr>" in blok.split("<w:tblPr>")[0]:
+                        return blok
+                    return blok.replace("<w:tblPr>", TABEL_STIJL_RPR + "<w:tblPr>", 1)
+
+                tekst = re.sub(r'<w:style [^>]*w:styleId="Table"[^>]*>.*?</w:style>',
+                               kleiner, tekst, count=1, flags=re.DOTALL)
+                if 'w:styleId="SourceCode"' in tekst:
+                    tekst = re.sub(r'<w:style [^>]*w:styleId="SourceCode".*?</w:style>',
+                                   CODE_STIJL, tekst, count=1, flags=re.DOTALL)
+                else:
+                    tekst = tekst.replace("</w:styles>", CODE_STIJL + "</w:styles>")
+                data = tekst.encode("utf-8")
+            elif item.filename == "word/document.xml":
+                tekst = data.decode("utf-8")
+                tekst = tekst.replace("<w:sectPr>", "<w:sectPr>" + MARGES, 1)
+                data = tekst.encode("utf-8")
+            doel.writestr(item, data)
+    return ref
+
+
+def tabellen_laten_meebewegen(docx: pathlib.Path) -> None:
+    """Laat Word de kolombreedtes bepalen in plaats van pandoc.
+
+    Pandoc geeft elke kolom dezelfde breedte, ongeacht wat erin staat: bij een tabel met
+    vijf kolommen wordt elke kolom een vijfde, en dan breekt Word woorden middenin af
+    ("Wijziginge n tussen"). Met autofit en zonder vaste breedtes verdeelt Word de ruimte
+    naar de inhoud.
+    """
+    z = zipfile.ZipFile(docx)
+    onderdelen = {i.filename: z.read(i.filename) for i in z.infolist()}
+    z.close()
+    xml = onderdelen["word/document.xml"].decode("utf-8")
+    xml = xml.replace('<w:tblW w:type="auto" w:w="0" />',
+                      '<w:tblW w:type="pct" w:w="5000" /><w:tblLayout w:type="autofit" />')
+    xml = re.sub(r'<w:gridCol w:w="\d+" />', "<w:gridCol />", xml)
+    onderdelen["word/document.xml"] = xml.encode("utf-8")
+    with zipfile.ZipFile(docx, "w", zipfile.ZIP_DEFLATED) as uit:
+        for naam, inhoud in onderdelen.items():
+            uit.writestr(naam, inhoud)
+
+
 def pandoc(argumenten: list) -> None:
     resultaat = subprocess.run(["pandoc", *argumenten], capture_output=True, text=True)
     if resultaat.returncode != 0:
@@ -314,6 +411,7 @@ def main(argv: list) -> int:
         beelden = werk / "diagrammen"
         kaart = bouw_anchorkaart(pakket, documenten)
         teller, mislukt = [0], []
+        referentie = referentiedocument(werk)
 
         print(f"{manifest['naam']} v{versie}: {len(documenten)} documenten")
 
@@ -355,10 +453,12 @@ def main(argv: list) -> int:
             # gfm en laat pandoc afbreken. Zie --list-extensions=gfm.
             "-f", "gfm+attributes+raw_attribute",
             "-t", "docx",
+            "--reference-doc", str(referentie),
             "--metadata", f"title={manifest['naam']} v{versie}",
             "--resource-path", str(werk),
             "-o", str(gebundeld_docx), str(gebundeld_md),
         ])
+        tabellen_laten_meebewegen(gebundeld_docx)
         print(f"  {gebundeld_docx.name}")
 
         # Losse documenten in een zip, mapstructuur behouden.
@@ -369,9 +469,11 @@ def main(argv: list) -> int:
                 docx.parent.mkdir(parents=True, exist_ok=True)
                 pandoc([
                     "-f", "gfm", "-t", "docx",
+                    "--reference-doc", str(referentie),
                             "--resource-path", str(werk),
                     "-o", str(docx), str(pad),
                 ])
+                tabellen_laten_meebewegen(docx)
                 z.write(docx, doc[:-3] + ".docx")
             for extra in manifest.get("meeleveren", []):
                 bron = pakket / extra
