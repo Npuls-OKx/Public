@@ -96,6 +96,6 @@ De payload-kant hiervan (het manifest, met een uitgewerkt voorbeeld) staat in [Â
 
 - [Onderwijsspecificatie-payload](payload-onderwijsspecificatie.md): het manifest en de versievelden in de payload zelf.
 - [Resultaatstructuur en examenplan](../oc-sis-krs-svs/resultaatstructuur-en-examenplan.md): waarom het examenplan de strengste regels kent.
-- Memo van Niels.
+- [memo van Niels](../../../Referentiemateriaal/memos/onderwijs-pdca-cyclus.md)
 - [Release-management en versionering](https://github.com/Npuls-OKx/meta/blob/d47bb0c74ec899a4384d06331692f74b9bd1db58/doc/OKx_Release-management-en-versionering.md): de release van de standaard zelf, niet van de onderwijsinhoud.
 - [ADR 0020](../../../Referentiemateriaal/adr/0020-curriculumontwerp-onderwijscatalogus-happy-flow-synchronisatie-en-federatie-adopt-klonen.md): synchronisatie tussen ontwerptool en catalogus, en het gebruik van uuid-verwijzingen.
