@@ -21,7 +21,7 @@ De [onderwijsspecificatie-payload](payload-onderwijsspecificatie.md) zet daarom 
 
 De [memo "Onderwijs PDCA-cyclus"](../../../Referentiemateriaal/memos/onderwijs-pdca-cyclus.md) van Niels is de invoer: die beschrijft hoe een instelling haar onderwijs cyclisch herziet. De uitgangspunten daaruit staan in [§2](#2-uitgangspunten), vertaald naar wat ze voor de oplossing betekenen.
 
-**Twee dingen die op elkaar lijken maar het niet zijn.** Dit document gaat over de lifecycle van **onderwijsspecificaties**: de inhoud die over de koppeling gaat. Dat is iets anders dan het release-management van de **koppelvlakspecificatie** zelf, dus van de standaard en haar documenten; dat staat in [`doc/OKx_Release-management-en-versionering.md`](https://github.com/Npuls-OKx/meta/blob/d47bb0c74ec899a4384d06331692f74b9bd1db58/doc/OKx_Release-management-en-versionering.md). Een instelling die haar kerntaak herziet raakt het eerste, niet het tweede.
+Een instelling die de invulling van een kerntaak van een opleiding herziet raakt het eerste, niet het tweede.
 
 ### 1.2 Doel
 
