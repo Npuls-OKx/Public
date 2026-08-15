@@ -6,8 +6,6 @@
 2. [Uitgangspunten](#2-uitgangspunten)
 3. [Versioneringsmechaniek](#3-versioneringsmechaniek)
 4. [Classificatie van wijzigingen](#4-classificatie-van-wijzigingen)
-5. [Open punten](#5-open-punten)
-6. [Gerelateerde uitwerkingen](#6-gerelateerde-uitwerkingen)
 
 ## 1. Inleiding
 
@@ -35,7 +33,7 @@ Geslaagd wanneer een onderwijscatalogus en een afnemer bij dezelfde wijziging to
 
 Deze uitwerking is indicatief en onderbouwend, net als de koppelingspecificaties die erop steunen ([uitgangspunt U1](../../uitgangspunten.md#u1-indicatief-en-onderbouwend-niet-voorschrijvend)).
 
-Wat dit document nog niet doet: de publicatiegebeurtenis waarmee een catalogus een samenhangende versie van de hele boom vrijgeeft, en de uitgewerkte voorbeelden van gelijktijdig actieve versies over cohorten heen. Die staan in [§5](#5-open-punten).
+Wat dit document nog niet doet: de publicatiegebeurtenis waarmee een catalogus een samenhangende versie van de hele boom vrijgeeft, en de uitgewerkte voorbeelden van gelijktijdig actieve versies over cohorten heen.
 
 ### 1.3 Scope
 
@@ -80,22 +78,3 @@ De payload-kant hiervan (het manifest, met een uitgewerkt voorbeeld) staat in [�
 | Onderdeel | Update van een onderwijseenheid- of leeronderdeelspecificatie | Nieuwe versie van het onderdeel; de bovenliggende specificatie volgt alleen bij een brekende afhankelijkheid |
 | Niet-brekend | Actualisatie van lessen, materiaal of uitvoeringsvorm | PATCH of MINOR binnen dezelfde identiteit |
 | Na planning of roostering | Wijziging nadat aanbod of rooster is gepubliceerd | Alleen bij uitzondering en na ketenafstemming |
-
-## 5. Open punten
-
-| Vraag | Vervolgstap |
-|---|---|
-| Is naast het pinnen van exacte versies ook een "laatst-compatibele" verwijzing nodig voor herbruikbare onderdelen? | Voorleggen aan planning en leveranciers bij de stakeholderreview. |
-| Hoe bepaalt een catalogus of ontwerptool of een wijziging brekend is? | Criteria uitwerken op basis van de classificatie in §4. |
-| Hoe publiceert de catalogus een samenhangende versie van de hele boom (releasegebeurtenis)? | Uitwerken bovenop het manifest-mechanisme. |
-| Tot welk moment worden wijzigingen geaccepteerd ten opzichte van planning en roostering? | Beleidsvraag; agenderen met planning en het onderwijsbedrijf. |
-| Hoe migreren studenten die achterblijven op een oudere versie? | Grotendeels afhankelijk van het applicatielandschap van de instelling; buiten de standaard. |
-| Welke aanvullende voorbeelden zijn nodig van gelijktijdig actieve versies over cohorten heen? | Uitwerken zodra de eerste stakeholderreview is verwerkt. |
-
-## 6. Gerelateerde uitwerkingen
-
-- [Onderwijsspecificatie-payload](payload-onderwijsspecificatie.md): het manifest en de versievelden in de payload zelf.
-- [Resultaatstructuur en examenplan](../onderwijscatalogus-studentinformatiesysteem/resultaatstructuur-en-examenplan.md): waarom het examenplan de strengste regels kent.
-- Memo van Niels.
-- [Release-management en versionering](https://github.com/Npuls-OKx/meta/blob/d47bb0c74ec899a4384d06331692f74b9bd1db58/doc/OKx_Release-management-en-versionering.md): de release van de standaard zelf, niet van de onderwijsinhoud.
-- [ADR 0020](../../../Referentiemateriaal/adr/0020-curriculumontwerp-onderwijscatalogus-happy-flow-synchronisatie-en-federatie-adopt-klonen.md): synchronisatie tussen ontwerptool en catalogus, en het gebruik van uuid-verwijzingen.

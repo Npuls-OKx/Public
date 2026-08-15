@@ -9,9 +9,6 @@
 5. [Sequentiediagrammen](#5-sequentiediagrammen)
 6. [Payload-specificaties (verwijzing) en gebruiksprofiel](#6-payload-specificaties-verwijzing-en-gebruiksprofiel)
 7. [Endpointbeschrijvingen (REST)](#7-endpointbeschrijvingen-rest)
-8. [Reviewvragen](#8-reviewvragen)
-9. [Open punten](#9-open-punten)
-10. [Gerelateerde uitwerkingen](#10-gerelateerde-uitwerkingen)
 
 ## 1. Inleiding
 
@@ -90,7 +87,7 @@ I1 tot en met I5 zijn uitgewerkt in §5 tot sequentiediagrammen. I6 tot en met I
 
 Referentie voor de patroontaal: [Enterprise Integration Patterns, Messaging](https://www.enterpriseintegrationpatterns.com/patterns/messaging/). De koppelingspecificatie legt de patronen op dit niveau vast; implementatiekeuzes (bus, broker, polling) schrijft ze niet voor.
 
-Buiten deze koppeling, maar wel tussen dezelfde twee systemen: capaciteitsterugkoppeling en het door P annuleren van een reeds gepland aanbod buiten de I4-flow. Bewust uitgesteld, zie [§9](#9-open-punten).
+Buiten deze koppeling, maar wel tussen dezelfde twee systemen: capaciteitsterugkoppeling en het door P annuleren van een reeds gepland aanbod buiten de I4-flow. Bewust uitgesteld.
 
 Context, buiten deze koppeling maar zelfde patroon: P meldt R "planning beschikbaar" (referenties), R meldt OC en P "rooster bekend" (referentie). Zie §5.5.
 
@@ -100,24 +97,7 @@ Ordening: per `specificatieId` blijft de berichtvolgorde behouden (zelfde sleute
 
 ### 4.1 Informatiemodel
 
-De begrippen uit het semantisch kader en hun relaties, in de context van dit proces. Links de wereld van OC (specificeren), rechts die van P (instantiëren); de koppeling verbindt ze via de verwijzing "instantieert".
-
-```mermaid
-erDiagram
-    ONDERWIJSSPECIFICATIE ||--o{ ONDERWIJSSPECIFICATIE : "bestaat uit"
-    ONDERWIJSSPECIFICATIE }o--o{ LEERUITKOMST : "verankert op"
-    ONDERWIJSSPECIFICATIE }o--o{ REGELSET : "kent keuzeregels via"
-    ONDERWIJSAANBOD }o--|| ONDERWIJSSPECIFICATIE : "instantieert (id en versie)"
-    ONDERWIJSAANBOD ||--o{ ONDERWIJSAANBOD : "bestaat uit"
-    ONDERWIJSAANBOD }o--o| LOCATIE : "vindt plaats op"
-    ONDERWIJSAANBOD }o--o| ONDERWIJSTEAM : "wordt uitgevoerd door"
-    ONDERWIJSAANBOD ||--o{ GROEP : "kent"
-    ROOSTER }o--|| ONDERWIJSAANBOD : "plaatst in de tijd (context)"
-```
-
-Het model toont de relatie tussen specificatie en leeruitkomst als veel-op-veel. De payload implementeert dat voorlopig als één `leeruitkomstId` per specificatie; een array-vorm staat als open punt in de [onderwijsspecificatie-payload](../gedeeld/payload-onderwijsspecificatie.md#4-open-punten).
-
-Wat het model niet toont: de scheiding loopt precies langs het eigenaarschap. Links de wereld van de catalogus (specificeren), rechts die van planning (instantiëren), verbonden door de verwijzing `instantieert`. Het rooster plaatst het aanbod daarna in de tijd; dat valt buiten deze koppeling (§5.5).
+Het [informatiemodel van deze koppeling](../../Datamodelschema's/README.md#onderwijscatalogus-naar-planning-en-roostering) staat bij de datamodelschema's. De scheiding loopt precies langs het eigenaarschap: Links de wereld van de catalogus (specificeren), rechts die van planning (instantiëren), verbonden door de verwijzing `instantieert`. Het rooster plaatst het aanbod daarna in de tijd; dat valt buiten deze koppeling (§5.5).
 
 ### 4.2 Datamodellen (verwijzing) en gebruiksprofiel
 
@@ -323,33 +303,3 @@ Gedrag:
 - `POST /abonnementen`: idempotent op de combinatie callback-URL + event-type. Een herhaalde registratie overschrijft de vorige, geen dubbel geregistreerde aflevering. Alleen bestemd voor de webhook-events (I1, I3, I4, I6); vervalt zodra event-aflevering via bus of broker loopt (§3).
 - `/onderwijsspecificaties` en `/onderwijsaanbod` (zonder `{id}`) zijn de reconciliatie-route: bedoeld voor herstel na een event in de Dead Letter Channel, niet voor reguliere polling. De reguliere flow blijft event-gedreven (I1, I3, I4, I6).
 - Mogelijke uitbreidingen (v-next): filter op `specificatieType` of deelstructuur-selectie bij het ophalen van de structuur, paginering bij grote structuren.
-
-## 8. Reviewvragen
-
-> Wordt aangevuld tijdens de uitwerking. Geagendeerd:
-
-1. Dekken de acht interacties (I1-I8) de koppeling, of missen er nog flows voor jullie praktijk? I6-I8 zijn bij een doorlichting van dit document toegevoegd (statuswijziging los van versie, reconciliatie, abonnementen) — geen van drieën stond in de oorspronkelijke werksessie.
-2. **Trigger-granulariteit (uit de schets):** bij welke veld- of objectwijziging stuurt OC de wijzigingsnotificatie (I4)? Voorstel: koppelen aan de wijzigingsklasse uit de lifecycle-uitwerking (semver: PATCH stil, MINOR/MAJOR notificeren). Klopt dat voor de planpraktijk?
-3. **Delta versus volledige structuur (uit de schets):** wat moet het I4-event minimaal dragen zodat de consument kan kiezen tussen de delta (JSON Patch, RFC 6902) en de volledige structuur?
-4. **Referentie in plaats van instantie (uitgangspunt):** P levert alleen de referentie (uuid) naar het `opleidingsaanbod`, niet de instantie zelf. Werkt dat voor alle consumenten (OC, R), of zijn er gevallen waarin de resource mee moet?
-5. **Validatie-uitkomst:** afgekeurd als status-event (huidige keuze, past bij pull) of als synchrone HTTP-fout?
-6. Volstaat de vastlegging van exacte versies in het manifest voor planning, of is een "laatst-compatibele" verwijzing nodig?
-7. **Event-aflevering:** webhook (zoals beschreven in §7) of een bus of broker? De payload blijft gelijk, de infrastructuurkeuze niet.
-8. **Onderwijsaanbod-payload (apart document, §6):** dekken de vier aanbod-typen en de velden (status, knelpunten, periode, locatie, organisatie, groepen) wat planning teruggeeft, of missen er velden voor jullie praktijk?
-
-## 9. Open punten
-
-- Profiel-hoofdstukken 15-18 zijn verouderd; deze memo is de vervangende lijn. Het profiel bijwerken is een aparte actie buiten deze branch.
-- Capaciteitsterugkoppeling (bezetting, parallelle groepen) valt bewust buiten deze uitwerking en volgt in een volgende iteratie. Hetzelfde geldt voor het geval waarin P een reeds `gepland` aanbod nadien annuleert buiten de I4-flow om (bv. onderbezetting, wegvallen van een docent): zonder capaciteitsterugkoppeling heeft OC daar nu geen zicht op. Beide horen bij dezelfde vervolgiteratie.
-- De [onderwijsaanbod-payload](payload-onderwijsaanbod.md) concretiseert de eerdere signalering "suggestieve aanbod-attributen" uit de onderwijsspecificatie-payload.
-- Knelpuntcodes (planfouten als constraint-categorieën): aanzet in de onderwijsaanbod-payload §3.4; genormeerde codelijst en foutmodel zijn een eigen issue waard.
-
-## 10. Gerelateerde uitwerkingen
-
-- [Onderwijsspecificatie-payload](../gedeeld/payload-onderwijsspecificatie.md) (de berichtinhoud van deze koppeling).
-- [Onderwijsaanbod-payload](payload-onderwijsaanbod.md) (de opvraagbare aanbod-instantie, I5).
-- [Lifecycle en versionering](../gedeeld/lifecycle-en-versionering.md) (wijzigingsklassen, acceptatie).
-- [Resultaatstructuur en examenplan](../onderwijscatalogus-studentinformatiesysteem/resultaatstructuur-en-examenplan.md) (hoort bij de koppeling onderwijscatalogus naar studentinformatiesysteem, daar verder uit te werken).
-- Memo "Onderwijs PDCA-cyclus" van Niels: `doc/OKx_PDCA cyclus onderwijsontwerp.md`.
-- [Koppelingspecificatie onderwijscatalogus naar studentinformatiesysteem (KRS/SVS)](../onderwijscatalogus-studentinformatiesysteem/onderwijscatalogus-studentinformatiesysteem.md) en [onderwijscatalogus naar leermanagementsysteem](../onderwijscatalogus-leermanagementsysteem/onderwijscatalogus-leermanagementsysteem.md): dezelfde patronen, afgeleid van deze koppeling.
-- [ADR 0018](../../../Referentiemateriaal/adr/0018-enterprise-messaging-patronen-voor-betrouwbare-koppelvlakken.md) (messaging-patronen), [ADR 0020](../../../Referentiemateriaal/adr/0020-curriculumontwerp-onderwijscatalogus-happy-flow-synchronisatie-en-federatie-adopt-klonen.md) (pub/sub bij mutaties), [ADR 0008](../../../Referentiemateriaal/adr/0008-scope-planning-eerst-intra-instelling.md) (intra-instelling eerst), [ADR 0021](../../../Referentiemateriaal/adr/0021-koppeling-versus-koppelvlak-terminologie.md) (koppeling versus koppelvlak).

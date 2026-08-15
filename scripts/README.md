@@ -31,7 +31,7 @@ Het anchor-algoritme volgt dat van GitHub, waar elke spatie afzonderlijk een kop
 
 ## Het releasepakket bouwen
 
-`build-release.py` maakt van de markdown-bronnen twee artefacten: één gebundeld document met alle documenten in leesvolgorde, en de documenten los in een zip met de mapstructuur erbij. Welke documenten meegaan, in welke volgorde, en onder welke versie staat in het manifest van het pakket: [`Koppelvlakspecificaties/release.json`](../Koppelvlakspecificaties/release.json). Een nieuw pakket krijgt een eigen map met een eigen `release.json`; het script en de workflow werken dan zonder aanpassing.
+`build-release.py` maakt van de markdown-bronnen twee artefacten: één gebundeld document met alle documenten in leesvolgorde, en de documenten los in een zip met de mapstructuur erbij. Welke documenten meegaan, in welke volgorde, en onder welke versie staat in het manifest van het pakket: [`Koppelvlakspecificaties/release.json`](../Koppelvlakspecificaties/release.json). Documenten die bij elkaar horen kun je daar als **sectie** opnemen (`{"sectie", "inleiding", "documenten"}`); ze worden dan subhoofdstukken onder één kop, zoals de referentiesystemen. In de losse documenten verandert dat niets. Een nieuw pakket krijgt een eigen map met een eigen `release.json`; het script en de workflow werken dan zonder aanpassing.
 
 Drie dingen doet het script die pandoc alleen niet doet.
 

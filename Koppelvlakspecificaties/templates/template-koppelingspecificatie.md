@@ -22,9 +22,6 @@ Lees eerst de [uitgangspunten](../uitgangspunten.md). Herhaal die niet: noem het
 5. [Sequentiediagrammen](#5-sequentiediagrammen)
 6. [Payload-specificaties (verwijzing) en gebruiksprofiel](#6-payload-specificaties-verwijzing-en-gebruiksprofiel)
 7. [Endpointbeschrijvingen (REST)](#7-endpointbeschrijvingen-rest)
-8. [Reviewvragen](#8-reviewvragen)
-9. [Open punten](#9-open-punten)
-10. [Gerelateerde uitwerkingen](#10-gerelateerde-uitwerkingen)
 
 ## 1. Inleiding
 
@@ -175,22 +172,3 @@ Event-aflevering, in webhook-vorm:
 Gedrag:
 
 - \<idempotentie, retry, foutafhandeling, en wat een herhaalde aanroep doet\>
-
-## 8. Reviewvragen
-
-<!-- Waarop wil je dat stakeholders reageren? Stel de vragen zo dat het antwoord het
-     document verandert; een vraag die alleen met ja te beantwoorden is levert niets op. -->
-
-1. \<vraag\>
-
-## 9. Open punten
-
-<!-- Wat bewust is uitgesteld, en wat nog niet klopt. Een leeg hoofdstuk is verdacht:
-     het betekent meestal dat de scope niet scherp is afgebakend. -->
-
-- \<open punt, met wat er nodig is om het te sluiten\>
-
-## 10. Gerelateerde uitwerkingen
-
-- [Uitgangspunten voor koppelingspecificaties](../uitgangspunten.md): de gedeelde aannames waarop dit document steunt.
-- \<andere documenten, als echte links\>

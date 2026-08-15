@@ -2,7 +2,26 @@
 """Bouwt het releasepakket van een specificatiepakket: docx uit de markdown-bronnen.
 
 Een pakket is een map met een release.json (het manifest). Dat manifest bepaalt de
-versie, de leesvolgorde van de documenten en wat er verder meegeleverd wordt.
+versie, de leesvolgorde van de documenten en wat er verder meegeleverd wordt. Een item
+in `documenten` is een pad, of een **sectie** die documenten die bij elkaar horen onder
+één kop bundelt:
+
+    {"sectie": "Referentiesystemen",
+     "inleiding": "Referentiesystemen/README.md",
+     "documenten": ["Referentiesystemen/onderwijscatalogus.md", ...]}
+
+De sectiekop draagt de titel, de optionele `inleiding` staat er als tekst onder (haar
+eigen H1 vervalt, want de sectiekop zegt hetzelfde al), en elk document eronder wordt
+een subhoofdstuk. In de losse documenten verandert een sectie niets: die blijven per
+bestand staan, met de mapstructuur eromheen.
+
+Een sectie kan in plaats van `documenten` ook `schemas` dragen: de naam van een map met
+JSON-schema's. Elk schema wordt dan een subhoofdstuk met zijn volledige inhoud, ingelezen
+bij het bouwen. De schema's blijven zo hun eigen bron; een bijlage die met de hand was
+overgeschreven zou bij de eerste schemawijziging uit de pas gaan lopen.
+
+`{"inhoudsopgave": true}` bepaalt waar de inhoudsopgave staat. Zonder dat item komt zij
+direct achter de titelpagina; ervoor kan dan bijvoorbeeld eerst een inleiding staan.
 
 Wat dit script oplost dat pandoc alleen niet doet:
 
@@ -126,6 +145,42 @@ def render_mermaid(inhoud: str, doc: str, beeldmap: pathlib.Path, teller: list,
     return MERMAID.sub(vervang, inhoud)
 
 
+def paden_van(documenten: list) -> list:
+    """Alle documentpaden uit het manifest in leesvolgorde, secties platgeslagen.
+
+    Alles wat per document werkt - de anchorkaart, het herschrijven van verwijzingen,
+    de losse documenten - kent geen secties en werkt op deze vlakke lijst.
+    """
+    uit = []
+    for item in documenten:
+        if isinstance(item, str):
+            uit.append(item)
+            continue
+        if item.get("inhoudsopgave"):
+            continue
+        if not item.get("sectie") or not (item.get("documenten") or item.get("schemas")):
+            raise SystemExit(
+                "een sectie in het manifest vraagt om 'sectie' plus 'documenten' of 'schemas'")
+        if item.get("inleiding"):
+            uit.append(item["inleiding"])
+        uit.extend(item.get("documenten") or [])
+    return uit
+
+
+def schemabestanden(pakket: pathlib.Path, item: dict) -> list:
+    return sorted((pakket / item["schemas"]).glob("*.json"))
+
+
+def schema_bijlage(pakket: pathlib.Path, item: dict) -> str:
+    """Elk JSON-schema als subhoofdstuk, met zijn volledige inhoud."""
+    delen = []
+    for bestand in schemabestanden(pakket, item):
+        inhoud = bestand.read_text(encoding="utf-8").rstrip()
+        delen.append(f"### {bestand.name} {{#schema--{slug(bestand.stem)}}}\n\n"
+                     f"```json\n{inhoud}\n```")
+    return "\n\n".join(delen)
+
+
 def bouw_anchorkaart(pakket: pathlib.Path, documenten: list) -> dict:
     """Per document: van oorspronkelijk anchor naar uniek anchor in het gebundelde document."""
     kaart = {}
@@ -158,7 +213,8 @@ def koppen_van(pakket: pathlib.Path, doc: str, kaart: dict) -> list:
     return uit
 
 
-def bouw_inhoudsopgave(pakket: pathlib.Path, documenten: list, kaart: dict, diepte: int = 2) -> str:
+def bouw_inhoudsopgave(pakket: pathlib.Path, documenten: list, kaart: dict,
+                       nummers: dict, diepte: int = 2) -> str:
     """Een inhoudsopgave als gewone tekst met interne verwijzingen.
 
     Pandoc kan met --toc een Word-veld plaatsen, maar zo'n veld blijft leeg tot de lezer
@@ -168,14 +224,39 @@ def bouw_inhoudsopgave(pakket: pathlib.Path, documenten: list, kaart: dict, diep
     document. Prijs: geen paginanummers, want die kent alleen de renderer.
     """
     regels = ["## Inhoudsopgave", ""]
-    for doc in documenten:
-        for niveau, tekst, anchor in koppen_van(pakket, doc, kaart):
+
+    def label(tekst: str, anchor: str) -> str:
+        """De koptekst zoals hij in het document staat: genummerd, zonder opmaak."""
+        schoon = NUMMER_VOORAF.sub("", re.sub(r"[`*]", "", tekst))
+        nummer = nummers.get(anchor)
+        return f"{nummer} {schoon}" if nummer else schoon
+
+    def regels_voor(doc: str, inspring: int, sla_titel_over: bool = False) -> None:
+        for i, (niveau, tekst, anchor) in enumerate(koppen_van(pakket, doc, kaart)):
+            if i == 0 and sla_titel_over:
+                continue  # de sectiekop staat er al
             if niveau > diepte or anchor is None:
                 continue
             if slug(tekst) == "inhoudsopgave":
                 continue  # de documenten dragen er zelf al een
-            schoon = re.sub(r"[`*]", "", tekst)
-            regels.append(f"{'  ' * (niveau - 1)}- [{schoon}](#{anchor})")
+            regels.append(f"{'  ' * (niveau - 1 + inspring)}- [{label(tekst, anchor)}](#{anchor})")
+
+    for item in documenten:
+        if isinstance(item, str):
+            regels_voor(item, 0)
+            continue
+        if item.get("inhoudsopgave"):
+            continue  # de inhoudsopgave noemt zichzelf niet
+        anchor = sectie_anchor(item, kaart)
+        regels.append(f"- [{label(item['sectie'], anchor)}](#{anchor})")
+        if item.get("inleiding"):
+            regels_voor(item["inleiding"], 0, sla_titel_over=True)
+        for doc in item.get("documenten") or []:
+            regels_voor(doc, 1)
+        if item.get("schemas"):
+            for bestand in schemabestanden(pakket, item):
+                anchor = f"schema--{slug(bestand.stem)}"
+                regels.append(f"  - [{label(bestand.name, anchor)}](#{anchor})")
     return "\n".join(regels)
 
 
@@ -183,6 +264,18 @@ def eerste_kop_anchor(doc: str, kaart: dict) -> str:
     """Het anchor van de H1 van een document, als landingspunt voor een verwijzing."""
     per_doc = kaart.get(doc) or {}
     return next(iter(per_doc.values()), doc_slug(doc))
+
+
+def sectie_anchor(item: dict, kaart: dict) -> str:
+    """Het anchor van een sectiekop.
+
+    Draagt de sectie een inleiding, dan neemt de sectiekop het anchor van de H1 van dat
+    document over. Die kop vervalt namelijk in het gebundelde document, en zonder deze
+    overname zou elke verwijzing naar de inleiding nergens meer landen.
+    """
+    if item.get("inleiding"):
+        return eerste_kop_anchor(item["inleiding"], kaart)
+    return f"sectie--{slug(item['sectie'])}"
 
 
 def herschrijf_links(inhoud: str, doc: str, pakket: pathlib.Path, documenten: list,
@@ -252,10 +345,71 @@ def geef_koppen_ids(inhoud: str, doc: str, kaart: dict) -> str:
     return herstel_codeblokken(zonder_code, blokken)
 
 
-def verlaag_koppen(inhoud: str) -> str:
-    """Schuift alle koppen een niveau op, zodat de documenttitel een hoofdstuk wordt."""
+def verlaag_koppen(inhoud: str, niveaus: int = 1) -> str:
+    """Schuift alle koppen op, zodat de documenttitel een hoofdstuk wordt.
+
+    Een document binnen een sectie schuift twee niveaus op: de sectiekop is dan het
+    hoofdstuk en de documenttitel het subhoofdstuk eronder.
+    """
     zonder_code, blokken = maskeer_codeblokken(inhoud)
-    zonder_code = KOP.sub(lambda m: f"#{m.group(1)} {m.group(2)}", zonder_code)
+    zonder_code = KOP.sub(lambda m: f"{'#' * niveaus}{m.group(1)} {m.group(2)}", zonder_code)
+    return herstel_codeblokken(zonder_code, blokken)
+
+
+KOP_MET_ID = re.compile(r"^(#{1,6})[ \t]+(.+?)(?:[ \t]*\{#([^}]+)\})?[ \t]*$", re.MULTILINE)
+
+# Een nummer dat een schrijver zelf voor een kop zette: "1.", "4.1", "5.5". Twee vormen,
+# zodat "2026 in cijfers" niet als nummer wordt gelezen: of er staat een punt in het
+# nummer, of het nummer sluit met een punt af.
+NUMMER_VOORAF = re.compile(r"^(?:\d+(?:\.\d+)+\.?|\d+\.)[ \t]+")
+
+
+def nummer_delen(delen: list, sla_over: set) -> tuple:
+    """Nummert de koppen doorlopend: 1, 1.1, 1.1.1, 1.1.1.1.
+
+    De nummers komen uit de plek in het gebundelde document, niet uit de kop zelf: een
+    nummer dat de schrijver er zelf voor zette gaat eraf. Documenten nummeren hun
+    paragrafen op volgorde vanaf 1, dus het laatste deel van het nieuwe nummer komt
+    overeen met het oude; een verwijzing naar "§7" wijst nog steeds naar dezelfde
+    paragraaf, nu als 9.7.
+
+    Geeft de genummerde delen terug plus, per anchor, het nummer dat de kop draagt.
+    Daarmee kan de inhoudsopgave dezelfde nummers tonen als het document zelf.
+    """
+    tellers, nummers, uit = [], {}, []
+
+    def vervang(m):
+        hekjes, tekst, anchor = m.group(1), m.group(2), m.group(3)
+        # Niveau 1 draagt de titelpagina; de hoofdstukken beginnen op niveau 2.
+        diepte = len(hekjes) - 2
+        if diepte < 0:
+            return m.group(0)
+        # De documenten dragen elk hun eigen inhoudsopgave. Die telt niet mee: anders
+        # schuift elke paragraaf erna een nummer op en wijst "§1" naar 1.2.
+        if slug(NUMMER_VOORAF.sub("", tekst)) == "inhoudsopgave":
+            return m.group(0)
+        del tellers[diepte + 1:]
+        tellers.extend([0] * (diepte + 1 - len(tellers)))
+        tellers[diepte] += 1
+        nummer = ".".join(str(t) for t in tellers)
+        if anchor:
+            nummers[anchor] = nummer
+        staart = f" {{#{anchor}}}" if anchor else ""
+        return f"{hekjes} {nummer} {NUMMER_VOORAF.sub('', tekst)}{staart}"
+
+    for i, deel in enumerate(delen):
+        if i in sla_over:
+            uit.append(deel)
+            continue
+        zonder_code, blokken = maskeer_codeblokken(deel)
+        uit.append(herstel_codeblokken(KOP_MET_ID.sub(vervang, zonder_code), blokken))
+    return uit, nummers
+
+
+def zonder_titel(inhoud: str) -> str:
+    """Haalt de eerste kop weg, voor een inleiding die onder een sectiekop komt."""
+    zonder_code, blokken = maskeer_codeblokken(inhoud)
+    zonder_code = KOP.sub("", zonder_code, count=1).lstrip("\n")
     return herstel_codeblokken(zonder_code, blokken)
 
 
@@ -275,6 +429,10 @@ CODE_STIJL = """<w:style w:type="paragraph" w:customStyle="1" w:styleId="SourceC
 </w:style>"""
 
 TABEL_STIJL_RPR = '<w:rPr><w:sz w:val="18"/></w:rPr>'
+
+# Basisgrootte voor lopende tekst, in halve punten: 18 is 9 punt. Pandoc staat op 24
+# (12 punt). De koppen dragen hun eigen grootte en veranderen hier niet van mee.
+BASISGROOTTE = "18"
 
 
 # 2 cm rondom in plaats van de standaard 2,54 cm: dat scheelt ruim tien tekens per
@@ -306,6 +464,14 @@ def referentiedocument(werk: pathlib.Path) -> pathlib.Path:
             data = bron.read(item.filename)
             if item.filename == "word/styles.xml":
                 tekst = data.decode("utf-8")
+                # Lopende tekst kleiner. Dit staat in docDefaults, dus het werkt door in
+                # alles wat geen eigen grootte draagt; koppen doen dat wel en blijven.
+                # Zowel sz als szCs, anders blijft de gewone tekst op de oude maat staan.
+                def maat(m):
+                    return re.sub(r'(<w:sz(?:Cs)? w:val=")\d+', r"\g<1>" + BASISGROOTTE, m.group(0))
+
+                tekst = re.sub(r"<w:docDefaults>.*?</w:docDefaults>", maat, tekst,
+                               count=1, flags=re.DOTALL)
                 # Kleinere letter voor code binnen een alinea, zodat een lange regel
                 # minder snel afbreekt.
                 tekst = re.sub(r'(w:styleId="VerbatimChar".*?<w:sz w:val=")\d+',
@@ -387,9 +553,10 @@ def main(argv: list) -> int:
     manifest = json.loads(manifest_pad.read_text(encoding="utf-8"))
     versie = args.versie or manifest["versie"]
     documenten = manifest["documenten"]
+    paden = paden_van(documenten)
     basisnaam = f"{manifest['bestandsnaam']}-v{versie}"
 
-    ontbreekt = [d for d in documenten if not (pakket / d).exists()]
+    ontbreekt = [d for d in paden if not (pakket / d).exists()]
     if ontbreekt:
         print("manifest noemt documenten die niet bestaan:", file=sys.stderr)
         for d in ontbreekt:
@@ -397,7 +564,7 @@ def main(argv: list) -> int:
         return 1
 
     op_schijf = {p.relative_to(pakket).as_posix() for p in pakket.rglob("*.md")}
-    vergeten = sorted(op_schijf - set(documenten))
+    vergeten = sorted(op_schijf - set(paden))
     if vergeten:
         print("let op: deze markdown-bestanden staan niet in het manifest en gaan niet mee:")
         for d in vergeten:
@@ -409,19 +576,21 @@ def main(argv: list) -> int:
     with tempfile.TemporaryDirectory(prefix="okx-bouw-") as tmp:
         werk = pathlib.Path(tmp)
         beelden = werk / "diagrammen"
-        kaart = bouw_anchorkaart(pakket, documenten)
+        kaart = bouw_anchorkaart(pakket, paden)
         teller, mislukt = [0], []
         referentie = referentiedocument(werk)
 
-        print(f"{manifest['naam']} v{versie}: {len(documenten)} documenten")
+        print(f"{manifest['naam']} v{versie}: {len(paden)} documenten")
 
         losse, gebundelde_delen = [], []
-        for doc in documenten:
+
+        def bouw_deel(doc: str, in_sectie: bool) -> str:
+            """Zet één document klaar: los voor de zip, en als deel van de bundel."""
             ruw = (pakket / doc).read_text(encoding="utf-8")
             met_beelden = render_mermaid(ruw, doc, beelden, teller, mislukt, args.streng)
 
             # Losse variant: verwijzingen naar GitHub, eigen anchors blijven.
-            los = herschrijf_links(met_beelden, doc, pakket, documenten, kaart,
+            los = herschrijf_links(met_beelden, doc, pakket, paden, kaart,
                                    False, args.repo_url, args.ref)
             los_pad = werk / "los" / doc
             los_pad.parent.mkdir(parents=True, exist_ok=True)
@@ -429,11 +598,43 @@ def main(argv: list) -> int:
             losse.append((doc, los_pad))
 
             # Gebundelde variant: unieke kop-id's, interne verwijzingen, een niveau dieper.
-            deel = herschrijf_links(met_beelden, doc, pakket, documenten, kaart,
+            deel = herschrijf_links(met_beelden, doc, pakket, paden, kaart,
                                     True, args.repo_url, args.ref)
             deel = geef_koppen_ids(deel, doc, kaart)
-            deel = verlaag_koppen(deel)
-            gebundelde_delen.append(deel)
+            return verlaag_koppen(deel, 2 if in_sectie else 1)
+
+        inhoud_op = None
+
+        for item in documenten:
+            if isinstance(item, str):
+                gebundelde_delen.append(bouw_deel(item, False))
+                continue
+            if item.get("inhoudsopgave"):
+                # De inhoudsopgave draagt de nummers van de koppen, en die staan pas
+                # vast als alle delen er zijn. Nu een plaats vrijhouden, straks vullen.
+                inhoud_op = len(gebundelde_delen)
+                gebundelde_delen.append("")
+                continue
+            # De sectiekop en zijn inleiding vormen één deel: anders valt er een
+            # pagina-einde tussen, en blijft de kop alleen op een pagina achter.
+            kop = f"## {item['sectie']} {{#{sectie_anchor(item, kaart)}}}"
+            if item.get("inleiding"):
+                kop += "\n\n" + zonder_titel(bouw_deel(item["inleiding"], False))
+            if item.get("schemas"):
+                # De schema's blijven één deel: elk schema een eigen pagina zou een
+                # bijlage van vijfentwintig halflege pagina's opleveren.
+                kop += "\n\n" + schema_bijlage(pakket, item)
+            gebundelde_delen.append(kop)
+            for doc in item.get("documenten") or []:
+                gebundelde_delen.append(bouw_deel(doc, True))
+
+        # Noemt het manifest geen plek, dan staat de inhoudsopgave achter de titelpagina.
+        if inhoud_op is None:
+            inhoud_op = 0
+            gebundelde_delen.insert(0, "")
+
+        gebundelde_delen, nummers = nummer_delen(gebundelde_delen, {inhoud_op})
+        gebundelde_delen[inhoud_op] = bouw_inhoudsopgave(pakket, documenten, kaart, nummers)
 
         print(f"  {teller[0] - len(mislukt)} van {teller[0]} mermaid-diagrammen gerenderd")
         for doc, n, reden in mislukt:
@@ -442,11 +643,9 @@ def main(argv: list) -> int:
         # Gebundeld document.
         titel = (f"# {manifest['naam']}\n\n{manifest.get('omschrijving', '')}\n\n"
                  f"Versie {versie}\n")
-        inhoud = bouw_inhoudsopgave(pakket, documenten, kaart)
         gebundeld_md = werk / "gebundeld.md"
         gebundeld_md.write_text(
-            titel + PAGINA_EINDE + inhoud + PAGINA_EINDE
-            + PAGINA_EINDE.join(gebundelde_delen), encoding="utf-8")
+            titel + PAGINA_EINDE + PAGINA_EINDE.join(gebundelde_delen), encoding="utf-8")
         gebundeld_docx = uit / f"{basisnaam}.docx"
         pandoc([
             # gfm+attributes, niet gfm+header_attributes: die laatste bestaat niet voor
@@ -479,8 +678,11 @@ def main(argv: list) -> int:
                 bron = pakket / extra
                 if bron.is_dir():
                     for bestand in sorted(bron.rglob("*")):
-                        if bestand.is_file():
-                            z.write(bestand, bestand.relative_to(pakket).as_posix())
+                        naam = bestand.relative_to(pakket).as_posix()
+                        # Een document uit het manifest zit al als docx in de zip; de
+                        # markdown-bron er dan naast leggen levert twee versies op.
+                        if bestand.is_file() and naam not in paden:
+                            z.write(bestand, naam)
                 elif bron.is_file():
                     z.write(bron, extra)
         print(f"  {zip_pad.name}")

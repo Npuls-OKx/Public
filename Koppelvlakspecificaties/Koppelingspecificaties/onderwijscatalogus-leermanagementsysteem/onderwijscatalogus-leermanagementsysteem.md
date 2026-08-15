@@ -9,9 +9,6 @@
 5. [Sequentiediagrammen](#5-sequentiediagrammen)
 6. [Payload-specificaties (verwijzing) en gebruiksprofiel](#6-payload-specificaties-verwijzing-en-gebruiksprofiel)
 7. [Endpointbeschrijvingen (REST)](#7-endpointbeschrijvingen-rest)
-8. [Reviewvragen](#8-reviewvragen)
-9. [Open punten](#9-open-punten)
-10. [Gerelateerde uitwerkingen](#10-gerelateerde-uitwerkingen)
 
 ## 1. Inleiding
 
@@ -82,19 +79,7 @@ Wat hier wordt vastgelegd is het **bericht**, niet het **kanaal**: hoe het beric
 
 ## 4. Informatiemodel
 
-```mermaid
-erDiagram
-    ONDERWIJSSPECIFICATIE ||--o{ ONDERWIJSSPECIFICATIE : "bestaat uit"
-    ONDERWIJSSPECIFICATIE }o--o{ LEERUITKOMST : "verankert op"
-    LEEROMGEVING_INRICHTING }o--|| ONDERWIJSSPECIFICATIE : "is ingericht naar (id en versie)"
-    LEERMIDDELKOPPELING }o--|| ONDERWIJSSPECIFICATIE : "hoort bij (id en versie)"
-    LEERMIDDELKOPPELING ||--o{ LEERMIDDELGROEP : "bundelt"
-    LEERMIDDELGROEP ||--o{ LEERMIDDEL : "bevat"
-```
-
-Het model toont de relatie tussen specificatie en leeruitkomst als veel-op-veel. De payload implementeert dat voorlopig als één `leeruitkomstId` per specificatie; een array-vorm staat als open punt in de [onderwijsspecificatie-payload](../gedeeld/payload-onderwijsspecificatie.md#4-open-punten).
-
-Wat het model niet toont: de leeromgeving vult onder de `leeronderdeelspecificatie` haar eigen lesniveau in. Dat blijft buiten deze koppeling, maar het is wel de reden dat de inrichting een eigen resource is met een eigen referentie.
+Het [informatiemodel van deze koppeling](../../Datamodelschema's/README.md#onderwijscatalogus-naar-leermanagementsysteem) staat bij de datamodelschema's. De leeromgeving vult onder de `leeronderdeelspecificatie` haar eigen lesniveau in. Dat blijft buiten deze koppeling, maar het is wel de reden dat de inrichting een eigen resource is met een eigen referentie.
 
 ## 5. Sequentiediagrammen
 
@@ -187,25 +172,3 @@ Gedrag:
 - Event-aflevering: ontvanger bevestigt met 200; bij uitblijven daarvan herhaalt de verzender met backoff en daarna [Dead Letter Channel](https://www.enterpriseintegrationpatterns.com/patterns/messaging/DeadLetterChannel.html). Dubbele aflevering is onschadelijk door het event-id ([Idempotent Receiver](https://www.enterpriseintegrationpatterns.com/patterns/messaging/IdempotentReceiver.html)).
 - Registratie van een callback-URL, zoals `POST /abonnementen` bij de koppeling met planning (I8), is voor deze koppeling nog geen eigen interactie in §3; zolang die er niet is, is het afleveradres een inrichtingskeuze tussen OC en LMS, buiten dit document.
 - Mogelijke uitbreidingen (v-next): paginering bij grote structuren, filter op deelstructuur-selectie bij het ophalen van de structuur.
-
-## 8. Reviewvragen
-
-1. Klopt de tweerichtingsopzet: structuur heen (L1-L3), leermiddelkoppeling terug (L4-L5)?
-2. Op welk niveau koppelt het LMS leermiddelen in de praktijk: leeronderdeel, onderwijseenheid, of beide?
-3. Is de leermiddelkoppeling een eigen resource bij het LMS (huidige keuze) of hoort die inhoud in OC thuis?
-4. Welke wijzigingen in de specificatie moeten het LMS actief bereiken (wijzigingsklasse-drempel)?
-5. Moet het LMS zijn inrichting (inclusief het lesniveau) als opvraagbare resource exposen voor andere componenten die er straks iets mee willen? Zo ja, dan volgt dat hetzelfde patroon (referentie plus ophalen), als aparte koppeling.
-
-## 9. Open punten
-
-- Leermiddelkoppeling-payload uitwerken (§6), inclusief de relatie met `leermiddelengroepen` uit de specificatie-catalogus van het profiel.
-- De leeruitkomst-inhoudsvelden (`omschrijving`, `resultaat`, `gedrag`) staan als optionele velden in de centrale payload; dit gebruiksprofiel levert ze mee.
-- Exposen van de LMS-inrichting (inclusief lesniveau) voor andere componenten: optie, zelfde patroon, aparte koppeling (reviewvraag 5).
-- Toewijzing van leermiddelen aan studenten (stroom 12, SVS naar LMS) is een aparte koppeling.
-
-## 10. Gerelateerde uitwerkingen
-
-- [Koppelingspecificatie onderwijscatalogus naar planning en roostering](../onderwijscatalogus-planning-en-roostering/onderwijscatalogus-planning-en-roostering.md) (het patroon waarop deze koppeling voortbouwt).
-- [Koppelingspecificatie onderwijscatalogus naar studentinformatiesysteem](../onderwijscatalogus-studentinformatiesysteem/onderwijscatalogus-studentinformatiesysteem.md).
-- [OKx OEAPI consumer-profiel](https://github.com/Npuls-OKx/meta/blob/d47bb0c74ec899a4384d06331692f74b9bd1db58/architecture/docs/specificatie/okx-oeapi-consumer-profiel/README.md): inrichting van de leeromgeving en de specificatie-catalogus met `leermiddelengroepen`.
-- [ADR 0021](../../../Referentiemateriaal/adr/0021-koppeling-versus-koppelvlak-terminologie.md) (koppeling versus koppelvlak).

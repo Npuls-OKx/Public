@@ -1,0 +1,13 @@
+# Managementsamenvatting
+
+Een instelling zet haar onderwijs klaar in een keten van systemen: een catalogus met de onderwijsspecificaties, een planningssysteem, een studentinformatiesysteem, een leeromgeving. Die systemen komen van verschillende leveranciers, en de manier waarop ze elkaar informeren wordt nu per instelling opnieuw bedacht. Dat kost bij elke implementatie tijd, en het knelt zodra onderwijs flexibeler wordt: een student die zijn eigen route kiest, vraagt van die keten dat een wijziging in het onderwijsaanbod overal aankomt zonder dat iemand hem met de hand doorgeeft.
+
+**Wat dit pakket vastlegt.** De onderwijscatalogus is het distributiepunt voor onderwijsspecificaties. Vanuit die catalogus lopen drie koppelingen: naar planning en roostering, naar het studentinformatiesysteem en naar het leermanagementsysteem. Per koppeling ligt vast welke interacties er zijn, welke gegevens er over gaan, en welke endpoints en berichten dat van beide kanten vraagt. De optelsom per systeem — het koppelvlak — staat apart, zodat een leverancier in één document ziet wat zijn component moet kunnen.
+
+**Twee afspraken dragen het geheel.** De eerste: elk gegeven heeft één eigenaar. De catalogus bezit de specificaties, het planningssysteem het aanbod, het studentinformatiesysteem de resultaten. De tweede: de eigenaar meldt een wijziging met een kort bericht dat alleen een verwijzing draagt, en de ontvanger haalt de gegevens op wanneer het hem uitkomt. Samen maken ze de keten bestand tegen uitval — een gemist bericht is achteraf in te halen — en houden ze de systemen los van elkaar.
+
+**Wat het van een partij vraagt.** Wie hierop wil aansluiten implementeert een handvol endpoints en een ontvangstpunt voor de berichten die zijn component raken. De koppelvlakken per systeem laten zien om hoeveel het gaat: voor de meeste componenten enkele endpoints en twee tot vier berichten.
+
+**Status.** Deze specificaties zijn **indicatief en onderbouwend, geen voorschrift aan de sector**. Ze beschrijven koppelingen om te ontdekken welke operaties nodig zijn; de sector bepaalt wat daarvan een norm wordt. De koppeling met planning en roostering is in werksessies met leveranciers en instellingen doorgesproken. Die met het studentinformatiesysteem en het leermanagementsysteem zijn afgeleid van hetzelfde patroon en nog niet in een werksessie bevestigd. De datamodelschema's zijn alfa.
+
+**Wat er nog niet in zit.** Het roostersysteem, het studentkeuzesysteem en de curriculum-ontwerptool horen bij de keten, maar dit pakket specificeert hun koppelingen nog niet. Alles is uitgewerkt binnen één instelling; uitwisseling tussen instellingen komt later.

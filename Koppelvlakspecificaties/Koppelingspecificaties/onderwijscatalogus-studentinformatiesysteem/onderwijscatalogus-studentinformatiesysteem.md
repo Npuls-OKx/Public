@@ -9,9 +9,6 @@
 5. [Sequentiediagrammen](#5-sequentiediagrammen)
 6. [Payload-specificaties (verwijzing) en gebruiksprofiel](#6-payload-specificaties-verwijzing-en-gebruiksprofiel)
 7. [Endpointbeschrijvingen (REST)](#7-endpointbeschrijvingen-rest)
-8. [Reviewvragen](#8-reviewvragen)
-9. [Open punten](#9-open-punten)
-10. [Gerelateerde uitwerkingen](#10-gerelateerde-uitwerkingen)
 
 ## 1. Inleiding
 
@@ -82,31 +79,7 @@ Wat hier wordt vastgelegd is het **bericht**, niet het **kanaal**: hoe het beric
 
 ## 4. Informatiemodel
 
-Conform het ROSA Kernmodel Onderwijsinformatie (KOI) en [ADR 0022](../../../Referentiemateriaal/adr/0022-resultaatbegrippen-conform-rosa-koi.md): een onderwijsresultaat wordt behaald op leeruitkomsten, en meerdere toetsonderdeelresultaten leiden gewogen tot dat onderwijsresultaat. De verbintenis hoort bij het aanbod (ankertabel), niet bij de specificatie, en staat daarom niet in dit kernmodel.
-
-```mermaid
-erDiagram
-    ONDERWIJSSPECIFICATIE ||--o{ ONDERWIJSSPECIFICATIE : "bestaat uit"
-    ONDERWIJSSPECIFICATIE }o--o{ LEERUITKOMST : "verankert op"
-    NOMINAAL_EXAMENPLAN }o--|| ONDERWIJSSPECIFICATIE : "geldt voor"
-    NOMINAAL_EXAMENPLAN ||--o{ TOETSONDERDEEL : "weegt"
-    KEUZEDEEL ||--o| KEUZEDEEL_EXAMENPLANDEEL : "kent eigen"
-    KEUZEDEEL_EXAMENPLANDEEL ||--o{ TOETSONDERDEEL : "weegt"
-    TOETSONDERDEEL }o--o{ LEERUITKOMST : "toetst"
-    INDIVIDUELE_STRUCTUUR }o--|| ONDERWIJSSPECIFICATIE : "is kopie van nominaal template"
-    INDIVIDUELE_STRUCTUUR }o--o{ KEUZEDEEL : "ingevuld met (keuze via SKS)"
-    INDIVIDUEEL_EXAMENPLAN ||--|| INDIVIDUELE_STRUCTUUR : "hoort bij"
-    INDIVIDUEEL_EXAMENPLAN }o--|| NOMINAAL_EXAMENPLAN : "samengesteld uit"
-    INDIVIDUEEL_EXAMENPLAN }o--o{ KEUZEDEEL_EXAMENPLANDEEL : "plus delen van gekozen keuzedelen"
-    TOETSONDERDEELRESULTAAT }o--|| TOETSONDERDEEL : "resultaat op"
-    ONDERWIJSRESULTAAT }o--o{ TOETSONDERDEELRESULTAAT : "gewogen samengesteld uit"
-    ONDERWIJSRESULTAAT }o--o{ LEERUITKOMST : "dicht af"
-    ONDERWIJSRESULTAAT }o--|| INDIVIDUEEL_EXAMENPLAN : "telt mee in"
-```
-
-Het model toont de relatie tussen specificatie en leeruitkomst als veel-op-veel. De payload implementeert dat voorlopig als één `leeruitkomstId` per specificatie; een array-vorm staat als open punt in de [onderwijsspecificatie-payload](../gedeeld/payload-onderwijsspecificatie.md#4-open-punten).
-
-Wat het model niet toont: het studentinformatiesysteem hanteert de gepubliceerde structuur als **nominaal template** en houdt daarnaast per student een **individuele structuur** bij, namelijk dat template plus de gekozen keuzedelen. In leerroute 1 tot en met 3 wijken nominaal en gevolgd uitsluitend daarin af; ook bij versnellen of vertragen blijft het programma gelijk en verandert alleen het tempo.
+Het [informatiemodel van deze koppeling](../../Datamodelschema's/README.md#onderwijscatalogus-naar-studentinformatiesysteem) staat bij de datamodelschema's. Het studentinformatiesysteem hanteert de gepubliceerde structuur als **nominaal template** en houdt daarnaast per student een **individuele structuur** bij, namelijk dat template plus de gekozen keuzedelen. In leerroute 1 tot en met 3 wijken nominaal en gevolgd uitsluitend daarin af; ook bij versnellen of vertragen blijft het programma gelijk en verandert alleen het tempo.
 
 Dezelfde symmetrie geldt voor het examenplan. Naast het **nominale examenplan** bij het diplomaprogramma heeft elk keuzedeel een eigen examenplandeel met eigen toetsonderdelen en een eigen onderwijsresultaat. Het **individuele examenplan** is de samenstelling van beide, en hoort bij de individuele structuur.
 
@@ -199,22 +172,3 @@ Gedrag:
 - Event-aflevering: ontvanger bevestigt met 200; bij uitblijven daarvan herhaalt de verzender met backoff en daarna [Dead Letter Channel](https://www.enterpriseintegrationpatterns.com/patterns/messaging/DeadLetterChannel.html). Dubbele aflevering is onschadelijk door het event-id ([Idempotent Receiver](https://www.enterpriseintegrationpatterns.com/patterns/messaging/IdempotentReceiver.html)).
 - Registratie van een callback-URL, zoals `POST /abonnementen` bij de koppeling met planning (I8), is voor deze koppeling nog geen eigen interactie in §3; zolang die er niet is, is het afleveradres een inrichtingskeuze tussen OC en SIS, buiten dit document.
 - Mogelijke uitbreidingen (v-next): paginering bij grote structuren.
-
-## 8. Reviewvragen
-
-1. Klopt de rolverdeling: SIS als één aanspreekpunt (KRS en SVS samen), of moeten KRS en SVS als aparte deelnemers in de diagrammen?
-2. Is de inrichtingsstatus (S4) met inrichting-referentie de juiste terugmelding, en wat wil OC daarmee?
-3. Dekt het faalpad §5.2 de praktijk van wijzigingen bij lopende verbintenissen?
-4. Wat is de juiste plek voor de actualisering op basis van keuzes (stroom 9): deze koppeling of de SKS-koppeling?
-
-## 9. Open punten
-
-- Stroom 9 (actualiseren resultaatstructuren op basis van keuzes) raakt het SKS; afbakening volgt bij de SKS-koppeling.
-- De resultaatstructuur-payload is alfa en indicatief; de resterende open punten (nominaal versus individueel examenplan, samengaan met het schema van de onderwijsspecificatie-payload) staan in [resultaatstructuur-en-examenplan §4](resultaatstructuur-en-examenplan.md#4-open-punten).
-
-## 10. Gerelateerde uitwerkingen
-
-- [Koppelingspecificatie onderwijscatalogus naar planning en roostering](../onderwijscatalogus-planning-en-roostering/onderwijscatalogus-planning-en-roostering.md) (het patroon waarop deze koppeling voortbouwt).
-- Memo "Onderwijs PDCA-cyclus" van Niels: `doc/OKx_PDCA cyclus onderwijsontwerp.md`.
-- [ADR 0009](../../../Referentiemateriaal/adr/0009-sks-svs-rollenverdeling-keuze-vs-resultaat-voortgang.md) (SKS/SVS-rollen), [ADR 0014](../../../Referentiemateriaal/adr/0014-splitsing-inschrijving-rodkrs-en-studentkeuze-sks.md) (splitsing inschrijving en keuze), [ADR 0021](../../../Referentiemateriaal/adr/0021-koppeling-versus-koppelvlak-terminologie.md) (koppeling versus koppelvlak), [ADR 0022](../../../Referentiemateriaal/adr/0022-resultaatbegrippen-conform-rosa-koi.md) (resultaatbegrippen conform ROSA KOI).
-- [ROSA Kernmodel Onderwijsinformatie](https://rosa.wikixl.nl/index.php/Kernmodel_Onderwijsinformatie).

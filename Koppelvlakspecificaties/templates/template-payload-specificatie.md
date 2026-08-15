@@ -17,8 +17,6 @@ De kern staat voorin: een lezer heeft de payload binnen twee schermen. Alle moti
    - [2.1 De vorm](#21-de-vorm)
    - [2.2 Het voorbeeld](#22-het-voorbeeld)
 3. [Toelichting bij de keuzes](#3-toelichting-bij-de-keuzes)
-4. [Open punten](#4-open-punten)
-5. [Gerelateerde uitwerkingen](#5-gerelateerde-uitwerkingen)
 
 ## 1. Inleiding
 
@@ -67,7 +65,7 @@ Al het overige valt buiten dit document.
 
 <!-- Leeswijzer: geef elk artefact één taak, anders leest het als redundantie. -->
 
-Het **informatiemodel**, het **JSON Schema** en de **schemaboom** leggen samen de vorm vast. De **payload** en de **instantiebomen** geven het voorbeeld.
+Het **informatiemodel** en het **JSON Schema** leggen samen de vorm vast. De **payload** geeft het voorbeeld.
 
 ### 2.1 De vorm
 
@@ -115,26 +113,6 @@ Het schema legt de exacte vorm vast: welke velden er zijn, welke verplicht zijn 
 }
 ```
 
-Dezelfde vorm, leesbaar:
-
-<!-- De bomen hieronder zijn gegenereerd uit de voorbeeld-JSON in dit template en dienen als
-     illustratie. Vervang de JSON door die van jouw payload en draai daarna, vanuit de repo-root:
-     python3 scripts/json-tree.py --write <bestand>
-     Dat overschrijft alles tussen de markers. Draai --check vóór een commit. -->
-
-<!-- json-tree:begin kind=schema -->
-```text
-<Objectnaam>  (Alfa en indicatief. Deze vorm onderbouwt welke velden het koppelvlak nodig heeft en kan wijzigen zolang de payload niet is vastgesteld.)
-
-{root}
-`-- <array>[]                         verplicht
-    +-- id                                uuid
-    +-- <type>                            <waarde1> | <waarde2>
-    +-- versie                            string
-    `-- bovenliggend<Soort>Id             string of null, optioneel
-```
-<!-- json-tree:end -->
-
 ### 2.2 Het voorbeeld
 
 Leerroute 1. \<Waar komen de uuid's vandaan als je naar een andere payload verwijst?\>
@@ -152,24 +130,6 @@ Leerroute 1. \<Waar komen de uuid's vandaan als je naar een andere payload verwi
 }
 ```
 
-De boom die in deze platte lijst verborgen zit, met de verwijzingen opgelost:
-
-<!-- Eén marker per platte array. entity=<naam> alleen als de objecten geen typeveld hebben. -->
-
-<!-- json-tree:begin kind=instance array=<array> id=id parent=bovenliggend<Soort>Id label=naam type=<type> attrs=versie -->
-```text
-<array>  (1 objecten, 1 root, boom via bovenliggend<Soort>Id)
-
-<WAARDE1>                                                     <uuid>
-  versie: 0.1.0
-```
-<!-- json-tree:end -->
-
-<!-- Zet hier de duiding die de boom zelf niet geeft: waarom bepaalde objecten losse
-     roots zijn, waarom een tak leeg is. De generator levert structuur, de tekst betekenis. -->
-
-\<Duiding bij de boom.\>
-
 ## 3. Toelichting bij de keuzes
 
 <!-- Alles wat motiveert komt hier, achter de kern. Verwijs naar de uitgangspunten in
@@ -183,16 +143,3 @@ De boom die in deze platte lijst verborgen zit, met de verwijzingen opgelost:
 ### 3.2 \<Deelmodel of achtergrond\>
 
 <!-- Bijvoorbeeld een locatiemodel, een organisatiemodel of de lifecycle. -->
-
-## 4. Open punten
-
-| Vraag | Vervolgstap |
-|---|---|
-| \<vraag\> | \<wie doet wat, en wanneer\> |
-
-## 5. Gerelateerde uitwerkingen
-
-<!-- Alleen echte verwijzingen. Open punten horen in hoofdstuk 4. -->
-
-- [Uitgangspunten voor koppelingspecificaties](../uitgangspunten.md): de gedeelde aannames waarop deze payload steunt.
-- \<andere documenten, als echte links\>
