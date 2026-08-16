@@ -84,15 +84,6 @@ Dit wijkt bewust af van de Open Onderwijs API, die getypeerde sleutels hanteert 
 
 Elke payload-specificatie draagt een **JSON Schema** (draft 2020-12) dat de vorm vastlegt: types, verplicht of optioneel, enums en patronen. Enumeraties horen daar, niet in een aparte tabel. De volwassenheid wordt op het schema zelf gemarkeerd (`$comment`), niet in de documenttitel of de doelstelling (zie U10).
 
-Daarnaast twee gegenereerde ASCII-bomen, met `scripts/json-tree.py` tussen HTML-comment-markers:
-
-- een **schemaboom**, die de vorm leesbaar weergeeft;
-- per platte array een **instantieboom**, die de verwijzingen oplost en de hiërarchie zichtbaar maakt die in de JSON verborgen blijft.
-
-Waarom ASCII en geen interactieve viewer: de documentatie moet GitHub-renderbaar blijven en naar PDF kunnen. Inklapbare `<details>`-blokken vallen daar om, want pandoc laat raw HTML vallen en print-to-PDF drukt dichtgeklapt af; de payload zou dan stil uit de PDF verdwijnen. ASCII heeft bovendien een voordeel dat een plaatje niet heeft: het is regel-voor-regel diffbaar in een review.
-
-Draai `python3 scripts/json-tree.py --check <document>` vóór een commit. Het script faalt bij drift, dode ouder-verwijzingen, cykels en schemafouten.
-
 Sluit aan op de uitgangspunten [machine-interpreteerbare formaten](../Referentiemateriaal/principes/uitgangspunten.md#technologie-en-standaarden) en [show don't tell](../Referentiemateriaal/principes/uitgangspunten.md#afstemming-en-beschrijvingswijze).
 
 ## U9. Scenario's en persona's
@@ -115,6 +106,5 @@ De bredere schrijfstijl staat in [`.cursor/rules/docs-style.mdc`](https://github
 
 ## Gerelateerde documenten
 
-- [Template koppelingspecificatie](templates/template-koppelingspecificatie.md) en [template payload-specificatie](templates/template-payload-specificatie.md): de lege opzet om mee te beginnen.
 - [Instap voor nieuwkomers](README.md): ketenoverzicht, hoofdplaat, afkortingenlegenda en leesvolgorde.
 - [OKx-architectuurprincipes](../Referentiemateriaal/principes/principes.md) en [OKx-uitgangspunten](../Referentiemateriaal/principes/uitgangspunten.md): de richting waarop deze uitgangspunten steunen.

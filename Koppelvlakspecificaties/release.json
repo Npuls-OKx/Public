@@ -1,0 +1,49 @@
+{
+  "$comment": "Manifest van het releasepakket koppelvlakspecificatie. De workflow release.yml leest dit bestand: versie bepaalt het label van de release, documenten bepaalt de volgorde in het gebundelde document. Een item in documenten is een pad, een sectie {sectie, inleiding, documenten of schemas} die de genoemde documenten of JSON-schema's als subhoofdstukken onder één kop bundelt, of {inhoudsopgave: true} dat bepaalt waar de inhoudsopgave staat. De koppelingspecificaties, mapping en templates staan voorlopig achteraan; hun plek in de leesvolgorde wordt nog bepaald. Zie Algemeen/release-management/Release-management-algemeen.md.",
+  "naam": "Koppelvlakspecificatie",
+  "bestandsnaam": "koppelvlakspecificatie",
+  "versie": "0.1.0",
+  "omschrijving": "De specificaties waarmee een partij een koppelvlak kan bouwen op de standaarden die OKx uitbrengt.",
+  "documenten": [
+    "inleiding.md",
+    {
+      "inhoudsopgave": true
+    },
+    "afbakening.md",
+    {
+      "sectie": "Applicatiecomponenten",
+      "inleiding": "Applicatiecomponenten/README.md",
+      "documenten": [
+        "Applicatiecomponenten/onderwijscatalogus.md",
+        "Applicatiecomponenten/planningssysteem.md",
+        "Applicatiecomponenten/studentinformatiesysteem.md",
+        "Applicatiecomponenten/leermanagementsysteem.md",
+        "Applicatiecomponenten/roostersysteem.md",
+        "Applicatiecomponenten/studentkeuzesysteem.md",
+        "Applicatiecomponenten/curriculum-ontwerptool.md"
+      ]
+    },
+    {
+      "sectie": "Interactiepatronen",
+      "documenten": [
+        "Interactiepatronen/onderwijscatalogus-planning-en-roostering.md",
+        "Interactiepatronen/onderwijscatalogus-studentinformatiesysteem.md",
+        "Interactiepatronen/onderwijscatalogus-leermanagementsysteem.md"
+      ]
+    },
+    "auth-standaard.md",
+    {
+      "sectie": "Datamodelschema's",
+      "inleiding": "Datamodelschema's/README.md",
+      "documenten": [
+        "Datamodelschema's/voorbeeldpayloads.md"
+      ],
+      "schemas": "Datamodelschema's"
+    },
+    "uitgangspunten.md",
+    "mapping.md"
+  ],
+  "meeleveren": [
+    "Datamodelschema's"
+  ]
+}

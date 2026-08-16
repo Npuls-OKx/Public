@@ -1,6 +1,6 @@
 # Interactiepatroon: onderwijscatalogus naar leermanagementsysteem
 
-Het interactiepatroon van deze koppeling: de systeem-naar-systeemberichten (machine-to-machine) tussen de onderwijscatalogus en het leermanagementsysteem, met de sequentiediagrammen. Doel: per patroon laten zien welk berichtenpatroon het technisch implementeert en wat het oplevert, zonder de koppelingspecificatie te herhalen. De sequentiediagrammen zijn overgenomen uit [§5](../Koppelingspecificaties/onderwijscatalogus-leermanagementsysteem/onderwijscatalogus-leermanagementsysteem.md#5-sequentiediagrammen) van de koppelingspecificatie; voor het bericht, het patroon en de foutafhandeling per interactie blijft [§3](../Koppelingspecificaties/onderwijscatalogus-leermanagementsysteem/onderwijscatalogus-leermanagementsysteem.md#3-interactieoverzicht) leidend, voor de endpoint(s) die het bericht draagt [§7](../Koppelingspecificaties/onderwijscatalogus-leermanagementsysteem/onderwijscatalogus-leermanagementsysteem.md#7-endpointbeschrijvingen-rest). Elk interactiepatroon hieronder draagt zo de keten functionele eis → interactiepatroon → endpoint(s). Anders dan bij de koppeling met planning kent deze koppeling nog geen interacties voor een statusmelding los van de versie, reconciliatie na een gemist event, of abonnementenbeheer; die volgen pas zodra deze koppeling in een werksessie met de betrokken partijen is uitgewerkt ([§9](../Koppelingspecificaties/onderwijscatalogus-leermanagementsysteem/onderwijscatalogus-leermanagementsysteem.md#9-open-punten)). Het functionele proces dat deze koppeling ondersteunt (het inrichten van de leeromgeving en het ontsluiten van leermiddelen) valt buiten dit document; de functionele eisen die dat proces aan deze koppeling stelt staan als vertrekpunt in de eerste tabel.
+Het interactiepatroon van deze koppeling: de systeem-naar-systeemberichten (machine-to-machine) tussen de onderwijscatalogus en het leermanagementsysteem, met de sequentiediagrammen. Doel: per patroon laten zien welk berichtenpatroon het technisch implementeert en wat het oplevert, zonder de koppelingspecificatie te herhalen. De functionele eisen die het proces aan deze koppeling stelt staan als vertrekpunt in de eerste tabel; het interactieoverzicht legt per interactie het bericht, het patroon en de foutafhandeling vast, en de endpoints staan bij de [applicatiecomponent](../Applicatiecomponenten/README.md) dat ze serveert.
 
 ## Functionele eisen
 
@@ -9,6 +9,47 @@ Het interactiepatroon van deze koppeling: de systeem-naar-systeemberichten (mach
 | FR1 | De onderwijscatalogus moet het leermanagementsysteem kunnen laten weten dat een specificatie beschikbaar is om de leeromgeving op in te richten, en het leermanagementsysteem moet daarop een inrichtingsstatus met referentie kunnen terugleveren | [Notify-then-pull: leeromgeving inrichten en leermiddelkoppeling melden](#notify-then-pull-leeromgeving-inrichten-en-leermiddelkoppeling-melden) |
 | FR2 | Het leermanagementsysteem moet een leermiddelkoppeling die het heeft gelegd aan de onderwijscatalogus kunnen melden, zodat die de leermiddelen bij het aanbod kan tonen | [Notify-then-pull: leeromgeving inrichten en leermiddelkoppeling melden](#notify-then-pull-leeromgeving-inrichten-en-leermiddelkoppeling-melden) |
 | FR3 | Het leermanagementsysteem moet zijn inrichting kunnen bijwerken wanneer een specificatie wijzigt, zonder verplicht de volledige structuur opnieuw te ontvangen | [Notify-then-pull: inrichting bijwerken na wijziging](#notify-then-pull-inrichting-bijwerken-na-wijziging) |
+
+## Procesbeeld
+
+**Resource-eigenaarschap** ([U3](../uitgangspunten.md#u3-resource-eigenaarschap)): de onderwijscatalogus bezit de specificaties, de leeromgeving haar inrichting en de leermiddelkoppeling. **Notify-then-pull** ([U4](../uitgangspunten.md#u4-notify-then-pull)) geldt in beide richtingen.
+
+```mermaid
+flowchart LR
+    OC["Onderwijscatalogus<br/>bezit: specificaties"]
+    subgraph KOP["deze koppeling: onderwijscatalogus naar leermanagementsysteem"]
+        OC -. "1: event specificatie beschikbaar" .-> LMS["LMS<br/>bezit: leeromgeving-inrichting en leermiddelkoppeling"]
+        OC -- "2: onderwijsspecificatiestructuur (pull door LMS)" --> LMS
+        LMS -. "3: status inrichting + referentie" .-> OC
+        LMS -. "4: event leermiddelkoppeling beschikbaar (referentie)" .-> OC
+        LMS -- "5: leermiddelkoppeling (pull door OC)" --> OC
+    end
+```
+
+Wat het diagram niet toont: de leeromgeving richt zich in tot op **leeronderdeelniveau** en vult daaronder haar eigen lesniveau in, waar de catalogus buiten staat. De leermiddelkoppeling gaat de andere kant op zodra de leeromgeving die heeft gelegd; de catalogus haalt hem op wanneer die de leermiddelen bij het aanbod wil tonen. Wijzigt een specificatie, dan volgt een nieuw event en haalt de leeromgeving het verschil of de volledige structuur opnieuw op.
+
+## Interactieoverzicht
+
+De interacties op deze koppeling, met per interactie het messaging-patroon, in dezelfde patroontaal als de koppeling met planning ([Enterprise Integration Patterns, Messaging](https://www.enterpriseintegrationpatterns.com/patterns/messaging/)).
+Wat hier wordt vastgelegd is het **bericht**, niet het **kanaal**: hoe het bericht bij de ontvanger komt is een inrichtingskeuze van instelling en leverancier, binnen de vier eigenschappen die [ADR 0018](../../Referentiemateriaal/adr/0018-enterprise-messaging-patronen-voor-betrouwbare-koppelvlakken.md) eist. Zie [uitgangspunt U5](../uitgangspunten.md#u5-bericht-versus-kanaal).
+
+| # | Interactie | Initiator | Patroon | Synchroniciteit | Gedrag bij dubbele ontvangst | Foutafhandeling |
+|---|---|---|---|---|---|---|
+| L1 | Specificatie beschikbaar melden | OC | [Event Message](https://www.enterpriseintegrationpatterns.com/patterns/messaging/EventMessage.html) (id + versie) | Asynchroon | Geen effect: event-id ([Idempotent Receiver](https://www.enterpriseintegrationpatterns.com/patterns/messaging/IdempotentReceiver.html)) | [Guaranteed Delivery](https://www.enterpriseintegrationpatterns.com/patterns/messaging/GuaranteedDelivery.html); [Dead Letter Channel](https://www.enterpriseintegrationpatterns.com/patterns/messaging/DeadLetterChannel.html) |
+| L2 | Onderwijsspecificatiestructuur of delta ophalen | LMS | [Request-Reply](https://www.enterpriseintegrationpatterns.com/patterns/messaging/RequestReply.html) (GET, alleen-lezen) | Synchroon | Geen effect (alleen-lezen) | HTTP-foutcodes, client bepaalt retry |
+| L3 | Inrichtingsstatus melden, met referentie | LMS | [Event Message](https://www.enterpriseintegrationpatterns.com/patterns/messaging/EventMessage.html) (status: ontvangen/gestart, afgekeurd, ingericht, niet ingericht) | Asynchroon | Geen effect: status-id | Retry met backoff, daarna [Dead Letter Channel](https://www.enterpriseintegrationpatterns.com/patterns/messaging/DeadLetterChannel.html) |
+| L4 | Leermiddelkoppeling beschikbaar melden | LMS | [Event Message](https://www.enterpriseintegrationpatterns.com/patterns/messaging/EventMessage.html) (referentie + specificatie-id en versie) | Asynchroon | Geen effect: event-id | [Guaranteed Delivery](https://www.enterpriseintegrationpatterns.com/patterns/messaging/GuaranteedDelivery.html); [Dead Letter Channel](https://www.enterpriseintegrationpatterns.com/patterns/messaging/DeadLetterChannel.html) |
+| L5 | Leermiddelkoppeling ophalen | OC | [Request-Reply](https://www.enterpriseintegrationpatterns.com/patterns/messaging/RequestReply.html) op referentie (GET uuid, alleen-lezen) | Synchroon | Geen effect (alleen-lezen) | HTTP-foutcodes |
+| L6 | Specificatiewijziging melden | OC | [Event Message](https://www.enterpriseintegrationpatterns.com/patterns/messaging/EventMessage.html) (object-id, oude en nieuwe versie, wijzigingsklasse) | Asynchroon | Geen effect: event-id | [Guaranteed Delivery](https://www.enterpriseintegrationpatterns.com/patterns/messaging/GuaranteedDelivery.html); [Dead Letter Channel](https://www.enterpriseintegrationpatterns.com/patterns/messaging/DeadLetterChannel.html) |
+
+## Berichtgedrag
+
+Dat is een voorbeeld van een kanaal, geen voorschrift: een bus, broker of cloud-pubsubdienst mag het vervangen zolang die de vier eigenschappen uit §3 levert. Het bericht blijft in alle gevallen gelijk.
+
+- Alle GET's zijn alleen-lezen en zonder neveneffect; herhaald aanroepen geeft hetzelfde resultaat.
+- Event-aflevering: ontvanger bevestigt met 200; bij uitblijven daarvan herhaalt de verzender met backoff en daarna [Dead Letter Channel](https://www.enterpriseintegrationpatterns.com/patterns/messaging/DeadLetterChannel.html). Dubbele aflevering is onschadelijk door het event-id ([Idempotent Receiver](https://www.enterpriseintegrationpatterns.com/patterns/messaging/IdempotentReceiver.html)).
+- Registratie van een callback-URL, zoals `POST /abonnementen` bij de koppeling met planning (I8), is voor deze koppeling nog geen eigen interactie in §3; zolang die er niet is, is het afleveradres een inrichtingskeuze tussen OC en LMS, buiten dit document.
+- Mogelijke uitbreidingen (v-next): paginering bij grote structuren, filter op deelstructuur-selectie bij het ophalen van de structuur.
 
 ## Interactiepatronen
 
@@ -23,11 +64,11 @@ Doel: een gepubliceerde specificatie omzetten in een ingerichte leeromgeving, me
 
 Endpoints:
 
-- [webhook `specificatie-beschikbaar` (L1)](../Koppelingspecificaties/onderwijscatalogus-leermanagementsysteem/onderwijscatalogus-leermanagementsysteem.md#7-endpointbeschrijvingen-rest)
-- [`GET /onderwijsspecificaties/{id}` (L2)](../Koppelingspecificaties/onderwijscatalogus-leermanagementsysteem/onderwijscatalogus-leermanagementsysteem.md#7-endpointbeschrijvingen-rest)
-- [webhook `inrichtingsstatus` (L3)](../Koppelingspecificaties/onderwijscatalogus-leermanagementsysteem/onderwijscatalogus-leermanagementsysteem.md#7-endpointbeschrijvingen-rest)
-- [webhook `leermiddelkoppeling-beschikbaar` (L4)](../Koppelingspecificaties/onderwijscatalogus-leermanagementsysteem/onderwijscatalogus-leermanagementsysteem.md#7-endpointbeschrijvingen-rest)
-- [`GET /leermiddelkoppelingen/{id}` (L5, optioneel)](../Koppelingspecificaties/onderwijscatalogus-leermanagementsysteem/onderwijscatalogus-leermanagementsysteem.md#7-endpointbeschrijvingen-rest)
+- [webhook `specificatie-beschikbaar` (L1)](../Applicatiecomponenten/leermanagementsysteem.md)
+- [`GET /onderwijsspecificaties/{id}` (L2)](../Applicatiecomponenten/onderwijscatalogus.md)
+- [webhook `inrichtingsstatus` (L3)](../Applicatiecomponenten/onderwijscatalogus.md)
+- [webhook `leermiddelkoppeling-beschikbaar` (L4)](../Applicatiecomponenten/onderwijscatalogus.md)
+- [`GET /leermiddelkoppelingen/{id}` (L5, optioneel)](../Applicatiecomponenten/leermanagementsysteem.md)
 
 ```mermaid
 sequenceDiagram
@@ -55,9 +96,9 @@ Doel: een bestaande inrichting laten volgen op een nieuwe specificatieversie, me
 
 Endpoints:
 
-- [`GET /onderwijsspecificaties/{id}/delta` of `GET /onderwijsspecificaties/{id}` (L2)](../Koppelingspecificaties/onderwijscatalogus-leermanagementsysteem/onderwijscatalogus-leermanagementsysteem.md#7-endpointbeschrijvingen-rest)
-- [webhook `inrichtingsstatus` (L3)](../Koppelingspecificaties/onderwijscatalogus-leermanagementsysteem/onderwijscatalogus-leermanagementsysteem.md#7-endpointbeschrijvingen-rest)
-- [webhook `specificatie-gewijzigd` (L6)](../Koppelingspecificaties/onderwijscatalogus-leermanagementsysteem/onderwijscatalogus-leermanagementsysteem.md#7-endpointbeschrijvingen-rest)
+- [`GET /onderwijsspecificaties/{id}/delta` of `GET /onderwijsspecificaties/{id}` (L2)](../Applicatiecomponenten/onderwijscatalogus.md)
+- [webhook `inrichtingsstatus` (L3)](../Applicatiecomponenten/onderwijscatalogus.md)
+- [webhook `specificatie-gewijzigd` (L6)](../Applicatiecomponenten/leermanagementsysteem.md)
 
 ```mermaid
 sequenceDiagram

@@ -3,7 +3,7 @@
 
 De documenten hier worden gereleased. Een lezer daarvan heeft geen toegang tot
 het werkproces erachter: geen issues, geen pull requests, geen kennis van wie
-wanneer wat besloot. Daar volgen vier controles uit.
+wanneer wat besloot. Daar volgen vijf controles uit.
 
 1. Geen issueverwijzingen. Een issuenummer zegt zo'n lezer niets en veroudert.
    Schrijf de aanleiding uit in de inleiding.
@@ -11,6 +11,10 @@ wanneer wat besloot. Daar volgen vier controles uit.
 3. Geen datum- of versieprefix in bestandsnamen. Dat is een werkproces-conventie.
 4. Verwijzingen naar de meta-repository zijn gepind op een commit. Een link naar
    een branch beweegt mee met de bron; een gereleased document mag dat niet.
+5. Geen werkprocessecties: Reviewvragen, Open punten, Gerelateerde uitwerkingen.
+   Een reviewvraag is een vraag aan de auteur, geen informatie voor de lezer; een
+   open punt hoort in het werkproces; een lijst gerelateerde uitwerkingen herhaalt
+   verwijzingen die al in de tekst staan.
 
 Daarnaast een zachte controle: documenten met een genummerde inleiding horen
 aanleiding, context, doel en scope te benoemen.
@@ -43,6 +47,11 @@ META_BRANCH = re.compile(
     r"https://github\.com/Npuls-OKx/meta/(?:blob|tree|raw)/(main|dev|master|refs/heads/[^/\s)]+)/"
 )
 INLEIDING = re.compile(r"^#{2,3}\s+1\.\s+Inleiding", re.MULTILINE)
+# Werkprocessecties. Ze horen bij het uitwerken, niet bij het uitgebrachte document.
+WERKPROCESKOP = re.compile(
+    r"^#{2,4}\s+(?:\d+(?:\.\d+)*\.?\s+)?(Reviewvragen|Open punten|Gerelateerde uitwerkingen)\s*$",
+    re.MULTILINE | re.IGNORECASE,
+)
 
 
 INLINE_CODE = re.compile(r"`[^`]*`")
@@ -113,9 +122,13 @@ def controleer(bestand: Path, root: Path) -> list[str]:
 
     kop_marge = 12  # een metadatakop staat bovenaan, niet halverwege
     for nr, regel in regels_buiten_codeblokken(inhoud):
-        for treffer in ISSUE.finditer(zonder_inline_code(regel)):
-            fragment = regel[treffer.start(): treffer.start() + 12]
-            if ANCHOR_ACHTIG.match(fragment.lstrip("]").lstrip("(")):
+        schoon = zonder_inline_code(regel)
+        for treffer in ISSUE.finditer(schoon):
+            # Vanaf het hekje in de regel kijken, niet vanaf het begin van de treffer:
+            # bij een verwijzing als ../afbakening.md#2-functionele-eisen begint de
+            # treffer bij het pad, en loopt het anchor door tot voorbij de treffer.
+            hekje = treffer.start() + treffer.group(0).index("#")
+            if ANCHOR_ACHTIG.match(schoon[hekje:]):
                 continue
             meldingen.append(
                 f"ISSUEREF     {hier}:{nr}  {treffer.group(0)}\n"
@@ -132,6 +145,15 @@ def controleer(bestand: Path, root: Path) -> list[str]:
             meldingen.append(
                 f"BRANCHLINK   {hier}:{nr}  meta/{treffer.group(1)}\n"
                 "             pin op een commit-SHA; een branch beweegt mee met de bron"
+            )
+
+    if not is_referentie:
+        for treffer in WERKPROCESKOP.finditer(inhoud):
+            nr = inhoud.count("\n", 0, treffer.start()) + 1
+            meldingen.append(
+                f"WERKPROCES   {hier}:{nr}  {treffer.group(1)}\n"
+                "             hoort bij het uitwerken, niet in een uitgebracht document; "
+                "wat de lezer nodig heeft staat in de tekst zelf"
             )
 
     if INLEIDING.search(inhoud) and not is_template:
