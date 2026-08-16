@@ -12,16 +12,16 @@
     "managementsamenvatting.md",
     "afbakening.md",
     {
-      "sectie": "Referentiesystemen",
-      "inleiding": "Referentiesystemen/README.md",
+      "sectie": "Applicatiecomponenten",
+      "inleiding": "Applicatiecomponenten/README.md",
       "documenten": [
-        "Referentiesystemen/onderwijscatalogus.md",
-        "Referentiesystemen/planningssysteem.md",
-        "Referentiesystemen/studentinformatiesysteem.md",
-        "Referentiesystemen/leermanagementsysteem.md",
-        "Referentiesystemen/roostersysteem.md",
-        "Referentiesystemen/studentkeuzesysteem.md",
-        "Referentiesystemen/curriculum-ontwerptool.md"
+        "Applicatiecomponenten/onderwijscatalogus.md",
+        "Applicatiecomponenten/planningssysteem.md",
+        "Applicatiecomponenten/studentinformatiesysteem.md",
+        "Applicatiecomponenten/leermanagementsysteem.md",
+        "Applicatiecomponenten/roostersysteem.md",
+        "Applicatiecomponenten/studentkeuzesysteem.md",
+        "Applicatiecomponenten/curriculum-ontwerptool.md"
       ]
     },
     {
@@ -36,6 +36,9 @@
     {
       "sectie": "Datamodelschema's",
       "inleiding": "Datamodelschema's/README.md",
+      "documenten": [
+        "Datamodelschema's/voorbeeldpayloads.md"
+      ],
       "schemas": "Datamodelschema's"
     },
     "uitgangspunten.md",

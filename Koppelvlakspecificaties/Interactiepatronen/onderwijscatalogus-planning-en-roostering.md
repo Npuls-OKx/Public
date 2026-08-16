@@ -1,6 +1,6 @@
 # Interactiepatroon: onderwijscatalogus naar planning en roostering
 
-Het interactiepatroon van deze koppeling: de systeem-naar-systeemberichten (machine-to-machine) tussen de onderwijscatalogus en het planningssysteem, met de sequentiediagrammen. Doel: per patroon laten zien welk berichtenpatroon het technisch implementeert en wat het oplevert, zonder de koppelingspecificatie te herhalen. De functionele eisen die het proces aan deze koppeling stelt staan als vertrekpunt in de eerste tabel; het interactieoverzicht legt per interactie het bericht, het patroon en de foutafhandeling vast, en de endpoints staan bij het [referentiesysteem](../Referentiesystemen/README.md) dat ze serveert.
+Het interactiepatroon van deze koppeling: de systeem-naar-systeemberichten (machine-to-machine) tussen de onderwijscatalogus en het planningssysteem, met de sequentiediagrammen. Doel: per patroon laten zien welk berichtenpatroon het technisch implementeert en wat het oplevert, zonder de koppelingspecificatie te herhalen. De functionele eisen die het proces aan deze koppeling stelt staan als vertrekpunt in de eerste tabel; het interactieoverzicht legt per interactie het bericht, het patroon en de foutafhandeling vast, en de endpoints staan bij de [applicatiecomponent](../Applicatiecomponenten/README.md) dat ze serveert.
 
 ## Functionele eisen
 
@@ -87,10 +87,10 @@ Doel: een gepubliceerde specificatie omzetten in een planbaar `opleidingsaanbod`
 
 Endpoints:
 
-- [webhook `specificatie-planbaar` (I1)](../Referentiesystemen/planningssysteem.md)
-- [`GET /onderwijsspecificaties/{id}` (I2)](../Referentiesystemen/onderwijscatalogus.md)
-- [webhook `verwerkingsstatus` (I3)](../Referentiesystemen/onderwijscatalogus.md)
-- [`GET /onderwijsaanbod/{id}` (I5, optioneel)](../Referentiesystemen/planningssysteem.md)
+- [webhook `specificatie-planbaar` (I1)](../Applicatiecomponenten/planningssysteem.md)
+- [`GET /onderwijsspecificaties/{id}` (I2)](../Applicatiecomponenten/onderwijscatalogus.md)
+- [webhook `verwerkingsstatus` (I3)](../Applicatiecomponenten/onderwijscatalogus.md)
+- [`GET /onderwijsaanbod/{id}` (I5, optioneel)](../Applicatiecomponenten/planningssysteem.md)
 
 ```mermaid
 sequenceDiagram
@@ -125,9 +125,9 @@ Doel: een lopende planning laten volgen op een nieuwe specificatieversie, met de
 
 Endpoints:
 
-- [`GET /onderwijsspecificaties/{id}/delta` of `GET /onderwijsspecificaties/{id}` (I2)](../Referentiesystemen/onderwijscatalogus.md)
-- [webhook `verwerkingsstatus` (I3)](../Referentiesystemen/onderwijscatalogus.md)
-- [webhook `specificatie-gewijzigd` (I4)](../Referentiesystemen/planningssysteem.md)
+- [`GET /onderwijsspecificaties/{id}/delta` of `GET /onderwijsspecificaties/{id}` (I2)](../Applicatiecomponenten/onderwijscatalogus.md)
+- [webhook `verwerkingsstatus` (I3)](../Applicatiecomponenten/onderwijscatalogus.md)
+- [webhook `specificatie-gewijzigd` (I4)](../Applicatiecomponenten/planningssysteem.md)
 
 ```mermaid
 sequenceDiagram
@@ -156,8 +156,8 @@ Doel: de onderwijscatalogus in kennis stellen dat een cohort niet planbaar is, m
 
 Endpoints:
 
-- [webhook `verwerkingsstatus` (I3)](../Referentiesystemen/onderwijscatalogus.md)
-- [`GET /onderwijsaanbod/{id}` (I5, optioneel)](../Referentiesystemen/planningssysteem.md)
+- [webhook `verwerkingsstatus` (I3)](../Applicatiecomponenten/onderwijscatalogus.md)
+- [`GET /onderwijsaanbod/{id}` (I5, optioneel)](../Applicatiecomponenten/planningssysteem.md)
 
 ```mermaid
 sequenceDiagram
@@ -183,8 +183,8 @@ Doel: een afgeronde planning beschermen tegen een wijziging die er ongecontrolee
 
 Endpoints:
 
-- [webhook `specificatie-gewijzigd` (I4)](../Referentiesystemen/planningssysteem.md)
-- [webhook `verwerkingsstatus` (I3)](../Referentiesystemen/onderwijscatalogus.md)
+- [webhook `specificatie-gewijzigd` (I4)](../Applicatiecomponenten/planningssysteem.md)
+- [webhook `verwerkingsstatus` (I3)](../Applicatiecomponenten/onderwijscatalogus.md)
 
 ```mermaid
 sequenceDiagram
@@ -210,7 +210,7 @@ Doel: de onderwijscatalogus een statuswijziging laten melden die los staat van e
 
 Endpoints:
 
-- [webhook `specificatie-status-gewijzigd` (I6)](../Referentiesystemen/planningssysteem.md)
+- [webhook `specificatie-status-gewijzigd` (I6)](../Applicatiecomponenten/planningssysteem.md)
 
 Geen apart sequentiediagram in de koppelingspecificatie; I6 spiegelt daar het patroon van I4. Opgebouwd uit de interactiebeschrijving in §3.
 
@@ -231,8 +231,8 @@ Doel: de gemiste informatie via een gewone opvraag herstellen na een event dat i
 
 Endpoints:
 
-- [`GET /onderwijsspecificaties` (op OC)](../Referentiesystemen/onderwijscatalogus.md)
-- [`GET /onderwijsaanbod` (op P)](../Referentiesystemen/planningssysteem.md)
+- [`GET /onderwijsspecificaties` (op OC)](../Applicatiecomponenten/onderwijscatalogus.md)
+- [`GET /onderwijsaanbod` (op P)](../Applicatiecomponenten/planningssysteem.md)
 
 Geen apart sequentiediagram in de koppelingspecificatie; I7 spiegelt daar het patroon van I2/I5. Opgebouwd uit de interactiebeschrijving in §3 en de endpoints in §7.
 
@@ -258,7 +258,7 @@ Doel: elke partij een callback-URL laten vastleggen voor de events die zij van d
 
 Endpoints:
 
-- [`POST /abonnementen` (op OC en op P)](../Referentiesystemen/planningssysteem.md)
+- [`POST /abonnementen` (op OC en op P)](../Applicatiecomponenten/planningssysteem.md)
 
 Geen apart sequentiediagram in de koppelingspecificatie; I8 spiegelt daar het patroon van I2/I5. Opgebouwd uit de endpoints in §7.
 
@@ -273,4 +273,27 @@ sequenceDiagram
     Onderwijscatalogus->>Planningssysteem: I8 [POST /abonnementen] abonnement (callbackUrl, events: I3)
     Planningssysteem-->>Onderwijscatalogus: Abonnement-id
     Note over Onderwijscatalogus,Planningssysteem: Herregistratie op dezelfde callback-URL + event-type overschrijft,<br/>geen dubbele aflevering (idempotent)
+```
+
+## Context: doorwerking naar het roostersysteem
+
+Buiten deze koppeling, en niet als vastgelegde interactie: het roostersysteem plaatst het geplande aanbod in tijd en ruimte. Het planningssysteem meldt dat de planning beschikbaar is, het roostersysteem haalt het aanbod op en meldt het rooster terug aan zowel planning als catalogus. Hetzelfde patroon van referentie plus event dus, opgenomen om te tonen dat de lijn doorloopt tot voorbij wat dit pakket specificeert. Het [roostersysteem](../Applicatiecomponenten/roostersysteem.md) draagt daarom geen endpoints.
+
+```mermaid
+sequenceDiagram
+    autonumber
+    participant P as Planningssysteem
+    participant R as Roostersysteem
+    participant OC as Onderwijscatalogus
+
+    P-)R: Event: planning beschikbaar<br/>(referentie naar opleidingsaanbod en naar specificatie)
+    R->>P: GET opleidingsaanbod (uuid)
+    P-->>R: opleidingsaanbod-instantie
+    Note over R: Roosteren (asynchroon)
+    R-)P: Event: rooster bekend (referentie, bij dit aanbod)
+    R-)OC: Event: rooster bekend (zelfde referentie, bij deze specificatie)
+    opt OC wil het rooster inzien
+        OC->>R: GET rooster (uuid)
+        R-->>OC: rooster-instantie
+    end
 ```

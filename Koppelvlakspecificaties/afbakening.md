@@ -83,7 +83,7 @@ In scope zijn de drie koppelingen vanuit de onderwijscatalogus: naar planning en
 
 Daarbuiten vallen:
 
-- **De koppelingen van het roostersysteem, het studentkeuzesysteem en de curriculum-ontwerptool.** Die systemen horen bij de keten en staan beschreven bij de [referentiesystemen](Referentiesystemen/README.md), maar dit pakket specificeert hun koppelingen niet.
+- **De koppelingen van het roostersysteem, het studentkeuzesysteem en de curriculum-ontwerptool.** Die systemen horen bij de keten en staan beschreven bij de [applicatiecomponenten](Applicatiecomponenten/README.md), maar dit pakket specificeert hun koppelingen niet.
 - **Uitwisseling tussen instellingen.** Eerst de keten binnen één instelling.
 - **Uitvoering en beoordeling**: afname, behaalde resultaten en het examendossier horen bij het examendomein OKE.
 - **Het lesniveau.** De `lesspecificatie` leeft in het leermanagementsysteem en wordt hier niet gerealiseerd.

@@ -1,6 +1,6 @@
 # Interactiepatroon: onderwijscatalogus naar leermanagementsysteem
 
-Het interactiepatroon van deze koppeling: de systeem-naar-systeemberichten (machine-to-machine) tussen de onderwijscatalogus en het leermanagementsysteem, met de sequentiediagrammen. Doel: per patroon laten zien welk berichtenpatroon het technisch implementeert en wat het oplevert, zonder de koppelingspecificatie te herhalen. De functionele eisen die het proces aan deze koppeling stelt staan als vertrekpunt in de eerste tabel; het interactieoverzicht legt per interactie het bericht, het patroon en de foutafhandeling vast, en de endpoints staan bij het [referentiesysteem](../Referentiesystemen/README.md) dat ze serveert.
+Het interactiepatroon van deze koppeling: de systeem-naar-systeemberichten (machine-to-machine) tussen de onderwijscatalogus en het leermanagementsysteem, met de sequentiediagrammen. Doel: per patroon laten zien welk berichtenpatroon het technisch implementeert en wat het oplevert, zonder de koppelingspecificatie te herhalen. De functionele eisen die het proces aan deze koppeling stelt staan als vertrekpunt in de eerste tabel; het interactieoverzicht legt per interactie het bericht, het patroon en de foutafhandeling vast, en de endpoints staan bij de [applicatiecomponent](../Applicatiecomponenten/README.md) dat ze serveert.
 
 ## Functionele eisen
 
@@ -64,11 +64,11 @@ Doel: een gepubliceerde specificatie omzetten in een ingerichte leeromgeving, me
 
 Endpoints:
 
-- [webhook `specificatie-beschikbaar` (L1)](../Referentiesystemen/leermanagementsysteem.md)
-- [`GET /onderwijsspecificaties/{id}` (L2)](../Referentiesystemen/onderwijscatalogus.md)
-- [webhook `inrichtingsstatus` (L3)](../Referentiesystemen/onderwijscatalogus.md)
-- [webhook `leermiddelkoppeling-beschikbaar` (L4)](../Referentiesystemen/onderwijscatalogus.md)
-- [`GET /leermiddelkoppelingen/{id}` (L5, optioneel)](../Referentiesystemen/leermanagementsysteem.md)
+- [webhook `specificatie-beschikbaar` (L1)](../Applicatiecomponenten/leermanagementsysteem.md)
+- [`GET /onderwijsspecificaties/{id}` (L2)](../Applicatiecomponenten/onderwijscatalogus.md)
+- [webhook `inrichtingsstatus` (L3)](../Applicatiecomponenten/onderwijscatalogus.md)
+- [webhook `leermiddelkoppeling-beschikbaar` (L4)](../Applicatiecomponenten/onderwijscatalogus.md)
+- [`GET /leermiddelkoppelingen/{id}` (L5, optioneel)](../Applicatiecomponenten/leermanagementsysteem.md)
 
 ```mermaid
 sequenceDiagram
@@ -96,9 +96,9 @@ Doel: een bestaande inrichting laten volgen op een nieuwe specificatieversie, me
 
 Endpoints:
 
-- [`GET /onderwijsspecificaties/{id}/delta` of `GET /onderwijsspecificaties/{id}` (L2)](../Referentiesystemen/onderwijscatalogus.md)
-- [webhook `inrichtingsstatus` (L3)](../Referentiesystemen/onderwijscatalogus.md)
-- [webhook `specificatie-gewijzigd` (L6)](../Referentiesystemen/leermanagementsysteem.md)
+- [`GET /onderwijsspecificaties/{id}/delta` of `GET /onderwijsspecificaties/{id}` (L2)](../Applicatiecomponenten/onderwijscatalogus.md)
+- [webhook `inrichtingsstatus` (L3)](../Applicatiecomponenten/onderwijscatalogus.md)
+- [webhook `specificatie-gewijzigd` (L6)](../Applicatiecomponenten/leermanagementsysteem.md)
 
 ```mermaid
 sequenceDiagram

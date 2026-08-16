@@ -1,6 +1,6 @@
 # Interactiepatroon: onderwijscatalogus naar studentinformatiesysteem
 
-Het interactiepatroon van deze koppeling: de systeem-naar-systeemberichten (machine-to-machine) tussen de onderwijscatalogus en het studentinformatiesysteem, met de sequentiediagrammen. Doel: per patroon laten zien welk berichtenpatroon het technisch implementeert en wat het oplevert, zonder de koppelingspecificatie te herhalen. De functionele eisen die het proces aan deze koppeling stelt staan als vertrekpunt in de eerste tabel; het interactieoverzicht legt per interactie het bericht, het patroon en de foutafhandeling vast, en de endpoints staan bij het [referentiesysteem](../Referentiesystemen/README.md) dat ze serveert.
+Het interactiepatroon van deze koppeling: de systeem-naar-systeemberichten (machine-to-machine) tussen de onderwijscatalogus en het studentinformatiesysteem, met de sequentiediagrammen. Doel: per patroon laten zien welk berichtenpatroon het technisch implementeert en wat het oplevert, zonder de koppelingspecificatie te herhalen. De functionele eisen die het proces aan deze koppeling stelt staan als vertrekpunt in de eerste tabel; het interactieoverzicht legt per interactie het bericht, het patroon en de foutafhandeling vast, en de endpoints staan bij de [applicatiecomponent](../Applicatiecomponenten/README.md) dat ze serveert.
 
 ## Functionele eisen
 
@@ -62,10 +62,10 @@ Doel: een gepubliceerde specificatie en examenplanspecificatie omzetten in een i
 
 Endpoints:
 
-- [webhook `specificatie-en-resultaatstructuur-beschikbaar` (S1)](../Referentiesystemen/studentinformatiesysteem.md)
-- [`GET /onderwijsspecificaties/{id}` (S2)](../Referentiesystemen/onderwijscatalogus.md)
-- [`GET /examenplanspecificaties/{id}` (S3)](../Referentiesystemen/onderwijscatalogus.md)
-- [webhook `inrichtingsstatus` (S4)](../Referentiesystemen/onderwijscatalogus.md)
+- [webhook `specificatie-en-resultaatstructuur-beschikbaar` (S1)](../Applicatiecomponenten/studentinformatiesysteem.md)
+- [`GET /onderwijsspecificaties/{id}` (S2)](../Applicatiecomponenten/onderwijscatalogus.md)
+- [`GET /examenplanspecificaties/{id}` (S3)](../Applicatiecomponenten/onderwijscatalogus.md)
+- [webhook `inrichtingsstatus` (S4)](../Applicatiecomponenten/onderwijscatalogus.md)
 
 ```mermaid
 sequenceDiagram
@@ -94,8 +94,8 @@ Doel: lopende verbintenissen beschermen tegen een examenplanwijziging die er ong
 
 Endpoints:
 
-- [webhook `examenplanspecificatie-gewijzigd` (S5)](../Referentiesystemen/studentinformatiesysteem.md)
-- [webhook `inrichtingsstatus` (S4)](../Referentiesystemen/onderwijscatalogus.md)
+- [webhook `examenplanspecificatie-gewijzigd` (S5)](../Applicatiecomponenten/studentinformatiesysteem.md)
+- [webhook `inrichtingsstatus` (S4)](../Applicatiecomponenten/onderwijscatalogus.md)
 
 ```mermaid
 sequenceDiagram

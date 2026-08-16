@@ -6,9 +6,9 @@ versie, de leesvolgorde van de documenten en wat er verder meegeleverd wordt. Ee
 in `documenten` is een pad, of een **sectie** die documenten die bij elkaar horen onder
 één kop bundelt:
 
-    {"sectie": "Referentiesystemen",
-     "inleiding": "Referentiesystemen/README.md",
-     "documenten": ["Referentiesystemen/onderwijscatalogus.md", ...]}
+    {"sectie": "Applicatiecomponenten",
+     "inleiding": "Applicatiecomponenten/README.md",
+     "documenten": ["Applicatiecomponenten/onderwijscatalogus.md", ...]}
 
 De sectiekop draagt de titel, de optionele `inleiding` staat er als tekst onder (haar
 eigen H1 vervalt, want de sectiekop zegt hetzelfde al), en elk document eronder wordt
@@ -703,13 +703,14 @@ def main(argv: list) -> int:
             kop = f"## {item['sectie']} {{#{sectie_anchor(item, kaart)}}}"
             if item.get("inleiding"):
                 kop += "\n\n" + zonder_titel(bouw_deel(item["inleiding"], False))
-            if item.get("schemas"):
-                # De schema's blijven één deel: elk schema een eigen pagina zou een
-                # bijlage van vijfentwintig halflege pagina's opleveren.
-                kop += "\n\n" + schema_bijlage(pakket, item)
             gebundelde_delen.append(kop)
             for doc in item.get("documenten") or []:
                 gebundelde_delen.append(bouw_deel(doc, True))
+            if item.get("schemas"):
+                # Achter de documenten, want de inhoudsopgave zet ze daar ook. En als
+                # één deel: elk schema een eigen pagina zou een bijlage van
+                # vijfentwintig halflege pagina's opleveren.
+                gebundelde_delen.append(schema_bijlage(pakket, item))
 
         # Noemt het manifest geen plek, dan staat de inhoudsopgave achter de titelpagina.
         if inhoud_op is None:
