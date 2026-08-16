@@ -4,23 +4,23 @@ Waar dit pakket op staat, wat het moet kunnen en waar het ophoudt. De kaders leg
 
 ## 1. Kaders
 
-De begrippen in dit pakket zijn niet vrij gekozen: elk conceptniveau heeft een bron in het kwalificatiekader van de sector, en sluit waar mogelijk aan op de Open Onderwijs API. Deze tabellen leggen die verankering vast.
+De begrippen in dit pakket zijn niet vrij gekozen: elk conceptniveau verankert op het kwalificatiekader van de sector.
 
-### 1.1 Conceptniveaus van de onderwijsspecificatie
+### 1.1 Ankertabel
 
-| Conceptniveau (`specificatieType`) | Bron in kwalificatiekader          | OEAPI-mapping (indicatief)        |
-| ---------------------------------- | ---------------------------------- | --------------------------------- |
-| `opleidingsspecificatie`           | Kwalificatiedossier                | EducationSpecification (program)  |
-| `opleidingsprogrammaspecificatie`  | Kwalificatie                       | Programme                         |
-| `onderwijseenheidspecificatie`     | Kerntaak                           | Course                            |
-| `leeronderdeelspecificatie`        | Werkproces                         | LearningComponent                 |
-| `keuzedeelruimtespecificatie`      | ruimte binnen kwalificatie         | (afgeleid, geen 1:1 OEAPI-object) |
-| `toetsonderdeelspecificatie`       | toetsing                           | TestComponent                     |
-| `examenplanspecificatie`           | OER, summatieve resultaatstructuur | (aparte uitwerking)               |
-| `resultaateenheidspecificatie`     | groepering binnen het examenplan   | (aparte uitwerking)               |
-| `lesspecificatie` (buiten scope)   | beleid instelling                  | LearningComponent (lesson)        |
+De ankertabel zet de zes begrippenfamilies naast elkaar per niveau van het kwalificatiekader. Zij bepaalt welk begrip op welk niveau hoort en hoe de families zich tot elkaar verhouden: een specificatie beschrijft wat een instelling organiseert, een aanbod plaatst dat in tijd en met wie, een verbintenis bindt er een student aan, en een resultaat legt vast wat die student heeft behaald. Bron: [consumer-profiel](https://github.com/Npuls-OKx/meta/blob/d47bb0c74ec899a4384d06331692f74b9bd1db58/architecture/docs/specificatie/okx-oeapi-consumer-profiel/README.md), §3.2.6.
 
-De **kwalificatie ligt niet op root-niveau**: de `opleidingsspecificatie` verankert op de leeruitkomst van het kwalificatiedossier (23450), de `opleidingsprogrammaspecificatie` op die van de kwalificatie (27141).
+| 1. Kwalificatiekader | 2. Beoogde leeruitkomst | 3. Onderwijsspecificatie | 4. Onderwijsaanbod | 5. Onderwijsverbintenis | 6. Onderwijsresultaat |
+|---|---|---|---|---|---|
+| Kwalificatiedossier | N.v.t. op dit niveau: leeruitkomsten hangen lager in de boom | Opleidingsspecificatie | Opleidingsaanbod | Opleidingsverbintenis | Opleidingsverbintenis-resultaat |
+| Kwalificatie | N.v.t. op dit niveau: aggregatie van onderliggende leeruitkomsten | Opleidingsprogramma-specificatie | Opleidingsprogramma-aanbod | Opleidingsprogramma-verbintenis | Opleidingsprogramma-verbintenis-resultaat |
+| Kerntaak | Collectie van leeruitkomst-collecties, één per onderliggend werkproces | Onderwijseenheid-specificatie | Onderwijseenheid-aanbod | Onderwijseenheid-verbintenis | Onderwijseenheid-verbintenis-resultaat |
+| Werkproces | Leeruitkomst-collectie | Leeronderdeel-specificatie | Leergelegenheid | Leergelegenheid-verbintenis | Leergelegenheid-verbintenis-resultaat |
+| N.v.t. binnen het kwalificatiekader: eigen beleid van de instelling | Lesuitkomst, formatief, hangt onder een leeruitkomst | Lesspecificatie | Lesgelegenheid | Lesgelegenheid-verbintenis | Lesgelegenheid-verbintenis-resultaat |
+| N.v.t. binnen het kwalificatiekader: toetsing | Scope van toetsing: een set leeruitkomsten en lesuitkomsten | Toetsonderdeel-specificatie | Toetsgelegenheid | Toetsgelegenheid-verbintenis | Toetsgelegenheid-verbintenis-resultaat |
+| Doorgaand werkproces | Te behalen set leeruitkomsten, vastgesteld door de examencommissie | Examenonderdeel-specificatie | Examengelegenheid | Examengelegenheid-verbintenis | Examengelegenheid-verbintenis-resultaat |
+
+Niet elk niveau uit deze tabel is in dit pakket uitgewerkt. De `specificatieType`-waarden die de schema's kennen, staan in [education-specification.json](Datamodelschema's/education-specification.json); de lesspecificatie valt buiten de scope (§3).
 
 ### 1.2 Aanbodniveaus
 
@@ -37,11 +37,11 @@ Elke aanbod-instantie instantieert precies één onderwijsspecificatie en verwij
 
 De resultaatstructuur gebruikt dezelfde specificatiefamilie als de onderwijsspecificatie. Drie typen:
 
-| Conceptniveau (`specificatieType`) | Rol | OEAPI-mapping (indicatief) |
-|---|---|---|
-| `examenplanspecificatie` | Wortel (OER). Scope, aggregatie richting diploma | (geen 1:1 OEAPI-object) |
-| `resultaateenheidspecificatie` | Groepering, meestal per kerntaak. Draagt weging en aggregatie | (geen 1:1 OEAPI-object) |
-| `toetsonderdeelspecificatie` | Blad. Het concrete toets- of examenonderdeel | TestComponent |
+| Conceptniveau (`specificatieType`) | Rol |
+|---|---|
+| `examenplanspecificatie` | Wortel (OER). Scope, aggregatie richting diploma |
+| `resultaateenheidspecificatie` | Groepering, meestal per kerntaak. Draagt weging en aggregatie |
+| `toetsonderdeelspecificatie` | Blad. Het concrete toets- of examenonderdeel |
 
 ## 2. Eisen aan de keten
 
