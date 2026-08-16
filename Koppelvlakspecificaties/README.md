@@ -16,3 +16,12 @@ Het releasepakket **koppelvlakspecificatie**. De inhoudelijke inleiding staat in
 | [mapping.md](mapping.md) | Veldnamen Engels naar Nederlands |
 
 Wat er in welke volgorde in het releasedocument komt staat in [release.json](release.json).
+
+## Koppelvlak versus koppeling
+
+![Koppelvlak versus koppeling](src/applicatie_component_koppelvlak_view.png)
+
+Een **koppeling** is de gestandaardiseerde informatiestroom tussen twee applicatiecomponenten; een **koppelvlak** is de optelsom van alle koppelingen die één component raken ([ADR 0021](../Referentiemateriaal/adr/0021-koppeling-versus-koppelvlak-terminologie.md)). De mappen hierboven volgen die knip: de [interactiepatronen](Interactiepatronen/) beschrijven per koppeling de functionele eisen en het berichtgedrag, de [applicatiecomponenten](Applicatiecomponenten/) tonen per component het koppelvlak met de endpoints en events die het serveert.
+
+Elke interactie van een koppelvlak is te herleiden tot een informatiestroom op de [informatiestromen-hoofdplaat](src/informatiestromen_hoofdplaat_v1_7.png) (versie 1.7 is leidend; de legenda draagt nog "concept", dus richtinggevend). Die lijn loopt van scenario naar informatiestroom, naar koppeling, naar koppelvlak: een scenario maakt zichtbaar welke informatie moet bewegen, de hoofdplaat toont die beweging als stroom, de koppeling standaardiseert de stroom, en het koppelvlak bundelt wat één component daarvan serveert.
+

@@ -9,8 +9,3 @@ Het koppelvlak van een component is de optelsom van alle koppelingen die het rak
 
 De hoofdplaat toont het volledige ecosysteem: alle informatiestromen tussen de applicatiecomponenten in de keten. Versie 1.7 is leidend; de legenda draagt nog de aanduiding "concept", dus de plaat is richtinggevend.
 
-## Koppelvlak versus koppeling
-
-![Koppelvlak versus koppeling](../src/applicatie_component_koppelvlak_view.png)
-
-Een koppeling is de gestandaardiseerde informatiestroom tussen twee applicatiecomponenten; het koppelvlak van een component is de optelsom van alle koppelingen die dat component raken ([ADR 0021](../../Referentiemateriaal/adr/0021-koppeling-versus-koppelvlak-terminologie.md)). Per component tonen de documenten in deze map die optelsom als view op de hoofdplaat.
