@@ -4,7 +4,7 @@
 
 Deze uitgangspunten gelden voor **elke** koppelingspecificatie en payload-specificatie in deze map. Een individueel document noemt het uitgangspunt in één regel en verwijst hierheen; het herhaalt de motivering niet. Zo hoeft een wijziging in de redenering maar op één plek te gebeuren.
 
-De uitgangspunten zijn genummerd (U1 tot en met U10) zodat je er in een document of een review naar kunt verwijzen: "conform U5".
+De uitgangspunten zijn genummerd (U1 tot en met U11) zodat je er in een document of een review naar kunt verwijzen: "conform U5".
 
 Herkomst: de [OKx-architectuurprincipes](../Referentiemateriaal/principes/principes.md) en [OKx-uitgangspunten](../Referentiemateriaal/principes/uitgangspunten.md), plus de architectuurbesluiten in [`Referentiemateriaal/adr/`](../Referentiemateriaal/adr/). Waar een uitgangspunt op een besluit steunt, staat dat erbij. Alle aangehaalde besluiten hebben op dit moment de status voorstel.
 
@@ -84,15 +84,6 @@ Dit wijkt bewust af van de Open Onderwijs API, die getypeerde sleutels hanteert 
 
 Elke payload-specificatie draagt een **JSON Schema** (draft 2020-12) dat de vorm vastlegt: types, verplicht of optioneel, enums en patronen. Enumeraties horen daar, niet in een aparte tabel. De volwassenheid wordt op het schema zelf gemarkeerd (`$comment`), niet in de documenttitel of de doelstelling (zie U10).
 
-Daarnaast twee gegenereerde ASCII-bomen, met `scripts/json-tree.py` tussen HTML-comment-markers:
-
-- een **schemaboom**, die de vorm leesbaar weergeeft;
-- per platte array een **instantieboom**, die de verwijzingen oplost en de hiërarchie zichtbaar maakt die in de JSON verborgen blijft.
-
-Waarom ASCII en geen interactieve viewer: de documentatie moet GitHub-renderbaar blijven en naar PDF kunnen. Inklapbare `<details>`-blokken vallen daar om, want pandoc laat raw HTML vallen en print-to-PDF drukt dichtgeklapt af; de payload zou dan stil uit de PDF verdwijnen. ASCII heeft bovendien een voordeel dat een plaatje niet heeft: het is regel-voor-regel diffbaar in een review.
-
-Draai `python3 scripts/json-tree.py --check <document>` vóór een commit. Het script faalt bij drift, dode ouder-verwijzingen, cykels en schemafouten.
-
 Sluit aan op de uitgangspunten [machine-interpreteerbare formaten](../Referentiemateriaal/principes/uitgangspunten.md#technologie-en-standaarden) en [show don't tell](../Referentiemateriaal/principes/uitgangspunten.md#afstemming-en-beschrijvingswijze).
 
 ## U9. Scenario's en persona's
@@ -115,6 +106,13 @@ De bredere schrijfstijl staat in [`.cursor/rules/docs-style.mdc`](https://github
 
 ## Gerelateerde documenten
 
-- [Template koppelingspecificatie](templates/template-koppelingspecificatie.md) en [template payload-specificatie](templates/template-payload-specificatie.md): de lege opzet om mee te beginnen.
 - [Instap voor nieuwkomers](README.md): ketenoverzicht, hoofdplaat, afkortingenlegenda en leesvolgorde.
 - [OKx-architectuurprincipes](../Referentiemateriaal/principes/principes.md) en [OKx-uitgangspunten](../Referentiemateriaal/principes/uitgangspunten.md): de richting waarop deze uitgangspunten steunen.
+
+## U11. Toekomstvaste endpoints: volledige structuur en delta
+
+OKx definieert endpoints die ook toekomstige scenario's mogelijk maken. Waar een resource als structuur wordt ontsloten, biedt de eigenaar daarom beide vormen aan: de volledige structuur en de wijziging (delta). Een implementatie kiest zelf wat bij haar situatie past: een eenvoudige implementatie verwerkt de volledige structuur opnieuw, een rijkere implementatie verwerkt alleen de delta.
+
+Waarom: de keten kent implementaties van verschillende volwassenheid, en scenario's die we nog niet kennen. Eén verplichte vorm dwingt óf onnodige complexiteit af (delta-berekening voor wie die niet nodig heeft) óf onnodig zwaar verkeer (volledige structuur voor wie alleen de wijziging wil). Twee vormen op dezelfde resource houden beide routes open zonder de semantiek te splitsen.
+
+Zichtbaar in de [koppelingspecificatie OC-P&R](Koppelingspecificaties/oc-p-en-r/koppelingspecificatie-oc-p-en-r.md): de planbaar-melding is dun (conform U4), waarna de afnemer de volledige structuur of de delta ophaalt.

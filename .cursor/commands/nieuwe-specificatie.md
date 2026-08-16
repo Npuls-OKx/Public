@@ -13,18 +13,9 @@ Vraag de gebruiker welke koppeling of welk object het betreft, en welke leerrout
 
 ## Opzetten
 
-Kopieer het passende template:
-
-| Wat je schrijft | Template | Doelmap |
-|---|---|---|
-| Informatiestroom tussen twee componenten | [`template-koppelingspecificatie.md`](../../Koppelvlakspecificaties/templates/template-koppelingspecificatie.md) | `Koppelingspecificaties/<koppeling>/` |
-| De JSON die over zo'n koppeling gaat | [`template-payload-specificatie.md`](../../Koppelvlakspecificaties/templates/template-payload-specificatie.md) | dezelfde map, of `gedeeld/` bij hergebruik |
-
-Bestandsnaam beschrijvend, zonder datum- of versieprefix.
+Er is geen template meer; neem een bestaande specificatie van hetzelfde type als model. Bestandsnaam beschrijvend, zonder datum- of versieprefix.
 
 ## Schrijven
-
-De templates dragen instructies tussen `<!-- -->`. Verwijder die zodra het onderdeel af is.
 
 Twee dingen die vaak misgaan:
 

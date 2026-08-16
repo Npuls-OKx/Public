@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://okx.npuls.nl/schema/subscription/alfa",
+  "title": "Subscription",
+  "DutchName": "Abonnement",
+  "$comment": "Alfa en indicatief. Deze vorm onderbouwt welke velden het koppelvlak nodig heeft en kan wijzigen zolang de payload niet is vastgesteld. `id` is afwezig in het verzoek en door de server toegekend in de respons.",
+  "type": "object",
+  "required": ["callbackUrl", "events"],
+  "properties": {
+    "id": { "type": "string", "format": "uuid", "DutchName": "id" },
+    "callbackUrl": { "type": "string", "format": "uri", "DutchName": "callbackUrl" },
+    "events": {
+      "type": "array",
+      "items": { "enum": ["specificatie-planbaar", "specificatie-gewijzigd", "specificatie-status-gewijzigd", "verwerkingsstatus"] },
+      "DutchName": "events"
+    }
+  }
+}

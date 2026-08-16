@@ -1,6 +1,6 @@
-## Leeruitkomsten als opaque sleutels in de koppeling OC-P&R
+## Leeruitkomsten als opaque sleutels in de koppeling onderwijscatalogus naar planning en roostering
 
-Status: Voorstel
+Status: Vervangen door [ADR 0026](0026-leeruitkomst-als-verbindende-sleutel.md)
 
 Datum: 2026-07-23
 
@@ -10,9 +10,9 @@ Regelset-voorwaarden zijn uitgedrukt in behaalde leeruitkomsten (ADR 0022): je m
 
 ### Beslissing
 
-1. Binnen de koppeling OC-P&R zijn leeruitkomst-ids **opaque sleutels**: ze komen uitsluitend voor binnen regelset-voorwaarden (`voorwaardeVooraf`) en dienen alleen voor volgordebepaling en planvalidatie.
-2. De `leeruitkomsten`-lijst (inhoud, aggregatie, `waardedocument`, `indicatieveOmvang`) wordt **niet** over deze koppeling meegeleverd. Het gebruiksprofiel van OC-P&R legt dit vast.
-3. Betekenis van leeruitkomsten leeft bij de koppelingen die haar nodig hebben: OC-SIS (resultaatstructuur en onderwijsresultaten, ADR 0022) en OC-LMS (inhoudsvelden voor de leeromgeving).
+1. Binnen de koppeling onderwijscatalogus naar planning en roostering zijn leeruitkomst-ids **opaque sleutels**: ze komen uitsluitend voor binnen regelset-voorwaarden (`voorwaardeVooraf`) en dienen alleen voor volgordebepaling en planvalidatie.
+2. De `leeruitkomsten`-lijst (inhoud, aggregatie, `waardedocument`, `indicatieveOmvang`) wordt **niet** over deze koppeling meegeleverd. Het gebruiksprofiel van onderwijscatalogus naar planning en roostering legt dit vast.
+3. Betekenis van leeruitkomsten leeft bij de koppelingen die haar nodig hebben: onderwijscatalogus naar studentinformatiesysteem (resultaatstructuur en onderwijsresultaten, ADR 0022) en onderwijscatalogus naar leermanagementsysteem (inhoudsvelden voor de leeromgeving).
 
 ### Alternatieven
 
@@ -22,8 +22,8 @@ Regelset-voorwaarden zijn uitgedrukt in behaalde leeruitkomsten (ADR 0022): je m
 ### Consequenties
 
 - Het gebruiksprofiel voor de koppeling met planning (koppelingspecificatie §4.2) levert `onderwijsspecificaties` en `regelsets`, geen `leeruitkomsten`.
-- Planning behandelt leeruitkomst-ids als betekenisloze identifiers; wijzigingen in leeruitkomst-inhoud raken de koppeling OC-P&R niet.
-- Conformance-tests voor OC-P&R toetsen volgordebepaling zonder leeruitkomst-resolutie.
+- Planning behandelt leeruitkomst-ids als betekenisloze identifiers; wijzigingen in leeruitkomst-inhoud raken de koppeling onderwijscatalogus naar planning en roostering niet.
+- Conformance-tests voor onderwijscatalogus naar planning en roostering toetsen volgordebepaling zonder leeruitkomst-resolutie.
 
 ### Relaties en links
 

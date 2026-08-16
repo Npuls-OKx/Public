@@ -20,6 +20,8 @@ De volgende dingen vangt geen script. Loop ze langs en meld per punt of het klop
 
 **De inleiding is zelfdragend.** Kan iemand die de keten niet kent na alleen de inleiding zeggen of dit document zijn vraag beantwoordt? Staan aanleiding, context, doel en scope er alle vier, en sluit de scope af met wat er buiten valt?
 
+**Geen schrijfinstructie als inhoud.** Staat er een zin die alleen zegt voor wie het document is, welke voorkennis het veronderstelt, of hoe het is opgebouwd? Die hoort in de conventies, niet in het artefact. Loop de inleiding zin voor zin langs met de vraag of er iets verandert aan wat de lezer bouwt of besluit als de zin wegvalt.
+
 **De aanleiding is echt een aanleiding.** Niet "dit document beschrijft X" maar welk probleem of welke waarneming het nodig maakte.
 
 **Eén drager per informatie-eenheid.** Zeggen een diagram, een tabel en een alinea hetzelfde? Kies er één.

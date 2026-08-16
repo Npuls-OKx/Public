@@ -1,0 +1,62 @@
+name: Validatie
+
+# Draait de controles die de repository zelf definieert, op elke pull request en op
+# elke push naar dev. De scripts geven exitcode 1 bij een probleem; zie scripts/README.md.
+#
+# De bouwcontrole hoort hier bewust bij: zo blijkt op de pull request al of het
+# releasepakket nog te bouwen is, in plaats van pas bij het maken van een release.
+
+on:
+  pull_request:
+  push:
+    branches: [dev]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: validatie-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  conventies:
+    name: Verwijzingen en conventies
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Dode links, ontsnappingen en dode anchors
+        run: python3 scripts/check-links.py
+
+      - name: Issueverwijzingen, metadatakoppen, branchlinks, inleidingen
+        run: python3 scripts/check-conventies.py
+
+      - name: Drift tussen JSON, schema en gegenereerde bomen
+        run: |
+          shopt -s globstar nullglob
+          python3 scripts/json-tree.py --check Koppelvlakspecificaties/**/*.md
+
+  bouw:
+    name: Releasepakket bouwbaar
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Pandoc installeren
+        uses: ./.github/actions/pandoc
+
+      - name: Pakket bouwen zonder artefacten achter te laten
+        run: python3 scripts/build-release.py Koppelvlakspecificaties --alleen-controle
