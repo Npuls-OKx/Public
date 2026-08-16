@@ -47,7 +47,9 @@ Diagrammen benoem je in de tekst zodat ze los leesbaar zijn. Verwijs met een num
 
 ## Verboden
 
-Meta-tekst vooraf of achteraf ("Hier is...", "Ik hoop dat..."). Aanbiedingen voor vervolgstappen of vragen aan de lezer. Toelichting op je eigen werkwijze. Herhaling van de opdracht in de inleiding.
+**Een conventie over het schrijven is geen inhoud voor de lezer.** `CLAUDE.md`, de rules en deze skill leggen vast voor wie je schrijft en hoe. Die afspraken sturen jouw keuzes; ze horen niet als zin in het document terecht te komen. De toets is of er iets verandert aan wat de lezer bouwt of besluit als de zin wegvalt. Verandert er niets, dan beschrijft de zin het document in plaats van het onderwerp. Een doelgroepverklaring valt hieronder — wie het leest weet wie hij is — en een opsomming van veronderstelde voorkennis ook.
+
+Verder: meta-tekst vooraf of achteraf ("Hier is...", "Ik hoop dat..."). Aanbiedingen voor vervolgstappen of vragen aan de lezer. Toelichting op je eigen werkwijze. Herhaling van de opdracht in de inleiding.
 
 ## Ontbrekende informatie
 

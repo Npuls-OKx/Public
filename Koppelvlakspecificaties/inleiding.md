@@ -1,21 +1,16 @@
 # Inleiding
 
-Dit document is de koppelvlakspecificatie van OKx: de vastlegging van wat de systemen die samen het onderwijs klaarzetten van elkaar nodig hebben. Het beschrijft per systeem welke endpoints en events dat systeem aanbiedt, per koppeling welk berichtverkeer daaroverheen gaat en in welke volgorde, en welke vorm de uitgewisselde gegevens hebben.
+Dit document specificeert het koppelvlak van elk systeem dat deelneemt aan de uitwisseling van onderwijsspecificaties. Het beschrijft per systeem welke endpoints en events dat systeem aanbiedt, per koppeling welk berichtverkeer daaroverheen gaat en in welke volgorde, en welke vorm de uitgewisselde gegevens hebben.
 
-Het is geschreven voor de architect of ontwikkelaar bij een instelling of leverancier die een van die systemen bouwt of aansluit. Kennis van OKx wordt niet verondersteld, kennis van REST, events en JSON Schema wel.
-
-De specificaties zijn **indicatief en onderbouwend, geen voorschrift aan de sector** ([U1](uitgangspunten.md#u1-indicatief-en-onderbouwend-niet-voorschrijvend)). Zij leggen vast welke operaties en gegevens nodig zijn om de beschreven koppelingen te realiseren; wat daarvan tot norm wordt, bepaalt de sector.
+Waar het document ophoudt, staat in de [afbakening](afbakening.md): daar staan de kaders waarop de begrippen verankeren, de eisen die de keten aan de koppelingen stelt, en de grens van wat hier is uitgewerkt. Voorschrijven doet het document niet; de [uitgangspunten](uitgangspunten.md) leggen die doelbinding vast in U1, samen met negen andere aannames die voor het hele pakket gelden. Elk document noemt zo'n uitgangspunt in één regel en verwijst erheen.
 
 ## Kernbegrippen
-
-Vier begrippen bepalen hoe de rest van dit document gelezen wordt.
 
 - **Koppeling en koppelvlak** ([ADR 0021](../Referentiemateriaal/adr/0021-koppeling-versus-koppelvlak-terminologie.md)): een koppeling is de informatiestroom tussen twee referentiecomponenten; het koppelvlak van een component is de verzameling koppelingen die dat component raken. De koppelvlakspecificatie van een component is daarmee de optelsom van zijn koppelingen.
 - **Ankertabel, zes begrippenfamilies**: kader, beoogde leeruitkomst, specificatie, aanbod, verbintenis, resultaat. De leeruitkomst verbindt die families: specificaties verankeren erop en onderwijsresultaten worden erop behaald. Bron: [consumer-profiel](https://github.com/Npuls-OKx/meta/blob/d47bb0c74ec899a4384d06331692f74b9bd1db58/architecture/docs/specificatie/okx-oeapi-consumer-profiel/README.md), §3.2.6.
 - **Notify-then-pull** ([ADR 0020](../Referentiemateriaal/adr/0020-curriculumontwerp-onderwijscatalogus-happy-flow-synchronisatie-en-federatie-adopt-klonen.md)): de bezitter van een gegeven meldt een wijziging met een kort bericht dat alleen een referentie draagt; de ontvanger haalt het gegeven op wanneer het hem uitkomt.
-- **Scenario en persona**: leerroute 1 (regulier) is uitgewerkt aan de hand van persona Jochem, opleiding Apothekersassistent; leerroute 2 en 3 worden als verschil daarop beschreven. Het [kaderscenario leerroute 1](../Referentiemateriaal/kaderscenario's/leerroute-1-regulier.md) is de kaderstellende basis daaronder.
 
-De aannames die voor het hele pakket gelden staan eenmaal in de [uitgangspunten](uitgangspunten.md), genummerd U1 tot en met U10. De documenten hierna noemen een uitgangspunt in één regel en verwijzen erheen, zodat een wijziging in de redenering maar op één plek hoeft.
+De uitwerking volgt leerroute 1, de reguliere route, aan de hand van persona Jochem en de opleiding Apothekersassistent; leerroute 2 en 3 staan erbij als verschil daarop. Het [kaderscenario leerroute 1](../Referentiemateriaal/kaderscenario's/leerroute-1-regulier.md) draagt die route en die persona voluit.
 
 ## Afkortingen
 

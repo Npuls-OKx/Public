@@ -39,9 +39,7 @@
       "schemas": "Datamodelschema's"
     },
     "uitgangspunten.md",
-    "mapping.md",
-    "templates/template-koppelingspecificatie.md",
-    "templates/template-payload-specificatie.md"
+    "mapping.md"
   ],
   "meeleveren": [
     "Datamodelschema's"

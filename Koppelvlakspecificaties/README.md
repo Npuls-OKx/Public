@@ -15,15 +15,5 @@ Het releasepakket **koppelvlakspecificatie**. De inhoudelijke inleiding staat in
 | [auth-standaard.md](auth-standaard.md) | De authenticatie die voor elk endpoint geldt |
 | [uitgangspunten.md](uitgangspunten.md) | U1 tot en met U10, de aannames onder alles |
 | [mapping.md](mapping.md) | Veldnamen Engels naar Nederlands |
-| [`templates/`](templates/) | Waarmee je een nieuwe specificatie schrijft |
 
 Wat er in welke volgorde in het releasedocument komt staat in [release.json](release.json).
-
-## Voor schrijvers
-
-Begin bij de [uitgangspunten](uitgangspunten.md) en kopieer daarna het passende template:
-
-- [template-koppelingspecificatie.md](templates/template-koppelingspecificatie.md) voor een informatiestroom tussen twee componenten;
-- [template-payload-specificatie.md](templates/template-payload-specificatie.md) voor de JSON die over zo'n koppeling gaat.
-
-Beide templates bevatten instructies tussen HTML-commentaar die je verwijdert als het onderdeel af is. Werk je met een AI-agent, dan hanteert de skill [`okx-koppelingspecificatie`](https://github.com/Npuls-OKx/meta/blob/d47bb0c74ec899a4384d06331692f74b9bd1db58/.agents/skills/okx-koppelingspecificatie/SKILL.md) dezelfde opbouw.
