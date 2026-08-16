@@ -4,8 +4,8 @@ Het leermanagementsysteem is de online leeromgeving waarin de student het onderw
 
 Endpoints die LMS zelf implementeert. Authenticatie op elk endpoint: [auth-standaard](../auth-standaard.md).
 
-| Endpoint/event | Methode | Request | Response | Interacties |
-|---|---|---|---|---|
-| `/leermiddelkoppelingen/{id}` | GET | — | Leermiddelkoppeling-instantie: leermiddelgroepen per specificatie (payload nog uit te werken) | Leermiddelkoppeling ophalen |
-| `specificatie-beschikbaar` | POST | [specification-reference.json](../Datamodelschema's/specification-reference.json) | — | Specificatie beschikbaar melden |
-| `specificatie-gewijzigd` | POST | [specification-changed.json](../Datamodelschema's/specification-changed.json) | — | Specificatiewijziging melden, met wijzigingsklasse |
+| Endpoint/event | Methode | Parameters | Request | Response | Statuscodes | Interacties |
+|---|---|---|---|---|---|---|
+| `/leermiddelkoppelingen/{id}` | GET | — | — | Leermiddelkoppeling-instantie: leermiddelgroepen per specificatie (payload nog uit te werken) | 200, 400, 404 | L5 |
+| `specificatie-beschikbaar` | POST | — | [specification-reference.json](../Datamodelschema's/specification-reference.json) | — | 200 | L1 |
+| `specificatie-gewijzigd` | POST | — | [specification-changed.json](../Datamodelschema's/specification-changed.json) | — | 200 | L6 |

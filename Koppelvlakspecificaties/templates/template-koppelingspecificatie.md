@@ -35,7 +35,7 @@ Lees eerst de [uitgangspunten](../uitgangspunten.md). Herhaal die niet: noem het
 
 **Aanleiding.** \<Welk probleem of welke waarneming maakte dit document nodig, in twee of drie zinnen.\>
 
-Waar deze koppeling in de keten zit: \<in twee of drie zinnen\>. Dit is stroom \<n\> in het [Projectoverzicht](https://github.com/Npuls-OKx/meta/blob/d47bb0c74ec899a4384d06331692f74b9bd1db58/doc/OKx_Projectoverzicht.md). Ketenoverzicht, begrippen en afkortingen: de [instap in de README](../README.md#context).
+Waar deze koppeling in de keten zit: \<in twee of drie zinnen\>. Dit is stroom \<n\> in het [Projectoverzicht](https://github.com/Npuls-OKx/meta/blob/d47bb0c74ec899a4384d06331692f74b9bd1db58/doc/OKx_Projectoverzicht.md). Ketenoverzicht, begrippen en afkortingen: de [inleiding](../inleiding.md).
 
 Scenario en persona conform [U9](../uitgangspunten.md#u9-scenarios-en-personas): leerroute 1, persona Jochem. \<Wat betekent dat concreet voor deze koppeling?\>
 

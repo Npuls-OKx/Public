@@ -5,11 +5,12 @@
   "versie": "0.1.0",
   "omschrijving": "De specificaties waarmee een partij een koppelvlak kan bouwen op de standaarden die OKx uitbrengt.",
   "documenten": [
-    "README.md",
+    "inleiding.md",
     {
       "inhoudsopgave": true
     },
     "managementsamenvatting.md",
+    "afbakening.md",
     {
       "sectie": "Referentiesystemen",
       "inleiding": "Referentiesystemen/README.md",
@@ -38,13 +39,6 @@
       "schemas": "Datamodelschema's"
     },
     "uitgangspunten.md",
-    "Koppelingspecificaties/gedeeld/payload-onderwijsspecificatie.md",
-    "Koppelingspecificaties/gedeeld/lifecycle-en-versionering.md",
-    "Koppelingspecificaties/onderwijscatalogus-planning-en-roostering/onderwijscatalogus-planning-en-roostering.md",
-    "Koppelingspecificaties/onderwijscatalogus-planning-en-roostering/payload-onderwijsaanbod.md",
-    "Koppelingspecificaties/onderwijscatalogus-studentinformatiesysteem/onderwijscatalogus-studentinformatiesysteem.md",
-    "Koppelingspecificaties/onderwijscatalogus-studentinformatiesysteem/resultaatstructuur-en-examenplan.md",
-    "Koppelingspecificaties/onderwijscatalogus-leermanagementsysteem/onderwijscatalogus-leermanagementsysteem.md",
     "mapping.md",
     "templates/template-koppelingspecificatie.md",
     "templates/template-payload-specificatie.md"

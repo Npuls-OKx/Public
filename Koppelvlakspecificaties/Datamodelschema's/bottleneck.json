@@ -5,10 +5,35 @@
   "DutchName": "Knelpunt",
   "$comment": "Alfa en indicatief. Deze vorm onderbouwt welke velden het koppelvlak nodig heeft en kan wijzigen zolang de payload niet is vastgesteld.",
   "type": "object",
-  "required": ["code", "description"],
+  "required": [
+    "code",
+    "description"
+  ],
   "properties": {
-    "code": { "type": "string", "DutchName": "code" },
-    "description": { "type": "string", "DutchName": "omschrijving" },
-    "involvedSpecificationIds": { "type": "array", "items": { "type": "string" }, "DutchName": "betrokkenSpecificatieIds" }
+    "code": {
+      "type": "string",
+      "DutchName": "code",
+      "enum": [
+        "capaciteitTekort",
+        "expertiseTekort",
+        "ruimteTekort",
+        "locatieConflict",
+        "volgordeConflict",
+        "regelConflict",
+        "groepsgrootteConflict",
+        "kalenderConflict"
+      ]
+    },
+    "description": {
+      "type": "string",
+      "DutchName": "omschrijving"
+    },
+    "involvedSpecificationIds": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "DutchName": "betrokkenSpecificatieIds"
+    }
   }
 }

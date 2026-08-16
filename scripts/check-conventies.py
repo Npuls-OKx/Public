@@ -122,9 +122,13 @@ def controleer(bestand: Path, root: Path) -> list[str]:
 
     kop_marge = 12  # een metadatakop staat bovenaan, niet halverwege
     for nr, regel in regels_buiten_codeblokken(inhoud):
-        for treffer in ISSUE.finditer(zonder_inline_code(regel)):
-            fragment = regel[treffer.start(): treffer.start() + 12]
-            if ANCHOR_ACHTIG.match(fragment.lstrip("]").lstrip("(")):
+        schoon = zonder_inline_code(regel)
+        for treffer in ISSUE.finditer(schoon):
+            # Vanaf het hekje in de regel kijken, niet vanaf het begin van de treffer:
+            # bij een verwijzing als ../afbakening.md#2-functionele-eisen begint de
+            # treffer bij het pad, en loopt het anchor door tot voorbij de treffer.
+            hekje = treffer.start() + treffer.group(0).index("#")
+            if ANCHOR_ACHTIG.match(schoon[hekje:]):
                 continue
             meldingen.append(
                 f"ISSUEREF     {hier}:{nr}  {treffer.group(0)}\n"

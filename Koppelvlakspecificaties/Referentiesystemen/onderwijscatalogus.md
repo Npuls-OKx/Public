@@ -4,13 +4,13 @@ De onderwijscatalogus is het distributiepunt voor onderwijsspecificaties: zij ne
 
 Endpoints die OC zelf implementeert. Authenticatie op elk endpoint: [auth-standaard](../auth-standaard.md).
 
-| Endpoint/event | Methode | Request | Response | Interacties |
-|---|---|---|---|---|
-| `/onderwijsspecificaties/{id}` | GET | — | [education-specification.json](../Datamodelschema's/education-specification.json) | Onderwijsspecificatiestructuur of delta ophalen |
-| `/onderwijsspecificaties/{id}/delta` | GET | — | [education-specification-delta.json](../Datamodelschema's/education-specification-delta.json) | Onderwijsspecificatiestructuur of delta ophalen |
-| `/onderwijsspecificaties` | GET | — | [specification-reference.json](../Datamodelschema's/specification-reference.json) (lijst) | Reconciliatie: gepubliceerde specificaties of aanbod-instanties opnieuw opvragen na een event in de Dead Letter Channel |
-| `/examenplanspecificaties/{id}` | GET | — | [result-structure.json](../Datamodelschema's/result-structure.json) | Resultaatstructuur ophalen |
-| `/abonnementen` | POST | [subscription.json](../Datamodelschema's/subscription.json) | [subscription.json](../Datamodelschema's/subscription.json) | Abonnement registreren voor de events I1, I3, I4 en I6 |
-| `verwerkingsstatus` | POST | [processing-status.json](../Datamodelschema's/processing-status.json) | — | Verwerkingsstatus melden, met referentie naar het `opleidingsaanbod` |
-| `inrichtingsstatus` | POST | Status en referentie naar de inrichting (uuid), specificatie-id en versie (payloadschema nog niet uitgewerkt) | — | Inrichtingsstatus melden, met referentie naar de inrichting |
-| `leermiddelkoppeling-beschikbaar` | POST | Referentie (uuid) naar de leermiddelkoppeling, specificatie-id en versie (payloadschema nog niet uitgewerkt) | — | Leermiddelkoppeling beschikbaar melden |
+| Endpoint/event | Methode | Parameters | Request | Response | Statuscodes | Interacties |
+|---|---|---|---|---|---|---|
+| `/onderwijsspecificaties/{id}` | GET | `versie` (optioneel, standaard laatst gepubliceerd) | — | [education-specification.json](../Datamodelschema's/education-specification.json); welk deel meekomt bepaalt het [gebruiksprofiel](../Datamodelschema's/README.md#gebruiksprofielen) | 200, 400, 404 | I2, S2, L2 |
+| `/onderwijsspecificaties/{id}/delta` | GET | `van` (versie, verplicht), `naar` (versie, verplicht) | — | JSON Patch (RFC 6902), [education-specification-delta.json](../Datamodelschema's/education-specification-delta.json) | 200, 400, 404 | I2, S2, L2 |
+| `/onderwijsspecificaties` | GET | `status` (optioneel, standaard `gepubliceerd`), `gewijzigdSinds` (optioneel, timestamp) | — | Lijst van specificatie-id's met hun laatste versie ([specification-reference.json](../Datamodelschema's/specification-reference.json)) | 200, 400 | I7 |
+| `/examenplanspecificaties/{id}` | GET | `versie` (optioneel, standaard laatst gepubliceerd) | — | [result-structure.json](../Datamodelschema's/result-structure.json): toetsonderdelen, weging en aggregatie | 200, 400, 404 | S3 |
+| `/abonnementen` | POST | — | [subscription.json](../Datamodelschema's/subscription.json): `callbackUrl` en de events | Abonnement-id | 201, 400 | I8 |
+| `verwerkingsstatus` | POST | — | [processing-status.json](../Datamodelschema's/processing-status.json) | — | 200 | I3 |
+| `inrichtingsstatus` | POST | — | Status en referentie naar de inrichting (uuid), specificatie-id en versie (payloadschema nog niet uitgewerkt) | — | 200 | S4, L3 |
+| `leermiddelkoppeling-beschikbaar` | POST | — | Referentie (uuid) naar de leermiddelkoppeling, specificatie-id en versie (payloadschema nog niet uitgewerkt) | — | 200 | L4 |

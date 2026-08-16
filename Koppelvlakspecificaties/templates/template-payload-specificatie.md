@@ -37,7 +37,7 @@ De kern staat voorin: een lezer heeft de payload binnen twee schermen. Alle moti
 
 \<Welke begrippenfamilie uit de ankertabel is dit, en hoe verhoudt het zich tot de buren?\> Zie [U6](../uitgangspunten.md#u6-semantiek-uit-de-ankertabel).
 
-Scenario en persona conform [U9](../uitgangspunten.md#u9-scenarios-en-personas). Ketenoverzicht en afkortingen: de [instap in de README](../README.md#context).
+Scenario en persona conform [U9](../uitgangspunten.md#u9-scenarios-en-personas). Begrippen en afkortingen: de [inleiding](../inleiding.md).
 
 ### 1.2 Doel
 

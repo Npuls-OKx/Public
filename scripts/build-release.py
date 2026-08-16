@@ -501,21 +501,104 @@ def referentiedocument(werk: pathlib.Path) -> pathlib.Path:
     return ref
 
 
-def tabellen_laten_meebewegen(docx: pathlib.Path) -> None:
-    """Laat Word de kolombreedtes bepalen in plaats van pandoc.
+# Breedte van de tekstkolom in twips: de paginabreedte min de marges, zie MARGES.
+TEKSTBREEDTE = 11906 - 1134 - 1134
+TEKEN = 88    # gemiddelde tekenbreedte bij 9 punt, in twips
+CELMARGE = 220  # wat een cel links en rechts zelf al opeet
 
-    Pandoc geeft elke kolom dezelfde breedte, ongeacht wat erin staat: bij een tabel met
-    vijf kolommen wordt elke kolom een vijfde, en dan breekt Word woorden middenin af
-    ("Wijziginge n tussen"). Met autofit en zonder vaste breedtes verdeelt Word de ruimte
-    naar de inhoud.
+TABEL = re.compile(r"<w:tbl>.*?</w:tbl>", re.DOTALL)
+RIJ = re.compile(r"<w:tr\b.*?</w:tr>", re.DOTALL)
+CEL = re.compile(r"<w:tc>.*?</w:tc>", re.DOTALL)
+CELTEKST = re.compile(r"<w:t(?:\s[^>]*)?>(.*?)</w:t>", re.DOTALL)
+TBLGRID = re.compile(r"<w:tblGrid>.*?</w:tblGrid>", re.DOTALL)
+
+
+def kolombreedtes(kolommen: list) -> list:
+    """Verdeelt de tekstbreedte over de kolommen, naar wat erin staat.
+
+    De breedte groeit mee met de langste cel, maar gedempt (macht 0,7). Ongedempt zou
+    een kolom met één lange zin bijna de hele tabel opeisen; ongewogen krijgt een kolom
+    met "FR1" evenveel als een kolom met een volzin, en dat is precies wat het leest als
+    twee halve tabellen.
+
+    Ondergrens per kolom is haar langste ononderbroken woord. Daaronder breekt Word een
+    woord middenin af ("Wijziginge n tussen"), en dat was de oorspronkelijke klacht.
+    """
+    gewichten = [max(1, max(len(c) for c in kolom)) ** 0.7 for kolom in kolommen]
+    breedtes = [TEKSTBREEDTE * g / sum(gewichten) for g in gewichten]
+
+    minima = []
+    for kolom in kolommen:
+        woorden = [w for cel in kolom for w in cel.split()] or [""]
+        minima.append(len(max(woorden, key=len)) * TEKEN + CELMARGE)
+    # Passen de ondergrenzen samen niet op de pagina, dan zijn ze geen ondergrens meer.
+    if sum(minima) > TEKSTBREEDTE:
+        krimp = TEKSTBREEDTE / sum(minima)
+        minima = [m * krimp for m in minima]
+
+    for _ in range(len(breedtes)):
+        tekort = sum(m - b for b, m in zip(breedtes, minima) if b < m)
+        if tekort <= 0:
+            break
+        ruim = [i for i, (b, m) in enumerate(zip(breedtes, minima)) if b > m]
+        speling = sum(breedtes[i] - minima[i] for i in ruim)
+        if speling <= 0:
+            break
+        for i in ruim:
+            breedtes[i] -= tekort * (breedtes[i] - minima[i]) / speling
+        breedtes = [max(b, m) for b, m in zip(breedtes, minima)]
+
+    afgerond = [int(round(b)) for b in breedtes]
+    afgerond[-1] += TEKSTBREEDTE - sum(afgerond)  # afrondingsrest op de laatste kolom
+    return afgerond
+
+
+def tabellen_laten_meebewegen(docx: pathlib.Path) -> None:
+    """Geeft elke kolom de breedte die bij haar inhoud past.
+
+    Pandoc schrijft geen enkele breedte in het document. Dan verdeelt de lezer de ruimte
+    gelijk: een kolom met "#" krijgt evenveel als een kolom met een volzin. Autofit
+    aanzetten hielp niet, want zonder breedtes in het raster valt de renderer terug op
+    diezelfde gelijke verdeling. De breedtes worden hier dus uitgerekend en vastgelegd.
     """
     z = zipfile.ZipFile(docx)
     onderdelen = {i.filename: z.read(i.filename) for i in z.infolist()}
     z.close()
     xml = onderdelen["word/document.xml"].decode("utf-8")
+
+    def vervang(m):
+        tabel = m.group(0)
+        rijen = [[re.sub(r"\s+", " ", "".join(CELTEKST.findall(cel))).strip()
+                  for cel in CEL.findall(rij)] for rij in RIJ.findall(tabel)]
+        rijen = [r for r in rijen if r]
+        if not rijen:
+            return tabel
+        aantal = max(len(r) for r in rijen)
+        kolommen = [[r[i] for r in rijen if i < len(r)] for i in range(aantal)]
+        breedtes = kolombreedtes(kolommen)
+
+        raster = "".join(f'<w:gridCol w:w="{b}" />' for b in breedtes)
+        tabel = TBLGRID.sub(f"<w:tblGrid>{raster}</w:tblGrid>", tabel, count=1)
+        tabel = tabel.replace('<w:tblLayout w:type="autofit" />',
+                              '<w:tblLayout w:type="fixed" />')
+        # De cel draagt haar breedte zelf ook: niet elke lezer leest het raster.
+        def per_rij(rm):
+            kolom = [0]
+
+            def per_cel(cm):
+                i = min(kolom[0], aantal - 1)
+                kolom[0] += 1
+                return cm.group(0).replace(
+                    "<w:tcPr />",
+                    f'<w:tcPr><w:tcW w:w="{breedtes[i]}" w:type="dxa" /></w:tcPr>', 1)
+
+            return CEL.sub(per_cel, rm.group(0))
+
+        return RIJ.sub(per_rij, tabel)
+
     xml = xml.replace('<w:tblW w:type="auto" w:w="0" />',
                       '<w:tblW w:type="pct" w:w="5000" /><w:tblLayout w:type="autofit" />')
-    xml = re.sub(r'<w:gridCol w:w="\d+" />', "<w:gridCol />", xml)
+    xml = TABEL.sub(vervang, xml)
     onderdelen["word/document.xml"] = xml.encode("utf-8")
     with zipfile.ZipFile(docx, "w", zipfile.ZIP_DEFLATED) as uit:
         for naam, inhoud in onderdelen.items():
