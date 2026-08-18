@@ -59,7 +59,7 @@ import zipfile
 
 MERMAID = re.compile(r"^([ \t]*)```mermaid[ \t]*\n(.*?)^[ \t]*```[ \t]*$", re.DOTALL | re.MULTILINE)
 KOP = re.compile(r"^(#{1,6})[ \t]+(.+?)[ \t]*$", re.MULTILINE)
-LINK = re.compile(r"\[([^\]]*)\]\(([^)\s]+?)(?:\s+\"[^\"]*\")?\)")
+LINK = re.compile(r"(!?)\[([^\]]*)\]\(([^)\s]+?)(?:\s+\"[^\"]*\")?\)")
 FENCE = re.compile(r"^```.*?^```", re.DOTALL | re.MULTILINE)
 
 STANDAARD_REPO_URL = "https://github.com/Npuls-OKx/Public"
@@ -278,17 +278,33 @@ def sectie_anchor(item: dict, kaart: dict) -> str:
     return f"sectie--{slug(item['sectie'])}"
 
 
+def verwijsbaar(bestand: pathlib.Path) -> str:
+    """Geeft een pad in de vorm die een markdown-verwijzing aankan."""
+    tekst = bestand.as_posix()
+    return f"<{tekst}>" if set(" ()<>") & set(tekst) else tekst
+
+
 def herschrijf_links(inhoud: str, doc: str, pakket: pathlib.Path, documenten: list,
                      kaart: dict, gebundeld: bool, repo_url: str, ref: str) -> str:
     """Herschrijft relatieve verwijzingen zodat ze in een docx werken."""
     hier = (pakket / doc).parent
 
     def vervang(m):
-        tekst, doel = m.group(1), m.group(2)
+        beeld, tekst, doel = m.group(1), m.group(2), m.group(3)
         if doel.startswith(("http://", "https://", "mailto:")):
             return m.group(0)
 
         pad, _, anchor = doel.partition("#")
+
+        # Een afbeelding hoort in de docx te zitten, niet erheen te verwijzen. Een
+        # GitHub-URL wijst naar de blob-pagina; pandoc haalt daar HTML op en sluit die
+        # in in plaats van de PNG. Een absoluut pad laat pandoc het bestand vinden,
+        # net zoals bij de gerenderde mermaid-diagrammen.
+        if beeld:
+            bestand = (hier / pad).resolve() if pad else None
+            if bestand is None or not bestand.is_file():
+                return m.group(0)
+            return f"![{tekst}]({verwijsbaar(bestand)})"
 
         # Verwijzing binnen hetzelfde document.
         if not pad:
@@ -605,6 +621,53 @@ def tabellen_laten_meebewegen(docx: pathlib.Path) -> None:
             uit.writestr(naam, inhoud)
 
 
+EINDE_ALINEA = '<w:p><w:r><w:br w:type="page"/></w:r></w:p>'
+# Tussen het pagina-einde en de alinea erna staan de bookmarks van de anchors.
+NA_EINDE = re.compile(
+    re.escape(EINDE_ALINEA) + r"\s*((?:<w:bookmark(?:Start|End)\b[^>]*/>\s*)*)(<w:p\b[^>]*>)"
+    r"(<w:pPr>)?")
+# De volgorde van de kinderen van pPr ligt vast; pageBreakBefore hoort na deze drie.
+VOOR_EINDE = re.compile(r"(?:<w:(?:pStyle|keepNext|keepLines)\b[^>]*/>\s*)*")
+
+
+def paginaeinden_verankeren(docx: pathlib.Path) -> None:
+    """Hangt elk pagina-einde aan de alinea erna in plaats van aan een lege alinea.
+
+    Een einde in een eigen lege alinea levert een blanco pagina op zodra de pagina
+    ervoor tot de laatste regel vol staat: die lege alinea past er dan niet meer bij,
+    schuift naar de volgende pagina, en het einde erin duwt de inhoud nog een pagina
+    verder. Als eigenschap van de kop erna kan dat niet gebeuren, want er is dan geen
+    lege alinea die zelf nog een regel vraagt.
+
+    Volgt er geen alinea maar bijvoorbeeld een tabel, dan blijft het einde staan zoals
+    het was: een tabel draagt de eigenschap niet.
+    """
+    z = zipfile.ZipFile(docx)
+    onderdelen = {i.filename: z.read(i.filename) for i in z.infolist()}
+    z.close()
+    xml = onderdelen["word/document.xml"].decode("utf-8")
+
+    stukken, i = [], 0
+    for m in NA_EINDE.finditer(xml):
+        bookmarks, alinea, ppr = m.group(1), m.group(2), m.group(3)
+        stukken.append(xml[i:m.start()])
+        if ppr is None:
+            stukken.append(f"{bookmarks}{alinea}<w:pPr><w:pageBreakBefore /></w:pPr>")
+            i = m.end()
+        else:
+            # Achter de kinderen die volgens het schema voorgaan.
+            plek = VOOR_EINDE.match(xml, m.end()).end()
+            stukken.append(f"{bookmarks}{alinea}{ppr}{xml[m.end():plek]}"
+                           "<w:pageBreakBefore />")
+            i = plek
+    stukken.append(xml[i:])
+
+    onderdelen["word/document.xml"] = "".join(stukken).encode("utf-8")
+    with zipfile.ZipFile(docx, "w", zipfile.ZIP_DEFLATED) as doel:
+        for naam, inhoud in onderdelen.items():
+            doel.writestr(naam, inhoud)
+
+
 def pandoc(argumenten: list) -> None:
     resultaat = subprocess.run(["pandoc", *argumenten], capture_output=True, text=True)
     if resultaat.returncode != 0:
@@ -701,10 +764,16 @@ def main(argv: list) -> int:
             # De sectiekop en zijn inleiding vormen één deel: anders valt er een
             # pagina-einde tussen, en blijft de kop alleen op een pagina achter.
             kop = f"## {item['sectie']} {{#{sectie_anchor(item, kaart)}}}"
+            subdocumenten = item.get("documenten") or []
             if item.get("inleiding"):
                 kop += "\n\n" + zonder_titel(bouw_deel(item["inleiding"], False))
+            elif subdocumenten:
+                # Zonder inleiding is er niets om de kop gezelschap te houden en houdt
+                # hij een pagina voor zich alleen. Dan maar samen met het eerste document.
+                kop += "\n\n" + bouw_deel(subdocumenten[0], True)
+                subdocumenten = subdocumenten[1:]
             gebundelde_delen.append(kop)
-            for doc in item.get("documenten") or []:
+            for doc in subdocumenten:
                 gebundelde_delen.append(bouw_deel(doc, True))
             if item.get("schemas"):
                 # Achter de documenten, want de inhoudsopgave zet ze daar ook. En als
@@ -742,6 +811,7 @@ def main(argv: list) -> int:
             "-o", str(gebundeld_docx), str(gebundeld_md),
         ])
         tabellen_laten_meebewegen(gebundeld_docx)
+        paginaeinden_verankeren(gebundeld_docx)
         print(f"  {gebundeld_docx.name}")
 
         # Losse documenten in een zip, mapstructuur behouden.
