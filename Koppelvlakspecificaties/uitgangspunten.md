@@ -115,4 +115,4 @@ OKx definieert endpoints die ook toekomstige scenario's mogelijk maken. Waar een
 
 Waarom: de keten kent implementaties van verschillende volwassenheid, en scenario's die we nog niet kennen. Eén verplichte vorm dwingt óf onnodige complexiteit af (delta-berekening voor wie die niet nodig heeft) óf onnodig zwaar verkeer (volledige structuur voor wie alleen de wijziging wil). Twee vormen op dezelfde resource houden beide routes open zonder de semantiek te splitsen.
 
-Zichtbaar in de [koppelingspecificatie OC-P&R](Koppelingspecificaties/oc-p-en-r/koppelingspecificatie-oc-p-en-r.md): de planbaar-melding is dun (conform U4), waarna de afnemer de volledige structuur of de delta ophaalt.
+Zichtbaar in het [interactiepatroon onderwijscatalogus naar planning en roostering](Interactiepatronen/onderwijscatalogus-planning-en-roostering.md#notify-then-pull-opleidingsaanbod-aanmaken): de planbaar-melding is dun (conform U4), waarna de afnemer de volledige structuur of de delta ophaalt.
