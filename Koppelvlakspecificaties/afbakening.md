@@ -45,37 +45,55 @@ De resultaatstructuur gebruikt dezelfde specificatiefamilie als de onderwijsspec
 
 ## 2. Eisen aan de keten
 
-Wat de keten moet kunnen, los van een koppeling en los van een oplossing. Deze eisen geven de context: zij gelden voor elke koppeling die de onderwijscatalogus met een afnemend systeem verbindt. De scherpere, per koppeling geformuleerde functionele eisen zijn hiervan afgeleid en staan bij het interactiepatroon dat ze uitwerkt, zodat de keten eis → interactiepatroon → endpoint bij elkaar blijft.
+Wat de keten moet kunnen, los van een koppeling en los van een oplossing. Deze eisen geven de context: zij gelden voor elke koppeling die de onderwijscatalogus met een afnemend systeem verbindt. De scherpere, per koppeling geformuleerde functionele eisen zijn hiervan afgeleid en staan bij het interactiepatroon dat ze uitwerkt, zodat de keten eis → interactiepatroon → endpoint bij elkaar blijft. De functionele eisen zijn doorlopend genummerd over de koppelingen heen (`functionele-eis-0001` en verder), zodat elke eis één vaste verwijzing heeft. Ook de keten-eisen zelf dragen een id (`keten-eis-0001` tot en met `keten-eis-0005`) — een eigen soort naast de functionele eisen, omdat het een andere laag is: keten-breed in plaats van per koppeling. De tabel toont per keten-eis de afgeleide functionele eisen per koppeling; een cel "nog niet uitgewerkt" is een gat dat nog uitwerking vraagt.
 
-### 2.1 K1. Een vastgestelde specificatie bereikt elk systeem dat ermee werkt
+| Id | Keten-eis | [Planning en roostering](Interactiepatronen/onderwijscatalogus-planning-en-roostering.md) | [Studentinformatiesysteem](Interactiepatronen/onderwijscatalogus-studentinformatiesysteem.md) | [Leermanagementsysteem](Interactiepatronen/onderwijscatalogus-leermanagementsysteem.md) |
+|---|---|---|---|---|
+| keten-eis-0001 | [Een vastgestelde specificatie bereikt elk systeem dat ermee werkt](#keten-eis-0001) | [functionele-eis-0001](Interactiepatronen/onderwijscatalogus-planning-en-roostering.md#functionele-eis-0001) | [functionele-eis-0008](Interactiepatronen/onderwijscatalogus-studentinformatiesysteem.md#functionele-eis-0008) | [functionele-eis-0010](Interactiepatronen/onderwijscatalogus-leermanagementsysteem.md#functionele-eis-0010) |
+| keten-eis-0002 | [Elk systeem meldt terug wat het met de specificatie heeft gedaan](#keten-eis-0002) | [functionele-eis-0001](Interactiepatronen/onderwijscatalogus-planning-en-roostering.md#functionele-eis-0001) en [functionele-eis-0003](Interactiepatronen/onderwijscatalogus-planning-en-roostering.md#functionele-eis-0003) | [functionele-eis-0008](Interactiepatronen/onderwijscatalogus-studentinformatiesysteem.md#functionele-eis-0008) | [functionele-eis-0010](Interactiepatronen/onderwijscatalogus-leermanagementsysteem.md#functionele-eis-0010) en [functionele-eis-0011](Interactiepatronen/onderwijscatalogus-leermanagementsysteem.md#functionele-eis-0011) |
+| keten-eis-0003 | [Een wijziging werkt door zonder dat alles opnieuw wordt uitgewisseld](#keten-eis-0003) | [functionele-eis-0002](Interactiepatronen/onderwijscatalogus-planning-en-roostering.md#functionele-eis-0002) en [functionele-eis-0005](Interactiepatronen/onderwijscatalogus-planning-en-roostering.md#functionele-eis-0005) | nog niet uitgewerkt | [functionele-eis-0012](Interactiepatronen/onderwijscatalogus-leermanagementsysteem.md#functionele-eis-0012) |
+| keten-eis-0004 | [Een wijziging raakt lopende uitvoering niet ongecontroleerd](#keten-eis-0004) | [functionele-eis-0004](Interactiepatronen/onderwijscatalogus-planning-en-roostering.md#functionele-eis-0004) | [functionele-eis-0009](Interactiepatronen/onderwijscatalogus-studentinformatiesysteem.md#functionele-eis-0009) | nog niet uitgewerkt |
+| keten-eis-0005 | [Uitval kost geen informatie](#keten-eis-0005) | [functionele-eis-0006](Interactiepatronen/onderwijscatalogus-planning-en-roostering.md#functionele-eis-0006) en [functionele-eis-0007](Interactiepatronen/onderwijscatalogus-planning-en-roostering.md#functionele-eis-0007) | nog niet uitgewerkt | nog niet uitgewerkt |
+
+<a id="keten-eis-0001"></a>
+
+### 2.1 keten-eis-0001. Een vastgestelde specificatie bereikt elk systeem dat ermee werkt
 
 De onderwijscatalogus is het distributiepunt: drie systemen zetten het onderwijs klaar en hebben elk een ander deel van dezelfde specificatie nodig. Zolang dat overzetten handwerk is, verschilt per instelling wat waar terechtkomt en is niet vast te stellen waarop een systeem zich heeft gebaseerd. De eis stuurt het patroon: de bezitter meldt, de afnemer haalt op wanneer het hem uitkomt ([U4](uitgangspunten.md#u4-notify-then-pull)).
 
-Afgeleid: FR1 bij [planning en roostering](Interactiepatronen/onderwijscatalogus-planning-en-roostering.md#functionele-eisen), FR1 bij [het studentinformatiesysteem](Interactiepatronen/onderwijscatalogus-studentinformatiesysteem.md#functionele-eisen) en FR1 bij [het leermanagementsysteem](Interactiepatronen/onderwijscatalogus-leermanagementsysteem.md#functionele-eisen).
+Afgeleid: [functionele-eis-0001](Interactiepatronen/onderwijscatalogus-planning-en-roostering.md#functionele-eis-0001) bij planning en roostering, [functionele-eis-0008](Interactiepatronen/onderwijscatalogus-studentinformatiesysteem.md#functionele-eis-0008) bij het studentinformatiesysteem en [functionele-eis-0010](Interactiepatronen/onderwijscatalogus-leermanagementsysteem.md#functionele-eis-0010) bij het leermanagementsysteem.
 
-### 2.2 K2. Elk systeem meldt terug wat het met de specificatie heeft gedaan
+<a id="keten-eis-0002"></a>
+
+### 2.2 keten-eis-0002. Elk systeem meldt terug wat het met de specificatie heeft gedaan
 
 Wie een gegeven bezit, bepaalt het ([U3](uitgangspunten.md#u3-resource-eigenaarschap)): de catalogus bezit de specificatie, maar niet het aanbod, niet de inrichting en niet de resultaten. Zonder terugmelding weet zij dus niet of het onderwijs klaarstaat, en kan zij niet naar het resultaat verwijzen. De terugmelding draagt daarom een referentie naar wat het afnemende systeem heeft gemaakt, en bij een mislukking de reden.
 
-Afgeleid: FR1 en FR3 bij [planning en roostering](Interactiepatronen/onderwijscatalogus-planning-en-roostering.md#functionele-eisen), FR1 bij [het studentinformatiesysteem](Interactiepatronen/onderwijscatalogus-studentinformatiesysteem.md#functionele-eisen), FR1 en FR2 bij [het leermanagementsysteem](Interactiepatronen/onderwijscatalogus-leermanagementsysteem.md#functionele-eisen).
+Afgeleid: [functionele-eis-0001](Interactiepatronen/onderwijscatalogus-planning-en-roostering.md#functionele-eis-0001) en [functionele-eis-0003](Interactiepatronen/onderwijscatalogus-planning-en-roostering.md#functionele-eis-0003) bij planning en roostering, [functionele-eis-0008](Interactiepatronen/onderwijscatalogus-studentinformatiesysteem.md#functionele-eis-0008) bij het studentinformatiesysteem, [functionele-eis-0010](Interactiepatronen/onderwijscatalogus-leermanagementsysteem.md#functionele-eis-0010) en [functionele-eis-0011](Interactiepatronen/onderwijscatalogus-leermanagementsysteem.md#functionele-eis-0011) bij het leermanagementsysteem.
 
-### 2.3 K3. Een wijziging werkt door zonder dat alles opnieuw wordt uitgewisseld
+<a id="keten-eis-0003"></a>
+
+### 2.3 keten-eis-0003. Een wijziging werkt door zonder dat alles opnieuw wordt uitgewisseld
 
 Een specificatie verandert nadat een afnemer zich erop heeft ingericht. De afnemer moet die wijziging kunnen volgen zonder dat de hele structuur opnieuw over de lijn gaat, en moet kunnen zien waarop hij zich baseerde: daar zijn de versionering en het manifest voor ([regels bij de schema's](Datamodelschema's/README.md#regels-bij-de-schemas)). Ook een statuswijziging die geen nieuwe versie oplevert hoort door te komen.
 
-Afgeleid: FR2 en FR5 bij [planning en roostering](Interactiepatronen/onderwijscatalogus-planning-en-roostering.md#functionele-eisen) en FR3 bij [het leermanagementsysteem](Interactiepatronen/onderwijscatalogus-leermanagementsysteem.md#functionele-eisen).
+Afgeleid: [functionele-eis-0002](Interactiepatronen/onderwijscatalogus-planning-en-roostering.md#functionele-eis-0002) en [functionele-eis-0005](Interactiepatronen/onderwijscatalogus-planning-en-roostering.md#functionele-eis-0005) bij planning en roostering en [functionele-eis-0012](Interactiepatronen/onderwijscatalogus-leermanagementsysteem.md#functionele-eis-0012) bij het leermanagementsysteem.
 
-### 2.4 K4. Een wijziging raakt lopende uitvoering niet ongecontroleerd
+<a id="keten-eis-0004"></a>
+
+### 2.4 keten-eis-0004. Een wijziging raakt lopende uitvoering niet ongecontroleerd
 
 Zodra een planning is afgerond of er verbintenissen lopen, is een wijziging niet meer vrijblijvend: er hangen roosters, inschrijvingen en resultaatafspraken aan. De keten moet zo'n wijziging langs een acceptatietoets leiden in plaats van hem stilzwijgend door te voeren. Voor het examenplan gelden de strengste regels, omdat het een contractuele afspraak met de student is.
 
-Afgeleid: FR4 bij [planning en roostering](Interactiepatronen/onderwijscatalogus-planning-en-roostering.md#functionele-eisen) en FR2 bij [het studentinformatiesysteem](Interactiepatronen/onderwijscatalogus-studentinformatiesysteem.md#functionele-eisen).
+Afgeleid: [functionele-eis-0004](Interactiepatronen/onderwijscatalogus-planning-en-roostering.md#functionele-eis-0004) bij planning en roostering en [functionele-eis-0009](Interactiepatronen/onderwijscatalogus-studentinformatiesysteem.md#functionele-eis-0009) bij het studentinformatiesysteem.
 
-### 2.5 K5. Uitval kost geen informatie
+<a id="keten-eis-0005"></a>
+
+### 2.5 keten-eis-0005. Uitval kost geen informatie
 
 Een bericht kan wegvallen. De keten moet daar tegen kunnen: de informatie moet alsnog op te halen zijn zonder op een herhaalde aflevering te wachten, en het afleveradres moet vastliggen voordat er iets wordt afgeleverd. Welke eigenschappen het afleverkanaal daarvoor moet hebben staat in [ADR 0018](../Referentiemateriaal/adr/0018-enterprise-messaging-patronen-voor-betrouwbare-koppelvlakken.md).
 
-Afgeleid: FR6 en FR7 bij [planning en roostering](Interactiepatronen/onderwijscatalogus-planning-en-roostering.md#functionele-eisen). Voor de koppelingen met het studentinformatiesysteem en het leermanagementsysteem is deze eis nog niet in functionele eisen uitgewerkt; beide documenten stellen vast dat reconciliatie en abonnementenbeheer daar nog ontbreken.
+Afgeleid: [functionele-eis-0006](Interactiepatronen/onderwijscatalogus-planning-en-roostering.md#functionele-eis-0006) en [functionele-eis-0007](Interactiepatronen/onderwijscatalogus-planning-en-roostering.md#functionele-eis-0007) bij planning en roostering. Voor de koppelingen met het studentinformatiesysteem en het leermanagementsysteem is deze eis nog niet in functionele eisen uitgewerkt; beide documenten stellen vast dat reconciliatie en abonnementenbeheer daar nog ontbreken.
 
 ## 3. Scope
 

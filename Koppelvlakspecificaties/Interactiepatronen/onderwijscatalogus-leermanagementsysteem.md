@@ -10,11 +10,11 @@ De uitsnede komt uit de informatiestromen-hoofdplaat v1.7 (richtinggevend; de le
 
 ## Functionele eisen
 
-| # | Functionele eis | Interactiepatroon |
+| Id | Functionele eis | Interactiepatroon |
 |---|---|---|
-| FR1 | De onderwijscatalogus moet het leermanagementsysteem kunnen laten weten dat een specificatie beschikbaar is om de leeromgeving op in te richten, en het leermanagementsysteem moet daarop een inrichtingsstatus met referentie kunnen terugleveren | [Notify-then-pull: leeromgeving inrichten en leermiddelkoppeling melden](#notify-then-pull-leeromgeving-inrichten-en-leermiddelkoppeling-melden) |
-| FR2 | Het leermanagementsysteem moet een leermiddelkoppeling die het heeft gelegd aan de onderwijscatalogus kunnen melden, zodat die de leermiddelen bij het aanbod kan tonen | [Notify-then-pull: leeromgeving inrichten en leermiddelkoppeling melden](#notify-then-pull-leeromgeving-inrichten-en-leermiddelkoppeling-melden) |
-| FR3 | Het leermanagementsysteem moet zijn inrichting kunnen bijwerken wanneer een specificatie wijzigt, zonder verplicht de volledige structuur opnieuw te ontvangen | [Notify-then-pull: inrichting bijwerken na wijziging](#notify-then-pull-inrichting-bijwerken-na-wijziging) |
+| <a id="functionele-eis-0010"></a>functionele-eis-0010 | De onderwijscatalogus moet het leermanagementsysteem kunnen laten weten dat een specificatie beschikbaar is om de leeromgeving op in te richten, en het leermanagementsysteem moet daarop een inrichtingsstatus met referentie kunnen terugleveren | [Notify-then-pull: leeromgeving inrichten en leermiddelkoppeling melden](#notify-then-pull-leeromgeving-inrichten-en-leermiddelkoppeling-melden) |
+| <a id="functionele-eis-0011"></a>functionele-eis-0011 | Het leermanagementsysteem moet een leermiddelkoppeling die het heeft gelegd aan de onderwijscatalogus kunnen melden, zodat die de leermiddelen bij het aanbod kan tonen | [Notify-then-pull: leeromgeving inrichten en leermiddelkoppeling melden](#notify-then-pull-leeromgeving-inrichten-en-leermiddelkoppeling-melden) |
+| <a id="functionele-eis-0012"></a>functionele-eis-0012 | Het leermanagementsysteem moet zijn inrichting kunnen bijwerken wanneer een specificatie wijzigt, zonder verplicht de volledige structuur opnieuw te ontvangen | [Notify-then-pull: inrichting bijwerken na wijziging](#notify-then-pull-inrichting-bijwerken-na-wijziging) |
 
 ## Procesbeeld
 

@@ -31,11 +31,16 @@ from urllib.parse import unquote
 
 LINK = re.compile(r"\]\(([^)]+)\)")
 HEADING = re.compile(r"^#{1,6}\s+(.*)")
+HTML_ANKER = re.compile(r"<a\s+id=\"([^\"]+)\"\s*>")
 EXTERN = ("http://", "https://", "mailto:", "tel:")
 
 
 def slugs(tekst: str) -> set[str]:
-    """De anchors die GitHub voor dit document aanmaakt."""
+    """De anchors die GitHub voor dit document aanmaakt.
+
+    Naast kop-anchors telt een expliciet HTML-anker (`<a id="..."></a>`) mee;
+    GitHub rendert die in markdown, bijvoorbeeld bij id's in tabelrijen.
+    """
     gevonden: set[str] = set()
     in_codeblok = False
     for regel in tekst.splitlines():
@@ -44,6 +49,7 @@ def slugs(tekst: str) -> set[str]:
             continue
         if in_codeblok:
             continue
+        gevonden.update(HTML_ANKER.findall(regel))
         kop = HEADING.match(regel)
         if not kop:
             continue
