@@ -158,6 +158,15 @@ class BrokenTreeTest(unittest.TestCase):
             "[story-0009](../../Referentiemateriaal/requirementsboom/stories.md#story-0009)",
             "terugleiding")
 
+    def test_given_requirement_link_removed_from_story_when_validated_then_orphan_backlink(self):
+        # Terugleiding, omgekeerde tak: stories.md linkt de eis helemaal niet
+        # meer, terwijl de Story-cel in het interactiepatroon blijft staan.
+        self.assert_break_detected(
+            self.BOOM + "stories.md",
+            "[functionele-eis-0004](../../Koppelvlakspecificaties/Interactiepatronen/"
+            "onderwijscatalogus-planning-en-roostering.md#functionele-eis-0004)",
+            "geen", "maar stories.md linkt die eis niet")
+
 
 class EdgeCaseTest(unittest.TestCase):
     """Randgevallen rond paden."""
