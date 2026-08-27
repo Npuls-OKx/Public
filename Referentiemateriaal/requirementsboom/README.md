@@ -4,7 +4,7 @@ De gelaagde breakdown van de OKx-requirements: van de opdracht (Leren zonder Dre
 
 ## Visualisatie requirementsboom
 
-De plaat toont de opdracht, de drie doelen en de acht epics; onder elke epic hangen features en daaronder stories, gebundeld in de verzamelknoop. De uitwerking per rij staat in de tabellen (zie [Navigatie](#navigatie)); elke rij draagt een id (epic, feature, story) om naar te verwijzen. GitHub rendert mermaid zonder klikbare knopen, dus de tabel eronder is de klikroute.
+De plaat toont de opdracht, de drie doelen en de acht epics; onder elke epic hangen features en daaronder stories, als twee gestippelde verzamelknopen. De uitwerking per rij staat in de tabellen (zie [Navigatie](#navigatie)); elke rij draagt een id (epic, feature, story) om naar te verwijzen. GitHub rendert mermaid zonder klikbare knopen, dus de tabel eronder is de klikroute.
 
 ```mermaid
 flowchart LR
@@ -17,7 +17,7 @@ flowchart LR
   DL3 --> EP6["epic-0006 Student kiest onderwijsspecificaties"]
   DL3 --> EP7["epic-0007 Keuze en verbintenis vastleggen"]
   DL3 --> EP8["epic-0008 Voortgang en resultaat op leeruitkomsten"]
-  EP1 & EP2 & EP3 & EP4 & EP5 & EP6 & EP7 & EP8 -.-> FS["per epic features, per feature stories - zie de tabellen"]
+  EP1 & EP2 & EP3 & EP4 & EP5 & EP6 & EP7 & EP8 -.-> FT["features - per epic, zie de tabel"] -.-> ST["stories - per feature, zie de tabel"]
 ```
 
 ## Van opdracht naar endpoint
