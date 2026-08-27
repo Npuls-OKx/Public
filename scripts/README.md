@@ -8,12 +8,15 @@ Gereedschap om te controleren wat machinaal te controleren is, en om het release
 | [`check-conventies.py`](check-conventies.py) | Vangt issueverwijzingen, metadatakoppen, datumprefixen, links naar een meta-branch in plaats van een commit, onvolledige inleidingen |
 | [`json-tree.py`](json-tree.py) | Vangt drift tussen de JSON, het schema en de gegenereerde bomen in een payload-document |
 | [`build-release.py`](build-release.py) | Bouwt het releasepakket: docx-documenten uit de markdown-bronnen |
+| [`validate-requirementsboom-navigatie.py`](validate-requirementsboom-navigatie.py) | Vangt gebroken navigatie in de requirementsboom: dode ankers, eenzijdige laagverwijzingen, terugleiding die niet spoort met de stories |
 
 ```bash
 python3 scripts/check-links.py                    # hele repository
 python3 scripts/check-conventies.py <pad>         # of alleen een map of bestand
 python3 scripts/json-tree.py --check <doc>.md     # controleren
 python3 scripts/json-tree.py --write <doc>.md     # bomen bijwerken
+python3 scripts/validate-requirementsboom-navigatie.py   # requirementsboom
+python3 -m unittest discover -s tests             # testgevallen van de scripts
 
 python3 scripts/build-release.py Koppelvlakspecificaties --uit dist
 python3 scripts/build-release.py Koppelvlakspecificaties --alleen-controle

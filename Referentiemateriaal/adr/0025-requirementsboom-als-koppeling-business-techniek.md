@@ -12,7 +12,7 @@ Onderzoek in de meta-repository (drie verslagen plus synthese, zie Relaties) ver
 
 ### Beslissing
 
-1. **De requirementsboom is de getoonde koppeling tussen business en techniek**: een gelaagde breakdown van opdracht (Leren zonder Drempels) via epics en features naar stories, met één document per laag en een index, in de meta-repository onder `architecture/docs/requirements/`.
+1. **De requirementsboom is de getoonde koppeling tussen business en techniek**: een gelaagde breakdown van opdracht (Leren zonder Drempels) via epics en features naar stories, met één document per laag en een index, in deze repository onder `Referentiemateriaal/requirementsboom/`, naast de koppelvlakspecificaties die de stories aanwijzen.
 2. **Elke rij draagt een bron** (vastgesteld document, ADR of meetingverslag); wat niet herleidbaar is staat op een parkeerlijst, niet in de boom.
 3. **Stories eindigen bij de techniek**: een story noemt de interactie in een koppelingspecificatie en het systeem dat eigenaar wordt van de bijbehorende endpoint-set. De redenering is: wie deze featureset wil ondersteunen, wordt eigenaar van deze endpoints; hoe een leverancier dat intern oplost valt buiten de standaard.
 4. **Eis-identificatienummers en uitvoerbare scenario's zijn achtergrondmechaniek**, niet de getoonde koppeling. Ze worden gefaseerd ingevoerd zodra de boom zich bewezen heeft, te beginnen met een proef op één koppelingspecificatie.
@@ -27,9 +27,9 @@ Onderzoek in de meta-repository (drie verslagen plus synthese, zie Relaties) ver
 
 ### Consequenties
 
-- De meta-repository krijgt onder `architecture/docs/requirements/` zes documenten met harde omvangslimieten (overzicht boven volledigheid); uitbreiding gebeurt vanuit de parkeerlijst, per pull request.
+- Deze repository draagt onder `Referentiemateriaal/requirementsboom/` zes documenten met harde omvangslimieten (overzicht boven volledigheid); uitbreiding gebeurt vanuit de parkeerlijst, per pull request, bewaakt door de navigatiecontrole in de CI (`scripts/validate-requirementsboom-navigatie.py`).
 - De product owner leest de bovenste twee lagen (opdracht en epics); de technische werkgroep en leveranciers lezen features en stories met de koppelvlakverwijzingen.
-- De koppelvlakspecificaties in deze repository worden vanuit stories aangewezen; nieuwe interacties horen vanaf nu een story als tegenhanger te hebben.
+- De koppelvlakspecificaties worden vanuit stories aangewezen én wijzen terug: elke functionele eis draagt een Story-kolom met de stories die hem dragen. Nieuwe interacties horen vanaf nu een story als tegenhanger te hebben.
 - Open beheervraag, belegd bij het kernteam: wie onderhoudt de boom na de proof of concept, en kan de business de doorverwijzingen (interacties, later eis-identificatienummers) zelf definiëren en bijhouden? De agent-omzetting naar milestones en issues (beslispunt 5) is het voorstel, nog geen besluit.
 - Richting AMIGO geldt comply or explain: de traceerbaarheidsrelaties uit paragraaf 5.4 worden deels ingevuld door de boom met bronplicht; de generatie uit logische modellen is uitgesteld en hier uitgelegd.
 - Geen wijziging aan `architecture/model/model.archimate` in de meta-repository; de boom staat bewust los van het model.
@@ -38,6 +38,7 @@ Onderzoek in de meta-repository (drie verslagen plus synthese, zie Relaties) ver
 
 - Issue: [meta-issue 130](https://github.com/Npuls-OKx/meta/issues/130) (onderzoek en proof of concept), [meta-issue 135](https://github.com/Npuls-OKx/meta/issues/135) (identificatienummer-conventie, geparkeerd als achtergrondmechaniek)
 - PR: [meta-PR 131](https://github.com/Npuls-OKx/meta/pull/131) (onderzoek, synthese en de requirementsboom zelf)
+- Overheveling: [Public-issue 33](https://github.com/Npuls-OKx/Public/issues/33) — de boom van de meta-repository naar `Referentiemateriaal/requirementsboom/`, met terugleiding van de functionele eisen en de navigatiecontrole in de CI
 - Onderzoek: de drie verslagen en de synthese onder `architecture/agent-artifacts/research/` in de meta-repository (via meta-PR 131), waaronder de vergelijking van de drie koppelmechanismen en de AMIGO-toets
 - Meetings: sparsessie 5 augustus 2026 (vastgelegd in de extractieverantwoording bij meta-PR 131); meetingverslagen maart tot en met juli in `architecture/meetings/` (meta)
 - ArchiMate-model: `architecture/model/model.archimate` (meta), geen wijziging
