@@ -2,9 +2,9 @@
 
 De gelaagde breakdown van de OKx-requirements: van de opdracht (Leren zonder Drempels) via epics en features naar stories, met onderaan de aansluiting op de koppelingspecificaties. De boom is de getoonde koppeling tussen business en techniek; elke rij draagt een bron. De boom is opgesteld in de meta-werkomgeving en per [ADR 0025](../../Referentiemateriaal/adr/0025-requirementsboom-als-koppeling-business-techniek.md) naar deze repository overgeheveld; de bronverwijzingen naar meta zijn gepind op het commit van de overheveling.
 
-## De boom in één plaat
+## Visualisatie requirementsboom
 
-De plaat toont de opdracht, de drie doelen en de acht epics. Features en stories staan alleen in de tabellen; elke rij draagt een id (epic, feature, story) om naar te verwijzen.
+De plaat toont de opdracht, de drie doelen en de acht epics; onder elke epic hangen features en daaronder stories, gebundeld in de verzamelknoop. De uitwerking per rij staat in de tabellen (zie [Navigatie](#navigatie)); elke rij draagt een id (epic, feature, story) om naar te verwijzen. GitHub rendert mermaid zonder klikbare knopen, dus de tabel eronder is de klikroute.
 
 ```mermaid
 flowchart LR
@@ -17,6 +17,7 @@ flowchart LR
   DL3 --> EP6["epic-0006 Student kiest onderwijsspecificaties"]
   DL3 --> EP7["epic-0007 Keuze en verbintenis vastleggen"]
   DL3 --> EP8["epic-0008 Voortgang en resultaat op leeruitkomsten"]
+  EP1 & EP2 & EP3 & EP4 & EP5 & EP6 & EP7 & EP8 -.-> FS["per epic features, per feature stories - zie de tabellen"]
 ```
 
 ## Van opdracht naar endpoint
