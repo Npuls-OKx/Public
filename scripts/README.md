@@ -8,18 +8,25 @@ Gereedschap om te controleren wat machinaal te controleren is, en om het release
 | [`check-conventies.py`](check-conventies.py) | Vangt issueverwijzingen, metadatakoppen, datumprefixen, links naar een meta-branch in plaats van een commit, onvolledige inleidingen |
 | [`json-tree.py`](json-tree.py) | Vangt drift tussen de JSON, het schema en de gegenereerde bomen in een payload-document |
 | [`build-release.py`](build-release.py) | Bouwt het releasepakket: docx-documenten uit de markdown-bronnen |
+| [`validate-requirementsboom-navigatie.py`](validate-requirementsboom-navigatie.py) | Vangt gebroken navigatie in de requirementsboom: dode ankers, eenzijdige laagverwijzingen, terugleiding die niet spoort met de stories |
 
 ```bash
 python3 scripts/check-links.py                    # hele repository
 python3 scripts/check-conventies.py <pad>         # of alleen een map of bestand
 python3 scripts/json-tree.py --check <doc>.md     # controleren
 python3 scripts/json-tree.py --write <doc>.md     # bomen bijwerken
+python3 scripts/validate-requirementsboom-navigatie.py   # requirementsboom
+python3 -m unittest discover -s tests             # testgevallen van de scripts
 
 python3 scripts/build-release.py Koppelvlakspecificaties --uit dist
 python3 scripts/build-release.py Koppelvlakspecificaties --alleen-controle
 ```
 
 De controlescripts geven exitcode 1 bij een probleem, zodat ze in een pre-commit hook of workflow passen.
+
+## Testgevallen
+
+Elk script draagt expliciete, naloopbare testgevallen in [`tests/`](../tests/) (`tests/test_<naam>.py`, standaardbibliotheek `unittest`, draaibaar met `python3 -m unittest discover -s tests`). Elk geval volgt de given-when-then-conventie in methodenaam en teststructuur, met onafhankelijke verwachtingen (geen hardgecodeerde momentopnamen van repo-inhoud). Een pull request die een script toevoegt of wijzigt, rapporteert per testgeval wat er gedraaid is en wat het resultaat was; "getest" zonder naloopbare gevallen telt niet als verificatie. De testrun draait mee in de CI (`validatie.yml`).
 
 ## Waarom deze controles bestaan
 

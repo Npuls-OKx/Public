@@ -53,7 +53,10 @@ def slugs(tekst: str) -> set[str]:
         kop = HEADING.match(regel)
         if not kop:
             continue
-        s = kop.group(1).strip().lower()
+        s = kop.group(1).strip()
+        # GitHub slugt over de gerenderde koptekst: linkmarkup eerst strippen,
+        # anders krijgt een kop-als-link (## [Naam](doel.md)) een fout anchor.
+        s = re.sub(r"\[([^\]]*)\]\([^)]*\)", r"\1", s).lower()
         s = re.sub(r"[^\w\s-]", "", s)   # leestekens weg, spaties blijven
         gevonden.add(re.sub(r"\s", "-", s))  # elke spatie apart
     return gevonden

@@ -41,6 +41,12 @@ jobs:
           shopt -s globstar nullglob
           python3 scripts/json-tree.py --check Koppelvlakspecificaties/**/*.md
 
+      - name: Requirementsboom-navigatie en terugleiding
+        run: python3 scripts/validate-requirementsboom-navigatie.py
+
+      - name: Testgevallen van de controlescripts
+        run: python3 -m unittest discover -s tests
+
   bouw:
     name: Releasepakket bouwbaar
     runs-on: ubuntu-latest
