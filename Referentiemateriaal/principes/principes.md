@@ -155,3 +155,13 @@ Onderstaande principes zijn abstract en stabiel. Ze hebben een korte **stelling*
   - **IDM en provisioning als voorwaardelijk kader**: OKx neemt IDM/provisioning niet in scope, maar benoemt het als **randvoorwaarde** in koppelvlakspecificaties. Koppelvlakken mogen niet impliciet de rol van identiteitsdistributie overnemen.
   - Functionele componenten (SKS, SVS, LMS, toetssysteem, etc.) zijn **geen doorgeefluik** voor persoonsdata van andere componenten. Als een LMS persoonsattributen nodig heeft, haalt het die uit het IDM — niet uit het SKS-koppelvlak waarmee de leerroute-associatie is gelegd.
   - Bij afwijking van dit principe (bijv. performance, offline scenario): leg vast als **ADR** met expliciete risico-afweging.
+
+### OKx-AP14 — Eisen vóór techniekkeuze
+
+- **Stelling**: Keten-eisen, functionele eisen en stories worden vastgesteld op de onderwijs- en ketenbehoefte. Een technische standaard die een eis niet ondersteunt is aanleiding voor een signalering richting de beheerder van die standaard — nooit voor het schrappen of stilzwijgend afzwakken van de eis.
+- **Rationale**: OKx sluit bewust aan op bestaande standaarden (AP03), maar de keten bestaat om onderwijsflexibilisering te dragen. Zonder dit principe wordt de specificatie sluipend techniekvolgend: de eis krimpt naar wat een standaard toevallig toelaat en de beperking wordt onzichtbaar voor instellingen. Semantiek gaat vóór techniek (AP02); dit principe trekt die lijn door naar de eisenlaag.
+- **Implicaties**:
+  - Een mismatch tussen eis en standaard wordt gedocumenteerd bij de eis en als signalering ingebracht bij de standaardbeheerder (bijvoorbeeld de OEAPI-werkgroep), navolgbaar via een issue.
+  - Tot de standaard beweegt kiest OKx een expliciet gedocumenteerde tussenoplossing (profiel, extensie of afgebakende afwijking); stilzwijgende afzwakking is geen optie.
+  - Het releasepakket beschrijft daarmee de behoefte van het onderwijs, niet de mogelijkheden van een leveranciers- of sectorstandaard.
+  - Besluitvorming en afwegingen: zie het bijbehorende architectuurbesluit (ADR 0027).
