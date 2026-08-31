@@ -29,6 +29,6 @@ Twee waarnemingen bepalen het antwoord. Er is op dit moment **geen marktpartij**
 
 ### Relaties en links
 
-- ADR: [0002 — prioriteitsketen catalogus](0002-prioriteitsketen-catalogus-drielagen-fundament.md)
+- ADR: [0002: prioriteitsketen catalogus](0002-prioriteitsketen-catalogus-drielagen-fundament.md)
 - Applicatiecomponent: [curriculum-ontwerptool](../../Koppelvlakspecificaties/Applicatiecomponenten/curriculum-ontwerptool.md)
 - ArchiMate model: geen wijziging
