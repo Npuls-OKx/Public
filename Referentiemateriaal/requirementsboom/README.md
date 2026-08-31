@@ -1,6 +1,6 @@
 # Requirementsboom
 
-De gelaagde breakdown van de OKx-requirements: van de opdracht (Leren zonder Drempels) via epics en features naar stories, met onderaan de aansluiting op de koppelvlakspecificaties. De boom is de getoonde koppeling tussen business en techniek; elke rij draagt een bron. De boom is opgesteld in de meta-werkomgeving en per [ADR 0025](../adr/0025-requirementsboom-als-koppeling-business-techniek.md) naar deze repository overgeheveld; de bronverwijzingen naar meta zijn gepind op het commit van de overheveling.
+De gelaagde breakdown van de OKx-requirements: van de opdracht (Leren zonder Drempels) via epics en features naar stories, met onderaan de aansluiting op de koppelvlakspecificaties. De boom is de getoonde koppeling tussen business en techniek; elke rij draagt een bron. De bovenste lagen zijn geschreven voor product owner en kernteam, de onderste voor de technische werkgroep en leveranciers; per laag staat het erbij. De boom is opgesteld in de meta-werkomgeving en per [ADR 0025](../adr/0025-requirementsboom-als-koppeling-business-techniek.md) naar deze repository overgeheveld; de bronverwijzingen naar meta zijn gepind op het commit van de overheveling.
 
 ## Visualisatie requirementsboom
 
@@ -26,25 +26,25 @@ Elke rij in elke laag draagt een id om naar te verwijzen (doel-0001, epic-0001, 
 
 ### Opdracht en doelen ([opdracht.md](opdracht.md))
 
-- **Wat**: waarom OKx bestaat en de drie doelen waar elke epic aan bijdraagt.
+- **Wat**: waarom OKx bestaat en de drie doelen waar elke epic aan bijdraagt. Vooral voor product owner en kernteam.
 - **Zo lees je een rij**: doel-id, omschrijving, bron; de tabel "Van doel naar epic" is de stap omlaag.
 - **Context**: [Npuls, Leren zonder Drempels](https://npuls.nl/pijlers/leren-zonder-drempels/) en het [projectoverzicht](https://github.com/Npuls-OKx/meta/blob/bd6fc9499b283fe974fd32c87bbb9307e75e7d1b/doc/OKx_Projectoverzicht.md) met de hoofdplaat informatiestromen.
 
 ### Epics ([epics.md](epics.md))
 
-- **Wat**: een bekwaamheid van de keten, als actorzin; acht epics, zes tot stories uitgewerkt.
+- **Wat**: een bekwaamheid van de keten, als actorzin; acht epics, zes tot stories uitgewerkt. Vooral voor product owner en kernteam.
 - **Zo lees je een rij**: Doel = beoogde toestand (geen werking) · "Draagt bij aan" = de ouder (het doel) · Features = de stap omlaag · Bron = herkomst.
 - **Context**: de [architectuurprincipes](../principes/principes.md) en het [ADR-register](../adr) waar veel epic-bronnen naar wijzen.
 
 ### Features ([features.md](features.md))
 
-- **Wat**: afgebakend gedrag binnen precies één epic; de sectiekop groepeert per epic.
+- **Wat**: afgebakend gedrag binnen precies één epic; de sectiekop groepeert per epic. Vooral voor kernteam en technische werkgroep.
 - **Zo lees je een rij**: Omschrijving = beoogde toestand, maximaal 25 woorden · Epic-cel = de ouder · Stories = de stap omlaag, "geen" betekent nog niet uitgewerkt · Bron = herkomst.
-- **Context**: de [uitgangspunten](../../Koppelvlakspecificaties/uitgangspunten.md) (U1 tot en met U11) en de [keuze-requirements met regelset-payload](https://github.com/Npuls-OKx/meta/blob/bd6fc9499b283fe974fd32c87bbb9307e75e7d1b/architecture/docs/specificatie/student-keuze/keuze-requirements.md) achter de keuzefeatures.
+- **Context**: de [uitgangspunten](../../Koppelvlakspecificaties/uitgangspunten.md) (U1 tot en met U11) en de [keuze-requirements](https://github.com/Npuls-OKx/meta/blob/bd6fc9499b283fe974fd32c87bbb9307e75e7d1b/architecture/docs/specificatie/student-keuze/keuze-requirements.md) en de [regelset-payload](https://github.com/Npuls-OKx/meta/blob/bd6fc9499b283fe974fd32c87bbb9307e75e7d1b/architecture/docs/specificatie/student-keuze/regelset-payload.md) achter de keuzefeatures.
 
 ### Stories ([stories.md](stories.md))
 
-- **Wat**: één toetsbare wens van één actor, in één zin ("Als ... wil ik ... zodat ...").
+- **Wat**: één toetsbare wens van één actor, in één zin ("Als ... wil ik ... zodat ..."). Vooral voor de technische werkgroep en leveranciers.
 - **Zo lees je een rij**: Feature-cel = de ouder · Functionele eisen = de brug naar de techniek, "geen" betekent dat er nog geen eis is · Bron = herkomst, vaak in de leerroute-uitwerking.
 - **Context** (meta, gepind): het [begrippenkader](https://github.com/Npuls-OKx/meta/blob/bd6fc9499b283fe974fd32c87bbb9307e75e7d1b/architecture/docs/specificatie/leerroute-uitwerking/doc/begrippenkader.md), de persona's [Jochem](https://github.com/Npuls-OKx/meta/blob/bd6fc9499b283fe974fd32c87bbb9307e75e7d1b/architecture/docs/specificatie/leerroute-uitwerking/doc/persona_jochem.md), [Larissa](https://github.com/Npuls-OKx/meta/blob/bd6fc9499b283fe974fd32c87bbb9307e75e7d1b/architecture/docs/specificatie/leerroute-uitwerking/doc/persona_larissa.md) en [Linda](https://github.com/Npuls-OKx/meta/blob/bd6fc9499b283fe974fd32c87bbb9307e75e7d1b/architecture/docs/specificatie/leerroute-uitwerking/doc/persona_linda.md), en de [scenario-uitwerkingen](https://github.com/Npuls-OKx/meta/blob/bd6fc9499b283fe974fd32c87bbb9307e75e7d1b/architecture/docs/specificatie/leerroute-uitwerking/doc/scenario-uitwerkingen/README.md).
 
@@ -69,6 +69,7 @@ Per koppeling beschrijft een [interactiepatroon](../../Koppelvlakspecificaties/I
 - Elke wijziging haalt de navigatiecontrole: `python3 scripts/validate-requirementsboom-navigatie.py` plus `python3 -m unittest discover -s tests`; beide draaien ook in de CI op elke pull request.
 - Een idee of bevinding wordt een issue onder een milestone van deze repository; planningsstatus leeft in milestones en issues, niet in deze tabellen.
 - Herkomst en verificatie van elke rij: de [extractieverantwoording](https://github.com/Npuls-OKx/meta/blob/bd6fc9499b283fe974fd32c87bbb9307e75e7d1b/architecture/agent-artifacts/research/20260806_0837_requirementsboom-extractie.md) met de parkeerlijst; oudere documenten gebruiken id-vormen van vóór de hernummering, de [hernummeringstabel](https://github.com/Npuls-OKx/meta/blob/bd6fc9499b283fe974fd32c87bbb9307e75e7d1b/architecture/agent-artifacts/research/20260816_1820_hernummering-requirementsboom.md) vertaalt oud naar nieuw.
+- Eis-id's en uitvoerbare scenario's staan bewust niet in de boom; die achtergrondmechaniek volgt gefaseerd, zie de [synthese van het onderzoek](https://github.com/Npuls-OKx/meta/blob/bd6fc9499b283fe974fd32c87bbb9307e75e7d1b/architecture/agent-artifacts/research/20260804_1700_oplossingsrichtingen-business-techniek.md).
 - Werkwijze voor branches, issues en review: [CONTRIBUTING](https://github.com/Npuls-OKx/meta/blob/bd6fc9499b283fe974fd32c87bbb9307e75e7d1b/CONTRIBUTING.md) (gepind).
 
 ## Scope
