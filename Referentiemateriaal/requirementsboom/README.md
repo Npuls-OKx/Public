@@ -32,7 +32,7 @@ Elke rij in elke laag draagt een id om naar te verwijzen (doel-0001, epic-0001, 
 
 ### Epics ([epics.md](epics.md))
 
-- **Wat**: vertalen de doelen naar thema's, bekwaamheden van de keten, elk als actorzin. Vooral voor product owner en kernteam.
+- **Wat**: vertalen de doelen naar thema's, bekwaamheden van de keten. Vooral voor product owner en kernteam.
 - **Zo lees je een rij**: Doel = beoogde toestand (geen werking) · "Draagt bij aan" = de ouder (het doel) · Features = de stap omlaag · Bron = herkomst.
 - **Context**: de [architectuurprincipes](../principes/principes.md) en het [ADR-register](../adr) waar veel epic-bronnen naar wijzen.
 
