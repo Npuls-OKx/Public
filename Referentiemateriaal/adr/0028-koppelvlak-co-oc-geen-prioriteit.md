@@ -8,7 +8,7 @@ Datum: 2026-08-28
 
 De [curriculum-ontwerptool](../../Koppelvlakspecificaties/Applicatiecomponenten/curriculum-ontwerptool.md) staat als applicatiecomponent in de koppelvlakspecificaties: het is de plek waar onderwijsspecificaties ontworpen worden voordat de onderwijscatalogus ze ontsluit (prioriteitsketen, ADR 0002). Voor de koppeling tussen curriculumontwerp en de catalogus (CO-OC) is echter geen interactiepatroon gespecificeerd, en de vraag lag voor of dat alsnog moest gebeuren.
 
-Twee waarnemingen bepalen het antwoord. Er is op dit moment **geen marktpartij** die een curriculumontwerp-systeem levert dat dit koppelvlak zou implementeren; instellingen ontwerpen curricula in de praktijk in uiteenlopende, vaak leverancierseigen of handmatige vormen. En de beproevingscapaciteit van OKx ligt bij de koppelingen waar wél implementerende partijen voor bestaan: onderwijscatalogus naar planning en roostering, studentinformatiesysteem en leermanagementsysteem.
+Twee waarnemingen bepalen het antwoord. Er is op dit moment **geen marktpartij** die een curriculumontwerp-systeem levert dat dit koppelvlak zou implementeren; instellingen ontwerpen curricula in de praktijk in uiteenlopende, vaak leverancierseigen of handmatige vormen. En de beproevingscapaciteit van OKx ligt bij de koppelingen waar wel implementerende partijen voor bestaan: onderwijscatalogus naar planning en roostering, studentinformatiesysteem en leermanagementsysteem.
 
 ### Beslissing
 
