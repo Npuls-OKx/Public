@@ -4,7 +4,7 @@ De gelaagde breakdown van de OKx-requirements: van de opdracht (Leren zonder Dre
 
 ## Visualisatie requirementsboom
 
-De plaat toont de opdracht (Leren zonder Drempels), de OKx-projectdoelen en de epics; onder elke epic hangen features en daaronder stories, als twee gestippelde verzamelknopen. De uitwerking per rij staat in de tabellen, uitgelegd in de leesroute hieronder. GitHub rendert mermaid zonder klikbare knopen, dus de leesroute is de klikroute.
+De plaat toont de opdracht (Leren zonder Drempels), de OKx-projectdoelen en de epics; onder elke epic hangen features en daaronder stories, als twee gestippelde verzamelknopen. De uitwerking per rij staat in de tabellen, uitgelegd in de leeswijzer hieronder. GitHub rendert mermaid zonder klikbare knopen, dus de leeswijzer is de klikroute.
 
 ```mermaid
 flowchart LR
@@ -25,7 +25,7 @@ flowchart LR
   EP1 & EP2 & EP3 & EP4 & EP5 & EP6 & EP7 & EP8 -.-> FT["features - per epic, zie de tabel"] -.-> ST["stories - per feature, zie de tabel"]
 ```
 
-## Zo lees je de boom, laag voor laag
+## Requirementsleeswijzer
 
 Elke rij draagt een id om naar te verwijzen (doel-0001, epic-0001, feature-0001, story-0001: plat per soort, voluit met vier cijfers) en een kolom Bron: de context en bronvermelding van die rij. Alle verwijzingen leven in de tabellen zelf, niet in deze leesroute. Systeemafkortingen: OC (onderwijscatalogus), SKS (studentkeuzesysteem), P&R (planning en roostering), SIS (studentinformatiesysteem), LMS (leermanagementsysteem), SVS (studievoortgangsysteem). Bronafkortingen: ADR (architectuurbesluit), U (uitgangspunt), OKx-AP (architectuurprincipe).
 
@@ -49,7 +49,7 @@ Elke rij draagt een id om naar te verwijzen (doel-0001, epic-0001, feature-0001,
 - **Wat**: één toetsbare wens van één actor, in één zin ("Als ... wil ik ... zodat ..."). Vooral voor de technische werkgroep en leveranciers.
 - **Rij**: Feature-cel = de ouder · Functionele eisen = de brug naar de techniek ("geen" = nog geen eis) · Bron.
 
-## Van story naar techniek (in deze repository)
+## Aansluiting op de techniek
 
 ```mermaid
 flowchart LR
@@ -75,4 +75,4 @@ Per koppeling beschrijft een [interactiepatroon](../../Koppelvlakspecificaties/I
 
 ## Scope
 
-Deze map bevat de requirementsboom: de vier laagdocumenten en deze leesroute. De boom verwijst naar bestaande documenten en herhaalt ze niet. Al het overige valt buiten scope.
+Deze map bevat de requirementsboom: de vier laagdocumenten en deze leeswijzer. De boom verwijst naar bestaande documenten en herhaalt ze niet. Al het overige valt buiten scope.
