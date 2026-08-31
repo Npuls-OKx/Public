@@ -27,31 +27,27 @@ flowchart LR
 
 ## Zo lees je de boom, laag voor laag
 
-Elke rij in elke laag draagt een id om naar te verwijzen (doel-0001, epic-0001, feature-0001, story-0001: plat per soort, voluit met vier cijfers) en een gevulde bronkolom. Systeemafkortingen: OC (onderwijscatalogus), SKS (studentkeuzesysteem), P&R (planning en roostering), SIS (studentinformatiesysteem), LMS (leermanagementsysteem), SVS (studievoortgangsysteem). Bronafkortingen: ADR (architectuurbesluit), U (uitgangspunt), OKx-AP (architectuurprincipe).
+Elke rij draagt een id om naar te verwijzen (doel-0001, epic-0001, feature-0001, story-0001: plat per soort, voluit met vier cijfers) en een kolom Bron: de context en bronvermelding van die rij. Alle verwijzingen leven in de tabellen zelf, niet in deze leesroute. Systeemafkortingen: OC (onderwijscatalogus), SKS (studentkeuzesysteem), P&R (planning en roostering), SIS (studentinformatiesysteem), LMS (leermanagementsysteem), SVS (studievoortgangsysteem). Bronafkortingen: ADR (architectuurbesluit), U (uitgangspunt), OKx-AP (architectuurprincipe).
 
 ### Opdracht en doelen ([opdracht.md](opdracht.md))
 
 - **Wat**: de doelen die vanuit de Npuls-programmacontext (Leren zonder Drempels) aan het project OKx zijn gesteld. Vooral voor product owner en kernteam.
-- **Zo lees je een rij**: doel-id, omschrijving, bron; de tabel "Van doel naar epic" is de stap omlaag.
-- **Context**: [Npuls, Leren zonder Drempels](https://npuls.nl/pijlers/leren-zonder-drempels/) en het [projectoverzicht](https://github.com/Npuls-OKx/meta/blob/bd6fc9499b283fe974fd32c87bbb9307e75e7d1b/doc/OKx_Projectoverzicht.md) met de hoofdplaat informatiestromen.
+- **Rij**: doel-id, omschrijving, bron; de tabel "Van doel naar epic" is de stap omlaag.
 
 ### Epics ([epics.md](epics.md))
 
 - **Wat**: vertalen de doelen naar thema's, bekwaamheden van de keten. Vooral voor product owner en kernteam.
-- **Zo lees je een rij**: Doel = beoogde toestand (geen werking) · "Draagt bij aan" = de ouder (het doel) · Features = de stap omlaag · Bron = herkomst.
-- **Context**: de [architectuurprincipes](../principes/principes.md) en het [ADR-register](../adr) waar veel epic-bronnen naar wijzen.
+- **Rij**: "Draagt bij aan" = de ouder (het doel) · Features = de stap omlaag · Bron.
 
 ### Features ([features.md](features.md))
 
-- **Wat**: één concreet stuk van een thema dat de keten moet kunnen; de omschrijving zegt wat er werkt zodra de feature af is, zoals kiesbaarheid bepalen of specificaties versioneren zonder verwijzingen te breken. Elke feature hoort bij precies één epic; de tabel groepeert ze per epic in eigen secties. Vooral voor kernteam en technische werkgroep.
-- **Zo lees je een rij**: Omschrijving = beoogde toestand · Epic-cel = de ouder · Stories = de stap omlaag, "geen" betekent nog niet uitgewerkt · Bron = herkomst.
-- **Context**: de [uitgangspunten](../../Koppelvlakspecificaties/uitgangspunten.md) en de [keuze-requirements](https://github.com/Npuls-OKx/meta/blob/bd6fc9499b283fe974fd32c87bbb9307e75e7d1b/architecture/docs/specificatie/student-keuze/keuze-requirements.md) en de [regelset-payload](https://github.com/Npuls-OKx/meta/blob/bd6fc9499b283fe974fd32c87bbb9307e75e7d1b/architecture/docs/specificatie/student-keuze/regelset-payload.md) achter de keuzefeatures.
+- **Wat**: één concreet stuk van een thema dat de keten moet kunnen, zoals kiesbaarheid bepalen of specificaties versioneren zonder verwijzingen te breken; per epic een eigen sectie. Vooral voor kernteam en technische werkgroep.
+- **Rij**: Epic-cel = de ouder · Stories = de stap omlaag ("geen" = nog niet uitgewerkt) · Bron.
 
 ### Stories ([stories.md](stories.md))
 
 - **Wat**: één toetsbare wens van één actor, in één zin ("Als ... wil ik ... zodat ..."). Vooral voor de technische werkgroep en leveranciers.
-- **Zo lees je een rij**: Feature-cel = de ouder · Functionele eisen = de brug naar de techniek, "geen" betekent dat er nog geen eis is · Bron = herkomst, vaak in de leerroute-uitwerking.
-- **Context** (meta, gepind): het [begrippenkader](https://github.com/Npuls-OKx/meta/blob/bd6fc9499b283fe974fd32c87bbb9307e75e7d1b/architecture/docs/specificatie/leerroute-uitwerking/doc/begrippenkader.md), de persona's [Jochem](https://github.com/Npuls-OKx/meta/blob/bd6fc9499b283fe974fd32c87bbb9307e75e7d1b/architecture/docs/specificatie/leerroute-uitwerking/doc/persona_jochem.md), [Larissa](https://github.com/Npuls-OKx/meta/blob/bd6fc9499b283fe974fd32c87bbb9307e75e7d1b/architecture/docs/specificatie/leerroute-uitwerking/doc/persona_larissa.md) en [Linda](https://github.com/Npuls-OKx/meta/blob/bd6fc9499b283fe974fd32c87bbb9307e75e7d1b/architecture/docs/specificatie/leerroute-uitwerking/doc/persona_linda.md), en de [scenario-uitwerkingen](https://github.com/Npuls-OKx/meta/blob/bd6fc9499b283fe974fd32c87bbb9307e75e7d1b/architecture/docs/specificatie/leerroute-uitwerking/doc/scenario-uitwerkingen/README.md).
+- **Rij**: Feature-cel = de ouder · Functionele eisen = de brug naar de techniek ("geen" = nog geen eis) · Bron.
 
 ## Van story naar techniek (in deze repository)
 
