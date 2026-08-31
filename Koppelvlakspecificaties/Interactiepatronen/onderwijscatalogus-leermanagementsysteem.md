@@ -10,7 +10,7 @@ De uitsnede komt uit de informatiestromen-hoofdplaat v1.7 (richtinggevend; de le
 
 ## Functionele eisen
 
-| Id | Functionele eis | Interactiepatroon | Story |
+| Id | Functionele eis | Interactie | Story |
 |---|---|---|---|
 | <a id="functionele-eis-0010"></a>functionele-eis-0010 | De onderwijscatalogus moet het leermanagementsysteem kunnen laten weten dat een specificatie beschikbaar is om de leeromgeving op in te richten, en het leermanagementsysteem moet daarop een inrichtingsstatus met referentie kunnen terugleveren | [Notify-then-pull: leeromgeving inrichten en leermiddelkoppeling melden](#notify-then-pull-leeromgeving-inrichten-en-leermiddelkoppeling-melden) | geen |
 | <a id="functionele-eis-0011"></a>functionele-eis-0011 | Het leermanagementsysteem moet een leermiddelkoppeling die het heeft gelegd aan de onderwijscatalogus kunnen melden, zodat die de leermiddelen bij het aanbod kan tonen | [Notify-then-pull: leeromgeving inrichten en leermiddelkoppeling melden](#notify-then-pull-leeromgeving-inrichten-en-leermiddelkoppeling-melden) | [story-0003](../../Referentiemateriaal/requirementsboom/stories.md#story-0003) |

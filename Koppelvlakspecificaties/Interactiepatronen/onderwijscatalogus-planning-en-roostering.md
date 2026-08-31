@@ -10,7 +10,7 @@ De uitsnede komt uit de informatiestromen-hoofdplaat v1.7 (richtinggevend; de le
 
 ## Functionele eisen
 
-| Id | Functionele eis | Interactiepatroon | Story |
+| Id | Functionele eis | Interactie | Story |
 |---|---|---|---|
 | <a id="functionele-eis-0001"></a>functionele-eis-0001 | De onderwijscatalogus moet het planningssysteem kunnen laten weten dat een specificatie gereed is om te plannen, en het planningssysteem moet daarop een opleidingsaanbod met referentie kunnen terugleveren | [Notify-then-pull: opleidingsaanbod aanmaken](#notify-then-pull-opleidingsaanbod-aanmaken) | [story-0006](../../Referentiemateriaal/requirementsboom/stories.md#story-0006); [story-0007](../../Referentiemateriaal/requirementsboom/stories.md#story-0007) |
 | <a id="functionele-eis-0002"></a>functionele-eis-0002 | Het planningssysteem moet de planning kunnen bijwerken wanneer een specificatie wijzigt, zonder verplicht de volledige structuur opnieuw te ontvangen | [Notify-then-pull: opleidingsaanbod herplannen](#notify-then-pull-opleidingsaanbod-herplannen) | geen |
