@@ -44,7 +44,7 @@ Elke rij in elke laag draagt een id om naar te verwijzen (doel-0001, epic-0001, 
 ### Features ([features.md](features.md))
 
 - **Wat**: één concreet stuk van een thema dat de keten moet kunnen; de omschrijving zegt wat er werkt zodra de feature af is, zoals kiesbaarheid bepalen of specificaties versioneren zonder verwijzingen te breken. Elke feature hoort bij precies één epic; de tabel groepeert ze per epic in eigen secties. Vooral voor kernteam en technische werkgroep.
-- **Zo lees je een rij**: Omschrijving = beoogde toestand, maximaal 25 woorden · Epic-cel = de ouder · Stories = de stap omlaag, "geen" betekent nog niet uitgewerkt · Bron = herkomst.
+- **Zo lees je een rij**: Omschrijving = beoogde toestand · Epic-cel = de ouder · Stories = de stap omlaag, "geen" betekent nog niet uitgewerkt · Bron = herkomst.
 - **Context**: de [uitgangspunten](../../Koppelvlakspecificaties/uitgangspunten.md) en de [keuze-requirements](https://github.com/Npuls-OKx/meta/blob/bd6fc9499b283fe974fd32c87bbb9307e75e7d1b/architecture/docs/specificatie/student-keuze/keuze-requirements.md) en de [regelset-payload](https://github.com/Npuls-OKx/meta/blob/bd6fc9499b283fe974fd32c87bbb9307e75e7d1b/architecture/docs/specificatie/student-keuze/regelset-payload.md) achter de keuzefeatures.
 
 ### Stories ([stories.md](stories.md))
