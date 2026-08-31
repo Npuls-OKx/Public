@@ -4,11 +4,16 @@ De gelaagde breakdown van de OKx-requirements: van de opdracht (Leren zonder Dre
 
 ## Visualisatie requirementsboom
 
-De plaat toont de opdracht, de doelen en de epics; onder elke epic hangen features en daaronder stories, als twee gestippelde verzamelknopen. De uitwerking per rij staat in de tabellen, uitgelegd in de leesroute hieronder. GitHub rendert mermaid zonder klikbare knopen, dus de leesroute is de klikroute.
+De plaat toont de opdracht (Leren zonder Drempels), de OKx-projectdoelen en de epics; onder elke epic hangen features en daaronder stories, als twee gestippelde verzamelknopen. De uitwerking per rij staat in de tabellen, uitgelegd in de leesroute hieronder. GitHub rendert mermaid zonder klikbare knopen, dus de leesroute is de klikroute.
 
 ```mermaid
 flowchart LR
-  LZD["Leren zonder Drempels"] --> DL1["doel-0001 gezamenlijke taal"] & DL2["doel-0002 gegevensuitwisseling en mobiliteit"] & DL3["doel-0003 keuze en personalisering"]
+  LZD["Leren zonder Drempels"] --> DL1 & DL2 & DL3
+  subgraph doelen["OKx-projectdoelen"]
+    DL1["doel-0001 gezamenlijke taal"]
+    DL2["doel-0002 gegevensuitwisseling en mobiliteit"]
+    DL3["doel-0003 keuze en personalisering"]
+  end
   DL1 --> EP1["epic-0001 Gezamenlijke taal en standaard"]
   DL2 --> EP2["epic-0002 Onderwijsaanbod specificeren en ontsluiten"]
   DL2 --> EP3["epic-0003 Aanbod plannen en roosteren"]
