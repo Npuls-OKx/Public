@@ -8,7 +8,7 @@ Datum: 2026-08-28
 
 OKx bouwt de koppelvlakspecificaties op bestaande standaarden en referentiemodellen: OEAPI voor onderwijsgegevens, Edukoppeling voor transport en authenticatie, ROSA en KOI als semantisch kader. Dat is bewust beleid (AMIGO als standaardiseringsroute, OKx-AP03): aansluiten bij wat er is, in plaats van iets nieuws bouwen.
 
-Tijdens het uitwerken van eisen blijkt soms dat een bestaande standaard een onderwijs- of ketenbehoefte niet of onhandig ondersteunt. Zonder afspraak ontstaat dan een sluipend risico: de eis wordt stilzwijgend afgezwakt naar wat de standaard toevallig toelaat, en de onderwijslogistiek wordt techniekvolgend in plaats van andersom. Voor instellingen is dat onzichtbaar — de specificatie oogt compleet, maar beschrijft de mogelijkheden van een standaard in plaats van de behoefte van het onderwijs.
+Tijdens het uitwerken van eisen blijkt soms dat een bestaande standaard een onderwijs- of ketenbehoefte niet of onhandig ondersteunt. Zonder afspraak ontstaat dan een sluipend risico: de eis wordt stilzwijgend afgezwakt naar wat de standaard toevallig toelaat, en de onderwijslogistiek wordt techniekvolgend in plaats van andersom. Voor instellingen is dat onzichtbaar: de specificatie oogt compleet, maar beschrijft de mogelijkheden van een standaard in plaats van de behoefte van het onderwijs.
 
 Deze werkafspraak leeft al in de werkomgeving van het OKx-team; dit besluit formaliseert haar op de plek waar afnemers lezen.
 
@@ -16,7 +16,7 @@ Deze werkafspraak leeft al in de werkomgeving van het OKx-team; dit besluit form
 
 1. **Eisen worden vastgesteld op de onderwijs- en ketenbehoefte**, vóór en los van de vraag of een technische standaard ze ondersteunt. Dat geldt voor keten-eisen, functionele eisen en de stories in de requirementsboom.
 2. **Een eis sneuvelt nooit omdat een standaard hem niet toestaat.** Past een standaard niet, dan blijft de eis staan en wordt de mismatch vastgelegd en als **signalering** ingebracht bij de beheerder van die standaard (bijvoorbeeld de OEAPI-werkgroep).
-3. **Tot de standaard beweegt, kiest OKx een expliciet gedocumenteerde tussenoplossing** — een profiel, extensie of afgebakende afwijking — nooit een stilzwijgende afzwakking van de eis.
+3. **Tot de standaard beweegt, kiest OKx een expliciet gedocumenteerde tussenoplossing**: een profiel, extensie of afgebakende afwijking, nooit een stilzwijgende afzwakking van de eis.
 
 Het bijbehorende architectuurprincipe staat als OKx-AP14 in het [principes-document](../principes/principes.md).
 
@@ -28,7 +28,7 @@ Het bijbehorende architectuurprincipe staat als OKx-AP14 in het [principes-docum
 
 ### Consequenties
 
-- Voor informatiemanagers van instellingen: de eisen in het releasepakket beschrijven de **behoefte van het onderwijs**, niet de beperkingen van een leveranciers- of sectorstandaard. Waar een standaard tekortschiet, is dat zichtbaar als gedocumenteerde signalering — niet weggemoffeld in een afgezwakte eis.
+- Voor informatiemanagers van instellingen: de eisen in het releasepakket beschrijven de **behoefte van het onderwijs**, niet de beperkingen van een leveranciers- of sectorstandaard. Waar een standaard tekortschiet, is dat zichtbaar als gedocumenteerde signalering, niet weggemoffeld in een afgezwakte eis.
 - Signaleringen richting een standaardbeheerder krijgen een vaste, navolgbare plek: een verwijzing bij de betrokken eis en een issue in deze repository, zodat te volgen is wat er met de signalering gebeurt.
 - Het principes-document krijgt OKx-AP14 (eisen vóór techniekkeuze), in dezelfde reeks als AP02 (semantiek vóór techniek) en AP03 (AMIGO), die dit besluit flankeren.
 - Geen impact op het ArchiMate-model in de meta-repository.

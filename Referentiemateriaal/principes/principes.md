@@ -158,7 +158,7 @@ Onderstaande principes zijn abstract en stabiel. Ze hebben een korte **stelling*
 
 ### OKx-AP14 — Eisen vóór techniekkeuze
 
-- **Stelling**: Keten-eisen, functionele eisen en stories worden vastgesteld op de onderwijs- en ketenbehoefte. Een technische standaard die een eis niet ondersteunt is aanleiding voor een signalering richting de beheerder van die standaard — nooit voor het schrappen of stilzwijgend afzwakken van de eis.
+- **Stelling**: Keten-eisen, functionele eisen en stories worden vastgesteld op de onderwijs- en ketenbehoefte. Een technische standaard die een eis niet ondersteunt is aanleiding voor een signalering richting de beheerder van die standaard, nooit voor het schrappen of stilzwijgend afzwakken van de eis.
 - **Rationale**: OKx sluit bewust aan op bestaande standaarden (AP03), maar de keten bestaat om onderwijsflexibilisering te dragen. Zonder dit principe wordt de specificatie sluipend techniekvolgend: de eis krimpt naar wat een standaard toevallig toelaat en de beperking wordt onzichtbaar voor instellingen. Semantiek gaat vóór techniek (AP02); dit principe trekt die lijn door naar de eisenlaag.
 - **Implicaties**:
   - Een mismatch tussen eis en standaard wordt gedocumenteerd bij de eis en als signalering ingebracht bij de standaardbeheerder (bijvoorbeeld de OEAPI-werkgroep), navolgbaar via een issue.
