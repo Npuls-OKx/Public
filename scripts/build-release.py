@@ -10,6 +10,10 @@ in `documenten` is een pad, of een **sectie** die documenten die bij elkaar hore
      "inleiding": "Applicatiecomponenten/README.md",
      "documenten": ["Applicatiecomponenten/onderwijscatalogus.md", ...]}
 
+Een pad mag met `../` buiten de pakketmap wijzen: de requirementsboom staat in
+`Referentiemateriaal` en gaat wel mee als hoofdstuk. In de zip en de werkmap krijgt zo'n
+document zijn pad zonder de `../`, zodat het onder de mapnaam uit het repository landt.
+
 De sectiekop draagt de titel, de optionele `inleiding` staat er als tekst onder (haar
 eigen H1 vervalt, want de sectiekop zegt hetzelfde al), en elk document eronder wordt
 een subhoofdstuk. In de losse documenten verandert een sectie niets: die blijven per
@@ -85,6 +89,16 @@ def slug(tekst: str) -> str:
 def doc_slug(relatief_pad: str) -> str:
     """Uniek voorvoegsel per document, afgeleid van het pad binnen het pakket."""
     return re.sub(r"[^\w]+", "-", relatief_pad[:-3] if relatief_pad.endswith(".md") else relatief_pad).strip("-").lower()
+
+
+def uitvoerpad(doc: str) -> str:
+    """Het pad waaronder een document in de werkmap en de zip landt.
+
+    Een manifestpad mag buiten de pakketmap wijzen. Zo'n `../` hoort niet in een
+    zip-ingang thuis en zou in de werkmap een map omhoog ontsnappen; hij valt hier weg,
+    waarna het document onder zijn eigen mapnaam uit het repository staat.
+    """
+    return "/".join(deel for deel in doc.split("/") if deel != "..")
 
 
 def maskeer_codeblokken(inhoud: str):
@@ -314,23 +328,20 @@ def herschrijf_links(inhoud: str, doc: str, pakket: pathlib.Path, documenten: li
             return m.group(0)
 
         doelpad = (hier / pad).resolve()
-        try:
-            binnen_pakket = doelpad.relative_to(pakket.resolve()).as_posix()
-        except ValueError:
-            binnen_pakket = None
 
-        # Document dat meegaat in het pakket.
-        if binnen_pakket in documenten:
-            if gebundeld:
-                if anchor:
-                    nieuw = (kaart.get(binnen_pakket) or {}).get(anchor, f"{doc_slug(binnen_pakket)}--{anchor}")
-                else:
-                    nieuw = eerste_kop_anchor(binnen_pakket, kaart)
-                return f"[{tekst}](#{nieuw})"
-            url = f"{repo_url}/blob/{ref}/{pakket.name}/{binnen_pakket}"
-            return f"[{tekst}]({url}#{anchor})" if anchor else f"[{tekst}]({url})"
+        # Een document dat meegaat in het pakket wordt herkend aan zijn opgeloste pad,
+        # niet aan de vraag of het binnen de pakketmap ligt: het manifest mag met ../
+        # ook daarbuiten wijzen.
+        meegaand = next((d for d in documenten if (pakket / d).resolve() == doelpad), None)
+        if meegaand is not None and gebundeld:
+            if anchor:
+                nieuw = (kaart.get(meegaand) or {}).get(anchor, f"{doc_slug(meegaand)}--{anchor}")
+            else:
+                nieuw = eerste_kop_anchor(meegaand, kaart)
+            return f"[{tekst}](#{nieuw})"
 
-        # Alles daarbuiten (Referentiemateriaal, scripts, schema's): naar GitHub.
+        # Losse documenten en alles wat niet meegaat: naar GitHub, want zo'n URL blijft
+        # werken waar een relatief pad in een docx niets betekent.
         try:
             vanaf_root = doelpad.relative_to(pakket.resolve().parent).as_posix()
         except ValueError:
@@ -738,7 +749,7 @@ def main(argv: list) -> int:
             # Losse variant: verwijzingen naar GitHub, eigen anchors blijven.
             los = herschrijf_links(met_beelden, doc, pakket, paden, kaart,
                                    False, args.repo_url, args.ref)
-            los_pad = werk / "los" / doc
+            los_pad = werk / "los" / uitvoerpad(doc)
             los_pad.parent.mkdir(parents=True, exist_ok=True)
             los_pad.write_text(los, encoding="utf-8")
             losse.append((doc, los_pad))
@@ -818,7 +829,7 @@ def main(argv: list) -> int:
         zip_pad = uit / f"{basisnaam}-documenten.zip"
         with zipfile.ZipFile(zip_pad, "w", zipfile.ZIP_DEFLATED) as z:
             for doc, pad in losse:
-                docx = werk / "docx" / (doc[:-3] + ".docx")
+                docx = werk / "docx" / (uitvoerpad(doc)[:-3] + ".docx")
                 docx.parent.mkdir(parents=True, exist_ok=True)
                 pandoc([
                     "-f", "gfm", "-t", "docx",
@@ -827,7 +838,7 @@ def main(argv: list) -> int:
                     "-o", str(docx), str(pad),
                 ])
                 tabellen_laten_meebewegen(docx)
-                z.write(docx, doc[:-3] + ".docx")
+                z.write(docx, uitvoerpad(doc)[:-3] + ".docx")
             for extra in manifest.get("meeleveren", []):
                 bron = pakket / extra
                 if bron.is_dir():
