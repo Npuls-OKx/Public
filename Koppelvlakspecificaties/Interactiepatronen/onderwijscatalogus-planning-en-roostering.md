@@ -10,15 +10,15 @@ De uitsnede komt uit de informatiestromen-hoofdplaat v1.7 (richtinggevend; de le
 
 ## Functionele eisen
 
-| # | Functionele eis | Interactiepatroon |
-|---|---|---|
-| FR1 | De onderwijscatalogus moet het planningssysteem kunnen laten weten dat een specificatie gereed is om te plannen, en het planningssysteem moet daarop een opleidingsaanbod met referentie kunnen terugleveren | [Notify-then-pull: opleidingsaanbod aanmaken](#notify-then-pull-opleidingsaanbod-aanmaken) |
-| FR2 | Het planningssysteem moet de planning kunnen bijwerken wanneer een specificatie wijzigt, zonder verplicht de volledige structuur opnieuw te ontvangen | [Notify-then-pull: opleidingsaanbod herplannen](#notify-then-pull-opleidingsaanbod-herplannen) |
-| FR3 | De onderwijscatalogus moet kunnen weten wanneer een cohort niet planbaar is, inclusief de reden | [Asynchrone statusmelding: planning niet gelukt](#asynchrone-statusmelding-planning-niet-gelukt) |
-| FR4 | Een afgeronde planning moet beschermd zijn tegen een specificatiewijziging die er ongecontroleerd doorheen breekt | [Acceptatietoets bij late wijziging](#acceptatietoets-bij-late-wijziging) |
-| FR5 | De onderwijscatalogus moet een statuswijziging kunnen melden die niet aan een nieuwe versie hangt, los van het wijzigingsproces | [Asynchrone statusmelding: specificatiestatus gewijzigd](#asynchrone-statusmelding-specificatiestatus-gewijzigd) |
-| FR6 | Beide partijen moeten na een gemist event de informatie alsnog kunnen ophalen | [Reconciliatie na gemist event](#reconciliatie-na-gemist-event) |
-| FR7 | Beide partijen moeten een afleveradres kunnen vastleggen voordat events afgeleverd worden | [Abonnement registreren](#abonnement-registreren) |
+| Id | Functionele eis | Interactie | Story |
+|---|---|---|---|
+| <a id="functionele-eis-0001"></a>functionele-eis-0001 | De onderwijscatalogus moet het planningssysteem kunnen laten weten dat een specificatie gereed is om te plannen, en het planningssysteem moet daarop een opleidingsaanbod met referentie kunnen terugleveren | [Notify-then-pull: opleidingsaanbod aanmaken](#notify-then-pull-opleidingsaanbod-aanmaken) | [story-0006](../../Referentiemateriaal/requirementsboom/stories.md#story-0006); [story-0007](../../Referentiemateriaal/requirementsboom/stories.md#story-0007) |
+| <a id="functionele-eis-0002"></a>functionele-eis-0002 | Het planningssysteem moet de planning kunnen bijwerken wanneer een specificatie wijzigt, zonder verplicht de volledige structuur opnieuw te ontvangen | [Notify-then-pull: opleidingsaanbod herplannen](#notify-then-pull-opleidingsaanbod-herplannen) | geen |
+| <a id="functionele-eis-0003"></a>functionele-eis-0003 | De onderwijscatalogus moet kunnen weten wanneer een specificatie voor een of meer cohorten niet planbaar blijkt in een schooljaar, inclusief de reden | [Asynchrone statusmelding: planning niet gelukt](#asynchrone-statusmelding-planning-niet-gelukt) | [story-0007](../../Referentiemateriaal/requirementsboom/stories.md#story-0007) |
+| <a id="functionele-eis-0004"></a>functionele-eis-0004 | Een afgeronde planning moet beschermd zijn tegen een specificatiewijziging die er ongecontroleerd doorheen breekt | [Acceptatietoets bij late wijziging](#acceptatietoets-bij-late-wijziging) | [story-0002](../../Referentiemateriaal/requirementsboom/stories.md#story-0002) |
+| <a id="functionele-eis-0005"></a>functionele-eis-0005 | De onderwijscatalogus moet een statuswijziging kunnen melden die niet aan een nieuwe versie hangt, los van het wijzigingsproces | [Asynchrone statusmelding: specificatiestatus gewijzigd](#asynchrone-statusmelding-specificatiestatus-gewijzigd) | geen |
+| <a id="functionele-eis-0006"></a>functionele-eis-0006 | Beide partijen moeten na een gemist event de informatie alsnog kunnen ophalen | [Reconciliatie na gemist event](#reconciliatie-na-gemist-event) | [story-0011](../../Referentiemateriaal/requirementsboom/stories.md#story-0011) |
+| <a id="functionele-eis-0007"></a>functionele-eis-0007 | Beide partijen moeten een afleveradres kunnen vastleggen voordat events afgeleverd worden | [Abonnement registreren](#abonnement-registreren) | [story-0010](../../Referentiemateriaal/requirementsboom/stories.md#story-0010) |
 
 ## Procesbeeld
 
@@ -81,7 +81,7 @@ Dat is een voorbeeld van een kanaal, geen voorschrift: een bus, broker of cloud-
 |---|---|---|---|---|---|---|
 | Notify-then-pull: opleidingsaanbod aanmaken | Een gepubliceerde specificatie omzetten in een planbaar `opleidingsaanbod`, met een referentie terug naar de onderwijscatalogus | Onderwijsspecificatie krijgt status `gepubliceerd` | Onderwijscatalogus | I1, I2, I3, (I5) | webhook `specificatie-planbaar`; `GET /onderwijsspecificaties/{id}`; webhook `verwerkingsstatus`; (`GET /onderwijsaanbod/{id}`) | [hieronder](#notify-then-pull-opleidingsaanbod-aanmaken) |
 | Notify-then-pull: opleidingsaanbod herplannen | Een lopende planning laten volgen op een nieuwe specificatieversie, met delta of volledige structuur als keuze voor de ontvanger | Nieuwe versie van een specificatie die al in een manifest is vastgelegd | Onderwijscatalogus | I2, I3, I4 | `GET /onderwijsspecificaties/{id}/delta` of `GET /onderwijsspecificaties/{id}`; webhook `verwerkingsstatus`; webhook `specificatie-gewijzigd` | [hieronder](#notify-then-pull-opleidingsaanbod-herplannen) |
-| Asynchrone statusmelding: planning niet gelukt | De onderwijscatalogus in kennis stellen dat een cohort niet planbaar is, met referentie en knelpunten, zonder de aanroep te blokkeren | Planproces bij het planningssysteem vindt geen geldige planning | Planningssysteem | I3, (I5) | webhook `verwerkingsstatus`; (`GET /onderwijsaanbod/{id}`) | [hieronder](#asynchrone-statusmelding-planning-niet-gelukt) |
+| Asynchrone statusmelding: planning niet gelukt | De onderwijscatalogus in kennis stellen dat een specificatie voor een of meer cohorten niet planbaar blijkt, met referentie en knelpunten, zonder de aanroep te blokkeren | Planproces bij het planningssysteem vindt geen geldige planning | Planningssysteem | I3, (I5) | webhook `verwerkingsstatus`; (`GET /onderwijsaanbod/{id}`) | [hieronder](#asynchrone-statusmelding-planning-niet-gelukt) |
 | Acceptatietoets bij late wijziging | Een afgeronde planning beschermen tegen een wijziging die er ongecontroleerd doorheen breekt | Specificatiewijziging terwijl de planning al is afgerond | Onderwijscatalogus | I3, I4 | webhook `specificatie-gewijzigd`; webhook `verwerkingsstatus` | [hieronder](#acceptatietoets-bij-late-wijziging) |
 | Asynchrone statusmelding: specificatiestatus gewijzigd | De onderwijscatalogus een statuswijziging laten melden die los staat van een nieuwe versie, zodat het planningssysteem zijn afgeleide status kan bijwerken zonder herplanronde | Specificatie krijgt een nieuwe status buiten een versiewijziging om (bv. `gepubliceerd` naar `gedeactiveerd`) | Onderwijscatalogus | I6 | webhook `specificatie-status-gewijzigd` | [hieronder](#asynchrone-statusmelding-specificatiestatus-gewijzigd) |
 | Reconciliatie na gemist event | De gemiste informatie via een gewone opvraag herstellen na een event dat in de Dead Letter Channel is beland | Een I1-, I3-, I4- of I6-event is niet aangekomen | Onderwijscatalogus of Planningssysteem | I7 | `GET /onderwijsspecificaties` (op OC); `GET /onderwijsaanbod` (op P) | [hieronder](#reconciliatie-na-gemist-event) |
@@ -158,7 +158,7 @@ sequenceDiagram
 
 ## Asynchrone statusmelding: planning niet gelukt
 
-Doel: de onderwijscatalogus in kennis stellen dat een cohort niet planbaar is, met referentie en knelpunten, zonder de aanroep te blokkeren. Trigger: planproces bij het planningssysteem vindt geen geldige planning. Initiator: Planningssysteem. Interacties: I3, (I5).
+Doel: de onderwijscatalogus in kennis stellen dat een specificatie voor een of meer cohorten niet planbaar blijkt, met referentie en knelpunten, zonder de aanroep te blokkeren. Trigger: planproces bij het planningssysteem vindt geen geldige planning. Initiator: Planningssysteem. Interacties: I3, (I5).
 
 Endpoints:
 
@@ -212,7 +212,7 @@ sequenceDiagram
 
 ## Asynchrone statusmelding: specificatiestatus gewijzigd
 
-Doel: de onderwijscatalogus een statuswijziging laten melden die los staat van een nieuwe versie, zodat het planningssysteem zijn afgeleide status kan bijwerken zonder herplanronde. Trigger: specificatie krijgt een nieuwe status buiten een versiewijziging om (bv. `gepubliceerd` naar `gedeactiveerd`, [regels bij de schema's](../Datamodelschema's/README.md#regels-bij-de-schemas)). Initiator: Onderwijscatalogus. Interacties: I6.
+Doel: de onderwijscatalogus een statuswijziging laten melden die los staat van een nieuwe versie, zodat het planningssysteem zijn afgeleide status kan bijwerken zonder herplanronde. Trigger: specificatie krijgt een nieuwe status buiten een versiewijziging om (bv. `gepubliceerd` naar `gedeactiveerd`, [regels bij de schema's](../Datamodelschema's/README.md#regels-bij-de-schemas)). Initiator: Onderwijscatalogus. Interacties: I6. Voorbeeldgeval: een opleiding die voor een ouder cohort bewust niet meer wordt aangeboden is nog wel planbaar, maar wordt niet meer gepland; dat is deze statuswijziging (met archivering als vervolg), geen planningsfout uit de melding hierboven.
 
 Endpoints:
 

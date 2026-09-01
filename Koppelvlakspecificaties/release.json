@@ -1,15 +1,24 @@
 {
-  "$comment": "Manifest van het releasepakket koppelvlakspecificatie. De workflow release.yml leest dit bestand: versie bepaalt het label van de release, documenten bepaalt de volgorde in het gebundelde document. Een item in documenten is een pad, een sectie {sectie, inleiding, documenten of schemas} die de genoemde documenten of JSON-schema's als subhoofdstukken onder één kop bundelt, of {inhoudsopgave: true} dat bepaalt waar de inhoudsopgave staat. De koppelingspecificaties, mapping en templates staan voorlopig achteraan; hun plek in de leesvolgorde wordt nog bepaald. Zie Algemeen/release-management/Release-management-algemeen.md.",
+  "$comment": "Manifest van het releasepakket koppelvlakspecificatie. De workflow release.yml leest dit bestand: versie bepaalt het label van de release, documenten bepaalt de volgorde in het gebundelde document. Een item in documenten is een pad (dat met ../ ook buiten de pakketmap mag wijzen, zoals de requirementsboom in Referentiemateriaal), een sectie {sectie, inleiding, documenten of schemas} die de genoemde documenten of JSON-schema's als subhoofdstukken onder één kop bundelt, of {inhoudsopgave: true} dat bepaalt waar de inhoudsopgave staat. De koppelingspecificaties, mapping en templates staan voorlopig achteraan; hun plek in de leesvolgorde wordt nog bepaald. Zie Algemeen/release-management/Release-management-algemeen.md.",
   "naam": "Koppelvlakspecificatie",
   "bestandsnaam": "koppelvlakspecificatie",
-  "versie": "0.0.1",
+  "versie": "0.0.2",
   "omschrijving": "De specificaties waarmee een partij een koppelvlak kan bouwen op de standaarden die OKx uitbrengt.",
   "documenten": [
     "inleiding.md",
     {
       "inhoudsopgave": true
     },
-    "afbakening.md",
+    {
+      "sectie": "Requirementsboom",
+      "inleiding": "../Referentiemateriaal/requirementsboom/README.md",
+      "documenten": [
+        "../Referentiemateriaal/requirementsboom/opdracht.md",
+        "../Referentiemateriaal/requirementsboom/epics.md",
+        "../Referentiemateriaal/requirementsboom/features.md",
+        "../Referentiemateriaal/requirementsboom/stories.md"
+      ]
+    },
     {
       "sectie": "Applicatiecomponenten",
       "inleiding": "Applicatiecomponenten/README.md",
