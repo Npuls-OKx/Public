@@ -49,6 +49,8 @@ Wanneer artifact B gebouwd wordt op basis van, of afhankelijk is van, artifact A
 
 Elke release (major, minor of patch) wordt via dezelfde **standaardroute** gecommuniceerd: een vaste, herkenbare plek per artifact (bijv. GitHub Releases), met release notes in een vast format (versie, datum, wijzigingen, impact, eventuele actie voor afnemers).
 
+**Een release wordt vastgelegd onder een tag**, niet alleen als bestand. Een zip of een docx zegt niet waar de inhoud vandaan komt, en een verwijzing naar een branch wijst na de volgende wijziging naar iets anders. De tag draagt de pakketnaam en de versie (`koppelvlakspecificatie-v1.2.0`), omdat een repository meerdere releasepakketten kan bevatten. Daarmee kan iedereen verwijzen naar de bronnen bij precies deze versie, tot op de regel van een bestand, en betekent zo'n verwijzing over een jaar nog hetzelfde. De release notes noemen die verwijzingen; de bestanden komen er als bijlage bij, niet in plaats daarvan.
+
 De contributor vult aan de hand van een template de change notes van een feature in bij het maken van een merge request, deze wordt meegenomen als change notes tijdens een release, bij een release met meerdere changes worden de release notes van alle changes samengevoegd. 
 
 **Eigenaar van de communicatie: Product Manager**, tenzij het toepassingsdocument van een pakket iets anders vastlegt. stemt inhoud en timing af met het eigenaar-team ([template §3](Release-management-template.md#3-eigenaarschap)) en zorgt ervoor dat release notes daadwerkelijk verschijnen en bij belanghebbenden landen.
@@ -73,7 +75,7 @@ Dit hoofdstuk legt vast hoe het process van feature tot release pakket is uitgel
 2. De dev branch merget door naar release branch N; niet-breaking wijzigingen worden ook op release branch N-1 toegepast, zodat beide release-lijnen actueel blijven.
 3. Voor de wijzigingen wordt de bump bepaald (zwaarste wijziging wint, [§3](#3-versienummering)); voor afhankelijke artifacts wordt ook de compatibiliteit gecheckt ([§4](#4-compatibiliteit-tussen-afhankelijke-artifacts)).
 4. De Tester toetst de baseline op release branch N (en, waar van toepassing, N-1) via Quality Assurance aan de kwaliteitsrichtlijnen ([§2](#2-wat-is-een-release)).
-5. Na goedkeuring krijgt de baseline het versielabel (`vMAJOR.MINOR.PATCH`) en landt ze als releasepakket (N of N-1) in de release store.
+5. De baseline krijgt bij het bouwen de tag met het versielabel, zodat er van meet af aan een vast punt is om naar te verwijzen; zolang de release concept is kan die tag nog naar een nieuwe bouw verschuiven. Na goedkeuring wordt de release gepubliceerd, ligt de tag vast en landt het releasepakket (N of N-1) in de release store.
 6. Release notes worden gepubliceerd via de standaardroute ([§5](#5-communicatie-naar-belanghebbenden)); PM is eigenaar.
 
 

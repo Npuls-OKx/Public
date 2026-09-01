@@ -62,7 +62,7 @@ flowchart LR
   STORY --> FE
 ```
 
-Per koppeling beschrijft een [interactiepatroon](../../Koppelvlakspecificaties/Interactiepatronen) de interacties; interacties hergebruiken vastgestelde patronen. De kolom Functionele eisen van een story linkt naar de rij van de eis in het interactiepatroon; de eis wijst met zijn Story-kolom terug. Het interactieoverzicht somt de interacties op, en de endpointtabellen van de [applicatiecomponenten](../../Koppelvlakspecificaties/Applicatiecomponenten) noemen per endpoint de methode en de interacties die hij draagt. Wie een featureset wil ondersteunen, wordt eigenaar van de bijbehorende endpoints. Dezelfde lijn bestaat keten-breed in de [afbakening](../../Koppelvlakspecificaties/afbakening.md#2-eisen-aan-de-keten): keten-eis, functionele eis, interactiepatroon, endpoint.
+Per koppeling beschrijft een [interactiepatroon](../../Koppelvlakspecificaties/Interactiepatronen) de interacties; interacties hergebruiken vastgestelde patronen. De kolom Functionele eisen van een story linkt naar de rij van de eis in het interactiepatroon; de eis wijst met zijn Story-kolom terug. Het interactieoverzicht somt de interacties op, en de endpointtabellen van de [applicatiecomponenten](../../Koppelvlakspecificaties/Applicatiecomponenten) noemen per endpoint de methode en de interacties die hij draagt. Wie een featureset wil ondersteunen, wordt eigenaar van de bijbehorende endpoints.
 
 ## Bijdragen
 

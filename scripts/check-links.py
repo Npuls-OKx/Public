@@ -35,6 +35,24 @@ HTML_ANKER = re.compile(r"<a\s+id=\"([^\"]+)\"\s*>")
 EXTERN = ("http://", "https://", "mailto:", "tel:")
 
 
+def zonder_codeblokken(tekst: str) -> str:
+    """De tekst zonder de inhoud van fenced code blocks.
+
+    Wat in een codeblok staat is broncode en geen verwijzing. Het gebundelde
+    releasedocument draagt de JSON-schema's voluit, en een omschrijving daarin kan een
+    markdown-verwijzing bevatten die relatief is aan het schemabestand; als link gelezen
+    zou die altijd stuk lijken. Het verzamelen van anchors sloeg codeblokken al over.
+    """
+    uit, in_codeblok = [], False
+    for regel in tekst.splitlines():
+        if regel.lstrip().startswith("```"):
+            in_codeblok = not in_codeblok
+            continue
+        if not in_codeblok:
+            uit.append(regel)
+    return "\n".join(uit)
+
+
 def slugs(tekst: str) -> set[str]:
     """De anchors die GitHub voor dit document aanmaakt.
 
@@ -115,7 +133,7 @@ def main(argv: list[str]) -> int:
             problemen += 1
             continue
 
-        for treffer in LINK.finditer(inhoud):
+        for treffer in LINK.finditer(zonder_codeblokken(inhoud)):
             link = treffer.group(1).strip()
             if link.startswith(EXTERN) or not link:
                 continue

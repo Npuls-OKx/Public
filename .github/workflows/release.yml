@@ -81,8 +81,27 @@ jobs:
             exit 1
           fi
 
+      - name: Tag zetten op de gebouwde commit
+        env:
+          TAG: ${{ steps.manifest.outputs.tag }}
+        run: |
+          set -euo pipefail
+          # De tag bestaat vanaf de bouw, niet pas bij het publiceren. Anders is er tot
+          # dat moment geen vast punt om naar te verwijzen, en verwijst een link naar de
+          # release branch: die beweegt, en dan wijst dezelfde link later naar iets
+          # anders. Zolang de release concept is mag de tag nog meeschuiven naar een
+          # nieuwe bouw; zodra hij gepubliceerd is weigert de vorige stap een nieuwe
+          # bouw van dezelfde versie, en ligt de tag dus vast.
+          git tag -f "$TAG" "$GITHUB_SHA"
+          git push --force origin "refs/tags/${TAG}"
+
       - name: Pakket bouwen
-        run: python3 scripts/build-release.py "$PAKKET" --uit dist
+        env:
+          TAG: ${{ steps.manifest.outputs.tag }}
+        # --ref bepaalt waarheen de verwijzingen in de gebouwde documenten wijzen. Dat
+        # moet de tag zijn en niet de branch: een uitgebracht document hoort naar de
+        # versie te wijzen waarbij het hoort.
+        run: python3 scripts/build-release.py "$PAKKET" --uit dist --ref "$TAG"
 
       - name: Concept-release bijwerken
         env:
@@ -93,16 +112,29 @@ jobs:
         run: |
           set -euo pipefail
           titel="${NAAM} v${VERSIE}"
+          basis="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}"
           tekst=$(cat <<TEKST
-          Gebouwd uit \`${GITHUB_REF_NAME}\` (commit \`${GITHUB_SHA:0:7}\`).
+          Gebouwd uit \`${GITHUB_REF_NAME}\` (commit \`${GITHUB_SHA:0:7}\`), vastgelegd
+          onder tag \`${TAG}\`.
 
           | Artefact | Inhoud |
           |---|---|
           | \`${TAG}.docx\` | Alle documenten als één document, met inhoudsopgave |
           | \`${TAG}-documenten.zip\` | De documenten los, mapstructuur behouden, plus de datamodelschema's |
 
+          **Verwijzen naar deze versie.** De tag is het vaste punt: elke verwijzing die
+          hem draagt blijft wijzen naar de inhoud van deze release, ook nadat de
+          branches verder zijn gelopen.
+
+          - De bronnen bij deze versie: ${basis}/tree/${TAG}
+          - Het volledige document als markdown: ${basis}/blob/${TAG}/${PAKKET}/koppelvlakspecificatie.md
+          - Naar een regel verwijzen: open het bestand op de tag, klik het regelnummer
+            aan (met shift een reeks) en deel de URL; die draagt de tag en verschuift
+            dus niet.
+
           Deze release staat als **concept**. Publiceren gebeurt met de hand, na de
-          kwaliteitstoets uit het releaseproces.
+          kwaliteitstoets uit het releaseproces. Zolang dat niet is gebeurd kan de tag
+          nog naar een nieuwe bouw verschuiven.
 
           Release notes nog aan te vullen.
           TEKST
