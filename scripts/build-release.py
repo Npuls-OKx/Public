@@ -42,6 +42,15 @@ Wat dit script oplost dat pandoc alleen niet doet:
   In een gebundeld document levert dat dubbele id's op en landt een verwijzing in het
   verkeerde hoofdstuk. Elke kop krijgt daarom een id met het document als voorvoegsel.
 
+Uitvoer in de pakketmap:
+
+    <bestandsnaam>.md   het gebundelde document als markdown
+
+Dat bestand is de weergave van het uitgebrachte document en tegelijk de bron waaruit de
+docx ontstaat. Het wordt gegenereerd: met `--alleen-controle` faalt de bouw wanneer het
+niet meer overeenkomt met de documenten waaruit het is opgebouwd, zodat een wijziging met
+de hand niet stil blijft staan.
+
 Uitvoer in de doelmap:
 
     <bestandsnaam>-v<versie>.docx           het gebundelde document
@@ -51,6 +60,7 @@ Exitcodes: 0 gebouwd, 1 bouwfout, 2 pakket of manifest niet gevonden.
 """
 
 import argparse
+import hashlib
 import json
 import os
 import pathlib
@@ -71,6 +81,14 @@ STANDAARD_REPO_URL = "https://github.com/Npuls-OKx/Public"
 # Een docx kent \newpage niet; dat zou als letterlijke tekst in het document belanden.
 PAGINA_EINDE = '\n\n```{=openxml}\n<w:p><w:r><w:br w:type="page"/></w:r></w:p>\n```\n\n'
 
+# In het gebundelde markdown-document staat een neutrale markering in plaats van die
+# openxml: het bestand staat in het repository en wordt daar gelezen, en een blok rauwe
+# Word-opmaak zou daar als codeblok in beeld komen. Bij het bouwen wordt hij vervangen.
+PAGINA_EINDE_MARKERING = "\n\n<!-- pagina-einde -->\n\n"
+
+GEGENEREERD = ("<!-- Gegenereerd door scripts/build-release.py uit release.json. "
+               "Niet met de hand wijzigen: pas de bronnen aan en bouw opnieuw. -->")
+
 
 def slug(tekst: str) -> str:
     """Zet een koptekst om in een anchor, zoals GitHub dat doet.
@@ -80,6 +98,9 @@ def slug(tekst: str) -> str:
     nagebootst zodat de anchors overeenkomen met wat in de bron staat.
     """
     tekst = re.sub(r"<[^>]+>", "", tekst)
+    # Een kop die zelf een verwijzing is telt alleen als zijn tekst; GitHub slugt over
+    # wat er gerenderd staat, niet over de markup eromheen.
+    tekst = re.sub(r"\[([^\]]*)\]\([^)]*\)", r"\1", tekst)
     tekst = re.sub(r"[`*_]", "", tekst)
     tekst = tekst.strip().lower()
     tekst = re.sub(r"[^\w\s-]", "", tekst, flags=re.UNICODE)
@@ -119,13 +140,17 @@ def herstel_codeblokken(inhoud: str, blokken: list) -> str:
 
 
 def render_mermaid(inhoud: str, doc: str, beeldmap: pathlib.Path, teller: list,
-                   mislukt: list, streng: bool) -> str:
+                   mislukt: list, streng: bool, cache: dict = None) -> str:
     """Vervangt elk mermaid-blok door een verwijzing naar een gerenderde PNG.
 
     Een diagram dat niet rendert blijft als codeblok staan. Dat is geen noodgreep maar
     het gewenste gedrag voor de templates: die dragen een skelet met invulplekken
     (`\\<type\\>`) dat per definitie geen geldige mermaid is, en dan is de broncode
     precies wat een schrijver wil zien. Met --streng faalt de bouw er alsnog op.
+
+    Elk diagram wordt op zijn inhoud onthouden. Het gebundelde document draagt dezelfde
+    diagrammen als de losse documenten, en zonder die cache zou elk diagram twee keer
+    door mermaid-cli gaan.
     """
     beeldmap.mkdir(parents=True, exist_ok=True)
     puppeteer = beeldmap / "puppeteer.json"
@@ -135,8 +160,12 @@ def render_mermaid(inhoud: str, doc: str, beeldmap: pathlib.Path, teller: list,
 
     def vervang(m):
         inspringing, diagram = m.group(1), m.group(2)
+        sleutel = hashlib.sha1(diagram.encode("utf-8")).hexdigest()[:12]
+        if cache is not None and sleutel in cache:
+            klaar = cache[sleutel]
+            return m.group(0) if klaar is None else f"{inspringing}![]({klaar})"
         teller[0] += 1
-        naam = f"{doc_slug(doc)}-{teller[0]:02d}"
+        naam = f"diagram-{sleutel}"
         bron = beeldmap / f"{naam}.mmd"
         doel = beeldmap / f"{naam}.png"
         bron.write_text(diagram, encoding="utf-8")
@@ -149,11 +178,15 @@ def render_mermaid(inhoud: str, doc: str, beeldmap: pathlib.Path, teller: list,
         if resultaat.returncode != 0 or not doel.exists():
             reden = (resultaat.stderr or resultaat.stdout).strip().splitlines()
             mislukt.append((doc, teller[0], reden[0] if reden else "onbekende fout"))
+            if cache is not None:
+                cache[sleutel] = None
             if streng:
                 print(f"  mermaid faalde in {doc} (diagram {teller[0]}):", file=sys.stderr)
                 print("   ", "\n    ".join(reden[:6]), file=sys.stderr)
                 raise SystemExit(1)
             return m.group(0)  # laat het codeblok staan
+        if cache is not None:
+            cache[sleutel] = doel.as_posix()
         return f"{inspringing}![]({doel.as_posix()})"
 
     return MERMAID.sub(vervang, inhoud)
@@ -240,8 +273,14 @@ def bouw_inhoudsopgave(pakket: pathlib.Path, documenten: list, kaart: dict,
     regels = ["## Inhoudsopgave", ""]
 
     def label(tekst: str, anchor: str) -> str:
-        """De koptekst zoals hij in het document staat: genummerd, zonder opmaak."""
-        schoon = NUMMER_VOORAF.sub("", re.sub(r"[`*]", "", tekst))
+        """De koptekst zoals hij in het document staat: genummerd, zonder opmaak.
+
+        Een kop die zelf een verwijzing is levert alleen zijn tekst; anders komt er in
+        de inhoudsopgave een verwijzing binnen een verwijzing te staan, en dat is geen
+        geldige markdown meer.
+        """
+        zonder_link = re.sub(r"\[([^\]]*)\]\([^)]*\)", r"\1", tekst)
+        schoon = NUMMER_VOORAF.sub("", re.sub(r"[`*]", "", zonder_link))
         nummer = nummers.get(anchor)
         return f"{nummer} {schoon}" if nummer else schoon
 
@@ -299,7 +338,8 @@ def verwijsbaar(bestand: pathlib.Path) -> str:
 
 
 def herschrijf_links(inhoud: str, doc: str, pakket: pathlib.Path, documenten: list,
-                     kaart: dict, gebundeld: bool, repo_url: str, ref: str) -> str:
+                     kaart: dict, gebundeld: bool, repo_url: str, ref: str,
+                     beeldbasis: pathlib.Path = None) -> str:
     """Herschrijft relatieve verwijzingen zodat ze in een docx werken."""
     hier = (pakket / doc).parent
 
@@ -318,12 +358,18 @@ def herschrijf_links(inhoud: str, doc: str, pakket: pathlib.Path, documenten: li
             bestand = (hier / pad).resolve() if pad else None
             if bestand is None or not bestand.is_file():
                 return m.group(0)
+            # Met een beeldbasis blijft de verwijzing relatief: dat document staat in
+            # het repository, waar een absoluut pad van de bouwmachine niets betekent.
+            if beeldbasis is not None:
+                bestand = pathlib.Path(os.path.relpath(bestand, beeldbasis))
             return f"![{tekst}]({verwijsbaar(bestand)})"
 
-        # Verwijzing binnen hetzelfde document.
+        # Verwijzing binnen hetzelfde document. Een anchor dat geen kop is reist als
+        # HTML mee (<a id="..."> in een tabelrij, zoals bij de functionele eisen) en
+        # blijft dus staan zoals hij is.
         if not pad:
             if gebundeld:
-                nieuw = (kaart.get(doc) or {}).get(anchor, f"{doc_slug(doc)}--{anchor}")
+                nieuw = (kaart.get(doc) or {}).get(anchor, anchor)
                 return f"[{tekst}](#{nieuw})"
             return m.group(0)
 
@@ -335,7 +381,7 @@ def herschrijf_links(inhoud: str, doc: str, pakket: pathlib.Path, documenten: li
         meegaand = next((d for d in documenten if (pakket / d).resolve() == doelpad), None)
         if meegaand is not None and gebundeld:
             if anchor:
-                nieuw = (kaart.get(meegaand) or {}).get(anchor, f"{doc_slug(meegaand)}--{anchor}")
+                nieuw = (kaart.get(meegaand) or {}).get(anchor, anchor)
             else:
                 nieuw = eerste_kop_anchor(meegaand, kaart)
             return f"[{tekst}](#{nieuw})"
@@ -352,6 +398,23 @@ def herschrijf_links(inhoud: str, doc: str, pakket: pathlib.Path, documenten: li
     zonder_code, blokken = maskeer_codeblokken(inhoud)
     zonder_code = LINK.sub(vervang, zonder_code)
     return herstel_codeblokken(zonder_code, blokken)
+
+
+def herschrijf_links_in_mermaid(inhoud: str, *argumenten, **benoemd) -> str:
+    """Herschrijft ook de verwijzingen die binnen een mermaid-diagram staan.
+
+    In het gebundelde markdown-document blijft mermaid broncode, want GitHub tekent hem
+    zelf. De labels in die diagrammen dragen soms een verwijzing, en die is relatief aan
+    het bronbestand; vanuit het gebundelde document klopt dat pad niet meer. Waar het
+    diagram een afbeelding wordt (de losse documenten en de docx) speelt dit niet, want
+    dan verdwijnt de broncode.
+    """
+    def vervang(m):
+        inspringing, diagram = m.group(1), m.group(2)
+        return (f"{inspringing}```mermaid\n"
+                f"{herschrijf_links(diagram, *argumenten, **benoemd)}{inspringing}```")
+
+    return MERMAID.sub(vervang, inhoud)
 
 
 def geef_koppen_ids(inhoud: str, doc: str, kaart: dict) -> str:
@@ -431,6 +494,62 @@ def nummer_delen(delen: list, sla_over: set) -> tuple:
         zonder_code, blokken = maskeer_codeblokken(deel)
         uit.append(herstel_codeblokken(KOP_MET_ID.sub(vervang, zonder_code), blokken))
     return uit, nummers
+
+
+def github_anchors(bundel: str) -> dict:
+    """Per expliciet kop-id het anchor dat GitHub zelf van de koptekst afleidt."""
+    zonder_code, _ = maskeer_codeblokken(bundel)
+    vertaling, gezien = {}, {}
+    for m in KOP_MET_ID.finditer(zonder_code):
+        basis = slug(m.group(2))
+        n = gezien.get(basis, 0)
+        gezien[basis] = n + 1
+        if m.group(3):
+            vertaling[m.group(3)] = basis if n == 0 else f"{basis}-{n}"
+    return vertaling
+
+
+def naar_github_anchors(bundel: str) -> str:
+    """Haalt de expliciete kop-id's weg en laat de verwijzingen erop aansluiten.
+
+    Tijdens het bouwen draagt elke kop een eigen id; alleen zo blijven koppen die in
+    meerdere documenten dezelfde tekst hebben uit elkaar te houden. In het markdown-
+    document zou zo'n id als letterlijke tekst achter de kop komen te staan, want GitHub
+    kent de attribuutvorm niet en zou er ook niet heen kunnen verwijzen. Het id vervalt
+    hier dus, en elke verwijzing neemt het anchor over dat GitHub van de koptekst maakt.
+    """
+    vertaling = github_anchors(bundel)
+    zonder_code, blokken = maskeer_codeblokken(bundel)
+    zonder_code = KOP_MET_ID.sub(lambda m: f"{m.group(1)} {m.group(2)}", zonder_code)
+
+    def verwijzing(m):
+        beeld, tekst, doel = m.group(1), m.group(2), m.group(3)
+        if not beeld and doel.startswith("#") and doel[1:] in vertaling:
+            return f"[{tekst}](#{vertaling[doel[1:]]})"
+        return m.group(0)
+
+    return herstel_codeblokken(LINK.sub(verwijzing, zonder_code), blokken)
+
+
+def met_kop_ids(bundel: str) -> str:
+    """Zet de afgeleide anchors terug als expliciet id, voor pandoc.
+
+    Pandoc leidt zelf ook een id uit de koptekst af, maar de verwijzingen in dit
+    document wijzen naar wat `slug` ervan maakt. Door dat anchor er expliciet op te
+    zetten kan er geen verschil tussen die twee ontstaan.
+    """
+    zonder_code, blokken = maskeer_codeblokken(bundel)
+    gezien = {}
+
+    def vervang(m):
+        hekjes, tekst = m.group(1), m.group(2)
+        basis = slug(tekst)
+        n = gezien.get(basis, 0)
+        gezien[basis] = n + 1
+        anchor = basis if n == 0 else f"{basis}-{n}"
+        return f"{hekjes} {tekst} {{#{anchor}}}"
+
+    return herstel_codeblokken(KOP.sub(vervang, zonder_code), blokken)
 
 
 def zonder_titel(inhoud: str) -> str:
@@ -720,8 +839,10 @@ def main(argv: list) -> int:
             print(f"  {d}", file=sys.stderr)
         return 1
 
+    # Het gebundelde document is zelf uitvoer; het hoort niet in het manifest thuis.
+    bundelnaam = f"{manifest['bestandsnaam']}.md"
     op_schijf = {p.relative_to(pakket).as_posix() for p in pakket.rglob("*.md")}
-    vergeten = sorted(op_schijf - set(paden))
+    vergeten = sorted(op_schijf - set(paden) - {bundelnaam})
     if vergeten:
         print("let op: deze markdown-bestanden staan niet in het manifest en gaan niet mee:")
         for d in vergeten:
@@ -734,7 +855,7 @@ def main(argv: list) -> int:
         werk = pathlib.Path(tmp)
         beelden = werk / "diagrammen"
         kaart = bouw_anchorkaart(pakket, paden)
-        teller, mislukt = [0], []
+        teller, mislukt, diagramcache = [0], [], {}
         referentie = referentiedocument(werk)
 
         print(f"{manifest['naam']} v{versie}: {len(paden)} documenten")
@@ -744,7 +865,8 @@ def main(argv: list) -> int:
         def bouw_deel(doc: str, in_sectie: bool) -> str:
             """Zet één document klaar: los voor de zip, en als deel van de bundel."""
             ruw = (pakket / doc).read_text(encoding="utf-8")
-            met_beelden = render_mermaid(ruw, doc, beelden, teller, mislukt, args.streng)
+            met_beelden = render_mermaid(ruw, doc, beelden, teller, mislukt, args.streng,
+                                         diagramcache)
 
             # Losse variant: verwijzingen naar GitHub, eigen anchors blijven.
             los = herschrijf_links(met_beelden, doc, pakket, paden, kaart,
@@ -754,9 +876,15 @@ def main(argv: list) -> int:
             los_pad.write_text(los, encoding="utf-8")
             losse.append((doc, los_pad))
 
-            # Gebundelde variant: unieke kop-id's, interne verwijzingen, een niveau dieper.
-            deel = herschrijf_links(met_beelden, doc, pakket, paden, kaart,
-                                    True, args.repo_url, args.ref)
+            # Gebundelde variant: unieke kop-id's, interne verwijzingen, een niveau
+            # dieper. Mermaid blijft hier broncode en afbeeldingen blijven relatief,
+            # want dit deel belandt als markdown in het repository.
+            deel = herschrijf_links_in_mermaid(ruw, doc, pakket, paden, kaart,
+                                               True, args.repo_url, args.ref,
+                                               beeldbasis=pakket.resolve())
+            deel = herschrijf_links(deel, doc, pakket, paden, kaart,
+                                    True, args.repo_url, args.ref,
+                                    beeldbasis=pakket.resolve())
             deel = geef_koppen_ids(deel, doc, kaart)
             return verlaag_koppen(deel, 2 if in_sectie else 1)
 
@@ -804,12 +932,36 @@ def main(argv: list) -> int:
         for doc, n, reden in mislukt:
             print(f"    blijft codeblok: {doc} (diagram {n}) - {reden}")
 
-        # Gebundeld document.
+        # Het gebundelde markdown-document. Dit bestand staat in het repository als
+        # weergave van het uitgebrachte document, en is tegelijk de bron waaruit de docx
+        # ontstaat. Het wordt gegenereerd; met de hand bijhouden zou het stil uit de pas
+        # laten lopen met de documenten waaruit het is opgebouwd.
         titel = (f"# {manifest['naam']}\n\n{manifest.get('omschrijving', '')}\n\n"
                  f"Versie {versie}\n")
+        bundel = (GEGENEREERD + "\n\n" + titel
+                  + PAGINA_EINDE_MARKERING + PAGINA_EINDE_MARKERING.join(gebundelde_delen))
+        bundel = naar_github_anchors(bundel)
+        bundel_pad = pakket / bundelnaam
+        if args.alleen_controle:
+            huidig = bundel_pad.read_text(encoding="utf-8") if bundel_pad.exists() else None
+            if huidig != bundel:
+                waarom = "ontbreekt" if huidig is None else "loopt uit de pas met de bronnen"
+                print(f"{bundel_pad} {waarom}.", file=sys.stderr)
+                print("Draai scripts/build-release.py zonder --alleen-controle en neem het "
+                      "resultaat mee in de wijziging.", file=sys.stderr)
+                return 1
+        else:
+            bundel_pad.write_text(bundel, encoding="utf-8")
+            print(f"  {bundelnaam}")
+
+        # De docx komt uit datzelfde bestand: mermaid alsnog als afbeelding, en de
+        # markering voor een pagina-einde omgezet naar wat een docx wel begrijpt.
+        voor_docx = render_mermaid(met_kop_ids(bundel_pad.read_text(encoding="utf-8")),
+                                   manifest["bestandsnaam"], beelden, teller, mislukt,
+                                   args.streng, diagramcache)
         gebundeld_md = werk / "gebundeld.md"
         gebundeld_md.write_text(
-            titel + PAGINA_EINDE + PAGINA_EINDE.join(gebundelde_delen), encoding="utf-8")
+            voor_docx.replace(PAGINA_EINDE_MARKERING, PAGINA_EINDE), encoding="utf-8")
         gebundeld_docx = uit / f"{basisnaam}.docx"
         pandoc([
             # gfm+attributes, niet gfm+header_attributes: die laatste bestaat niet voor
@@ -818,7 +970,9 @@ def main(argv: list) -> int:
             "-t", "docx",
             "--reference-doc", str(referentie),
             "--metadata", f"title={manifest['naam']} v{versie}",
-            "--resource-path", str(werk),
+            # Afbeeldingen staan relatief ten opzichte van de pakketmap, mermaid-PNG's
+            # in de werkmap; pandoc moet in beide kunnen kijken.
+            "--resource-path", os.pathsep.join([str(werk), str(pakket.resolve())]),
             "-o", str(gebundeld_docx), str(gebundeld_md),
         ])
         tabellen_laten_meebewegen(gebundeld_docx)

@@ -6,6 +6,7 @@ Het releasepakket **koppelvlakspecificatie**. De inhoudelijke inleiding staat in
 
 | Waar | Wat erin staat |
 |---|---|
+| [koppelvlakspecificatie.md](koppelvlakspecificatie.md) | Het volledige releasedocument als markdown. **Gegenereerd**: bouw opnieuw in plaats van het met de hand te wijzigen |
 | [inleiding.md](inleiding.md) | De inleiding van het releasedocument: context, kernbegrippen, leeswijzer en afkortingen |
 | [`../Referentiemateriaal/requirementsboom/`](../Referentiemateriaal/requirementsboom/) | De requirementsboom: opdracht, epics, features en stories. Staat buiten deze map en gaat wel mee in het gebouwde document |
 | [`Applicatiecomponenten/`](Applicatiecomponenten/) | Per systeem het koppelvlak: de endpoints en events die het serveert, met parameters, payload en statuscodes |
