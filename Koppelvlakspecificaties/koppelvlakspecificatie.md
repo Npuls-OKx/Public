@@ -4,7 +4,7 @@
 
 De specificaties waarmee een partij een koppelvlak kan bouwen op de standaarden die OKx uitbrengt.
 
-Versie 0.0.1
+Versie 0.0.2
 
 
 <!-- pagina-einde -->
