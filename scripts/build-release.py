@@ -386,13 +386,24 @@ def herschrijf_links(inhoud: str, doc: str, pakket: pathlib.Path, documenten: li
                 nieuw = eerste_kop_anchor(meegaand, kaart)
             return f"[{tekst}](#{nieuw})"
 
-        # Losse documenten en alles wat niet meegaat: naar GitHub, want zo'n URL blijft
-        # werken waar een relatief pad in een docx niets betekent.
         try:
-            vanaf_root = doelpad.relative_to(pakket.resolve().parent).as_posix()
+            doelpad.relative_to(pakket.resolve().parent)
         except ValueError:
             return m.group(0)
-        url = f"{repo_url}/blob/{ref}/{vanaf_root}"
+
+        # In het markdown-document blijft de verwijzing relatief. Dat bestand staat in
+        # het repository, waar een relatief pad werkt en meebeweegt met de branch die je
+        # bekijkt; een URL zou hem aan een git-ref vastzetten en het bestand daarmee per
+        # branch anders maken. Bij het bouwen wordt er alsnog een URL van gemaakt.
+        if beeldbasis is not None:
+            relatief = pathlib.Path(os.path.relpath(doelpad, beeldbasis)).as_posix()
+            relatief = relatief.replace(" ", "%20")
+            return f"[{tekst}]({relatief}#{anchor})" if anchor else f"[{tekst}]({relatief})"
+
+        # Losse documenten: naar GitHub, want zo'n URL blijft werken waar een relatief
+        # pad in een docx niets betekent.
+        vanaf_root = doelpad.relative_to(pakket.resolve().parent).as_posix()
+        url = f"{repo_url}/blob/{ref}/{vanaf_root}".replace(" ", "%20")
         return f"[{tekst}]({url}#{anchor})" if anchor else f"[{tekst}]({url})"
 
     zonder_code, blokken = maskeer_codeblokken(inhoud)
@@ -529,6 +540,32 @@ def naar_github_anchors(bundel: str) -> str:
         return m.group(0)
 
     return herstel_codeblokken(LINK.sub(verwijzing, zonder_code), blokken)
+
+
+def naar_github_urls(bundel: str, pakket: pathlib.Path, repo_url: str, ref: str) -> str:
+    """Maakt van de relatieve verwijzingen in het gebundelde document GitHub-URL's.
+
+    In het markdown-document staan ze relatief, want dat bestand leeft in het
+    repository. In een docx betekent zo'n pad niets, dus daar moet er een URL van komen
+    — en pas op dat moment is bekend naar welke git-ref die moet wijzen. Afbeeldingen
+    blijven relatief: die haalt pandoc van schijf en sluit hij in.
+    """
+    zonder_code, blokken = maskeer_codeblokken(bundel)
+
+    def vervang(m):
+        beeld, tekst, doel = m.group(1), m.group(2), m.group(3)
+        if beeld or doel.startswith(("#", "http://", "https://", "mailto:")):
+            return m.group(0)
+        pad, _, anchor = doel.partition("#")
+        doelpad = (pakket / pad.strip("<>").replace("%20", " ")).resolve()
+        try:
+            vanaf_root = doelpad.relative_to(pakket.resolve().parent).as_posix()
+        except ValueError:
+            return m.group(0)
+        url = f"{repo_url}/blob/{ref}/{vanaf_root}".replace(" ", "%20")
+        return f"[{tekst}]({url}#{anchor})" if anchor else f"[{tekst}]({url})"
+
+    return herstel_codeblokken(LINK.sub(vervang, zonder_code), blokken)
 
 
 def met_kop_ids(bundel: str) -> str:
@@ -956,7 +993,9 @@ def main(argv: list) -> int:
 
         # De docx komt uit datzelfde bestand: mermaid alsnog als afbeelding, en de
         # markering voor een pagina-einde omgezet naar wat een docx wel begrijpt.
-        voor_docx = render_mermaid(met_kop_ids(bundel_pad.read_text(encoding="utf-8")),
+        voor_pandoc = naar_github_urls(bundel_pad.read_text(encoding="utf-8"), pakket,
+                                       args.repo_url, args.ref)
+        voor_docx = render_mermaid(met_kop_ids(voor_pandoc),
                                    manifest["bestandsnaam"], beelden, teller, mislukt,
                                    args.streng, diagramcache)
         gebundeld_md = werk / "gebundeld.md"
