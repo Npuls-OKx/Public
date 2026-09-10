@@ -20,7 +20,7 @@ De stories uit de [requirementsboom](../../Referentiemateriaal/requirementsboom/
 
 ## Applicatiediensten
 
-Deze koppeling is de optelsom van de [applicatiediensten](../Applicatiediensten/README.md) in de tabel.
+Deze koppeling zet de volgende [applicatiediensten](../Applicatiediensten/README.md) in. De tabel legt vast welk component welke dienst implementeert; welke stromen daarover lopen en in welke volgorde bepaalt de koppeling zelf.
 
 | Applicatiedienst | Geïmplementeerd door |
 |---|---|
@@ -35,12 +35,12 @@ Deze koppeling kent geen afleverabonnement: zolang er geen registratie is vastge
 
 ## Interactiepatronen
 
-Deze koppeling zet de volgende [interactiepatronen](../Interactiepatronen/README.md) in. Het interactieoverzicht noemt per interactie welk patroon geldt.
+Deze koppeling zet de volgende [interactiepatronen](../Interactiepatronen/README.md) in.
 
-| Interactiepatroon | Waarvoor in deze koppeling | Interacties |
-|---|---|---|
-| [Event Notification](../Interactiepatronen/event-notification.md) | Melden dat specificatie en resultaatstructuur beschikbaar zijn of zijn gewijzigd, en het ophalen dat daarop volgt | S1, S2, S3, S5 |
-| [Asynchronous Request-Reply](../Interactiepatronen/asynchronous-request-reply.md) | De inrichtingsstatus terugmelden, met een referentie naar de inrichting | S4 |
+| Interactiepatroon | Waarvoor in deze koppeling |
+|---|---|
+| [Event Notification](../Interactiepatronen/event-notification.md) | Melden dat specificatie en resultaatstructuur beschikbaar zijn of zijn gewijzigd, en het ophalen dat daarop volgt |
+| [Asynchronous Request-Reply](../Interactiepatronen/asynchronous-request-reply.md) | De inrichtingsstatus terugmelden, met een referentie naar de inrichting |
 
 ## Procesbeeld
 
@@ -60,36 +60,18 @@ flowchart LR
 
 Wat het diagram niet toont: het studentinformatiesysteem haalt twee dingen op, de specificatiestructuur en de resultaatstructuur, en richt daarmee het **nominale template** in plus de mapping van welke toetsonderdeelresultaten welke leeruitkomsten afdichten ([ADR 0022](../../Referentiemateriaal/adr/0022-resultaatbegrippen-conform-rosa-koi.md)). Bij een wijziging draagt het event een wijzigingsklasse mee. Voor het examenplan gelden daarbij de strengste acceptatieregels: lopende verbintenissen mogen niet ongecontroleerd geraakt worden.
 
-## Interactieoverzicht
-
-De interacties op deze koppeling, met per interactie het messaging-patroon, in dezelfde patroontaal als de koppeling met planning ([Enterprise Integration Patterns, Messaging](https://www.enterpriseintegrationpatterns.com/patterns/messaging/)).
-Wat hier wordt vastgelegd is het **bericht**, niet het **kanaal**: hoe het bericht bij de ontvanger komt is een inrichtingskeuze van instelling en leverancier, binnen de vier eigenschappen die [ADR 0018](../../Referentiemateriaal/adr/0018-enterprise-messaging-patronen-voor-betrouwbare-koppelvlakken.md) eist. Zie [uitgangspunt U5](../uitgangspunten.md#u5-bericht-versus-kanaal).
-
-| # | Interactie | Initiator | Patroon | Synchroniciteit | Gedrag bij dubbele ontvangst | Foutafhandeling |
-|---|---|---|---|---|---|---|
-| S1 | Specificatie en resultaatstructuur beschikbaar melden | OC | [Event Notification](../Interactiepatronen/event-notification.md) (id + versie) | Asynchroon | Geen effect: event-id ([Idempotent Receiver](https://www.enterpriseintegrationpatterns.com/patterns/messaging/IdempotentReceiver.html)) | [Guaranteed Delivery](https://www.enterpriseintegrationpatterns.com/patterns/messaging/GuaranteedDelivery.html); [Dead Letter Channel](https://www.enterpriseintegrationpatterns.com/patterns/messaging/DeadLetterChannel.html) |
-| S2 | Onderwijsspecificatiestructuur of delta ophalen | SIS | [Event Notification](../Interactiepatronen/event-notification.md) (GET, alleen-lezen) | Synchroon | Geen effect (alleen-lezen) | HTTP-foutcodes, client bepaalt retry |
-| S3 | Resultaatstructuur ophalen | SIS | [Event Notification](../Interactiepatronen/event-notification.md) (GET, alleen-lezen) | Synchroon | Geen effect (alleen-lezen) | HTTP-foutcodes |
-| S4 | Inrichtingsstatus melden, met referentie naar de inrichting | SIS | [Asynchronous Request-Reply](../Interactiepatronen/asynchronous-request-reply.md) (status: ontvangen/gestart, afgekeurd, ingericht, niet ingericht) | Asynchroon | Geen effect: status-id | Retry met backoff, daarna [Dead Letter Channel](https://www.enterpriseintegrationpatterns.com/patterns/messaging/DeadLetterChannel.html) |
-| S5 | Wijziging specificatie of resultaatstructuur melden | OC | [Event Notification](../Interactiepatronen/event-notification.md) (object-id, oude en nieuwe versie, wijzigingsklasse) | Asynchroon | Geen effect: event-id | [Guaranteed Delivery](https://www.enterpriseintegrationpatterns.com/patterns/messaging/GuaranteedDelivery.html); [Dead Letter Channel](https://www.enterpriseintegrationpatterns.com/patterns/messaging/DeadLetterChannel.html) |
-
 ## Berichtstromen
-
-| Berichtstroom | Patroon | Doel | Trigger | Initiator | Interacties | Endpoints | Sequentiediagram |
-|---|---|---|---|---|---|---|---|
-| Nominaal template en resultaatstructuur inrichten | [Event Notification](../Interactiepatronen/event-notification.md), [Asynchronous Request-Reply](../Interactiepatronen/asynchronous-request-reply.md) | Een gepubliceerde specificatie en examenplanspecificatie omzetten in een ingericht nominaal template en resultaatstructuur bij het studentinformatiesysteem | Onderwijsspecificatie en examenplanspecificatie krijgen status `gepubliceerd` | Onderwijscatalogus | S1, S2, S3, S4 | webhook `specificatie-en-resultaatstructuur-beschikbaar`; `GET /onderwijsspecificaties/{id}`; `GET /examenplanspecificaties/{id}`; webhook `inrichtingsstatus` | [hieronder](#nominaal-template-en-resultaatstructuur-inrichten) |
-| Acceptatietoets bij wijziging examenplan | [Event Notification](../Interactiepatronen/event-notification.md), [Asynchronous Request-Reply](../Interactiepatronen/asynchronous-request-reply.md) | Lopende verbintenissen beschermen tegen een examenplanwijziging die er ongecontroleerd doorheen breekt | Examenplanspecificatie wijzigt terwijl er al verbintenissen lopen | Onderwijscatalogus | S5 | webhook `examenplanspecificatie-gewijzigd`; webhook `inrichtingsstatus` | [hieronder](#acceptatietoets-bij-wijziging-examenplan) |
 
 ## Nominaal template en resultaatstructuur inrichten
 
-Doel: een gepubliceerde specificatie en examenplanspecificatie omzetten in een ingericht nominaal template en resultaatstructuur bij het studentinformatiesysteem. Trigger: onderwijsspecificatie en examenplanspecificatie krijgen status `gepubliceerd`. Initiator: Onderwijscatalogus. Interacties: S1, S2, S3, S4.
+Doel: een gepubliceerde specificatie en examenplanspecificatie omzetten in een ingericht nominaal template en resultaatstructuur bij het studentinformatiesysteem. Trigger: onderwijsspecificatie en examenplanspecificatie krijgen status `gepubliceerd`. Initiator: Onderwijscatalogus.
 
 Endpoints:
 
-- [webhook `specificatie-en-resultaatstructuur-beschikbaar` (S1)](../Applicatiediensten/onderwijsspecificatiestructuur-afnemer.md)
-- [`GET /onderwijsspecificaties/{id}` (S2)](../Applicatiediensten/onderwijsspecificatiestructuur-aanbieder.md)
-- [`GET /examenplanspecificaties/{id}` (S3)](../Applicatiediensten/resultaatstructuur-aanbieder.md)
-- [webhook `inrichtingsstatus` (S4)](../Applicatiediensten/verwerkingsuitkomst-afnemer.md)
+- [webhook `specificatie-en-resultaatstructuur-beschikbaar`](../Applicatiediensten/onderwijsspecificatiestructuur-afnemer.md)
+- [`GET /onderwijsspecificaties/{id}`](../Applicatiediensten/onderwijsspecificatiestructuur-aanbieder.md)
+- [`GET /examenplanspecificaties/{id}`](../Applicatiediensten/resultaatstructuur-aanbieder.md)
+- [webhook `inrichtingsstatus`](../Applicatiediensten/verwerkingsuitkomst-afnemer.md)
 
 ```mermaid
 sequenceDiagram
@@ -98,28 +80,28 @@ sequenceDiagram
     participant SIS
 
     Note over Onderwijscatalogus: opleidingsprogrammaspecificatie en examenplanspecificatie gepubliceerd
-    Onderwijscatalogus-)SIS: S1 [specificatie-en-resultaatstructuur-beschikbaar] Event: beschikbaar (specificatie-id + versie, examenplan-id + versie)
-    SIS->>Onderwijscatalogus: S2 [GET /onderwijsspecificaties/{id}] onderwijsspecificatiestructuur (id, versie)
+    Onderwijscatalogus-)SIS: [specificatie-en-resultaatstructuur-beschikbaar] Event: beschikbaar (specificatie-id + versie, examenplan-id + versie)
+    SIS->>Onderwijscatalogus: [GET /onderwijsspecificaties/{id}] onderwijsspecificatiestructuur (id, versie)
     Onderwijscatalogus-->>SIS: Momentopname (manifest legt versies vast)
-    SIS->>Onderwijscatalogus: S3 [GET /examenplanspecificaties/{id}] resultaatstructuur (examenplan-id, versie)
+    SIS->>Onderwijscatalogus: [GET /examenplanspecificaties/{id}] resultaatstructuur (examenplan-id, versie)
     Onderwijscatalogus-->>SIS: Resultaatstructuur (weging, aggregatie, toetsonderdelen)
-    SIS-)Onderwijscatalogus: S4 [inrichtingsstatus] Status: ontvangen, inrichting gestart (asynchroon)
+    SIS-)Onderwijscatalogus: [inrichtingsstatus] Status: ontvangen, inrichting gestart (asynchroon)
     Note over SIS: Inrichten nominaal template (leerroute, keuzeruimte)<br/>en resultaatstructuur (mapping toetsonderdeelresultaten naar leeruitkomsten)
     alt Inrichting gelukt
-        SIS-)Onderwijscatalogus: S4 [inrichtingsstatus] Status ingericht, met referentie naar inrichting (uuid)
+        SIS-)Onderwijscatalogus: [inrichtingsstatus] Status ingericht, met referentie naar inrichting (uuid)
     else Inrichting niet gelukt
-        SIS-)Onderwijscatalogus: S4 [inrichtingsstatus] Status niet ingericht (validatie- of inrichtingsfout)
+        SIS-)Onderwijscatalogus: [inrichtingsstatus] Status niet ingericht (validatie- of inrichtingsfout)
     end
 ```
 
 ## Acceptatietoets bij wijziging examenplan
 
-Doel: lopende verbintenissen beschermen tegen een examenplanwijziging die er ongecontroleerd doorheen breekt. Trigger: examenplanspecificatie wijzigt terwijl er al verbintenissen lopen. Initiator: Onderwijscatalogus. Interacties: S5.
+Doel: lopende verbintenissen beschermen tegen een examenplanwijziging die er ongecontroleerd doorheen breekt. Trigger: examenplanspecificatie wijzigt terwijl er al verbintenissen lopen. Initiator: Onderwijscatalogus.
 
 Endpoints:
 
-- [webhook `examenplanspecificatie-gewijzigd` (S5)](../Applicatiediensten/resultaatstructuur-afnemer.md)
-- [webhook `inrichtingsstatus` (S4)](../Applicatiediensten/verwerkingsuitkomst-afnemer.md)
+- [webhook `examenplanspecificatie-gewijzigd`](../Applicatiediensten/resultaatstructuur-afnemer.md)
+- [webhook `inrichtingsstatus`](../Applicatiediensten/verwerkingsuitkomst-afnemer.md)
 
 ```mermaid
 sequenceDiagram
@@ -128,13 +110,13 @@ sequenceDiagram
     participant SIS
 
     Note over SIS: Inrichting gereed, verbintenissen lopen (op aanbod)
-    Onderwijscatalogus-)SIS: S5 [examenplanspecificatie-gewijzigd] Event: examenplanspecificatie gewijzigd (id, wijzigingsklasse)
+    Onderwijscatalogus-)SIS: [examenplanspecificatie-gewijzigd] Event: examenplanspecificatie gewijzigd (id, wijzigingsklasse)
     Note over SIS: Toets aan acceptatieregels,<br/>lopende verbintenissen mogen niet ongecontroleerd geraakt worden
     alt Geen lopende verbintenissen geraakt
         SIS->>SIS: Werk versieverwijzing bij, nieuwe instroom volgt nieuwe versie
-        SIS-)Onderwijscatalogus: S4 [inrichtingsstatus] Status: verwerkt, oude versie blijft voor lopende verbintenissen
+        SIS-)Onderwijscatalogus: [inrichtingsstatus] Status: verwerkt, oude versie blijft voor lopende verbintenissen
     else Lopende verbintenissen geraakt
-        SIS-)Onderwijscatalogus: S4 [inrichtingsstatus] Status: niet verwerkt, expliciete impactanalyse en besluit vereist
+        SIS-)Onderwijscatalogus: [inrichtingsstatus] Status: niet verwerkt, expliciete impactanalyse en besluit vereist
         Note over Onderwijscatalogus,SIS: Besluit buiten deze koppeling,<br/>gelijktijdig actieve versies per cohort (lifecycle-uitwerking)
     end
 ```

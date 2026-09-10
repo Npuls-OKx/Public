@@ -368,7 +368,7 @@ Alle koppelingen delen dezelfde onderwijsspecificatie-payload; per koppeling ver
 | `leeruitkomsten` | **Volledig**, inclusief aggregatie (`bovenliggendLeeruitkomstId`), `waardedocument` en `indicatieveOmvang`: de sleutel tussen specificatie, resultaatstructuur en onderwijsresultaat ([ADR 0022](../../Referentiemateriaal/adr/0022-resultaatbegrippen-conform-rosa-koi.md)) |
 | `regelsets` | Volledig (kiesbaarheid keuzedeelruimte, voorwaarden in behaalde leeruitkomsten) |
 
-Voor S3 geldt daarnaast [result-structure.json](result-structure.json) als aparte payload.
+Voor het ophalen van de resultaatstructuur geldt daarnaast [result-structure.json](result-structure.json) als aparte payload.
 
 ### Onderwijscatalogus naar leermanagementsysteem
 
