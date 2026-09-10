@@ -8,17 +8,19 @@ De koppeling tussen de onderwijscatalogus en het planningssysteem: welke informa
 
 De uitsnede komt uit de informatiestromen-hoofdplaat v1.7 (richtinggevend; de legenda draagt nog "concept"), met deze koppeling gemarkeerd. De koppelvlakken van beide componenten staan bij de [onderwijscatalogus](../Applicatiecomponenten/onderwijscatalogus.md) en het [planningssysteem](../Applicatiecomponenten/planningssysteem.md).
 
-## Functionele eisen
+## Stories
 
-| Id | Functionele eis | Interactie | Story |
-|---|---|---|---|
-| <a id="functionele-eis-0001"></a>functionele-eis-0001 | De onderwijscatalogus moet het planningssysteem kunnen laten weten dat een specificatie gereed is om te plannen, en het planningssysteem moet daarop een opleidingsaanbod met referentie kunnen terugleveren | [Opleidingsaanbod aanmaken](#opleidingsaanbod-aanmaken) | [story-0006](../../Referentiemateriaal/requirementsboom/stories.md#story-0006); [story-0007](../../Referentiemateriaal/requirementsboom/stories.md#story-0007) |
-| <a id="functionele-eis-0002"></a>functionele-eis-0002 | Het planningssysteem moet de planning kunnen bijwerken wanneer een specificatie wijzigt, zonder verplicht de volledige structuur opnieuw te ontvangen | [Opleidingsaanbod herplannen](#opleidingsaanbod-herplannen) | geen |
-| <a id="functionele-eis-0003"></a>functionele-eis-0003 | De onderwijscatalogus moet kunnen weten wanneer een specificatie voor een of meer cohorten niet planbaar blijkt in een schooljaar, inclusief de reden | [Planning niet gelukt melden](#planning-niet-gelukt-melden) | [story-0007](../../Referentiemateriaal/requirementsboom/stories.md#story-0007) |
-| <a id="functionele-eis-0004"></a>functionele-eis-0004 | Een afgeronde planning moet beschermd zijn tegen een specificatiewijziging die er ongecontroleerd doorheen breekt | [Acceptatietoets bij late wijziging](#acceptatietoets-bij-late-wijziging) | [story-0002](../../Referentiemateriaal/requirementsboom/stories.md#story-0002) |
-| <a id="functionele-eis-0005"></a>functionele-eis-0005 | De onderwijscatalogus moet een statuswijziging kunnen melden die niet aan een nieuwe versie hangt, los van het wijzigingsproces | [Specificatiestatus gewijzigd melden](#specificatiestatus-gewijzigd-melden) | geen |
-| <a id="functionele-eis-0006"></a>functionele-eis-0006 | Beide partijen moeten na een gemist event de informatie alsnog kunnen ophalen | [Reconciliatie na gemist event](#reconciliatie-na-gemist-event) | [story-0011](../../Referentiemateriaal/requirementsboom/stories.md#story-0011) |
-| <a id="functionele-eis-0007"></a>functionele-eis-0007 | Beide partijen moeten een afleveradres kunnen vastleggen voordat events afgeleverd worden | [Abonnement registreren](#abonnement-registreren) | [story-0010](../../Referentiemateriaal/requirementsboom/stories.md#story-0010) |
+De stories uit de [requirementsboom](../../Referentiemateriaal/requirementsboom/README.md) die deze koppeling invult, met de berichtstroom die dat doet.
+
+| Story | Ingevuld door |
+|---|---|
+| [story-0006](../../Referentiemateriaal/requirementsboom/stories.md#story-0006) | [Opleidingsaanbod aanmaken](#opleidingsaanbod-aanmaken) |
+| [story-0007](../../Referentiemateriaal/requirementsboom/stories.md#story-0007) | [Opleidingsaanbod aanmaken](#opleidingsaanbod-aanmaken) en [Planning niet gelukt melden](#planning-niet-gelukt-melden) |
+| [story-0030](../../Referentiemateriaal/requirementsboom/stories.md#story-0030) | [Opleidingsaanbod herplannen](#opleidingsaanbod-herplannen) |
+| [story-0002](../../Referentiemateriaal/requirementsboom/stories.md#story-0002) | [Acceptatietoets bij late wijziging](#acceptatietoets-bij-late-wijziging) |
+| [story-0032](../../Referentiemateriaal/requirementsboom/stories.md#story-0032) | [Specificatiestatus gewijzigd melden](#specificatiestatus-gewijzigd-melden) |
+| [story-0011](../../Referentiemateriaal/requirementsboom/stories.md#story-0011) | [Reconciliatie na gemist event](#reconciliatie-na-gemist-event) |
+| [story-0010](../../Referentiemateriaal/requirementsboom/stories.md#story-0010) | [Abonnement registreren](#abonnement-registreren) |
 
 ## Applicatiediensten
 

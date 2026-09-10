@@ -8,12 +8,15 @@ De koppeling tussen de onderwijscatalogus en het studentinformatiesysteem: welke
 
 De uitsnede komt uit de informatiestromen-hoofdplaat v1.7 (richtinggevend; de legenda draagt nog "concept"), met deze koppeling gemarkeerd. De koppelvlakken van beide componenten staan bij de [onderwijscatalogus](../Applicatiecomponenten/onderwijscatalogus.md) en het [studentinformatiesysteem](../Applicatiecomponenten/studentinformatiesysteem.md).
 
-## Functionele eisen
+## Stories
 
-| Id | Functionele eis | Interactie | Story |
-|---|---|---|---|
-| <a id="functionele-eis-0008"></a>functionele-eis-0008 | De onderwijscatalogus moet het studentinformatiesysteem kunnen laten weten dat een specificatie en resultaatstructuur beschikbaar zijn om het nominale template en de resultaatstructuur op in te richten, en het studentinformatiesysteem moet daarop een inrichtingsstatus met referentie kunnen terugleveren | [Nominaal template en resultaatstructuur inrichten](#nominaal-template-en-resultaatstructuur-inrichten) | [story-0022](../../Referentiemateriaal/requirementsboom/stories.md#story-0022); [story-0023](../../Referentiemateriaal/requirementsboom/stories.md#story-0023) |
-| <a id="functionele-eis-0009"></a>functionele-eis-0009 | Een ingerichte resultaatstructuur waarop al verbintenissen lopen moet beschermd zijn tegen een examenplanwijziging die er ongecontroleerd doorheen breekt | [Acceptatietoets bij wijziging examenplan](#acceptatietoets-bij-wijziging-examenplan) | [story-0020](../../Referentiemateriaal/requirementsboom/stories.md#story-0020) |
+De stories uit de [requirementsboom](../../Referentiemateriaal/requirementsboom/README.md) die deze koppeling invult, met de berichtstroom die dat doet.
+
+| Story | Ingevuld door |
+|---|---|
+| [story-0022](../../Referentiemateriaal/requirementsboom/stories.md#story-0022) | [Nominaal template en resultaatstructuur inrichten](#nominaal-template-en-resultaatstructuur-inrichten) |
+| [story-0023](../../Referentiemateriaal/requirementsboom/stories.md#story-0023) | [Nominaal template en resultaatstructuur inrichten](#nominaal-template-en-resultaatstructuur-inrichten) |
+| [story-0020](../../Referentiemateriaal/requirementsboom/stories.md#story-0020) | [Acceptatietoets bij wijziging examenplan](#acceptatietoets-bij-wijziging-examenplan) |
 
 ## Applicatiediensten
 

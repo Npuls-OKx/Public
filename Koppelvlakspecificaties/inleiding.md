@@ -2,7 +2,7 @@
 
 Dit document specificeert het koppelvlak van elk systeem dat deelneemt aan de uitwisseling van onderwijsspecificaties. Het beschrijft welke applicatiediensten een systeem implementeert en welke endpoints daarbij horen, per koppeling welk berichtverkeer daaroverheen gaat en in welke volgorde, en welke vorm de uitgewisselde gegevens hebben.
 
-Waar de eisen vandaan komen, staat in de [requirementsboom](../Referentiemateriaal/requirementsboom/README.md): van de opdracht via epics en features naar stories, en vandaar naar de functionele eisen bij de interactiepatronen. Voorschrijven doet het document niet; de [uitgangspunten](uitgangspunten.md) leggen die doelbinding vast in U1, samen met negen andere aannames die voor het hele pakket gelden. Elk document noemt zo'n uitgangspunt in één regel en verwijst erheen.
+Waar de eisen vandaan komen staat in de [requirementsboom](../Referentiemateriaal/requirementsboom/README.md): van de opdracht via epics en features naar stories, en vandaar naar de berichtstroom in een koppelingspecificatie die de story invult. Voorschrijven doet het document niet; de [uitgangspunten](uitgangspunten.md) leggen die doelbinding vast in U1, samen met negen andere aannames die voor het hele pakket gelden. Elk document noemt zo'n uitgangspunt in één regel en verwijst erheen.
 
 ## Kernbegrippen
 

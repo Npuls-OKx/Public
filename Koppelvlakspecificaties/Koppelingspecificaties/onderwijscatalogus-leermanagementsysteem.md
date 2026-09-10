@@ -8,13 +8,15 @@ De koppeling tussen de onderwijscatalogus en het leermanagementsysteem: welke in
 
 De uitsnede komt uit de informatiestromen-hoofdplaat v1.7 (richtinggevend; de legenda draagt nog "concept"), met deze koppeling gemarkeerd. De koppelvlakken van beide componenten staan bij de [onderwijscatalogus](../Applicatiecomponenten/onderwijscatalogus.md) en het [leermanagementsysteem](../Applicatiecomponenten/leermanagementsysteem.md).
 
-## Functionele eisen
+## Stories
 
-| Id | Functionele eis | Interactie | Story |
-|---|---|---|---|
-| <a id="functionele-eis-0010"></a>functionele-eis-0010 | De onderwijscatalogus moet het leermanagementsysteem kunnen laten weten dat een specificatie beschikbaar is om de leeromgeving op in te richten, en het leermanagementsysteem moet daarop een inrichtingsstatus met referentie kunnen terugleveren | [Leeromgeving inrichten en leermiddelkoppeling melden](#leeromgeving-inrichten-en-leermiddelkoppeling-melden) | geen |
-| <a id="functionele-eis-0011"></a>functionele-eis-0011 | Het leermanagementsysteem moet een leermiddelkoppeling die het heeft gelegd aan de onderwijscatalogus kunnen melden, zodat die de leermiddelen bij het aanbod kan tonen | [Leeromgeving inrichten en leermiddelkoppeling melden](#leeromgeving-inrichten-en-leermiddelkoppeling-melden) | [story-0003](../../Referentiemateriaal/requirementsboom/stories.md#story-0003) |
-| <a id="functionele-eis-0012"></a>functionele-eis-0012 | Het leermanagementsysteem moet zijn inrichting kunnen bijwerken wanneer een specificatie wijzigt, zonder verplicht de volledige structuur opnieuw te ontvangen | [Inrichting bijwerken na wijziging](#inrichting-bijwerken-na-wijziging) | geen |
+De stories uit de [requirementsboom](../../Referentiemateriaal/requirementsboom/README.md) die deze koppeling invult, met de berichtstroom die dat doet.
+
+| Story | Ingevuld door |
+|---|---|
+| [story-0003](../../Referentiemateriaal/requirementsboom/stories.md#story-0003) | [Leeromgeving inrichten en leermiddelkoppeling melden](#leeromgeving-inrichten-en-leermiddelkoppeling-melden) |
+| [story-0029](../../Referentiemateriaal/requirementsboom/stories.md#story-0029) | [Leeromgeving inrichten en leermiddelkoppeling melden](#leeromgeving-inrichten-en-leermiddelkoppeling-melden) |
+| [story-0031](../../Referentiemateriaal/requirementsboom/stories.md#story-0031) | [Inrichting bijwerken na wijziging](#inrichting-bijwerken-na-wijziging) |
 
 ## Applicatiediensten
 

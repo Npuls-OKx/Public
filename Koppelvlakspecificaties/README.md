@@ -10,7 +10,7 @@ Het releasepakket **koppelvlakspecificatie**. De inhoudelijke inleiding staat in
 | [inleiding.md](inleiding.md) | De inleiding van het releasedocument: context, kernbegrippen, leeswijzer en afkortingen |
 | [`../Referentiemateriaal/requirementsboom/`](../Referentiemateriaal/requirementsboom/) | De requirementsboom: opdracht, epics, features en stories. Staat buiten deze map en gaat wel mee in het gebouwde document |
 | [`Applicatiecomponenten/`](Applicatiecomponenten/) | Per systeem het koppelvlak: de applicatiediensten die het implementeert en de koppelingen waarin het optreedt |
-| [`Koppelingspecificaties/`](Koppelingspecificaties/) | Per koppeling de functionele eisen, het interactieoverzicht, het berichtgedrag en de sequentiediagrammen |
+| [`Koppelingspecificaties/`](Koppelingspecificaties/) | Per koppeling de stories die zij invult, de diensten en patronen die zij inzet, en de berichtstromen met hun sequentiediagrammen |
 | [`Applicatiediensten/`](Applicatiediensten/) | Per applicatiedienst wat een component moet implementeren om hem te claimen, en welk doel uit de requirementsboom dat bereikt |
 | [`Interactiepatronen/`](Interactiepatronen/) | De patronen waarmee een uitwisseling wordt gerealiseerd, in rollen in plaats van systeemnamen |
 | [`Datamodelschema's/`](Datamodelschema's/) | De informatiemodellen, de JSON Schema's, de regels die een schema niet kan uitdrukken, de gebruiksprofielen en de voorbeeldpayloads |

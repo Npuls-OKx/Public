@@ -13,10 +13,10 @@ Controleert de laagverwijzingen in Referentiemateriaal/requirementsboom/:
 4. feature <-> story: de Epic-cel van elke featurerij komt overeen met de
    sectie waarin de rij staat; de Stories-cel bevat exact de stories die
    met hun featurecel terugwijzen (of "geen").
-5. story -> functionele eis: elke functionele-eis-link resolvet naar een
-   rij-anker in de koppelingspecificaties van deze repository.
-6. Terugleiding: de Story-kolom in de koppelingspecificaties is exact de
-   inverse van de kolom Functionele eisen in stories.md (set-gelijkheid).
+5. story -> berichtstroom: elke link uit de kolom "Ingevuld door" resolvet
+   naar een kop in een koppelingspecificatie van deze repository.
+6. Terugleiding: de Stories-tabel in de koppelingspecificaties is exact de
+   inverse van de kolom "Ingevuld door" in stories.md (set-gelijkheid).
 
 Bekende grenzen: alleen inline-links ([tekst](bestand#anker)) worden
 gecontroleerd, referentiestijl-links niet (komen in de boom niet voor);
@@ -36,9 +36,15 @@ import sys
 KINDS = ("doel", "epic", "feature", "story")
 ID_RE = re.compile(r"^(?:%s)-\d{4}$" % "|".join(KINDS))
 ANCHOR_RE = re.compile(r'<a id="([^"]+)"></a>')
-EIS_LINK_RE = re.compile(
-    r"\[functionele-eis-\d{4}\]\((\.\./\.\./Koppelvlakspecificaties/"
-    r"Koppelingspecificaties/[\w\-]+\.md)#(functionele-eis-\d{4})\)")
+STROOM_LINK_RE = re.compile(
+    r"\]\(\.\./\.\./Koppelvlakspecificaties/Koppelingspecificaties/([\w\-]+\.md)#([\w\-]+)\)")
+HEADING_RE = re.compile(r"^(#{1,6})\s+(.+?)\s*$", re.MULTILINE)
+LINK_MARKUP_RE = re.compile(r"\[([^\]]*)\]\([^)]*\)")
+
+
+def strip_links(text: str) -> str:
+    """Koptekst zonder linkmarkup, zodat de slug op de zichtbare tekst slaat."""
+    return LINK_MARKUP_RE.sub(r"\1", text)
 
 
 def slug(text: str) -> str:
@@ -154,12 +160,12 @@ def main() -> int:
                 problems.append(f"stories.md: {m.group(1)} zonder eenduidige featurecel")
                 continue
             story_feature[m.group(1)] = features[0]
-            for rel_path, fragment in EIS_LINK_RE.findall(c[4]):
-                requirement_links.setdefault(
-                    (os.path.basename(rel_path), fragment), set()).add(m.group(1))
-            if not re.search(r"functionele-eis-\d{4}", c[4]) and c[4] != "geen":
-                problems.append(f"stories.md: {m.group(1)} Functionele-eisen-cel "
-                                f"noch eis-link noch \"geen\"")
+            stromen = set(STROOM_LINK_RE.findall(c[4]))
+            if stromen:
+                requirement_links[m.group(1)] = stromen
+            elif c[4] != "geen":
+                problems.append(f"stories.md: {m.group(1)} Ingevuld-door-cel "
+                                f"noch berichtstroomlink noch \"geen\"")
     stories_backward: dict[str, set[str]] = {}
     for story, feature in story_feature.items():
         stories_backward.setdefault(feature, set()).add(story)
@@ -172,36 +178,38 @@ def main() -> int:
                 f"{sorted(feature_stories.get(feature, []))} "
                 f"!= terugwijzend {sorted(stories_backward.get(feature, []))}")
 
-    # 5 en 6. story -> functionele eis en de terugleiding in de koppelingspecificaties
+    # 5 en 6. story -> berichtstroom en de terugleiding in de koppelingspecificaties
     ks_dir = os.path.normpath(os.path.join(tree_dir, "..", "..",
                                            "Koppelvlakspecificaties", "Koppelingspecificaties"))
     total_links = sum(len(v) for v in requirement_links.values())
     if os.path.isdir(ks_dir):
         ks_texts = {name: read_text(os.path.join(ks_dir, name))
                     for name in os.listdir(ks_dir) if name.endswith(".md")}
-        reverse: dict[tuple[str, str], set[str]] = {}
+        koppen = {name: {slug(strip_links(m.group(2)))
+                         for m in HEADING_RE.finditer(content)}
+                  for name, content in ks_texts.items()}
+        reverse: dict[str, set[tuple[str, str]]] = {}
         for name, content in ks_texts.items():
             for row in content.splitlines():
-                m = re.match(r'\| <a id="(functionele-eis-\d{4})"></a>\1 \|', row)
+                m = re.match(r"\| \[(story-\d{4})\]\([^)]*\) \|", row)
                 if not m:
                     continue
-                c = cells(row)
-                stories = set(re.findall(r"\[(story-\d{4})\]", c[3])) if len(c) > 3 else set()
-                if not stories and (len(c) < 4 or c[3] != "geen"):
-                    problems.append(f"{name}: {m.group(1)} Story-cel noch links noch \"geen\"")
-                reverse[(name, m.group(1))] = stories
-        for (name, eis), stories in requirement_links.items():
-            if (name, eis) not in reverse:
-                problems.append(f"stories.md: link naar {eis} zonder rij-anker in {name}")
-            elif reverse[(name, eis)] != stories:
+                ankers = set(re.findall(r"\]\(#([\w\-]+)\)", row))
+                if not ankers:
+                    problems.append(f"{name}: {m.group(1)} zonder berichtstroomlink")
+                reverse.setdefault(m.group(1), set()).update((name, a) for a in ankers)
+        for story, stromen in sorted(requirement_links.items()):
+            for name, anker in sorted(stromen):
+                if name not in ks_texts:
+                    problems.append(f"stories.md: {story} wijst naar onbekende {name}")
+                elif anker not in koppen[name]:
+                    problems.append(f"stories.md: {story} wijst naar #{anker}, "
+                                    f"geen kop in {name}")
+        for story in sorted(set(requirement_links) | set(reverse)):
+            if requirement_links.get(story, set()) != reverse.get(story, set()):
                 problems.append(
-                    f"terugleiding: {name} {eis} Story-cel {sorted(reverse[(name, eis)])} "
-                    f"!= stories.md {sorted(stories)}")
-        for (name, eis), stories in reverse.items():
-            if stories and (name, eis) not in requirement_links:
-                problems.append(
-                    f"terugleiding: {name} {eis} noemt {sorted(stories)}, "
-                    f"maar stories.md linkt die eis niet")
+                    f"terugleiding: {story} stories.md {sorted(requirement_links.get(story, []))} "
+                    f"!= koppelingspecificaties {sorted(reverse.get(story, []))}")
     else:
         problems.append(f"koppelingspecificaties-map niet gevonden: {ks_dir}")
 
@@ -209,7 +217,7 @@ def main() -> int:
         print(problem)
     print(f"boomcontrole: {len(texts)} bestanden, {len(story_feature)} stories, "
           f"{len(feature_stories)} features, {len(epic_features_cell)} epics, "
-          f"{len(forward)} doelen, {total_links} eis-links, "
+          f"{len(forward)} doelen, {total_links} storykoppelingen, "
           f"{len(problems)} problemen.")
     return 1 if problems else 0
 

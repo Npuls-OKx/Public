@@ -57,12 +57,12 @@ flowchart LR
     OPD["opdracht"] --> DOEL["doel"] --> EPIC["epic"] --> FEAT["feature"] --> STORY["story"]
   end
   subgraph kvs["Koppelvlakspecificaties (deze repository)"]
-    FE["functionele eis"] --> IA["interactie"] --> EP["endpoint"]
+    BS["berichtstroom"] --> AD["applicatiedienst"] --> EP["endpoint"]
   end
   STORY --> FE
 ```
 
-Per koppeling beschrijft een [koppelingspecificatie](../../Koppelvlakspecificaties/Koppelingspecificaties) de interacties; interacties hergebruiken vastgestelde patronen. De kolom Functionele eisen van een story linkt naar de rij van de eis in de koppelingspecificatie; de eis wijst met zijn Story-kolom terug. Het interactieoverzicht somt de interacties op, en de [applicatiediensten](../../Koppelvlakspecificaties/Applicatiediensten) leggen per dienst de verplichtingen en de endpoints vast die haar dragen. Wie een featureset wil ondersteunen, claimt de bijbehorende diensten.
+Per koppeling beschrijft een [koppelingspecificatie](../../Koppelvlakspecificaties/Koppelingspecificaties) welke berichtstromen erover lopen. De kolom Ingevuld door van een story wijst de stroom aan die haar realiseert; die stroom noemt de story terug. Een stroom zet [applicatiediensten](../../Koppelvlakspecificaties/Applicatiediensten) in, en elke dienst legt zijn verplichtingen en endpoints vast. Wie een featureset wil ondersteunen, claimt de bijbehorende diensten.
 
 ## Bijdragen
 

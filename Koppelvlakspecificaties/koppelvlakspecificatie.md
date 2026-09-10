@@ -13,7 +13,7 @@ Versie 0.0.1
 
 Dit document specificeert het koppelvlak van elk systeem dat deelneemt aan de uitwisseling van onderwijsspecificaties. Het beschrijft welke applicatiediensten een systeem implementeert en welke endpoints daarbij horen, per koppeling welk berichtverkeer daaroverheen gaat en in welke volgorde, en welke vorm de uitgewisselde gegevens hebben.
 
-Waar de eisen vandaan komen, staat in de [requirementsboom](#2-requirementsboom): van de opdracht via epics en features naar stories, en vandaar naar de functionele eisen bij de interactiepatronen. Voorschrijven doet het document niet; de [uitgangspunten](#7-uitgangspunten-voor-koppelingspecificaties) leggen die doelbinding vast in U1, samen met negen andere aannames die voor het hele pakket gelden. Elk document noemt zo'n uitgangspunt in één regel en verwijst erheen.
+Waar de eisen vandaan komen staat in de [requirementsboom](#2-requirementsboom): van de opdracht via epics en features naar stories, en vandaar naar de berichtstroom in een koppelingspecificatie die de story invult. Voorschrijven doet het document niet; de [uitgangspunten](#7-uitgangspunten-voor-koppelingspecificaties) leggen die doelbinding vast in U1, samen met negen andere aannames die voor het hele pakket gelden. Elk document noemt zo'n uitgangspunt in één regel en verwijst erheen.
 
 ### 1.1 Kernbegrippen
 
@@ -123,7 +123,7 @@ Die lijn loopt van scenario naar informatiestroom, naar koppeling, naar koppelvl
 - [4 Koppelingspecificaties](#4-koppelingspecificaties)
   - [4.1 Onderwijscatalogus naar planning en roostering](#41-onderwijscatalogus-naar-planning-en-roostering)
     - [4.1.1 Plek in de keten](#411-plek-in-de-keten)
-    - [4.1.2 Functionele eisen](#412-functionele-eisen)
+    - [4.1.2 Stories](#412-stories)
     - [4.1.3 Applicatiediensten](#413-applicatiediensten)
     - [4.1.4 Interactiepatronen](#414-interactiepatronen)
     - [4.1.5 Procesbeeld](#415-procesbeeld)
@@ -139,7 +139,7 @@ Die lijn loopt van scenario naar informatiestroom, naar koppeling, naar koppelvl
     - [4.1.15 Context: doorwerking naar het roostersysteem](#4115-context-doorwerking-naar-het-roostersysteem)
   - [4.2 Onderwijscatalogus naar studentinformatiesysteem](#42-onderwijscatalogus-naar-studentinformatiesysteem)
     - [4.2.1 Plek in de keten](#421-plek-in-de-keten)
-    - [4.2.2 Functionele eisen](#422-functionele-eisen)
+    - [4.2.2 Stories](#422-stories)
     - [4.2.3 Applicatiediensten](#423-applicatiediensten)
     - [4.2.4 Interactiepatronen](#424-interactiepatronen)
     - [4.2.5 Procesbeeld](#425-procesbeeld)
@@ -149,7 +149,7 @@ Die lijn loopt van scenario naar informatiestroom, naar koppeling, naar koppelvl
     - [4.2.9 Acceptatietoets bij wijziging examenplan](#429-acceptatietoets-bij-wijziging-examenplan)
   - [4.3 Onderwijscatalogus naar leermanagementsysteem](#43-onderwijscatalogus-naar-leermanagementsysteem)
     - [4.3.1 Plek in de keten](#431-plek-in-de-keten)
-    - [4.3.2 Functionele eisen](#432-functionele-eisen)
+    - [4.3.2 Stories](#432-stories)
     - [4.3.3 Applicatiediensten](#433-applicatiediensten)
     - [4.3.4 Interactiepatronen](#434-interactiepatronen)
     - [4.3.5 Procesbeeld](#435-procesbeeld)
@@ -293,12 +293,12 @@ flowchart LR
     OPD["opdracht"] --> DOEL["doel"] --> EPIC["epic"] --> FEAT["feature"] --> STORY["story"]
   end
   subgraph kvs["Koppelvlakspecificaties (deze repository)"]
-    FE["functionele eis"] --> IA["interactie"] --> EP["endpoint"]
+    BS["berichtstroom"] --> AD["applicatiedienst"] --> EP["endpoint"]
   end
   STORY --> FE
 ```
 
-Per koppeling beschrijft een [koppelingspecificatie](Koppelingspecificaties) de interacties; interacties hergebruiken vastgestelde patronen. De kolom Functionele eisen van een story linkt naar de rij van de eis in de koppelingspecificatie; de eis wijst met zijn Story-kolom terug. Het interactieoverzicht somt de interacties op, en de [applicatiediensten](Applicatiediensten) leggen per dienst de verplichtingen en de endpoints vast die haar dragen. Wie een featureset wil ondersteunen, claimt de bijbehorende diensten.
+Per koppeling beschrijft een [koppelingspecificatie](Koppelingspecificaties) welke berichtstromen erover lopen. De kolom Ingevuld door van een story wijst de stroom aan die haar realiseert; die stroom noemt de story terug. Een stroom zet [applicatiediensten](Applicatiediensten) in, en elke dienst legt zijn verplichtingen en endpoints vast. Wie een featureset wil ondersteunen, claimt de bijbehorende diensten.
 
 ### 2.4 Bijdragen
 
@@ -398,8 +398,8 @@ Laag 3 van de [requirementsboom](#2-requirementsboom): afgebakend gedrag per [ep
 |---|---|---|---|---|---|
 | <a id="feature-0007"></a>feature-0007 | Catalogus vullen vanuit curriculumontwerp | Alle ketenpartijen binnen de instelling vertrouwen op één actuele, formeel vastgestelde bron voor haar onderwijsspecificaties. | [ADR 0002](../Referentiemateriaal/adr/0002-prioriteitsketen-catalogus-drielagen-fundament.md) | [epic-0002](#epic-0002) | geen |
 | <a id="feature-0008"></a>feature-0008 | Hiërarchische, refereerbare onderwijsspecificatiestructuur | Elk onderdeel van de onderwijsspecificatie is eenduidig herleidbaar en herbruikbaar, ook over leerwegen en doelgroepvarianten heen. | [Meetingverslag 10 juli, besluiten](https://github.com/Npuls-OKx/meta/blob/bd6fc9499b283fe974fd32c87bbb9307e75e7d1b/architecture/meetings/20260710_okx_kernteam_inhoud_specificatie_uitwerken_OC_P/summary.md#besluiten) en [technische details](https://github.com/Npuls-OKx/meta/blob/bd6fc9499b283fe974fd32c87bbb9307e75e7d1b/architecture/meetings/20260710_okx_kernteam_inhoud_specificatie_uitwerken_OC_P/summary.md#technische--implementatiedetails) | [epic-0002](#epic-0002) | [story-0001](#story-0001) |
-| <a id="feature-0009"></a>feature-0009 | Stabiele identiteit en versionering van specificaties | Verwijzingen van afnemers naar een specificatie blijven geldig, ook na inhoudelijke wijzigingen. | [Regels bij de schema's](Datamodelschema%27s/README.md#regels-bij-de-schemas) | [epic-0002](#epic-0002) | [story-0002](#story-0002) |
-| <a id="feature-0010"></a>feature-0010 | Leeromgeving inrichten op de specificatie | De leeromgeving is altijd inhoudelijk consistent met de specificatie, met ruimte voor eigen invulling op lesniveau. | [Koppelingspecificatie OC-LMS](#43-onderwijscatalogus-naar-leermanagementsysteem) | [epic-0002](#epic-0002) | [story-0003](#story-0003) |
+| <a id="feature-0009"></a>feature-0009 | Stabiele identiteit en versionering van specificaties | Verwijzingen van afnemers naar een specificatie blijven geldig, ook na inhoudelijke wijzigingen. | [Regels bij de schema's](Datamodelschema%27s/README.md#regels-bij-de-schemas) | [epic-0002](#epic-0002) | [story-0002](#story-0002); [story-0030](#story-0030); [story-0032](#story-0032) |
+| <a id="feature-0010"></a>feature-0010 | Leeromgeving inrichten op de specificatie | De leeromgeving is altijd inhoudelijk consistent met de specificatie, met ruimte voor eigen invulling op lesniveau. | [Koppelingspecificatie OC-LMS](#43-onderwijscatalogus-naar-leermanagementsysteem) | [epic-0002](#epic-0002) | [story-0003](#story-0003); [story-0029](#story-0029); [story-0031](#story-0031) |
 
 #### 2.8.3 [Aanbod plannen en roosteren](#epic-0003)
 
@@ -462,24 +462,28 @@ Laag 3 van de [requirementsboom](#2-requirementsboom): afgebakend gedrag per [ep
 
 ### 2.9 Stories
 
-Laag 4 van de [requirementsboom](#2-requirementsboom): toetsbare wensen van één actor, per uitgewerkte [epic](#27-epics). Een story traceert via zijn feature terug naar de epic; de kolom Functionele eisen linkt per eis (functionele-eis-id, plat genummerd over de koppelingen heen) naar zijn rij in de [koppelvlakspecificaties](.); elke eis verwijst daar door naar interacties en endpoint-sets, en wie de featureset wil ondersteunen, wordt eigenaar van die endpoints.
+Laag 4 van de [requirementsboom](#2-requirementsboom): toetsbare wensen van één actor, per uitgewerkte [epic](#27-epics). Een story traceert via zijn feature terug naar de epic; de kolom Ingevuld door linkt naar de berichtstroom in een [koppelingspecificatie](Koppelingspecificaties) die de story realiseert. Die stroom noemt de applicatiediensten en het interactiepatroon waarmee dat gebeurt.
 
 #### 2.9.1 [Onderwijsaanbod specificeren en ontsluiten](#epic-0002)
 
-| Id | Story | Feature | Bron | Functionele eisen |
+| Id | Story | Feature | Bron | Ingevuld door |
 |---|---|---|---|---|
 | <a id="story-0001"></a>story-0001 | Als onderwijsontwerper wil ik dat de keten bij publicatie valideert dat de studielast (studiebelastingsuren en studiepunten, SBU/EC) van onderliggende delen optelt naar het bovenliggende niveau, zodat een aggregatiefout tot terugdraaien (rollback) leidt. | [feature-0008 Hiërarchische, refereerbare onderwijsspecificatiestructuur](#feature-0008) | [ADR 0017](../Referentiemateriaal/adr/0017-hierarchisch-datamodel-aanbodstructuur-leeruitkomsten-en-sbuec-aggregatie.md) | geen |
-| <a id="story-0002"></a>story-0002 | Als planner wil ik dat bij een specificatie-update de vorige versie actief blijft voor lopend aanbod en de nieuwe alleen op nieuw aanbod geldt, zodat lopende planningen niet breken. | [feature-0009 Stabiele identiteit en versionering van specificaties](#feature-0009) | [Archief leerroute-uitwerking §19, F10](https://github.com/Npuls-OKx/meta/blob/bd6fc9499b283fe974fd32c87bbb9307e75e7d1b/architecture/docs/specificatie/leerroute-uitwerking/doc/archief-conceptmodellen.md#19-faalmatrix--overzicht-ketenfaalmodi) | [functionele-eis-0004](#functionele-eis-0004) |
-| <a id="story-0003"></a>story-0003 | Als onderwijsontwikkelaar wil ik dat het leermanagementsysteem de gelegde leermiddelkoppeling als eigen resource terugmeldt, zodat de catalogus die kan ophalen en tonen bij het aanbod. | [feature-0010 Leeromgeving inrichten op de specificatie](#feature-0010) | [Interactiepatroon OC-LMS, interactieoverzicht](#436-interactieoverzicht) | [functionele-eis-0011](#functionele-eis-0011) |
+| <a id="story-0002"></a>story-0002 | Als planner wil ik dat bij een specificatie-update de vorige versie actief blijft voor lopend aanbod en de nieuwe alleen op nieuw aanbod geldt, zodat lopende planningen niet breken. | [feature-0009 Stabiele identiteit en versionering van specificaties](#feature-0009) | [Archief leerroute-uitwerking §19, F10](https://github.com/Npuls-OKx/meta/blob/bd6fc9499b283fe974fd32c87bbb9307e75e7d1b/architecture/docs/specificatie/leerroute-uitwerking/doc/archief-conceptmodellen.md#19-faalmatrix--overzicht-ketenfaalmodi) | [Acceptatietoets bij late wijziging](#4111-acceptatietoets-bij-late-wijziging) |
+| <a id="story-0003"></a>story-0003 | Als onderwijsontwikkelaar wil ik dat het leermanagementsysteem de gelegde leermiddelkoppeling als eigen resource terugmeldt, zodat de catalogus die kan ophalen en tonen bij het aanbod. | [feature-0010 Leeromgeving inrichten op de specificatie](#feature-0010) | [Koppelingspecificatie OC-LMS, interactieoverzicht](#436-interactieoverzicht) | [Leeromgeving inrichten en leermiddelkoppeling melden](#438-leeromgeving-inrichten-en-leermiddelkoppeling-melden) |
+| <a id="story-0029"></a>story-0029 | Als onderwijsontwikkelaar wil ik dat het leermanagementsysteem na de beschikbaar-melding de specificatiestructuur ophaalt, de leeromgeving inricht en de inrichtingsstatus met referentie terugmeldt, zodat de catalogus weet of de leeromgeving klaarstaat. | [feature-0010 Leeromgeving inrichten op de specificatie](#feature-0010) | [Koppelingspecificatie OC-LMS](#43-onderwijscatalogus-naar-leermanagementsysteem) | [Leeromgeving inrichten en leermiddelkoppeling melden](#438-leeromgeving-inrichten-en-leermiddelkoppeling-melden) |
+| <a id="story-0030"></a>story-0030 | Als planner wil ik bij een specificatiewijziging alleen het verschil met de vorige versie kunnen ophalen, zodat ik de planning kan bijwerken zonder de volledige structuur opnieuw te verwerken. | [feature-0009 Stabiele identiteit en versionering van specificaties](#feature-0009) | [Koppelingspecificatie OC-P&R](#41-onderwijscatalogus-naar-planning-en-roostering) | [Opleidingsaanbod herplannen](#419-opleidingsaanbod-herplannen) |
+| <a id="story-0031"></a>story-0031 | Als onderwijsontwikkelaar wil ik dat het leermanagementsysteem zijn inrichting bijwerkt op het verschil met de vorige specificatieversie, zodat een wijziging niet de volledige structuur opnieuw hoeft te doorlopen. | [feature-0010 Leeromgeving inrichten op de specificatie](#feature-0010) | [Koppelingspecificatie OC-LMS](#43-onderwijscatalogus-naar-leermanagementsysteem) | [Inrichting bijwerken na wijziging](#439-inrichting-bijwerken-na-wijziging) |
+| <a id="story-0032"></a>story-0032 | Als beheerder van de onderwijscatalogus wil ik een statuswijziging kunnen melden die niet aan een nieuwe versie hangt, zoals van gepubliceerd naar gedeactiveerd, zodat afnemers hun afgeleide status bijwerken zonder herplanronde. | [feature-0009 Stabiele identiteit en versionering van specificaties](#feature-0009) | [Koppelingspecificatie OC-P&R](#41-onderwijscatalogus-naar-planning-en-roostering) | [Specificatiestatus gewijzigd melden](#4112-specificatiestatus-gewijzigd-melden) |
 
 #### 2.9.2 [Aanbod plannen en roosteren](#epic-0003)
 
-| Id | Story | Feature | Bron | Functionele eisen |
+| Id | Story | Feature | Bron | Ingevuld door |
 |---|---|---|---|---|
 | <a id="story-0004"></a>story-0004 | Als roosteraar wil ik geroosterd aanbod per periode publiceren en beschikbaar stellen aan student en docent, zodat latere perioden planbaar blijven. | [feature-0011 Drie stadia van onderwijsaanbod](#feature-0011) | [Scenario 1.1](https://github.com/Npuls-OKx/meta/blob/bd6fc9499b283fe974fd32c87bbb9307e75e7d1b/architecture/docs/specificatie/leerroute-uitwerking/doc/scenario-uitwerkingen/scenario-1.1-regulier-happyflow.md) | geen |
 | <a id="story-0005"></a>story-0005 | Als student wil ik voor de start van het onderwijs toegang tot het leermanagementsysteem en mijn periode-rooster krijgen, zodat ik op de eerste lesdag kan beginnen. | [feature-0011 Drie stadia van onderwijsaanbod](#feature-0011) | [Scenario 1.1](https://github.com/Npuls-OKx/meta/blob/bd6fc9499b283fe974fd32c87bbb9307e75e7d1b/architecture/docs/specificatie/leerroute-uitwerking/doc/scenario-uitwerkingen/scenario-1.1-regulier-happyflow.md) | geen |
-| <a id="story-0006"></a>story-0006 | Als planner wil ik dat de catalogus een planbaar geworden specificatie met een dun event (id en versie) meldt en ik de structuur of delta kan ophalen, zodat ik er opleidingsaanbod van kan maken. | [feature-0013 Geldig, gefaseerd aanbod afleiden](#feature-0013) | [Interactiepatroon OC-P&R, interactieoverzicht](#416-interactieoverzicht) | [functionele-eis-0001](#functionele-eis-0001) |
-| <a id="story-0007"></a>story-0007 | Als onderwijsontwikkelaar wil ik dat planning en roostering de verwerkingsstatus met referentie naar het opleidingsaanbod terugmeldt, zodat de catalogus weet of de specificatie planbaar bleek. | [feature-0013 Geldig, gefaseerd aanbod afleiden](#feature-0013) | [Interactiepatroon OC-P&R, interactieoverzicht](#416-interactieoverzicht) | [functionele-eis-0001](#functionele-eis-0001) en [functionele-eis-0003](#functionele-eis-0003) |
+| <a id="story-0006"></a>story-0006 | Als planner wil ik dat de catalogus een planbaar geworden specificatie met een dun event (id en versie) meldt en ik de structuur of delta kan ophalen, zodat ik er opleidingsaanbod van kan maken. | [feature-0013 Geldig, gefaseerd aanbod afleiden](#feature-0013) | [Koppelingspecificatie OC-P&R, interactieoverzicht](#416-interactieoverzicht) | [Opleidingsaanbod aanmaken](#418-opleidingsaanbod-aanmaken) |
+| <a id="story-0007"></a>story-0007 | Als onderwijsontwikkelaar wil ik dat planning en roostering de verwerkingsstatus met referentie naar het opleidingsaanbod terugmeldt, zodat de catalogus weet of de specificatie planbaar bleek. | [feature-0013 Geldig, gefaseerd aanbod afleiden](#feature-0013) | [Koppelingspecificatie OC-P&R, interactieoverzicht](#416-interactieoverzicht) | [Opleidingsaanbod aanmaken](#418-opleidingsaanbod-aanmaken) en [Planning niet gelukt melden](#4110-planning-niet-gelukt-melden) |
 | <a id="story-0008"></a>story-0008 | Als planner wil ik per combinatie keuzedeel, locatie en periode bepalen hoeveel groepen ik beschikbaar stel, zodat keuzes stabiel tussen systemen uitwisselbaar zijn. | [feature-0013 Geldig, gefaseerd aanbod afleiden](#feature-0013) | [Keuze-requirements R4](https://github.com/Npuls-OKx/meta/blob/bd6fc9499b283fe974fd32c87bbb9307e75e7d1b/architecture/docs/specificatie/student-keuze/keuze-requirements.md#6-requirements) | geen |
 | <a id="story-0026"></a>story-0026 | Als planner wil ik leergelegenheden uit een latere periode vervroegd kunnen roosteren en hun capaciteit kunnen uitbreiden voor een versnellende student, zodat versnelling zonder herontwerp van de route kan. | [feature-0013 Geldig, gefaseerd aanbod afleiden](#feature-0013) | [Scenario 1.3](https://github.com/Npuls-OKx/meta/blob/bd6fc9499b283fe974fd32c87bbb9307e75e7d1b/architecture/docs/specificatie/leerroute-uitwerking/doc/scenario-uitwerkingen/scenario-1.3-regulier-versnelling-by-accident.md) | geen |
 | <a id="story-0028"></a>story-0028 | Als student wil ik gemiste leergelegenheden in een latere periode kunnen inhalen, zodat ik met beperkte uitloop mijn diploma haal. | [feature-0013 Geldig, gefaseerd aanbod afleiden](#feature-0013) | [Scenario 1.2](https://github.com/Npuls-OKx/meta/blob/bd6fc9499b283fe974fd32c87bbb9307e75e7d1b/architecture/docs/specificatie/leerroute-uitwerking/doc/scenario-uitwerkingen/scenario-1.2-regulier-vertraging-by-accident.md) | geen |
@@ -487,14 +491,14 @@ Laag 4 van de [requirementsboom](#2-requirementsboom): toetsbare wensen van éé
 
 #### 2.9.3 [Betrouwbare en vervangbare koppelingen](#epic-0004)
 
-| Id | Story | Feature | Bron | Functionele eisen |
+| Id | Story | Feature | Bron | Ingevuld door |
 |---|---|---|---|---|
-| <a id="story-0010"></a>story-0010 | Als beheerder van een afnemend systeem wil ik een afleveradres met event-typen kunnen registreren voordat events afgeleverd worden, zodat de aflevering vastligt. | [feature-0016 Betrouwbaar berichtenverkeer](#feature-0016) | [Interactiepatroon OC-P&R, abonnement registreren](#4114-abonnement-registreren) | [functionele-eis-0007](#functionele-eis-0007) |
-| <a id="story-0011"></a>story-0011 | Als beheerder van een afnemend systeem wil ik na een gemist of onverwerkbaar event de gepubliceerde specificaties en aanbod-instanties opnieuw kunnen opvragen, zodat uitval geen informatie kost. | [feature-0016 Betrouwbaar berichtenverkeer](#feature-0016) | [Interactiepatroon OC-P&R, reconciliatie](#4113-reconciliatie-na-gemist-event) | [functionele-eis-0006](#functionele-eis-0006) |
+| <a id="story-0010"></a>story-0010 | Als beheerder van een afnemend systeem wil ik een afleveradres met event-typen kunnen registreren voordat events afgeleverd worden, zodat de aflevering vastligt. | [feature-0016 Betrouwbaar berichtenverkeer](#feature-0016) | [Koppelingspecificatie OC-P&R, abonnement registreren](#4114-abonnement-registreren) | [Abonnement registreren](#4114-abonnement-registreren) |
+| <a id="story-0011"></a>story-0011 | Als beheerder van een afnemend systeem wil ik na een gemist of onverwerkbaar event de gepubliceerde specificaties en aanbod-instanties opnieuw kunnen opvragen, zodat uitval geen informatie kost. | [feature-0016 Betrouwbaar berichtenverkeer](#feature-0016) | [Koppelingspecificatie OC-P&R, reconciliatie](#4113-reconciliatie-na-gemist-event) | [Reconciliatie na gemist event](#4113-reconciliatie-na-gemist-event) |
 
 #### 2.9.4 [Student kiest onderwijsspecificaties](#epic-0006)
 
-| Id | Story | Feature | Bron | Functionele eisen |
+| Id | Story | Feature | Bron | Ingevuld door |
 |---|---|---|---|---|
 | <a id="story-0012"></a>story-0012 | Als student wil ik dezelfde opleiding by design in een lager tempo kunnen volgen, bijvoorbeeld vier in plaats van drie jaar, zodat ik studeren met werk en gezin kan combineren. | [feature-0024 Kiesbaarheid bepalen](#feature-0024) | [Scenario 2.1](https://github.com/Npuls-OKx/meta/blob/bd6fc9499b283fe974fd32c87bbb9307e75e7d1b/architecture/docs/specificatie/leerroute-uitwerking/doc/scenario-uitwerkingen/scenario-2.1-temporiseren-by-design.md) | geen |
 | <a id="story-0013"></a>story-0013 | Als student wil ik eerst de door mijn instelling voorgesorteerde keuzedelen zien, zodat ik gericht kan kiezen binnen mijn leerroute en keuzedeelruimte. | [feature-0024 Kiesbaarheid bepalen](#feature-0024) | [Persona Jochem, kiezen keuzedelen (instellingsjourney)](https://github.com/Npuls-OKx/meta/blob/bd6fc9499b283fe974fd32c87bbb9307e75e7d1b/architecture/docs/specificatie/leerroute-uitwerking/doc/persona_jochem.md#instellingsjourney-kiezen-keuzedelen) | geen |
@@ -507,19 +511,19 @@ Laag 4 van de [requirementsboom](#2-requirementsboom): toetsbare wensen van éé
 
 #### 2.9.5 [Keuze en verbintenis vastleggen](#epic-0007)
 
-| Id | Story | Feature | Bron | Functionele eisen |
+| Id | Story | Feature | Bron | Ingevuld door |
 |---|---|---|---|---|
 | <a id="story-0025"></a>story-0025 | Als student wil ik dat mijn verbintenis bij uitval wordt onderbroken en daarna hervat, zodat mijn opleiding na de uitval gewoon doorloopt. | [feature-0030 Verbintenis als toestandsmachine per niveau](#feature-0030) | [Scenario 1.2](https://github.com/Npuls-OKx/meta/blob/bd6fc9499b283fe974fd32c87bbb9307e75e7d1b/architecture/docs/specificatie/leerroute-uitwerking/doc/scenario-uitwerkingen/scenario-1.2-regulier-vertraging-by-accident.md) | geen |
 | <a id="story-0027"></a>story-0027 | Als instelling wil ik per werkproces de actuele verbintenisstatus kunnen vaststellen, zodat zichtbaar is dat een student in totaal op tempo is maar per werkproces uit ritme. | [feature-0030 Verbintenis als toestandsmachine per niveau](#feature-0030) | [Scenario 1.4](https://github.com/Npuls-OKx/meta/blob/bd6fc9499b283fe974fd32c87bbb9307e75e7d1b/architecture/docs/specificatie/leerroute-uitwerking/doc/scenario-uitwerkingen/scenario-1.4-regulier-hybride-by-accident.md) | geen |
-| <a id="story-0020"></a>story-0020 | Als examencommissie wil ik dat een examenplanwijziging op een resultaatstructuur waarop verbintenissen lopen eerst een acceptatietoets doorloopt, zodat lopende verbintenissen beschermd blijven. | [feature-0032 Examenplanwijzigingen alleen na impactanalyse](#feature-0032) | [Interactiepatroon OC-SIS, acceptatietoets](#429-acceptatietoets-bij-wijziging-examenplan) | [functionele-eis-0009](#functionele-eis-0009) |
+| <a id="story-0020"></a>story-0020 | Als examencommissie wil ik dat een examenplanwijziging op een resultaatstructuur waarop verbintenissen lopen eerst een acceptatietoets doorloopt, zodat lopende verbintenissen beschermd blijven. | [feature-0032 Examenplanwijzigingen alleen na impactanalyse](#feature-0032) | [Koppelingspecificatie OC-SIS, acceptatietoets](#429-acceptatietoets-bij-wijziging-examenplan) | [Acceptatietoets bij wijziging examenplan](#429-acceptatietoets-bij-wijziging-examenplan) |
 
 #### 2.9.6 [Voortgang en resultaat op leeruitkomsten](#epic-0008)
 
-| Id | Story | Feature | Bron | Functionele eisen |
+| Id | Story | Feature | Bron | Ingevuld door |
 |---|---|---|---|---|
 | <a id="story-0021"></a>story-0021 | Als docent wil ik tijdens de uitvoering per les de verbintenistoestand (Association.state) van studenten muteren en resultaten vastleggen, zodat voortgang en resultaat herleidbaar zijn. | [feature-0033 Resultaatstructuur inrichten en resultaten registreren](#feature-0033) | [Scenario 1.1](https://github.com/Npuls-OKx/meta/blob/bd6fc9499b283fe974fd32c87bbb9307e75e7d1b/architecture/docs/specificatie/leerroute-uitwerking/doc/scenario-uitwerkingen/scenario-1.1-regulier-happyflow.md) | geen |
-| <a id="story-0022"></a>story-0022 | Als onderwijsontwikkelaar wil ik dat het studentinformatiesysteem na de beschikbaar-melding de specificatiestructuur en de resultaatstructuur ophaalt en het nominale template inricht, zodat het onderwijs administratief klaarstaat. | [feature-0033 Resultaatstructuur inrichten en resultaten registreren](#feature-0033) | [Interactiepatroon OC-SIS, inrichten](#428-nominaal-template-en-resultaatstructuur-inrichten) | [functionele-eis-0008](#functionele-eis-0008) |
-| <a id="story-0023"></a>story-0023 | Als onderwijsontwikkelaar wil ik dat het studentinformatiesysteem de inrichtingsstatus met referentie terugmeldt, zodat de catalogus weet of het onderwijs klaarstaat. | [feature-0033 Resultaatstructuur inrichten en resultaten registreren](#feature-0033) | [Interactiepatroon OC-SIS, inrichten](#428-nominaal-template-en-resultaatstructuur-inrichten) | [functionele-eis-0008](#functionele-eis-0008) |
+| <a id="story-0022"></a>story-0022 | Als onderwijsontwikkelaar wil ik dat het studentinformatiesysteem na de beschikbaar-melding de specificatiestructuur en de resultaatstructuur ophaalt en het nominale template inricht, zodat het onderwijs administratief klaarstaat. | [feature-0033 Resultaatstructuur inrichten en resultaten registreren](#feature-0033) | [Koppelingspecificatie OC-SIS, inrichten](#428-nominaal-template-en-resultaatstructuur-inrichten) | [Nominaal template en resultaatstructuur inrichten](#428-nominaal-template-en-resultaatstructuur-inrichten) |
+| <a id="story-0023"></a>story-0023 | Als onderwijsontwikkelaar wil ik dat het studentinformatiesysteem de inrichtingsstatus met referentie terugmeldt, zodat de catalogus weet of het onderwijs klaarstaat. | [feature-0033 Resultaatstructuur inrichten en resultaten registreren](#feature-0033) | [Koppelingspecificatie OC-SIS, inrichten](#428-nominaal-template-en-resultaatstructuur-inrichten) | [Nominaal template en resultaatstructuur inrichten](#428-nominaal-template-en-resultaatstructuur-inrichten) |
 | <a id="story-0024"></a>story-0024 | Als student wil ik vrijstellingen kunnen aanvragen op basis van eerder behaalde resultaten of aangetoonde competenties, zodat ik mijn opleiding versneld kan afronden. | [feature-0036 Toetsing zodra het leeruitkomst-niveau is behaald](#feature-0036) | [Persona Linda, examineren](https://github.com/Npuls-OKx/meta/blob/bd6fc9499b283fe974fd32c87bbb9307e75e7d1b/architecture/docs/specificatie/leerroute-uitwerking/doc/persona_linda.md#examineren) | geen |
 
 
@@ -717,17 +721,19 @@ De koppeling tussen de onderwijscatalogus en het planningssysteem: welke informa
 
 De uitsnede komt uit de informatiestromen-hoofdplaat v1.7 (richtinggevend; de legenda draagt nog "concept"), met deze koppeling gemarkeerd. De koppelvlakken van beide componenten staan bij de [onderwijscatalogus](#32-onderwijscatalogus-oc) en het [planningssysteem](#33-planningssysteem-p).
 
-#### 4.1.2 Functionele eisen
+#### 4.1.2 Stories
 
-| Id | Functionele eis | Interactie | Story |
-|---|---|---|---|
-| <a id="functionele-eis-0001"></a>functionele-eis-0001 | De onderwijscatalogus moet het planningssysteem kunnen laten weten dat een specificatie gereed is om te plannen, en het planningssysteem moet daarop een opleidingsaanbod met referentie kunnen terugleveren | [Opleidingsaanbod aanmaken](#418-opleidingsaanbod-aanmaken) | [story-0006](#story-0006); [story-0007](#story-0007) |
-| <a id="functionele-eis-0002"></a>functionele-eis-0002 | Het planningssysteem moet de planning kunnen bijwerken wanneer een specificatie wijzigt, zonder verplicht de volledige structuur opnieuw te ontvangen | [Opleidingsaanbod herplannen](#419-opleidingsaanbod-herplannen) | geen |
-| <a id="functionele-eis-0003"></a>functionele-eis-0003 | De onderwijscatalogus moet kunnen weten wanneer een specificatie voor een of meer cohorten niet planbaar blijkt in een schooljaar, inclusief de reden | [Planning niet gelukt melden](#4110-planning-niet-gelukt-melden) | [story-0007](#story-0007) |
-| <a id="functionele-eis-0004"></a>functionele-eis-0004 | Een afgeronde planning moet beschermd zijn tegen een specificatiewijziging die er ongecontroleerd doorheen breekt | [Acceptatietoets bij late wijziging](#4111-acceptatietoets-bij-late-wijziging) | [story-0002](#story-0002) |
-| <a id="functionele-eis-0005"></a>functionele-eis-0005 | De onderwijscatalogus moet een statuswijziging kunnen melden die niet aan een nieuwe versie hangt, los van het wijzigingsproces | [Specificatiestatus gewijzigd melden](#4112-specificatiestatus-gewijzigd-melden) | geen |
-| <a id="functionele-eis-0006"></a>functionele-eis-0006 | Beide partijen moeten na een gemist event de informatie alsnog kunnen ophalen | [Reconciliatie na gemist event](#4113-reconciliatie-na-gemist-event) | [story-0011](#story-0011) |
-| <a id="functionele-eis-0007"></a>functionele-eis-0007 | Beide partijen moeten een afleveradres kunnen vastleggen voordat events afgeleverd worden | [Abonnement registreren](#4114-abonnement-registreren) | [story-0010](#story-0010) |
+De stories uit de [requirementsboom](#2-requirementsboom) die deze koppeling invult, met de berichtstroom die dat doet.
+
+| Story | Ingevuld door |
+|---|---|
+| [story-0006](#story-0006) | [Opleidingsaanbod aanmaken](#418-opleidingsaanbod-aanmaken) |
+| [story-0007](#story-0007) | [Opleidingsaanbod aanmaken](#418-opleidingsaanbod-aanmaken) en [Planning niet gelukt melden](#4110-planning-niet-gelukt-melden) |
+| [story-0030](#story-0030) | [Opleidingsaanbod herplannen](#419-opleidingsaanbod-herplannen) |
+| [story-0002](#story-0002) | [Acceptatietoets bij late wijziging](#4111-acceptatietoets-bij-late-wijziging) |
+| [story-0032](#story-0032) | [Specificatiestatus gewijzigd melden](#4112-specificatiestatus-gewijzigd-melden) |
+| [story-0011](#story-0011) | [Reconciliatie na gemist event](#4113-reconciliatie-na-gemist-event) |
+| [story-0010](#story-0010) | [Abonnement registreren](#4114-abonnement-registreren) |
 
 #### 4.1.3 Applicatiediensten
 
@@ -1043,12 +1049,15 @@ De koppeling tussen de onderwijscatalogus en het studentinformatiesysteem: welke
 
 De uitsnede komt uit de informatiestromen-hoofdplaat v1.7 (richtinggevend; de legenda draagt nog "concept"), met deze koppeling gemarkeerd. De koppelvlakken van beide componenten staan bij de [onderwijscatalogus](#32-onderwijscatalogus-oc) en het [studentinformatiesysteem](#34-studentinformatiesysteem-sis).
 
-#### 4.2.2 Functionele eisen
+#### 4.2.2 Stories
 
-| Id | Functionele eis | Interactie | Story |
-|---|---|---|---|
-| <a id="functionele-eis-0008"></a>functionele-eis-0008 | De onderwijscatalogus moet het studentinformatiesysteem kunnen laten weten dat een specificatie en resultaatstructuur beschikbaar zijn om het nominale template en de resultaatstructuur op in te richten, en het studentinformatiesysteem moet daarop een inrichtingsstatus met referentie kunnen terugleveren | [Nominaal template en resultaatstructuur inrichten](#428-nominaal-template-en-resultaatstructuur-inrichten) | [story-0022](#story-0022); [story-0023](#story-0023) |
-| <a id="functionele-eis-0009"></a>functionele-eis-0009 | Een ingerichte resultaatstructuur waarop al verbintenissen lopen moet beschermd zijn tegen een examenplanwijziging die er ongecontroleerd doorheen breekt | [Acceptatietoets bij wijziging examenplan](#429-acceptatietoets-bij-wijziging-examenplan) | [story-0020](#story-0020) |
+De stories uit de [requirementsboom](#2-requirementsboom) die deze koppeling invult, met de berichtstroom die dat doet.
+
+| Story | Ingevuld door |
+|---|---|
+| [story-0022](#story-0022) | [Nominaal template en resultaatstructuur inrichten](#428-nominaal-template-en-resultaatstructuur-inrichten) |
+| [story-0023](#story-0023) | [Nominaal template en resultaatstructuur inrichten](#428-nominaal-template-en-resultaatstructuur-inrichten) |
+| [story-0020](#story-0020) | [Acceptatietoets bij wijziging examenplan](#429-acceptatietoets-bij-wijziging-examenplan) |
 
 #### 4.2.3 Applicatiediensten
 
@@ -1184,13 +1193,15 @@ De koppeling tussen de onderwijscatalogus en het leermanagementsysteem: welke in
 
 De uitsnede komt uit de informatiestromen-hoofdplaat v1.7 (richtinggevend; de legenda draagt nog "concept"), met deze koppeling gemarkeerd. De koppelvlakken van beide componenten staan bij de [onderwijscatalogus](#32-onderwijscatalogus-oc) en het [leermanagementsysteem](#35-leermanagementsysteem-lms).
 
-#### 4.3.2 Functionele eisen
+#### 4.3.2 Stories
 
-| Id | Functionele eis | Interactie | Story |
-|---|---|---|---|
-| <a id="functionele-eis-0010"></a>functionele-eis-0010 | De onderwijscatalogus moet het leermanagementsysteem kunnen laten weten dat een specificatie beschikbaar is om de leeromgeving op in te richten, en het leermanagementsysteem moet daarop een inrichtingsstatus met referentie kunnen terugleveren | [Leeromgeving inrichten en leermiddelkoppeling melden](#438-leeromgeving-inrichten-en-leermiddelkoppeling-melden) | geen |
-| <a id="functionele-eis-0011"></a>functionele-eis-0011 | Het leermanagementsysteem moet een leermiddelkoppeling die het heeft gelegd aan de onderwijscatalogus kunnen melden, zodat die de leermiddelen bij het aanbod kan tonen | [Leeromgeving inrichten en leermiddelkoppeling melden](#438-leeromgeving-inrichten-en-leermiddelkoppeling-melden) | [story-0003](#story-0003) |
-| <a id="functionele-eis-0012"></a>functionele-eis-0012 | Het leermanagementsysteem moet zijn inrichting kunnen bijwerken wanneer een specificatie wijzigt, zonder verplicht de volledige structuur opnieuw te ontvangen | [Inrichting bijwerken na wijziging](#439-inrichting-bijwerken-na-wijziging) | geen |
+De stories uit de [requirementsboom](#2-requirementsboom) die deze koppeling invult, met de berichtstroom die dat doet.
+
+| Story | Ingevuld door |
+|---|---|
+| [story-0003](#story-0003) | [Leeromgeving inrichten en leermiddelkoppeling melden](#438-leeromgeving-inrichten-en-leermiddelkoppeling-melden) |
+| [story-0029](#story-0029) | [Leeromgeving inrichten en leermiddelkoppeling melden](#438-leeromgeving-inrichten-en-leermiddelkoppeling-melden) |
+| [story-0031](#story-0031) | [Inrichting bijwerken na wijziging](#439-inrichting-bijwerken-na-wijziging) |
 
 #### 4.3.3 Applicatiediensten
 
