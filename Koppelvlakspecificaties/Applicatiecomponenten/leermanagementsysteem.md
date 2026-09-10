@@ -8,12 +8,16 @@ Het leermanagementsysteem is de online leeromgeving waarin de student het onderw
 
 De view toont het koppelvlak van het leermanagementsysteem: de optelsom van zijn koppelingen op de informatiestromen-hoofdplaat v1.7.
 
-## Endpoints
+## Applicatiediensten
 
-Endpoints die LMS zelf implementeert. Authenticatie op elk endpoint: [auth-standaard](../auth-standaard.md).
+Dit component implementeert de volgende [applicatiediensten](../Applicatiediensten/README.md):
 
-| Endpoint/event | Methode | Parameters | Request | Response | Statuscodes | Interacties |
-|---|---|---|---|---|---|---|
-| `/leermiddelkoppelingen/{id}` | GET | — | — | Leermiddelkoppeling-instantie: leermiddelgroepen per specificatie (payload nog uit te werken) | 200, 400, 404 | L5 |
-| `specificatie-beschikbaar` | POST | — | [specification-reference.json](../Datamodelschema's/specification-reference.json) | — | 200 | L1 |
-| `specificatie-gewijzigd` | POST | — | [specification-changed.json](../Datamodelschema's/specification-changed.json) | — | 200 | L6 |
+- [onderwijsspecificatiestructuur-afnemer](../Applicatiediensten/onderwijsspecificatiestructuur-afnemer.md)
+- [leermiddelkoppeling-aanbieder](../Applicatiediensten/leermiddelkoppeling-aanbieder.md)
+- [verwerkingsuitkomst-aanbieder](../Applicatiediensten/verwerkingsuitkomst-aanbieder.md)
+
+## Koppelingen
+
+Het treedt op in deze koppelingen:
+
+- [Onderwijscatalogus naar leermanagementsysteem](../Koppelingspecificaties/onderwijscatalogus-leermanagementsysteem.md)

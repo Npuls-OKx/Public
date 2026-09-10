@@ -2,7 +2,7 @@
 """Testgevallen voor scripts/validate-requirementsboom-navigatie.py.
 
 Elk testgeval volgt de given-when-then-conventie:
-- Given: een verse kopie van de requirementsboom plus de interactiepatronen,
+- Given: een verse kopie van de requirementsboom plus de koppelingspecificaties,
   al dan niet met precies een geinjecteerde breuk;
 - When: het validatiescript draait tegen die kopie;
 - Then: exitcode en melding zijn zoals verwacht.
@@ -19,7 +19,7 @@ import unittest
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SCRIPT = os.path.join(REPO_ROOT, "scripts", "validate-requirementsboom-navigatie.py")
 TREE_DIR = os.path.join(REPO_ROOT, "Referentiemateriaal", "requirementsboom")
-IP_DIR = os.path.join(REPO_ROOT, "Koppelvlakspecificaties", "Interactiepatronen")
+KS_DIR = os.path.join(REPO_ROOT, "Koppelvlakspecificaties", "Koppelingspecificaties")
 
 
 def run_validator(tree_dir: str) -> tuple[int, str]:
@@ -30,10 +30,10 @@ def run_validator(tree_dir: str) -> tuple[int, str]:
 
 
 def copy_tree(tmp: str) -> str:
-    """Kopieer boom en interactiepatronen in de echte mappenstructuur."""
+    """Kopieer boom en koppelingspecificaties in de echte mappenstructuur."""
     boom = os.path.join(tmp, "Referentiemateriaal", "requirementsboom")
     shutil.copytree(TREE_DIR, boom)
-    shutil.copytree(IP_DIR, os.path.join(tmp, "Koppelvlakspecificaties", "Interactiepatronen"))
+    shutil.copytree(KS_DIR, os.path.join(tmp, "Koppelvlakspecificaties", "Koppelingspecificaties"))
     return boom
 
 
@@ -74,7 +74,7 @@ class BrokenTreeTest(unittest.TestCase):
 
     def assert_break_detected(self, rel_file: str, old: str, new: str,
                               expected_fragment: str) -> None:
-        # Given: een verse kopie van boom en interactiepatronen met precies
+        # Given: een verse kopie van boom en koppelingspecificaties met precies
         # een geinjecteerde breuk (rel_file is relatief aan de kopie-root)
         with tempfile.TemporaryDirectory() as tmp:
             boom = copy_tree(tmp)
@@ -91,7 +91,7 @@ class BrokenTreeTest(unittest.TestCase):
             self.assertIn(expected_fragment, output)
 
     BOOM = "Referentiemateriaal/requirementsboom/"
-    IP = "Koppelvlakspecificaties/Interactiepatronen/"
+    IP = "Koppelvlakspecificaties/Koppelingspecificaties/"
 
     def test_given_removed_anchor_when_validated_then_dead_link_reported(self):
         self.assert_break_detected(
@@ -160,10 +160,10 @@ class BrokenTreeTest(unittest.TestCase):
 
     def test_given_requirement_link_removed_from_story_when_validated_then_orphan_backlink(self):
         # Terugleiding, omgekeerde tak: stories.md linkt de eis helemaal niet
-        # meer, terwijl de Story-cel in het interactiepatroon blijft staan.
+        # meer, terwijl de Story-cel in de koppelingspecificatie blijft staan.
         self.assert_break_detected(
             self.BOOM + "stories.md",
-            "[functionele-eis-0004](../../Koppelvlakspecificaties/Interactiepatronen/"
+            "[functionele-eis-0004](../../Koppelvlakspecificaties/Koppelingspecificaties/"
             "onderwijscatalogus-planning-en-roostering.md#functionele-eis-0004)",
             "geen", "maar stories.md linkt die eis niet")
 

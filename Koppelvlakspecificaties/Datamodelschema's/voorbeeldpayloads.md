@@ -1083,7 +1083,7 @@ Leerroute 1. De `specificatieVerwijzing`-uuid's komen uit de [voorbeeld onderwij
 }
 ```
 
-Loopt de planning vast, dan bestaat de instantie wel maar draagt die status en knelpunten. Zie het faalpad in de [Asynchrone statusmelding: planning niet gelukt](../Interactiepatronen/onderwijscatalogus-planning-en-roostering.md#asynchrone-statusmelding-planning-niet-gelukt):
+Loopt de planning vast, dan bestaat de instantie wel maar draagt die status en knelpunten. Zie het faalpad in de [Planning niet gelukt melden](../Koppelingspecificaties/onderwijscatalogus-planning-en-roostering.md#planning-niet-gelukt-melden):
 
 ```json
 {

@@ -14,8 +14,8 @@ Controleert de laagverwijzingen in Referentiemateriaal/requirementsboom/:
    sectie waarin de rij staat; de Stories-cel bevat exact de stories die
    met hun featurecel terugwijzen (of "geen").
 5. story -> functionele eis: elke functionele-eis-link resolvet naar een
-   rij-anker in de interactiepatronen van deze repository.
-6. Terugleiding: de Story-kolom in de interactiepatronen is exact de
+   rij-anker in de koppelingspecificaties van deze repository.
+6. Terugleiding: de Story-kolom in de koppelingspecificaties is exact de
    inverse van de kolom Functionele eisen in stories.md (set-gelijkheid).
 
 Bekende grenzen: alleen inline-links ([tekst](bestand#anker)) worden
@@ -24,8 +24,8 @@ anker-achtige tekst in codeblokken telt mee als anker (faalt naar de
 veilige kant); de featurecel vereist id en naam als linktekst.
 
 Gebruik: python3 scripts/validate-requirementsboom-navigatie.py [boom-map]
-Standaard: Referentiemateriaal/requirementsboom (interactiepatronen worden
-twee mappen hoger onder Koppelvlakspecificaties/Interactiepatronen gezocht).
+Standaard: Referentiemateriaal/requirementsboom (koppelingspecificaties worden
+twee mappen hoger onder Koppelvlakspecificaties/Koppelingspecificaties gezocht).
 Exitcodes: 0 = schoon, 1 = problemen gevonden, 2 = pad niet gevonden.
 Testgevallen: python3 -m unittest discover -s tests -v.
 """
@@ -38,7 +38,7 @@ ID_RE = re.compile(r"^(?:%s)-\d{4}$" % "|".join(KINDS))
 ANCHOR_RE = re.compile(r'<a id="([^"]+)"></a>')
 EIS_LINK_RE = re.compile(
     r"\[functionele-eis-\d{4}\]\((\.\./\.\./Koppelvlakspecificaties/"
-    r"Interactiepatronen/[\w\-]+\.md)#(functionele-eis-\d{4})\)")
+    r"Koppelingspecificaties/[\w\-]+\.md)#(functionele-eis-\d{4})\)")
 
 
 def slug(text: str) -> str:
@@ -172,15 +172,15 @@ def main() -> int:
                 f"{sorted(feature_stories.get(feature, []))} "
                 f"!= terugwijzend {sorted(stories_backward.get(feature, []))}")
 
-    # 5 en 6. story -> functionele eis en de terugleiding in de interactiepatronen
-    ip_dir = os.path.normpath(os.path.join(tree_dir, "..", "..",
-                                           "Koppelvlakspecificaties", "Interactiepatronen"))
+    # 5 en 6. story -> functionele eis en de terugleiding in de koppelingspecificaties
+    ks_dir = os.path.normpath(os.path.join(tree_dir, "..", "..",
+                                           "Koppelvlakspecificaties", "Koppelingspecificaties"))
     total_links = sum(len(v) for v in requirement_links.values())
-    if os.path.isdir(ip_dir):
-        ip_texts = {name: read_text(os.path.join(ip_dir, name))
-                    for name in os.listdir(ip_dir) if name.endswith(".md")}
+    if os.path.isdir(ks_dir):
+        ks_texts = {name: read_text(os.path.join(ks_dir, name))
+                    for name in os.listdir(ks_dir) if name.endswith(".md")}
         reverse: dict[tuple[str, str], set[str]] = {}
-        for name, content in ip_texts.items():
+        for name, content in ks_texts.items():
             for row in content.splitlines():
                 m = re.match(r'\| <a id="(functionele-eis-\d{4})"></a>\1 \|', row)
                 if not m:
@@ -203,7 +203,7 @@ def main() -> int:
                     f"terugleiding: {name} {eis} noemt {sorted(stories)}, "
                     f"maar stories.md linkt die eis niet")
     else:
-        problems.append(f"interactiepatronen-map niet gevonden: {ip_dir}")
+        problems.append(f"koppelingspecificaties-map niet gevonden: {ks_dir}")
 
     for problem in problems:
         print(problem)

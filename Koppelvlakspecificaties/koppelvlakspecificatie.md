@@ -11,7 +11,7 @@ Versie 0.0.1
 
 ## 1 Inleiding
 
-Dit document specificeert het koppelvlak van elk systeem dat deelneemt aan de uitwisseling van onderwijsspecificaties. Het beschrijft per systeem welke endpoints en events dat systeem aanbiedt, per koppeling welk berichtverkeer daaroverheen gaat en in welke volgorde, en welke vorm de uitgewisselde gegevens hebben.
+Dit document specificeert het koppelvlak van elk systeem dat deelneemt aan de uitwisseling van onderwijsspecificaties. Het beschrijft welke applicatiediensten een systeem implementeert en welke endpoints daarbij horen, per koppeling welk berichtverkeer daaroverheen gaat en in welke volgorde, en welke vorm de uitgewisselde gegevens hebben.
 
 Waar de eisen vandaan komen, staat in de [requirementsboom](#2-requirementsboom): van de opdracht via epics en features naar stories, en vandaar naar de functionele eisen bij de interactiepatronen. Voorschrijven doet het document niet; de [uitgangspunten](#7-uitgangspunten-voor-koppelingspecificaties) leggen die doelbinding vast in U1, samen met negen andere aannames die voor het hele pakket gelden. Elk document noemt zo'n uitgangspunt in één regel en verwijst erheen.
 
@@ -19,7 +19,7 @@ Waar de eisen vandaan komen, staat in de [requirementsboom](#2-requirementsboom)
 
 - **Koppeling en koppelvlak** ([ADR 0021](../Referentiemateriaal/adr/0021-koppeling-versus-koppelvlak-terminologie.md)): een koppeling is de informatiestroom tussen twee referentiecomponenten; het koppelvlak van een component is de verzameling koppelingen die dat component raken. De koppelvlakspecificatie van een component is daarmee de optelsom van zijn koppelingen.
 - **Ankertabel, zes begrippenfamilies**: kader, beoogde leeruitkomst, specificatie, aanbod, verbintenis, resultaat. De leeruitkomst verbindt die families: specificaties verankeren erop en onderwijsresultaten worden erop behaald. De tabel staat voluit in het [kaderscenario leerroute 1](../Referentiemateriaal/kaderscenario's/leerroute-1-regulier.md#betrokken-informatie-bij-proces).
-- **Notify-then-pull** ([ADR 0020](../Referentiemateriaal/adr/0020-curriculumontwerp-onderwijscatalogus-happy-flow-synchronisatie-en-federatie-adopt-klonen.md)): de bezitter van een gegeven meldt een wijziging met een kort bericht dat alleen een referentie draagt; de ontvanger haalt het gegeven op wanneer het hem uitkomt.
+- **Event notification**: het patroon onder vrijwel elke uitwisseling in dit document. De bezitter meldt dun, de afnemer haalt op. Uitgewerkt bij [Event Notification](Interactiepatronen/event-notification.md), als keuze vastgelegd in [U4](#74-u4-event-notification).
 
 De uitwerking volgt leerroute 1, de reguliere route, aan de hand van persona Jochem en de opleiding Apothekersassistent; leerroute 2 en 3 staan erbij als verschil daarop. Het [kaderscenario leerroute 1](../Referentiemateriaal/kaderscenario's/leerroute-1-regulier.md) draagt die route en die persona voluit.
 
@@ -98,55 +98,65 @@ Die lijn loopt van scenario naar informatiestroom, naar koppeling, naar koppelvl
   - [3.1 Ecosysteem](#31-ecosysteem)
   - [3.2 Onderwijscatalogus (OC)](#32-onderwijscatalogus-oc)
     - [3.2.1 Koppelvlak](#321-koppelvlak)
-    - [3.2.2 Endpoints](#322-endpoints)
+    - [3.2.2 Applicatiediensten](#322-applicatiediensten)
+    - [3.2.3 Koppelingen](#323-koppelingen)
   - [3.3 Planningssysteem (P)](#33-planningssysteem-p)
     - [3.3.1 Koppelvlak](#331-koppelvlak)
-    - [3.3.2 Endpoints](#332-endpoints)
+    - [3.3.2 Applicatiediensten](#332-applicatiediensten)
+    - [3.3.3 Koppelingen](#333-koppelingen)
   - [3.4 Studentinformatiesysteem (SIS)](#34-studentinformatiesysteem-sis)
     - [3.4.1 Koppelvlak](#341-koppelvlak)
-    - [3.4.2 Endpoints](#342-endpoints)
+    - [3.4.2 Applicatiediensten](#342-applicatiediensten)
+    - [3.4.3 Koppelingen](#343-koppelingen)
   - [3.5 Leermanagementsysteem (LMS)](#35-leermanagementsysteem-lms)
     - [3.5.1 Koppelvlak](#351-koppelvlak)
-    - [3.5.2 Endpoints](#352-endpoints)
+    - [3.5.2 Applicatiediensten](#352-applicatiediensten)
+    - [3.5.3 Koppelingen](#353-koppelingen)
   - [3.6 Roostersysteem (R)](#36-roostersysteem-r)
     - [3.6.1 Koppelvlak](#361-koppelvlak)
+    - [3.6.2 Applicatiediensten](#362-applicatiediensten)
   - [3.7 Studentkeuzesysteem (SKS)](#37-studentkeuzesysteem-sks)
     - [3.7.1 Koppelvlak](#371-koppelvlak)
+    - [3.7.2 Applicatiediensten](#372-applicatiediensten)
   - [3.8 Curriculum-ontwerptool (CO)](#38-curriculum-ontwerptool-co)
-- [4 Interactiepatronen](#4-interactiepatronen)
-  - [4.1 Interactiepatroon: onderwijscatalogus naar planning en roostering](#41-interactiepatroon-onderwijscatalogus-naar-planning-en-roostering)
+    - [3.8.1 Applicatiediensten](#381-applicatiediensten)
+- [4 Koppelingspecificaties](#4-koppelingspecificaties)
+  - [4.1 Onderwijscatalogus naar planning en roostering](#41-onderwijscatalogus-naar-planning-en-roostering)
     - [4.1.1 Plek in de keten](#411-plek-in-de-keten)
     - [4.1.2 Functionele eisen](#412-functionele-eisen)
-    - [4.1.3 Procesbeeld](#413-procesbeeld)
-    - [4.1.4 Interactieoverzicht](#414-interactieoverzicht)
-    - [4.1.5 Berichtgedrag](#415-berichtgedrag)
-    - [4.1.6 Interactiepatronen](#416-interactiepatronen)
-    - [4.1.7 Notify-then-pull: opleidingsaanbod aanmaken](#417-notify-then-pull-opleidingsaanbod-aanmaken)
-    - [4.1.8 Notify-then-pull: opleidingsaanbod herplannen](#418-notify-then-pull-opleidingsaanbod-herplannen)
-    - [4.1.9 Asynchrone statusmelding: planning niet gelukt](#419-asynchrone-statusmelding-planning-niet-gelukt)
-    - [4.1.10 Acceptatietoets bij late wijziging](#4110-acceptatietoets-bij-late-wijziging)
-    - [4.1.11 Asynchrone statusmelding: specificatiestatus gewijzigd](#4111-asynchrone-statusmelding-specificatiestatus-gewijzigd)
-    - [4.1.12 Reconciliatie na gemist event](#4112-reconciliatie-na-gemist-event)
-    - [4.1.13 Abonnement registreren](#4113-abonnement-registreren)
-    - [4.1.14 Context: doorwerking naar het roostersysteem](#4114-context-doorwerking-naar-het-roostersysteem)
-  - [4.2 Interactiepatroon: onderwijscatalogus naar studentinformatiesysteem](#42-interactiepatroon-onderwijscatalogus-naar-studentinformatiesysteem)
+    - [4.1.3 Applicatiediensten](#413-applicatiediensten)
+    - [4.1.4 Interactiepatronen](#414-interactiepatronen)
+    - [4.1.5 Procesbeeld](#415-procesbeeld)
+    - [4.1.6 Interactieoverzicht](#416-interactieoverzicht)
+    - [4.1.7 Berichtstromen](#417-berichtstromen)
+    - [4.1.8 Opleidingsaanbod aanmaken](#418-opleidingsaanbod-aanmaken)
+    - [4.1.9 Opleidingsaanbod herplannen](#419-opleidingsaanbod-herplannen)
+    - [4.1.10 Planning niet gelukt melden](#4110-planning-niet-gelukt-melden)
+    - [4.1.11 Acceptatietoets bij late wijziging](#4111-acceptatietoets-bij-late-wijziging)
+    - [4.1.12 Specificatiestatus gewijzigd melden](#4112-specificatiestatus-gewijzigd-melden)
+    - [4.1.13 Reconciliatie na gemist event](#4113-reconciliatie-na-gemist-event)
+    - [4.1.14 Abonnement registreren](#4114-abonnement-registreren)
+    - [4.1.15 Context: doorwerking naar het roostersysteem](#4115-context-doorwerking-naar-het-roostersysteem)
+  - [4.2 Onderwijscatalogus naar studentinformatiesysteem](#42-onderwijscatalogus-naar-studentinformatiesysteem)
     - [4.2.1 Plek in de keten](#421-plek-in-de-keten)
     - [4.2.2 Functionele eisen](#422-functionele-eisen)
-    - [4.2.3 Procesbeeld](#423-procesbeeld)
-    - [4.2.4 Interactieoverzicht](#424-interactieoverzicht)
-    - [4.2.5 Berichtgedrag](#425-berichtgedrag)
-    - [4.2.6 Interactiepatronen](#426-interactiepatronen)
-    - [4.2.7 Notify-then-pull: nominaal template en resultaatstructuur inrichten](#427-notify-then-pull-nominaal-template-en-resultaatstructuur-inrichten)
-    - [4.2.8 Acceptatietoets bij wijziging examenplan](#428-acceptatietoets-bij-wijziging-examenplan)
-  - [4.3 Interactiepatroon: onderwijscatalogus naar leermanagementsysteem](#43-interactiepatroon-onderwijscatalogus-naar-leermanagementsysteem)
+    - [4.2.3 Applicatiediensten](#423-applicatiediensten)
+    - [4.2.4 Interactiepatronen](#424-interactiepatronen)
+    - [4.2.5 Procesbeeld](#425-procesbeeld)
+    - [4.2.6 Interactieoverzicht](#426-interactieoverzicht)
+    - [4.2.7 Berichtstromen](#427-berichtstromen)
+    - [4.2.8 Nominaal template en resultaatstructuur inrichten](#428-nominaal-template-en-resultaatstructuur-inrichten)
+    - [4.2.9 Acceptatietoets bij wijziging examenplan](#429-acceptatietoets-bij-wijziging-examenplan)
+  - [4.3 Onderwijscatalogus naar leermanagementsysteem](#43-onderwijscatalogus-naar-leermanagementsysteem)
     - [4.3.1 Plek in de keten](#431-plek-in-de-keten)
     - [4.3.2 Functionele eisen](#432-functionele-eisen)
-    - [4.3.3 Procesbeeld](#433-procesbeeld)
-    - [4.3.4 Interactieoverzicht](#434-interactieoverzicht)
-    - [4.3.5 Berichtgedrag](#435-berichtgedrag)
-    - [4.3.6 Interactiepatronen](#436-interactiepatronen)
-    - [4.3.7 Notify-then-pull: leeromgeving inrichten en leermiddelkoppeling melden](#437-notify-then-pull-leeromgeving-inrichten-en-leermiddelkoppeling-melden)
-    - [4.3.8 Notify-then-pull: inrichting bijwerken na wijziging](#438-notify-then-pull-inrichting-bijwerken-na-wijziging)
+    - [4.3.3 Applicatiediensten](#433-applicatiediensten)
+    - [4.3.4 Interactiepatronen](#434-interactiepatronen)
+    - [4.3.5 Procesbeeld](#435-procesbeeld)
+    - [4.3.6 Interactieoverzicht](#436-interactieoverzicht)
+    - [4.3.7 Berichtstromen](#437-berichtstromen)
+    - [4.3.8 Leeromgeving inrichten en leermiddelkoppeling melden](#438-leeromgeving-inrichten-en-leermiddelkoppeling-melden)
+    - [4.3.9 Inrichting bijwerken na wijziging](#439-inrichting-bijwerken-na-wijziging)
 - [5 Auth-standaard voor koppelvlakken](#5-auth-standaard-voor-koppelvlakken)
   - [5.1 Mechanisme: OAuth 2.0 Client Credentials](#51-mechanisme-oauth-20-client-credentials)
   - [5.2 Toepassing op webhook-aflevering](#52-toepassing-op-webhook-aflevering)
@@ -187,7 +197,7 @@ Die lijn loopt van scenario naar informatiestroom, naar koppeling, naar koppelvl
   - [7.1 U1. Indicatief en onderbouwend, niet voorschrijvend](#71-u1-indicatief-en-onderbouwend-niet-voorschrijvend)
   - [7.2 U2. Koppeling versus koppelvlak](#72-u2-koppeling-versus-koppelvlak)
   - [7.3 U3. Resource-eigenaarschap](#73-u3-resource-eigenaarschap)
-  - [7.4 U4. Notify-then-pull](#74-u4-notify-then-pull)
+  - [7.4 U4. Event notification](#74-u4-event-notification)
   - [7.5 U5. Bericht versus kanaal](#75-u5-bericht-versus-kanaal)
   - [7.6 U6. Semantiek uit de ankertabel](#76-u6-semantiek-uit-de-ankertabel)
   - [7.7 U7. Payload plat met verwijzingen, en de sleutelconventie](#77-u7-payload-plat-met-verwijzingen-en-de-sleutelconventie)
@@ -288,7 +298,7 @@ flowchart LR
   STORY --> FE
 ```
 
-Per koppeling beschrijft een [interactiepatroon](Interactiepatronen) de interacties; interacties hergebruiken vastgestelde patronen. De kolom Functionele eisen van een story linkt naar de rij van de eis in het interactiepatroon; de eis wijst met zijn Story-kolom terug. Het interactieoverzicht somt de interacties op, en de endpointtabellen van de [applicatiecomponenten](Applicatiecomponenten) noemen per endpoint de methode en de interacties die hij draagt. Wie een featureset wil ondersteunen, wordt eigenaar van de bijbehorende endpoints.
+Per koppeling beschrijft een [koppelingspecificatie](Koppelingspecificaties) de interacties; interacties hergebruiken vastgestelde patronen. De kolom Functionele eisen van een story linkt naar de rij van de eis in de koppelingspecificatie; de eis wijst met zijn Story-kolom terug. Het interactieoverzicht somt de interacties op, en de [applicatiediensten](Applicatiediensten) leggen per dienst de verplichtingen en de endpoints vast die haar dragen. Wie een featureset wil ondersteunen, claimt de bijbehorende diensten.
 
 ### 2.4 Bijdragen
 
@@ -389,7 +399,7 @@ Laag 3 van de [requirementsboom](#2-requirementsboom): afgebakend gedrag per [ep
 | <a id="feature-0007"></a>feature-0007 | Catalogus vullen vanuit curriculumontwerp | Alle ketenpartijen binnen de instelling vertrouwen op één actuele, formeel vastgestelde bron voor haar onderwijsspecificaties. | [ADR 0002](../Referentiemateriaal/adr/0002-prioriteitsketen-catalogus-drielagen-fundament.md) | [epic-0002](#epic-0002) | geen |
 | <a id="feature-0008"></a>feature-0008 | Hiërarchische, refereerbare onderwijsspecificatiestructuur | Elk onderdeel van de onderwijsspecificatie is eenduidig herleidbaar en herbruikbaar, ook over leerwegen en doelgroepvarianten heen. | [Meetingverslag 10 juli, besluiten](https://github.com/Npuls-OKx/meta/blob/bd6fc9499b283fe974fd32c87bbb9307e75e7d1b/architecture/meetings/20260710_okx_kernteam_inhoud_specificatie_uitwerken_OC_P/summary.md#besluiten) en [technische details](https://github.com/Npuls-OKx/meta/blob/bd6fc9499b283fe974fd32c87bbb9307e75e7d1b/architecture/meetings/20260710_okx_kernteam_inhoud_specificatie_uitwerken_OC_P/summary.md#technische--implementatiedetails) | [epic-0002](#epic-0002) | [story-0001](#story-0001) |
 | <a id="feature-0009"></a>feature-0009 | Stabiele identiteit en versionering van specificaties | Verwijzingen van afnemers naar een specificatie blijven geldig, ook na inhoudelijke wijzigingen. | [Regels bij de schema's](Datamodelschema%27s/README.md#regels-bij-de-schemas) | [epic-0002](#epic-0002) | [story-0002](#story-0002) |
-| <a id="feature-0010"></a>feature-0010 | Leeromgeving inrichten op de specificatie | De leeromgeving is altijd inhoudelijk consistent met de specificatie, met ruimte voor eigen invulling op lesniveau. | [Interactiepatroon OC-LMS](#43-interactiepatroon-onderwijscatalogus-naar-leermanagementsysteem) | [epic-0002](#epic-0002) | [story-0003](#story-0003) |
+| <a id="feature-0010"></a>feature-0010 | Leeromgeving inrichten op de specificatie | De leeromgeving is altijd inhoudelijk consistent met de specificatie, met ruimte voor eigen invulling op lesniveau. | [Koppelingspecificatie OC-LMS](#43-onderwijscatalogus-naar-leermanagementsysteem) | [epic-0002](#epic-0002) | [story-0003](#story-0003) |
 
 #### 2.8.3 [Aanbod plannen en roosteren](#epic-0003)
 
@@ -436,7 +446,7 @@ Laag 3 van de [requirementsboom](#2-requirementsboom): afgebakend gedrag per [ep
 |---|---|---|---|---|---|
 | <a id="feature-0030"></a>feature-0030 | Verbintenis als toestandsmachine per niveau | Systemen en actoren stellen op elk niveau, van programma tot toets, de actuele status van de verbintenis vast. | [Begrippenkader, stadia van onderwijsverbintenis](https://github.com/Npuls-OKx/meta/blob/bd6fc9499b283fe974fd32c87bbb9307e75e7d1b/architecture/docs/specificatie/leerroute-uitwerking/doc/begrippenkader.md#stadia-van-onderwijsverbintenis-aangemeld-ingeschreven-deelnemend-afgerond) | [epic-0007](#epic-0007) | [story-0025](#story-0025); [story-0027](#story-0027) |
 | <a id="feature-0031"></a>feature-0031 | Keuze gescheiden van inschrijving en resultaat | Studentkeuze staat als eigen verantwoordelijkheid los van de formele inschrijving en van resultaat en voortgang. | [ADR 0014](../Referentiemateriaal/adr/0014-splitsing-inschrijving-rodkrs-en-studentkeuze-sks.md) en [ADR 0009](../Referentiemateriaal/adr/0009-sks-svs-rollenverdeling-keuze-vs-resultaat-voortgang.md) | [epic-0007](#epic-0007) | geen |
-| <a id="feature-0032"></a>feature-0032 | Examenplanwijzigingen alleen na impactanalyse | Een wijziging in het examenplan raakt lopende verbintenissen nooit ongecontroleerd. | [Interactiepatroon OC-SIS, acceptatietoets](#428-acceptatietoets-bij-wijziging-examenplan) | [epic-0007](#epic-0007) | [story-0020](#story-0020) |
+| <a id="feature-0032"></a>feature-0032 | Examenplanwijzigingen alleen na impactanalyse | Een wijziging in het examenplan raakt lopende verbintenissen nooit ongecontroleerd. | [Koppelingspecificatie OC-SIS, acceptatietoets](#429-acceptatietoets-bij-wijziging-examenplan) | [epic-0007](#epic-0007) | [story-0020](#story-0020) |
 
 #### 2.8.8 [Voortgang en resultaat op leeruitkomsten](#epic-0008)
 
@@ -460,7 +470,7 @@ Laag 4 van de [requirementsboom](#2-requirementsboom): toetsbare wensen van éé
 |---|---|---|---|---|
 | <a id="story-0001"></a>story-0001 | Als onderwijsontwerper wil ik dat de keten bij publicatie valideert dat de studielast (studiebelastingsuren en studiepunten, SBU/EC) van onderliggende delen optelt naar het bovenliggende niveau, zodat een aggregatiefout tot terugdraaien (rollback) leidt. | [feature-0008 Hiërarchische, refereerbare onderwijsspecificatiestructuur](#feature-0008) | [ADR 0017](../Referentiemateriaal/adr/0017-hierarchisch-datamodel-aanbodstructuur-leeruitkomsten-en-sbuec-aggregatie.md) | geen |
 | <a id="story-0002"></a>story-0002 | Als planner wil ik dat bij een specificatie-update de vorige versie actief blijft voor lopend aanbod en de nieuwe alleen op nieuw aanbod geldt, zodat lopende planningen niet breken. | [feature-0009 Stabiele identiteit en versionering van specificaties](#feature-0009) | [Archief leerroute-uitwerking §19, F10](https://github.com/Npuls-OKx/meta/blob/bd6fc9499b283fe974fd32c87bbb9307e75e7d1b/architecture/docs/specificatie/leerroute-uitwerking/doc/archief-conceptmodellen.md#19-faalmatrix--overzicht-ketenfaalmodi) | [functionele-eis-0004](#functionele-eis-0004) |
-| <a id="story-0003"></a>story-0003 | Als onderwijsontwikkelaar wil ik dat het leermanagementsysteem de gelegde leermiddelkoppeling als eigen resource terugmeldt, zodat de catalogus die kan ophalen en tonen bij het aanbod. | [feature-0010 Leeromgeving inrichten op de specificatie](#feature-0010) | [Interactiepatroon OC-LMS, interactieoverzicht](#434-interactieoverzicht) | [functionele-eis-0011](#functionele-eis-0011) |
+| <a id="story-0003"></a>story-0003 | Als onderwijsontwikkelaar wil ik dat het leermanagementsysteem de gelegde leermiddelkoppeling als eigen resource terugmeldt, zodat de catalogus die kan ophalen en tonen bij het aanbod. | [feature-0010 Leeromgeving inrichten op de specificatie](#feature-0010) | [Interactiepatroon OC-LMS, interactieoverzicht](#436-interactieoverzicht) | [functionele-eis-0011](#functionele-eis-0011) |
 
 #### 2.9.2 [Aanbod plannen en roosteren](#epic-0003)
 
@@ -468,8 +478,8 @@ Laag 4 van de [requirementsboom](#2-requirementsboom): toetsbare wensen van éé
 |---|---|---|---|---|
 | <a id="story-0004"></a>story-0004 | Als roosteraar wil ik geroosterd aanbod per periode publiceren en beschikbaar stellen aan student en docent, zodat latere perioden planbaar blijven. | [feature-0011 Drie stadia van onderwijsaanbod](#feature-0011) | [Scenario 1.1](https://github.com/Npuls-OKx/meta/blob/bd6fc9499b283fe974fd32c87bbb9307e75e7d1b/architecture/docs/specificatie/leerroute-uitwerking/doc/scenario-uitwerkingen/scenario-1.1-regulier-happyflow.md) | geen |
 | <a id="story-0005"></a>story-0005 | Als student wil ik voor de start van het onderwijs toegang tot het leermanagementsysteem en mijn periode-rooster krijgen, zodat ik op de eerste lesdag kan beginnen. | [feature-0011 Drie stadia van onderwijsaanbod](#feature-0011) | [Scenario 1.1](https://github.com/Npuls-OKx/meta/blob/bd6fc9499b283fe974fd32c87bbb9307e75e7d1b/architecture/docs/specificatie/leerroute-uitwerking/doc/scenario-uitwerkingen/scenario-1.1-regulier-happyflow.md) | geen |
-| <a id="story-0006"></a>story-0006 | Als planner wil ik dat de catalogus een planbaar geworden specificatie met een dun event (id en versie) meldt en ik de structuur of delta kan ophalen, zodat ik er opleidingsaanbod van kan maken. | [feature-0013 Geldig, gefaseerd aanbod afleiden](#feature-0013) | [Interactiepatroon OC-P&R, interactieoverzicht](#414-interactieoverzicht) | [functionele-eis-0001](#functionele-eis-0001) |
-| <a id="story-0007"></a>story-0007 | Als onderwijsontwikkelaar wil ik dat planning en roostering de verwerkingsstatus met referentie naar het opleidingsaanbod terugmeldt, zodat de catalogus weet of de specificatie planbaar bleek. | [feature-0013 Geldig, gefaseerd aanbod afleiden](#feature-0013) | [Interactiepatroon OC-P&R, interactieoverzicht](#414-interactieoverzicht) | [functionele-eis-0001](#functionele-eis-0001) en [functionele-eis-0003](#functionele-eis-0003) |
+| <a id="story-0006"></a>story-0006 | Als planner wil ik dat de catalogus een planbaar geworden specificatie met een dun event (id en versie) meldt en ik de structuur of delta kan ophalen, zodat ik er opleidingsaanbod van kan maken. | [feature-0013 Geldig, gefaseerd aanbod afleiden](#feature-0013) | [Interactiepatroon OC-P&R, interactieoverzicht](#416-interactieoverzicht) | [functionele-eis-0001](#functionele-eis-0001) |
+| <a id="story-0007"></a>story-0007 | Als onderwijsontwikkelaar wil ik dat planning en roostering de verwerkingsstatus met referentie naar het opleidingsaanbod terugmeldt, zodat de catalogus weet of de specificatie planbaar bleek. | [feature-0013 Geldig, gefaseerd aanbod afleiden](#feature-0013) | [Interactiepatroon OC-P&R, interactieoverzicht](#416-interactieoverzicht) | [functionele-eis-0001](#functionele-eis-0001) en [functionele-eis-0003](#functionele-eis-0003) |
 | <a id="story-0008"></a>story-0008 | Als planner wil ik per combinatie keuzedeel, locatie en periode bepalen hoeveel groepen ik beschikbaar stel, zodat keuzes stabiel tussen systemen uitwisselbaar zijn. | [feature-0013 Geldig, gefaseerd aanbod afleiden](#feature-0013) | [Keuze-requirements R4](https://github.com/Npuls-OKx/meta/blob/bd6fc9499b283fe974fd32c87bbb9307e75e7d1b/architecture/docs/specificatie/student-keuze/keuze-requirements.md#6-requirements) | geen |
 | <a id="story-0026"></a>story-0026 | Als planner wil ik leergelegenheden uit een latere periode vervroegd kunnen roosteren en hun capaciteit kunnen uitbreiden voor een versnellende student, zodat versnelling zonder herontwerp van de route kan. | [feature-0013 Geldig, gefaseerd aanbod afleiden](#feature-0013) | [Scenario 1.3](https://github.com/Npuls-OKx/meta/blob/bd6fc9499b283fe974fd32c87bbb9307e75e7d1b/architecture/docs/specificatie/leerroute-uitwerking/doc/scenario-uitwerkingen/scenario-1.3-regulier-versnelling-by-accident.md) | geen |
 | <a id="story-0028"></a>story-0028 | Als student wil ik gemiste leergelegenheden in een latere periode kunnen inhalen, zodat ik met beperkte uitloop mijn diploma haal. | [feature-0013 Geldig, gefaseerd aanbod afleiden](#feature-0013) | [Scenario 1.2](https://github.com/Npuls-OKx/meta/blob/bd6fc9499b283fe974fd32c87bbb9307e75e7d1b/architecture/docs/specificatie/leerroute-uitwerking/doc/scenario-uitwerkingen/scenario-1.2-regulier-vertraging-by-accident.md) | geen |
@@ -479,8 +489,8 @@ Laag 4 van de [requirementsboom](#2-requirementsboom): toetsbare wensen van éé
 
 | Id | Story | Feature | Bron | Functionele eisen |
 |---|---|---|---|---|
-| <a id="story-0010"></a>story-0010 | Als beheerder van een afnemend systeem wil ik een afleveradres met event-typen kunnen registreren voordat events afgeleverd worden, zodat de aflevering vastligt. | [feature-0016 Betrouwbaar berichtenverkeer](#feature-0016) | [Interactiepatroon OC-P&R, abonnement registreren](#4113-abonnement-registreren) | [functionele-eis-0007](#functionele-eis-0007) |
-| <a id="story-0011"></a>story-0011 | Als beheerder van een afnemend systeem wil ik na een gemist of onverwerkbaar event de gepubliceerde specificaties en aanbod-instanties opnieuw kunnen opvragen, zodat uitval geen informatie kost. | [feature-0016 Betrouwbaar berichtenverkeer](#feature-0016) | [Interactiepatroon OC-P&R, reconciliatie](#4112-reconciliatie-na-gemist-event) | [functionele-eis-0006](#functionele-eis-0006) |
+| <a id="story-0010"></a>story-0010 | Als beheerder van een afnemend systeem wil ik een afleveradres met event-typen kunnen registreren voordat events afgeleverd worden, zodat de aflevering vastligt. | [feature-0016 Betrouwbaar berichtenverkeer](#feature-0016) | [Interactiepatroon OC-P&R, abonnement registreren](#4114-abonnement-registreren) | [functionele-eis-0007](#functionele-eis-0007) |
+| <a id="story-0011"></a>story-0011 | Als beheerder van een afnemend systeem wil ik na een gemist of onverwerkbaar event de gepubliceerde specificaties en aanbod-instanties opnieuw kunnen opvragen, zodat uitval geen informatie kost. | [feature-0016 Betrouwbaar berichtenverkeer](#feature-0016) | [Interactiepatroon OC-P&R, reconciliatie](#4113-reconciliatie-na-gemist-event) | [functionele-eis-0006](#functionele-eis-0006) |
 
 #### 2.9.4 [Student kiest onderwijsspecificaties](#epic-0006)
 
@@ -501,15 +511,15 @@ Laag 4 van de [requirementsboom](#2-requirementsboom): toetsbare wensen van éé
 |---|---|---|---|---|
 | <a id="story-0025"></a>story-0025 | Als student wil ik dat mijn verbintenis bij uitval wordt onderbroken en daarna hervat, zodat mijn opleiding na de uitval gewoon doorloopt. | [feature-0030 Verbintenis als toestandsmachine per niveau](#feature-0030) | [Scenario 1.2](https://github.com/Npuls-OKx/meta/blob/bd6fc9499b283fe974fd32c87bbb9307e75e7d1b/architecture/docs/specificatie/leerroute-uitwerking/doc/scenario-uitwerkingen/scenario-1.2-regulier-vertraging-by-accident.md) | geen |
 | <a id="story-0027"></a>story-0027 | Als instelling wil ik per werkproces de actuele verbintenisstatus kunnen vaststellen, zodat zichtbaar is dat een student in totaal op tempo is maar per werkproces uit ritme. | [feature-0030 Verbintenis als toestandsmachine per niveau](#feature-0030) | [Scenario 1.4](https://github.com/Npuls-OKx/meta/blob/bd6fc9499b283fe974fd32c87bbb9307e75e7d1b/architecture/docs/specificatie/leerroute-uitwerking/doc/scenario-uitwerkingen/scenario-1.4-regulier-hybride-by-accident.md) | geen |
-| <a id="story-0020"></a>story-0020 | Als examencommissie wil ik dat een examenplanwijziging op een resultaatstructuur waarop verbintenissen lopen eerst een acceptatietoets doorloopt, zodat lopende verbintenissen beschermd blijven. | [feature-0032 Examenplanwijzigingen alleen na impactanalyse](#feature-0032) | [Interactiepatroon OC-SIS, acceptatietoets](#428-acceptatietoets-bij-wijziging-examenplan) | [functionele-eis-0009](#functionele-eis-0009) |
+| <a id="story-0020"></a>story-0020 | Als examencommissie wil ik dat een examenplanwijziging op een resultaatstructuur waarop verbintenissen lopen eerst een acceptatietoets doorloopt, zodat lopende verbintenissen beschermd blijven. | [feature-0032 Examenplanwijzigingen alleen na impactanalyse](#feature-0032) | [Interactiepatroon OC-SIS, acceptatietoets](#429-acceptatietoets-bij-wijziging-examenplan) | [functionele-eis-0009](#functionele-eis-0009) |
 
 #### 2.9.6 [Voortgang en resultaat op leeruitkomsten](#epic-0008)
 
 | Id | Story | Feature | Bron | Functionele eisen |
 |---|---|---|---|---|
 | <a id="story-0021"></a>story-0021 | Als docent wil ik tijdens de uitvoering per les de verbintenistoestand (Association.state) van studenten muteren en resultaten vastleggen, zodat voortgang en resultaat herleidbaar zijn. | [feature-0033 Resultaatstructuur inrichten en resultaten registreren](#feature-0033) | [Scenario 1.1](https://github.com/Npuls-OKx/meta/blob/bd6fc9499b283fe974fd32c87bbb9307e75e7d1b/architecture/docs/specificatie/leerroute-uitwerking/doc/scenario-uitwerkingen/scenario-1.1-regulier-happyflow.md) | geen |
-| <a id="story-0022"></a>story-0022 | Als onderwijsontwikkelaar wil ik dat het studentinformatiesysteem na de beschikbaar-melding de specificatiestructuur en de resultaatstructuur ophaalt en het nominale template inricht, zodat het onderwijs administratief klaarstaat. | [feature-0033 Resultaatstructuur inrichten en resultaten registreren](#feature-0033) | [Interactiepatroon OC-SIS, inrichten](#427-notify-then-pull-nominaal-template-en-resultaatstructuur-inrichten) | [functionele-eis-0008](#functionele-eis-0008) |
-| <a id="story-0023"></a>story-0023 | Als onderwijsontwikkelaar wil ik dat het studentinformatiesysteem de inrichtingsstatus met referentie terugmeldt, zodat de catalogus weet of het onderwijs klaarstaat. | [feature-0033 Resultaatstructuur inrichten en resultaten registreren](#feature-0033) | [Interactiepatroon OC-SIS, inrichten](#427-notify-then-pull-nominaal-template-en-resultaatstructuur-inrichten) | [functionele-eis-0008](#functionele-eis-0008) |
+| <a id="story-0022"></a>story-0022 | Als onderwijsontwikkelaar wil ik dat het studentinformatiesysteem na de beschikbaar-melding de specificatiestructuur en de resultaatstructuur ophaalt en het nominale template inricht, zodat het onderwijs administratief klaarstaat. | [feature-0033 Resultaatstructuur inrichten en resultaten registreren](#feature-0033) | [Interactiepatroon OC-SIS, inrichten](#428-nominaal-template-en-resultaatstructuur-inrichten) | [functionele-eis-0008](#functionele-eis-0008) |
+| <a id="story-0023"></a>story-0023 | Als onderwijsontwikkelaar wil ik dat het studentinformatiesysteem de inrichtingsstatus met referentie terugmeldt, zodat de catalogus weet of het onderwijs klaarstaat. | [feature-0033 Resultaatstructuur inrichten en resultaten registreren](#feature-0033) | [Interactiepatroon OC-SIS, inrichten](#428-nominaal-template-en-resultaatstructuur-inrichten) | [functionele-eis-0008](#functionele-eis-0008) |
 | <a id="story-0024"></a>story-0024 | Als student wil ik vrijstellingen kunnen aanvragen op basis van eerder behaalde resultaten of aangetoonde competenties, zodat ik mijn opleiding versneld kan afronden. | [feature-0036 Toetsing zodra het leeruitkomst-niveau is behaald](#feature-0036) | [Persona Linda, examineren](https://github.com/Npuls-OKx/meta/blob/bd6fc9499b283fe974fd32c87bbb9307e75e7d1b/architecture/docs/specificatie/leerroute-uitwerking/doc/persona_linda.md#examineren) | geen |
 
 
@@ -517,7 +527,7 @@ Laag 4 van de [requirementsboom](#2-requirementsboom): toetsbare wensen van éé
 
 ## 3 Applicatiecomponenten
 
-Het koppelvlak van een component is de optelsom van alle koppelingen die het raken ([instap-README](README.md), [ADR 0021](../Referentiemateriaal/adr/0021-koppeling-versus-koppelvlak-terminologie.md)). Deze map maakt die optelsom concreet: één document per systeem, met de endpoints en events die het raken, elk met een verwijzing naar de bron-interactie en de datamodellen die erbij horen. Hier staat het endpointcontract zelf: per endpoint de parameters, de payload, de statuscodes en de interacties die het draagt. Het bericht eromheen — patroon, foutafhandeling, volgorde — staat bij de [interactiepatronen](Interactiepatronen). Elk systeem uit de keten heeft een eigen document, ook wanneer dit pakket er nog geen koppeling voor specificeert: dan beschrijft het document wat het systeem voorstelt en waar het in de keten staat, zonder tabel.
+Het koppelvlak van een component is de optelsom van alle koppelingen die het raken ([instap-README](README.md), [ADR 0021](../Referentiemateriaal/adr/0021-koppeling-versus-koppelvlak-terminologie.md)). Deze map maakt die optelsom concreet: één document per systeem, met de [applicatiediensten](Applicatiediensten) die het implementeert en de [koppelingen](Koppelingspecificaties) waarin het optreedt. Het contract van een dienst — verplichtingen, endpoints, payloads — staat bij die dienst. Elk systeem uit de keten heeft een eigen document, ook wanneer dit pakket er nog geen dienst bij belegt: dan beschrijft het document wat het systeem voorstelt en waar het in de keten staat.
 
 
 ### 3.1 Ecosysteem
@@ -532,7 +542,7 @@ De hoofdplaat toont het volledige ecosysteem: alle informatiestromen tussen de a
 
 ### 3.2 Onderwijscatalogus (OC)
 
-De onderwijscatalogus is het distributiepunt voor onderwijsspecificaties: zij neemt ze aan van de curriculum-ontwerptool, legt ze vast en publiceert ze naar de systemen die het onderwijs klaarzetten voor de start van de student. Zij bezit de onderwijsspecificaties ([U3](#73-u3-resource-eigenaarschap)), en is daarmee in elk van de drie koppelingen hieronder de partij die een wijziging meldt en de resource levert ([U4](#74-u4-notify-then-pull)).
+De onderwijscatalogus is het distributiepunt voor onderwijsspecificaties: zij neemt ze aan van de curriculum-ontwerptool, legt ze vast en publiceert ze naar de systemen die het onderwijs klaarzetten voor de start van de student. Zij bezit de onderwijsspecificaties ([U3](#73-u3-resource-eigenaarschap)), en is daarmee in elk van de drie koppelingen hieronder de partij die een wijziging meldt en de resource levert ([U4](#74-u4-event-notification)).
 
 #### 3.2.1 Koppelvlak
 
@@ -540,20 +550,25 @@ De onderwijscatalogus is het distributiepunt voor onderwijsspecificaties: zij ne
 
 De view toont het koppelvlak van de onderwijscatalogus: de optelsom van haar koppelingen op de informatiestromen-hoofdplaat v1.7.
 
-#### 3.2.2 Endpoints
+#### 3.2.2 Applicatiediensten
 
-Endpoints die OC zelf implementeert. Authenticatie op elk endpoint: [auth-standaard](#5-auth-standaard-voor-koppelvlakken).
+Dit component implementeert de volgende [applicatiediensten](Applicatiediensten/README.md):
 
-| Endpoint/event | Methode | Parameters | Request | Response | Statuscodes | Interacties |
-|---|---|---|---|---|---|---|
-| `/onderwijsspecificaties/{id}` | GET | `versie` (optioneel, standaard laatst gepubliceerd) | — | [education-specification.json](Datamodelschema's/education-specification.json); welk deel meekomt bepaalt het [gebruiksprofiel](#63-gebruiksprofielen) | 200, 400, 404 | I2, S2, L2 |
-| `/onderwijsspecificaties/{id}/delta` | GET | `van` (versie, verplicht), `naar` (versie, verplicht) | — | JSON Patch (RFC 6902), [education-specification-delta.json](Datamodelschema's/education-specification-delta.json) | 200, 400, 404 | I2, S2, L2 |
-| `/onderwijsspecificaties` | GET | `status` (optioneel, standaard `gepubliceerd`), `gewijzigdSinds` (optioneel, timestamp) | — | Lijst van specificatie-id's met hun laatste versie ([specification-reference.json](Datamodelschema's/specification-reference.json)) | 200, 400 | I7 |
-| `/examenplanspecificaties/{id}` | GET | `versie` (optioneel, standaard laatst gepubliceerd) | — | [result-structure.json](Datamodelschema's/result-structure.json): toetsonderdelen, weging en aggregatie | 200, 400, 404 | S3 |
-| `/abonnementen` | POST | — | [subscription.json](Datamodelschema's/subscription.json): `callbackUrl` en de events | Abonnement-id | 201, 400 | I8 |
-| `verwerkingsstatus` | POST | — | [processing-status.json](Datamodelschema's/processing-status.json) | — | 200 | I3 |
-| `inrichtingsstatus` | POST | — | Status en referentie naar de inrichting (uuid), specificatie-id en versie (payloadschema nog niet uitgewerkt) | — | 200 | S4, L3 |
-| `leermiddelkoppeling-beschikbaar` | POST | — | Referentie (uuid) naar de leermiddelkoppeling, specificatie-id en versie (payloadschema nog niet uitgewerkt) | — | 200 | L4 |
+- [onderwijsspecificatiestructuur-aanbieder](Applicatiediensten/onderwijsspecificatiestructuur-aanbieder.md)
+- [resultaatstructuur-aanbieder](Applicatiediensten/resultaatstructuur-aanbieder.md)
+- [planbaar-onderwijsaanbod-afnemer](Applicatiediensten/planbaar-onderwijsaanbod-afnemer.md)
+- [leermiddelkoppeling-afnemer](Applicatiediensten/leermiddelkoppeling-afnemer.md)
+- [verwerkingsuitkomst-afnemer](Applicatiediensten/verwerkingsuitkomst-afnemer.md)
+- [afleverabonnement-aanbieder](Applicatiediensten/afleverabonnement-aanbieder.md)
+- [afleverabonnement-afnemer](Applicatiediensten/afleverabonnement-afnemer.md)
+
+#### 3.2.3 Koppelingen
+
+Het treedt op in deze koppelingen:
+
+- [Onderwijscatalogus naar planning en roostering](#41-onderwijscatalogus-naar-planning-en-roostering)
+- [Onderwijscatalogus naar studentinformatiesysteem](#42-onderwijscatalogus-naar-studentinformatiesysteem)
+- [Onderwijscatalogus naar leermanagementsysteem](#43-onderwijscatalogus-naar-leermanagementsysteem)
 
 
 <!-- pagina-einde -->
@@ -568,18 +583,21 @@ Het planningssysteem maakt van een gepubliceerde onderwijsspecificatie planbaar 
 
 De view toont het gedeelde koppelvlak van planning en roostering op de informatiestromen-hoofdplaat v1.7. Beide componenten delen dit koppelvlak; het rooster zelf blijft bij het roostersysteem.
 
-#### 3.3.2 Endpoints
+#### 3.3.2 Applicatiediensten
 
-Endpoints die het planningssysteem zelf implementeert. Authenticatie op elk endpoint: [auth-standaard](#5-auth-standaard-voor-koppelvlakken).
+Dit component implementeert de volgende [applicatiediensten](Applicatiediensten/README.md):
 
-| Endpoint/event | Methode | Parameters | Request | Response | Statuscodes | Interacties |
-|---|---|---|---|---|---|---|
-| `/onderwijsaanbod/{id}` | GET | `status` (optioneel filter op onderliggende instanties) | — | [education-offering.json](Datamodelschema's/education-offering.json): de gevraagde instantie plus haar subtree via `bovenliggendAanbodId` | 200, 400, 404 | I5 |
-| `/onderwijsaanbod` | GET | `specificatieId` (verplicht), `versie` (optioneel, standaard alle versies) | — | [education-offering.json](Datamodelschema's/education-offering.json) (lijst): de instanties die deze specificatie instantiëren | 200, 400 | I7 |
-| `/abonnementen` | POST | — | [subscription.json](Datamodelschema's/subscription.json): `callbackUrl` en de events | Abonnement-id | 201, 400 | I8 |
-| `specificatie-planbaar` | POST | — | [specification-reference.json](Datamodelschema's/specification-reference.json) | — | 200 | I1 |
-| `specificatie-gewijzigd` | POST | — | [specification-changed.json](Datamodelschema's/specification-changed.json) | — | 200 | I4 |
-| `specificatie-status-gewijzigd` | POST | — | [specification-status-changed.json](Datamodelschema's/specification-status-changed.json) | — | 200 | I6 |
+- [onderwijsspecificatiestructuur-afnemer](Applicatiediensten/onderwijsspecificatiestructuur-afnemer.md)
+- [planbaar-onderwijsaanbod-aanbieder](Applicatiediensten/planbaar-onderwijsaanbod-aanbieder.md)
+- [verwerkingsuitkomst-aanbieder](Applicatiediensten/verwerkingsuitkomst-aanbieder.md)
+- [afleverabonnement-aanbieder](Applicatiediensten/afleverabonnement-aanbieder.md)
+- [afleverabonnement-afnemer](Applicatiediensten/afleverabonnement-afnemer.md)
+
+#### 3.3.3 Koppelingen
+
+Het treedt op in deze koppelingen:
+
+- [Onderwijscatalogus naar planning en roostering](#41-onderwijscatalogus-naar-planning-en-roostering)
 
 
 <!-- pagina-einde -->
@@ -594,14 +612,19 @@ Het studentinformatiesysteem is hier de combinatie van het **kernregistratiesyst
 
 De view toont het koppelvlak van het studentinformatiesysteem op de informatiestromen-hoofdplaat v1.7. Kernregistratie (KRS) en studievoortgang (SVS) maken er deel van uit.
 
-#### 3.4.2 Endpoints
+#### 3.4.2 Applicatiediensten
 
-Endpoints die SIS zelf implementeert. Authenticatie op elk endpoint: [auth-standaard](#5-auth-standaard-voor-koppelvlakken). Een eigen REST-endpoint serveert SIS in deze koppeling niet: de inrichtingsstatus draagt de referentie naar de inrichting al in het event mee, en een pull-operatie daarop is niet gedefinieerd.
+Dit component implementeert de volgende [applicatiediensten](Applicatiediensten/README.md):
 
-| Endpoint/event | Methode | Parameters | Request | Response | Statuscodes | Interacties |
-|---|---|---|---|---|---|---|
-| `specificatie-en-resultaatstructuur-beschikbaar` | POST | — | Specificatie-id en versie, examenplan-id en versie (payloadschema nog niet uitgewerkt) | — | 200 | S1 |
-| `examenplanspecificatie-gewijzigd` | POST | — | [specification-changed.json](Datamodelschema's/specification-changed.json) | — | 200 | S5 |
+- [onderwijsspecificatiestructuur-afnemer](Applicatiediensten/onderwijsspecificatiestructuur-afnemer.md)
+- [resultaatstructuur-afnemer](Applicatiediensten/resultaatstructuur-afnemer.md)
+- [verwerkingsuitkomst-aanbieder](Applicatiediensten/verwerkingsuitkomst-aanbieder.md)
+
+#### 3.4.3 Koppelingen
+
+Het treedt op in deze koppelingen:
+
+- [Onderwijscatalogus naar studentinformatiesysteem](#42-onderwijscatalogus-naar-studentinformatiesysteem)
 
 
 <!-- pagina-einde -->
@@ -616,15 +639,19 @@ Het leermanagementsysteem is de online leeromgeving waarin de student het onderw
 
 De view toont het koppelvlak van het leermanagementsysteem: de optelsom van zijn koppelingen op de informatiestromen-hoofdplaat v1.7.
 
-#### 3.5.2 Endpoints
+#### 3.5.2 Applicatiediensten
 
-Endpoints die LMS zelf implementeert. Authenticatie op elk endpoint: [auth-standaard](#5-auth-standaard-voor-koppelvlakken).
+Dit component implementeert de volgende [applicatiediensten](Applicatiediensten/README.md):
 
-| Endpoint/event | Methode | Parameters | Request | Response | Statuscodes | Interacties |
-|---|---|---|---|---|---|---|
-| `/leermiddelkoppelingen/{id}` | GET | — | — | Leermiddelkoppeling-instantie: leermiddelgroepen per specificatie (payload nog uit te werken) | 200, 400, 404 | L5 |
-| `specificatie-beschikbaar` | POST | — | [specification-reference.json](Datamodelschema's/specification-reference.json) | — | 200 | L1 |
-| `specificatie-gewijzigd` | POST | — | [specification-changed.json](Datamodelschema's/specification-changed.json) | — | 200 | L6 |
+- [onderwijsspecificatiestructuur-afnemer](Applicatiediensten/onderwijsspecificatiestructuur-afnemer.md)
+- [leermiddelkoppeling-aanbieder](Applicatiediensten/leermiddelkoppeling-aanbieder.md)
+- [verwerkingsuitkomst-aanbieder](Applicatiediensten/verwerkingsuitkomst-aanbieder.md)
+
+#### 3.5.3 Koppelingen
+
+Het treedt op in deze koppelingen:
+
+- [Onderwijscatalogus naar leermanagementsysteem](#43-onderwijscatalogus-naar-leermanagementsysteem)
 
 
 <!-- pagina-einde -->
@@ -633,13 +660,15 @@ Endpoints die LMS zelf implementeert. Authenticatie op elk endpoint: [auth-stand
 
 Het roostersysteem plaatst het geplande onderwijs in tijd en ruimte: het maakt van het `opleidingsaanbod` een rooster met momenten, docenten en zalen. Het bezit het rooster, waar het planningssysteem het aanbod bezit en de catalogus de specificaties ([U3](#73-u3-resource-eigenaarschap)).
 
-Dit pakket specificeert geen koppeling met het roostersysteem, en levert er dus nog geen endpoints voor op. Het systeem komt alleen als context voor, bij de koppeling met planning en roostering: [doorwerking naar het roostersysteem](#4114-context-doorwerking-naar-het-roostersysteem).
-
 #### 3.6.1 Koppelvlak
 
 ![Gedeeld koppelvlak van planning en roostering op de hoofdplaat v1.7](src/koppelvlak_p_en_r_view_ihp_v1_7.png)
 
 De view toont het gedeelde koppelvlak van planning en roostering op de informatiestromen-hoofdplaat v1.7.
+
+#### 3.6.2 Applicatiediensten
+
+Dit pakket belegt nog geen applicatiedienst bij het roostersysteem. De requirements wijzen [geroosterd-onderwijsaanbod-aanbieder](Applicatiediensten/geroosterd-onderwijsaanbod-aanbieder.md) aan als de dienst die hier hoort. Het systeem komt wel als context voor bij de [koppeling naar planning en roostering](#4115-context-doorwerking-naar-het-roostersysteem).
 
 
 <!-- pagina-einde -->
@@ -648,13 +677,17 @@ De view toont het gedeelde koppelvlak van planning en roostering op de informati
 
 Het studentkeuzesysteem is de component waar de student zijn keuzes maakt. Het is bewust als **zelfstandige** referentiecomponent belegd en niet verspreid over portaal, catalogus of leeromgeving, zodat de keuze-interactie expliciet wordt in plaats van verborgen ([ADR 0005](../Referentiemateriaal/adr/0005-student-keuze-systeem-zelfstandige-referentiecomponent.md)). Het draagt de keuze-interacties van de student; het studentvolgsysteem blijft bij resultaat en voortgang, en de inschrijving blijft bij het kernregistratiesysteem ([ADR 0009](../Referentiemateriaal/adr/0009-sks-svs-rollenverdeling-keuze-vs-resultaat-voortgang.md), [ADR 0014](../Referentiemateriaal/adr/0014-splitsing-inschrijving-rodkrs-en-studentkeuze-sks.md)).
 
-Dit pakket specificeert geen koppeling met het studentkeuzesysteem, en levert er dus nog geen endpoints voor op. Het systeem komt in de procesbeelden alleen voor als de partij die keuzes aan het studentinformatiesysteem levert; die koppeling is een eigen uitwerking en valt buiten de drie koppelingen vanuit de catalogus die hier zijn uitgewerkt.
+Het systeem komt in de procesbeelden voor als de partij die keuzes aan het studentinformatiesysteem levert; die koppeling is een eigen uitwerking en valt buiten de drie koppelingen vanuit de catalogus die hier zijn uitgewerkt.
 
 #### 3.7.1 Koppelvlak
 
 ![Koppelvlak van het studentkeuzesysteem op de hoofdplaat v1.7](src/koppelvlak_sks_view_ihp_v1_7.png)
 
 De view toont het koppelvlak van het studentkeuzesysteem: de optelsom van zijn koppelingen op de informatiestromen-hoofdplaat v1.7.
+
+#### 3.7.2 Applicatiediensten
+
+Dit pakket belegt nog geen applicatiedienst bij het studentkeuzesysteem. De requirements wijzen [kiesbaarheidsbepaling-aanbieder](Applicatiediensten/kiesbaarheidsbepaling-aanbieder.md), [onderwijsaanbod-zoekvraag-afnemer](Applicatiediensten/onderwijsaanbod-zoekvraag-afnemer.md) en [onderwijsaanbod-haalbaarheidstoets-afnemer](Applicatiediensten/onderwijsaanbod-haalbaarheidstoets-afnemer.md) aan als de diensten die hier horen.
 
 
 <!-- pagina-einde -->
@@ -663,16 +696,20 @@ De view toont het koppelvlak van het studentkeuzesysteem: de optelsom van zijn k
 
 De curriculum-ontwerptool is waar onderwijsspecificaties ontstaan: ontwerpers werken er het curriculum uit en leveren het resultaat aan de onderwijscatalogus, die het vanaf daar distribueert. Zij staat daarmee aan het begin van de keten die dit pakket beschrijft, één stap voor de drie koppelingen vanuit de catalogus.
 
-Dit pakket specificeert de koppeling van de curriculum-ontwerptool naar de catalogus niet, en levert er dus nog geen endpoints voor op. Hoe beide zich tot elkaar verhouden is wel als besluit vastgelegd: de catalogus synchroniseert de aangeleverde specificatie en kan die federatief overnemen ([ADR 0020](../Referentiemateriaal/adr/0020-curriculumontwerp-onderwijscatalogus-happy-flow-synchronisatie-en-federatie-adopt-klonen.md)).
+Hoe de curriculum-ontwerptool en de catalogus zich tot elkaar verhouden is wel als besluit vastgelegd: de catalogus synchroniseert de aangeleverde specificatie en kan die federatief overnemen ([ADR 0020](../Referentiemateriaal/adr/0020-curriculumontwerp-onderwijscatalogus-happy-flow-synchronisatie-en-federatie-adopt-klonen.md)).
+
+#### 3.8.1 Applicatiediensten
+
+Dit pakket belegt nog geen applicatiedienst bij de curriculum-ontwerptool. De requirements wijzen [onderwijsspecificatie-inname-afnemer](Applicatiediensten/onderwijsspecificatie-inname-afnemer.md) aan als de dienst die hier hoort.
 
 
 <!-- pagina-einde -->
 
-## 4 Interactiepatronen
+## 4 Koppelingspecificaties
 
-### 4.1 Interactiepatroon: onderwijscatalogus naar planning en roostering
+### 4.1 Onderwijscatalogus naar planning en roostering
 
-Het interactiepatroon van deze koppeling: de systeem-naar-systeemberichten (machine-to-machine) tussen de onderwijscatalogus en het planningssysteem, met de sequentiediagrammen. Doel: per patroon laten zien welk berichtenpatroon het technisch implementeert en wat het oplevert, zonder de koppelingspecificatie te herhalen. De functionele eisen die het proces aan deze koppeling stelt staan als vertrekpunt in de eerste tabel; het interactieoverzicht legt per interactie het bericht, het patroon en de foutafhandeling vast, en de endpoints staan bij de [applicatiecomponent](#3-applicatiecomponenten) dat ze serveert.
+De koppeling tussen de onderwijscatalogus en het planningssysteem: welke informatie erover beweegt, in welke volgorde, en welk bericht dat draagt, met de sequentiediagrammen erbij. De functionele eisen die het proces aan deze koppeling stelt staan als vertrekpunt in de eerste tabel; het interactieoverzicht legt per interactie het bericht, het patroon en de foutafhandeling vast, en de endpoints staan bij de [applicatiecomponent](#3-applicatiecomponenten) die ze serveert.
 
 #### 4.1.1 Plek in de keten
 
@@ -684,17 +721,44 @@ De uitsnede komt uit de informatiestromen-hoofdplaat v1.7 (richtinggevend; de le
 
 | Id | Functionele eis | Interactie | Story |
 |---|---|---|---|
-| <a id="functionele-eis-0001"></a>functionele-eis-0001 | De onderwijscatalogus moet het planningssysteem kunnen laten weten dat een specificatie gereed is om te plannen, en het planningssysteem moet daarop een opleidingsaanbod met referentie kunnen terugleveren | [Notify-then-pull: opleidingsaanbod aanmaken](#417-notify-then-pull-opleidingsaanbod-aanmaken) | [story-0006](#story-0006); [story-0007](#story-0007) |
-| <a id="functionele-eis-0002"></a>functionele-eis-0002 | Het planningssysteem moet de planning kunnen bijwerken wanneer een specificatie wijzigt, zonder verplicht de volledige structuur opnieuw te ontvangen | [Notify-then-pull: opleidingsaanbod herplannen](#418-notify-then-pull-opleidingsaanbod-herplannen) | geen |
-| <a id="functionele-eis-0003"></a>functionele-eis-0003 | De onderwijscatalogus moet kunnen weten wanneer een specificatie voor een of meer cohorten niet planbaar blijkt in een schooljaar, inclusief de reden | [Asynchrone statusmelding: planning niet gelukt](#419-asynchrone-statusmelding-planning-niet-gelukt) | [story-0007](#story-0007) |
-| <a id="functionele-eis-0004"></a>functionele-eis-0004 | Een afgeronde planning moet beschermd zijn tegen een specificatiewijziging die er ongecontroleerd doorheen breekt | [Acceptatietoets bij late wijziging](#4110-acceptatietoets-bij-late-wijziging) | [story-0002](#story-0002) |
-| <a id="functionele-eis-0005"></a>functionele-eis-0005 | De onderwijscatalogus moet een statuswijziging kunnen melden die niet aan een nieuwe versie hangt, los van het wijzigingsproces | [Asynchrone statusmelding: specificatiestatus gewijzigd](#4111-asynchrone-statusmelding-specificatiestatus-gewijzigd) | geen |
-| <a id="functionele-eis-0006"></a>functionele-eis-0006 | Beide partijen moeten na een gemist event de informatie alsnog kunnen ophalen | [Reconciliatie na gemist event](#4112-reconciliatie-na-gemist-event) | [story-0011](#story-0011) |
-| <a id="functionele-eis-0007"></a>functionele-eis-0007 | Beide partijen moeten een afleveradres kunnen vastleggen voordat events afgeleverd worden | [Abonnement registreren](#4113-abonnement-registreren) | [story-0010](#story-0010) |
+| <a id="functionele-eis-0001"></a>functionele-eis-0001 | De onderwijscatalogus moet het planningssysteem kunnen laten weten dat een specificatie gereed is om te plannen, en het planningssysteem moet daarop een opleidingsaanbod met referentie kunnen terugleveren | [Opleidingsaanbod aanmaken](#418-opleidingsaanbod-aanmaken) | [story-0006](#story-0006); [story-0007](#story-0007) |
+| <a id="functionele-eis-0002"></a>functionele-eis-0002 | Het planningssysteem moet de planning kunnen bijwerken wanneer een specificatie wijzigt, zonder verplicht de volledige structuur opnieuw te ontvangen | [Opleidingsaanbod herplannen](#419-opleidingsaanbod-herplannen) | geen |
+| <a id="functionele-eis-0003"></a>functionele-eis-0003 | De onderwijscatalogus moet kunnen weten wanneer een specificatie voor een of meer cohorten niet planbaar blijkt in een schooljaar, inclusief de reden | [Planning niet gelukt melden](#4110-planning-niet-gelukt-melden) | [story-0007](#story-0007) |
+| <a id="functionele-eis-0004"></a>functionele-eis-0004 | Een afgeronde planning moet beschermd zijn tegen een specificatiewijziging die er ongecontroleerd doorheen breekt | [Acceptatietoets bij late wijziging](#4111-acceptatietoets-bij-late-wijziging) | [story-0002](#story-0002) |
+| <a id="functionele-eis-0005"></a>functionele-eis-0005 | De onderwijscatalogus moet een statuswijziging kunnen melden die niet aan een nieuwe versie hangt, los van het wijzigingsproces | [Specificatiestatus gewijzigd melden](#4112-specificatiestatus-gewijzigd-melden) | geen |
+| <a id="functionele-eis-0006"></a>functionele-eis-0006 | Beide partijen moeten na een gemist event de informatie alsnog kunnen ophalen | [Reconciliatie na gemist event](#4113-reconciliatie-na-gemist-event) | [story-0011](#story-0011) |
+| <a id="functionele-eis-0007"></a>functionele-eis-0007 | Beide partijen moeten een afleveradres kunnen vastleggen voordat events afgeleverd worden | [Abonnement registreren](#4114-abonnement-registreren) | [story-0010](#story-0010) |
 
-#### 4.1.3 Procesbeeld
+#### 4.1.3 Applicatiediensten
 
-Twee gedeelde principes bepalen het verkeer over deze koppeling. **Resource-eigenaarschap** ([U3](#73-u3-resource-eigenaarschap)): de onderwijscatalogus bezit de onderwijsspecificaties, het planningssysteem het onderwijsaanbod, het roostersysteem het rooster. **Notify-then-pull** ([U4](#74-u4-notify-then-pull)): de bezitter publiceert een dun event met een referentie, de consument haalt de resource op wanneer het hem uitkomt. Het is dus geen pull-only model; het event is de trigger.
+Deze koppeling is de optelsom van de [applicatiediensten](Applicatiediensten/README.md) in de tabel.
+
+| Applicatiedienst | Geïmplementeerd door |
+|---|---|
+| [onderwijsspecificatiestructuur-aanbieder](Applicatiediensten/onderwijsspecificatiestructuur-aanbieder.md) | Onderwijscatalogus |
+| [onderwijsspecificatiestructuur-afnemer](Applicatiediensten/onderwijsspecificatiestructuur-afnemer.md) | Planningssysteem |
+| [planbaar-onderwijsaanbod-aanbieder](Applicatiediensten/planbaar-onderwijsaanbod-aanbieder.md) | Planningssysteem |
+| [planbaar-onderwijsaanbod-afnemer](Applicatiediensten/planbaar-onderwijsaanbod-afnemer.md) | Onderwijscatalogus |
+| [verwerkingsuitkomst-aanbieder](Applicatiediensten/verwerkingsuitkomst-aanbieder.md) | Planningssysteem |
+| [verwerkingsuitkomst-afnemer](Applicatiediensten/verwerkingsuitkomst-afnemer.md) | Onderwijscatalogus |
+| [afleverabonnement-aanbieder](Applicatiediensten/afleverabonnement-aanbieder.md) | Onderwijscatalogus en planningssysteem |
+| [afleverabonnement-afnemer](Applicatiediensten/afleverabonnement-afnemer.md) | Onderwijscatalogus en planningssysteem |
+
+#### 4.1.4 Interactiepatronen
+
+Deze koppeling zet de volgende [interactiepatronen](Interactiepatronen/README.md) in. Het interactieoverzicht noemt per interactie welk patroon geldt.
+
+| Interactiepatroon | Waarvoor in deze koppeling | Interacties |
+|---|---|---|
+| [Event Notification](Interactiepatronen/event-notification.md) | Melden dat een specificatie planbaar is of is gewijzigd, en het ophalen van structuur, delta of aanbod-instantie dat daarop volgt | I1, I2, I4, I5 |
+| [Asynchronous Request-Reply](Interactiepatronen/asynchronous-request-reply.md) | De uitkomst van het planproces terugmelden, met een referentie naar het opleidingsaanbod | I3 |
+| [Event-Carried State Transfer](Interactiepatronen/event-carried-state-transfer.md) | Een statusovergang die los staat van een versie: het planningssysteem werkt zijn afgeleide status bij zonder op te halen | I6 |
+| [Request-Reply](Interactiepatronen/request-reply.md) | Herstel nadat een event in de dead letter channel is beland | I7 |
+| [Subscription registration](Interactiepatronen/subscription-registration.md) | Het afleveradres vastleggen waarop de meldingen landen | I8 |
+
+#### 4.1.5 Procesbeeld
+
+Twee gedeelde principes bepalen het verkeer over deze koppeling. **Resource-eigenaarschap** ([U3](#73-u3-resource-eigenaarschap)): de onderwijscatalogus bezit de onderwijsspecificaties, het planningssysteem het onderwijsaanbod, het roostersysteem het rooster. **Event notification** ([U4](#74-u4-event-notification)): de onderwijscatalogus meldt, het planningssysteem haalt op wanneer het hem uitkomt.
 
 ```mermaid
 flowchart LR
@@ -709,66 +773,56 @@ flowchart LR
     R -. "5: event rooster bekend (referentie)" .-> P
 ```
 
-Wat het diagram niet toont: het planningssysteem bouwt de planning **asynchroon** op, binnen de regels uit de specificatie (voorwaarden vooraf, locatie, periode). De uitkomst, gelukt of niet gelukt, komt terug als status met een referentie naar het `opleidingsaanbod`; de aanbod-instantie zelf blijft bij planning en wordt alleen opgehaald als de catalogus die wil inzien. Stap 4 en 5 liggen buiten deze koppeling en staan er ter illustratie van hetzelfde patroon (§5.5).
+Wat het diagram niet toont: het planningssysteem bouwt de planning **asynchroon** op, binnen de regels uit de specificatie (voorwaarden vooraf, locatie, periode). De uitkomst, gelukt of niet gelukt, komt terug als status met een referentie naar het `opleidingsaanbod`; de aanbod-instantie zelf blijft bij planning en wordt alleen opgehaald als de catalogus die wil inzien. Stap 4 en 5 liggen buiten deze koppeling en staan er ter illustratie van hetzelfde patroon.
 
-#### 4.1.4 Interactieoverzicht
+#### 4.1.6 Interactieoverzicht
 
 De interacties op deze koppeling, met per interactie het messaging-patroon. Betrouwbaarheidseisen volgen [ADR 0018](../Referentiemateriaal/adr/0018-enterprise-messaging-patronen-voor-betrouwbare-koppelvlakken.md). De events zijn dunne notificaties ([Event Message](https://www.enterpriseintegrationpatterns.com/patterns/messaging/EventMessage.html)): ze dragen de aanleiding (id en versie), niet de inhoud.
 Wat hier wordt vastgelegd is het **bericht**, niet het **kanaal**: hoe het bericht bij de ontvanger komt is een inrichtingskeuze van instelling en leverancier, binnen de vier eigenschappen die [ADR 0018](../Referentiemateriaal/adr/0018-enterprise-messaging-patronen-voor-betrouwbare-koppelvlakken.md) eist. Zie [uitgangspunt U5](#75-u5-bericht-versus-kanaal).
 
-I1 tot en met I5 zijn uitgewerkt in §5 tot sequentiediagrammen. I6 tot en met I8 zijn nodig om I1, I3 en I4 in productie te kunnen laten werken (statuswijziging los van versie, hersynchronisatie na een verloren event, en de abonnementen waar de webhook-events I1/I3/I4 op leunen) en horen daarom net zo goed bij deze koppeling; ze volgen het patroon van de interactie die ze het dichtst benaderen (I6 spiegelt I4, I7 en I8 spiegelen I2/I5).
+I1 tot en met I5 zijn als berichtstroom uitgewerkt tot sequentiediagrammen. I6 tot en met I8 zijn nodig om I1, I3 en I4 in productie te kunnen laten werken (statuswijziging los van versie, hersynchronisatie na een verloren event, en de abonnementen waar de webhook-events I1/I3/I4 op leunen) en horen daarom net zo goed bij deze koppeling; ze volgen het patroon van de interactie die ze het dichtst benaderen (I6 spiegelt I4, I7 en I8 spiegelen I2/I5).
 
 | # | Interactie | Initiator | Patroon | Synchroniciteit | Gedrag bij dubbele ontvangst | Foutafhandeling |
 |---|---|---|---|---|---|---|
-| I1 | Specificatie planbaar melden | OC | [Event Message](https://www.enterpriseintegrationpatterns.com/patterns/messaging/EventMessage.html) (id + versie) | Asynchroon | Geen effect: ontvanger herkent event-id ([Idempotent Receiver](https://www.enterpriseintegrationpatterns.com/patterns/messaging/IdempotentReceiver.html)) | [Guaranteed Delivery](https://www.enterpriseintegrationpatterns.com/patterns/messaging/GuaranteedDelivery.html); [Dead Letter Channel](https://www.enterpriseintegrationpatterns.com/patterns/messaging/DeadLetterChannel.html) |
-| I2 | Onderwijsspecificatiestructuur of delta ophalen | P | [Request-Reply](https://www.enterpriseintegrationpatterns.com/patterns/messaging/RequestReply.html) (GET, alleen-lezen) | Synchroon | Geen effect (alleen-lezen) | HTTP-foutcodes, client bepaalt retry |
-| I3 | Verwerkingsstatus melden, met referentie naar het `opleidingsaanbod` | P | [Event Message](https://www.enterpriseintegrationpatterns.com/patterns/messaging/EventMessage.html) (status: ontvangen/gestart, afgekeurd, gelukt, niet gelukt) | Asynchroon | Geen effect: status-id | Retry met backoff, daarna [Dead Letter Channel](https://www.enterpriseintegrationpatterns.com/patterns/messaging/DeadLetterChannel.html) |
-| I4 | Specificatiewijziging melden | OC | [Event Message](https://www.enterpriseintegrationpatterns.com/patterns/messaging/EventMessage.html) (object-id, oude en nieuwe versie, wijzigingsklasse) | Asynchroon | Geen effect: event-id | [Guaranteed Delivery](https://www.enterpriseintegrationpatterns.com/patterns/messaging/GuaranteedDelivery.html); [Dead Letter Channel](https://www.enterpriseintegrationpatterns.com/patterns/messaging/DeadLetterChannel.html) |
-| I5 | `opleidingsaanbod` ophalen | OC (of R) | [Request-Reply](https://www.enterpriseintegrationpatterns.com/patterns/messaging/RequestReply.html) op referentie (GET uuid, alleen-lezen) | Synchroon | Geen effect (alleen-lezen) | HTTP-foutcodes |
-| I6 | Specificatiestatus gewijzigd, los van versie (bv. `gepubliceerd` naar `gedeactiveerd`, [regels bij de schema's](#62-regels-bij-de-schemas)) | OC | [Event Message](https://www.enterpriseintegrationpatterns.com/patterns/messaging/EventMessage.html) (object-id, oude status, nieuwe status) | Asynchroon | Geen effect: event-id ([Idempotent Receiver](https://www.enterpriseintegrationpatterns.com/patterns/messaging/IdempotentReceiver.html)) | [Guaranteed Delivery](https://www.enterpriseintegrationpatterns.com/patterns/messaging/GuaranteedDelivery.html); [Dead Letter Channel](https://www.enterpriseintegrationpatterns.com/patterns/messaging/DeadLetterChannel.html) |
-| I7 | Reconciliatie: gepubliceerde specificaties of aanbod-instanties opnieuw opvragen na een event in de Dead Letter Channel | OC of P | [Request-Reply](https://www.enterpriseintegrationpatterns.com/patterns/messaging/RequestReply.html) (GET, lijst-/queryoperatie, alleen-lezen) | Synchroon | Geen effect (alleen-lezen) | HTTP-foutcodes |
-| I8 | Abonnement registreren voor de events I1, I3, I4 en I6 | OC en P (over en weer, elk voor de events die de ander van hem ontvangt) | [Request-Reply](https://www.enterpriseintegrationpatterns.com/patterns/messaging/RequestReply.html) (registratie: callback-URL + event-typen) | Synchroon | Idempotent op callback-URL + event-type: herregistratie overschrijft, geen dubbele aflevering | HTTP-foutcodes |
+| I1 | Specificatie planbaar melden | OC | [Event Notification](Interactiepatronen/event-notification.md) (id + versie) | Asynchroon | Geen effect: ontvanger herkent event-id ([Idempotent Receiver](https://www.enterpriseintegrationpatterns.com/patterns/messaging/IdempotentReceiver.html)) | [Guaranteed Delivery](https://www.enterpriseintegrationpatterns.com/patterns/messaging/GuaranteedDelivery.html); [Dead Letter Channel](https://www.enterpriseintegrationpatterns.com/patterns/messaging/DeadLetterChannel.html) |
+| I2 | Onderwijsspecificatiestructuur of delta ophalen | P | [Event Notification](Interactiepatronen/event-notification.md) (GET, alleen-lezen) | Synchroon | Geen effect (alleen-lezen) | HTTP-foutcodes, client bepaalt retry |
+| I3 | Verwerkingsstatus melden, met referentie naar het `opleidingsaanbod` | P | [Asynchronous Request-Reply](Interactiepatronen/asynchronous-request-reply.md) (status: ontvangen/gestart, afgekeurd, gelukt, niet gelukt) | Asynchroon | Geen effect: status-id | Retry met backoff, daarna [Dead Letter Channel](https://www.enterpriseintegrationpatterns.com/patterns/messaging/DeadLetterChannel.html) |
+| I4 | Specificatiewijziging melden | OC | [Event Notification](Interactiepatronen/event-notification.md) (object-id, oude en nieuwe versie, wijzigingsklasse) | Asynchroon | Geen effect: event-id | [Guaranteed Delivery](https://www.enterpriseintegrationpatterns.com/patterns/messaging/GuaranteedDelivery.html); [Dead Letter Channel](https://www.enterpriseintegrationpatterns.com/patterns/messaging/DeadLetterChannel.html) |
+| I5 | `opleidingsaanbod` ophalen | OC (of R) | [Event Notification](Interactiepatronen/event-notification.md) op referentie (GET uuid, alleen-lezen) | Synchroon | Geen effect (alleen-lezen) | HTTP-foutcodes |
+| I6 | Specificatiestatus gewijzigd, los van versie (bv. `gepubliceerd` naar `gedeactiveerd`, [regels bij de schema's](#62-regels-bij-de-schemas)) | OC | [Event-Carried State Transfer](Interactiepatronen/event-carried-state-transfer.md) (object-id, oude status, nieuwe status) | Asynchroon | Geen effect: event-id ([Idempotent Receiver](https://www.enterpriseintegrationpatterns.com/patterns/messaging/IdempotentReceiver.html)) | [Guaranteed Delivery](https://www.enterpriseintegrationpatterns.com/patterns/messaging/GuaranteedDelivery.html); [Dead Letter Channel](https://www.enterpriseintegrationpatterns.com/patterns/messaging/DeadLetterChannel.html) |
+| I7 | Reconciliatie: gepubliceerde specificaties of aanbod-instanties opnieuw opvragen na een event in de Dead Letter Channel | OC of P | [Request-Reply](Interactiepatronen/request-reply.md) (GET, lijst-/queryoperatie, alleen-lezen) | Synchroon | Geen effect (alleen-lezen) | HTTP-foutcodes |
+| I8 | Abonnement registreren voor de events I1, I3, I4 en I6 | OC en P (over en weer, elk voor de events die de ander van hem ontvangt) | [Subscription registration](Interactiepatronen/subscription-registration.md) (registratie: callback-URL + event-typen) | Synchroon | Idempotent op callback-URL + event-type: herregistratie overschrijft, geen dubbele aflevering | HTTP-foutcodes |
 
 Referentie voor de patroontaal: [Enterprise Integration Patterns, Messaging](https://www.enterpriseintegrationpatterns.com/patterns/messaging/). De koppelingspecificatie legt de patronen op dit niveau vast; implementatiekeuzes (bus, broker, polling) schrijft ze niet voor.
 
 Buiten deze koppeling, maar wel tussen dezelfde twee systemen: capaciteitsterugkoppeling en het door P annuleren van een reeds gepland aanbod buiten de I4-flow. Bewust uitgesteld.
 
-Context, buiten deze koppeling maar zelfde patroon: P meldt R "planning beschikbaar" (referenties), R meldt OC en P "rooster bekend" (referentie). Zie §5.5.
+Context, buiten deze koppeling maar zelfde patroon: P meldt R "planning beschikbaar" (referenties), R meldt OC en P "rooster bekend" (referentie).
 
 Ordening: per `specificatieId` blijft de berichtvolgorde behouden (zelfde sleutel, zelfde volgorde, [ADR 0018](../Referentiemateriaal/adr/0018-enterprise-messaging-patronen-voor-betrouwbare-koppelvlakken.md)).
 
-#### 4.1.5 Berichtgedrag
+#### 4.1.7 Berichtstromen
 
-Dat is een voorbeeld van een kanaal, geen voorschrift: een bus, broker of cloud-pubsubdienst mag het vervangen zolang die de vier eigenschappen uit §3 levert. Het bericht blijft in alle gevallen gelijk.
+| Berichtstroom | Patroon | Doel | Trigger | Initiator | Interacties | Endpoints | Sequentiediagram |
+|---|---|---|---|---|---|---|---|
+| Opleidingsaanbod aanmaken | [Event Notification](Interactiepatronen/event-notification.md), [Asynchronous Request-Reply](Interactiepatronen/asynchronous-request-reply.md) | Een gepubliceerde specificatie omzetten in een planbaar `opleidingsaanbod`, met een referentie terug naar de onderwijscatalogus | Onderwijsspecificatie krijgt status `gepubliceerd` | Onderwijscatalogus | I1, I2, I3, (I5) | webhook `specificatie-planbaar`; `GET /onderwijsspecificaties/{id}`; webhook `verwerkingsstatus`; (`GET /onderwijsaanbod/{id}`) | [hieronder](#418-opleidingsaanbod-aanmaken) |
+| Opleidingsaanbod herplannen | [Event Notification](Interactiepatronen/event-notification.md), [Asynchronous Request-Reply](Interactiepatronen/asynchronous-request-reply.md) | Een lopende planning laten volgen op een nieuwe specificatieversie, met delta of volledige structuur als keuze voor de ontvanger | Nieuwe versie van een specificatie die al in een manifest is vastgelegd | Onderwijscatalogus | I2, I3, I4 | `GET /onderwijsspecificaties/{id}/delta` of `GET /onderwijsspecificaties/{id}`; webhook `verwerkingsstatus`; webhook `specificatie-gewijzigd` | [hieronder](#419-opleidingsaanbod-herplannen) |
+| Planning niet gelukt melden | [Asynchronous Request-Reply](Interactiepatronen/asynchronous-request-reply.md) | De onderwijscatalogus in kennis stellen dat een specificatie voor een of meer cohorten niet planbaar blijkt, met referentie en knelpunten, zonder de aanroep te blokkeren | Planproces bij het planningssysteem vindt geen geldige planning | Planningssysteem | I3, (I5) | webhook `verwerkingsstatus`; (`GET /onderwijsaanbod/{id}`) | [hieronder](#4110-planning-niet-gelukt-melden) |
+| Acceptatietoets bij late wijziging | [Event Notification](Interactiepatronen/event-notification.md), [Asynchronous Request-Reply](Interactiepatronen/asynchronous-request-reply.md) | Een afgeronde planning beschermen tegen een wijziging die er ongecontroleerd doorheen breekt | Specificatiewijziging terwijl de planning al is afgerond | Onderwijscatalogus | I3, I4 | webhook `specificatie-gewijzigd`; webhook `verwerkingsstatus` | [hieronder](#4111-acceptatietoets-bij-late-wijziging) |
+| Specificatiestatus gewijzigd melden | [Event-Carried State Transfer](Interactiepatronen/event-carried-state-transfer.md) | De onderwijscatalogus een statuswijziging laten melden die los staat van een nieuwe versie, zodat het planningssysteem zijn afgeleide status kan bijwerken zonder herplanronde | Specificatie krijgt een nieuwe status buiten een versiewijziging om (bv. `gepubliceerd` naar `gedeactiveerd`) | Onderwijscatalogus | I6 | webhook `specificatie-status-gewijzigd` | [hieronder](#4112-specificatiestatus-gewijzigd-melden) |
+| Reconciliatie na gemist event | [Request-Reply](Interactiepatronen/request-reply.md) | De gemiste informatie via een gewone opvraag herstellen na een event dat in de Dead Letter Channel is beland | Een I1-, I3-, I4- of I6-event is niet aangekomen | Onderwijscatalogus of Planningssysteem | I7 | `GET /onderwijsspecificaties` (op OC); `GET /onderwijsaanbod` (op P) | [hieronder](#4113-reconciliatie-na-gemist-event) |
+| Abonnement registreren | [Subscription registration](Interactiepatronen/subscription-registration.md) | Elke partij een callback-URL laten vastleggen voor de events die zij van de ander ontvangt, als voorwaarde voor I1, I3, I4 en I6 | Inrichting van de koppeling, of wijziging van de callback-URL | Onderwijscatalogus en Planningssysteem | I8 | `POST /abonnementen` (op OC en op P) | [hieronder](#4114-abonnement-registreren) |
 
-- Alle GET's zijn alleen-lezen en zonder neveneffect; herhaald aanroepen geeft hetzelfde resultaat.
-- Event-aflevering: ontvanger bevestigt met 200; bij uitblijven daarvan herhaalt de verzender met backoff en daarna [Dead Letter Channel](https://www.enterpriseintegrationpatterns.com/patterns/messaging/DeadLetterChannel.html). Dubbele aflevering is onschadelijk door het event-id ([Idempotent Receiver](https://www.enterpriseintegrationpatterns.com/patterns/messaging/IdempotentReceiver.html)).
-- `POST /abonnementen`: idempotent op de combinatie callback-URL + event-type. Een herhaalde registratie overschrijft de vorige, geen dubbel geregistreerde aflevering. Alleen bestemd voor de webhook-events (I1, I3, I4, I6); vervalt zodra event-aflevering via bus of broker loopt (§3).
-- `/onderwijsspecificaties` en `/onderwijsaanbod` (zonder `{id}`) zijn de reconciliatie-route: bedoeld voor herstel na een event in de Dead Letter Channel, niet voor reguliere polling. De reguliere flow blijft event-gedreven (I1, I3, I4, I6).
-- Mogelijke uitbreidingen (v-next): filter op `specificatieType` of deelstructuur-selectie bij het ophalen van de structuur, paginering bij grote structuren.
-
-#### 4.1.6 Interactiepatronen
-
-| Interactiepatroon | Doel | Trigger | Initiator | Interacties (§3) | Endpoints (§7) | Sequentiediagram |
-|---|---|---|---|---|---|---|
-| Notify-then-pull: opleidingsaanbod aanmaken | Een gepubliceerde specificatie omzetten in een planbaar `opleidingsaanbod`, met een referentie terug naar de onderwijscatalogus | Onderwijsspecificatie krijgt status `gepubliceerd` | Onderwijscatalogus | I1, I2, I3, (I5) | webhook `specificatie-planbaar`; `GET /onderwijsspecificaties/{id}`; webhook `verwerkingsstatus`; (`GET /onderwijsaanbod/{id}`) | [hieronder](#417-notify-then-pull-opleidingsaanbod-aanmaken) |
-| Notify-then-pull: opleidingsaanbod herplannen | Een lopende planning laten volgen op een nieuwe specificatieversie, met delta of volledige structuur als keuze voor de ontvanger | Nieuwe versie van een specificatie die al in een manifest is vastgelegd | Onderwijscatalogus | I2, I3, I4 | `GET /onderwijsspecificaties/{id}/delta` of `GET /onderwijsspecificaties/{id}`; webhook `verwerkingsstatus`; webhook `specificatie-gewijzigd` | [hieronder](#418-notify-then-pull-opleidingsaanbod-herplannen) |
-| Asynchrone statusmelding: planning niet gelukt | De onderwijscatalogus in kennis stellen dat een specificatie voor een of meer cohorten niet planbaar blijkt, met referentie en knelpunten, zonder de aanroep te blokkeren | Planproces bij het planningssysteem vindt geen geldige planning | Planningssysteem | I3, (I5) | webhook `verwerkingsstatus`; (`GET /onderwijsaanbod/{id}`) | [hieronder](#419-asynchrone-statusmelding-planning-niet-gelukt) |
-| Acceptatietoets bij late wijziging | Een afgeronde planning beschermen tegen een wijziging die er ongecontroleerd doorheen breekt | Specificatiewijziging terwijl de planning al is afgerond | Onderwijscatalogus | I3, I4 | webhook `specificatie-gewijzigd`; webhook `verwerkingsstatus` | [hieronder](#4110-acceptatietoets-bij-late-wijziging) |
-| Asynchrone statusmelding: specificatiestatus gewijzigd | De onderwijscatalogus een statuswijziging laten melden die los staat van een nieuwe versie, zodat het planningssysteem zijn afgeleide status kan bijwerken zonder herplanronde | Specificatie krijgt een nieuwe status buiten een versiewijziging om (bv. `gepubliceerd` naar `gedeactiveerd`) | Onderwijscatalogus | I6 | webhook `specificatie-status-gewijzigd` | [hieronder](#4111-asynchrone-statusmelding-specificatiestatus-gewijzigd) |
-| Reconciliatie na gemist event | De gemiste informatie via een gewone opvraag herstellen na een event dat in de Dead Letter Channel is beland | Een I1-, I3-, I4- of I6-event is niet aangekomen | Onderwijscatalogus of Planningssysteem | I7 | `GET /onderwijsspecificaties` (op OC); `GET /onderwijsaanbod` (op P) | [hieronder](#4112-reconciliatie-na-gemist-event) |
-| Abonnement registreren | Elke partij een callback-URL laten vastleggen voor de events die zij van de ander ontvangt, als voorwaarde voor I1, I3, I4 en I6 | Inrichting van de koppeling, of wijziging van de callback-URL | Onderwijscatalogus en Planningssysteem | I8 | `POST /abonnementen` (op OC en op P) | [hieronder](#4113-abonnement-registreren) |
-
-#### 4.1.7 Notify-then-pull: opleidingsaanbod aanmaken
+#### 4.1.8 Opleidingsaanbod aanmaken
 
 Doel: een gepubliceerde specificatie omzetten in een planbaar `opleidingsaanbod`, met een referentie terug naar de onderwijscatalogus. Trigger: onderwijsspecificatie krijgt status `gepubliceerd`. Initiator: Onderwijscatalogus. Interacties: I1, I2, I3, (I5).
 
 Endpoints:
 
-- [webhook `specificatie-planbaar` (I1)](#33-planningssysteem-p)
-- [`GET /onderwijsspecificaties/{id}` (I2)](#32-onderwijscatalogus-oc)
-- [webhook `verwerkingsstatus` (I3)](#32-onderwijscatalogus-oc)
-- [`GET /onderwijsaanbod/{id}` (I5, optioneel)](#33-planningssysteem-p)
+- [webhook `specificatie-planbaar` (I1)](Applicatiediensten/onderwijsspecificatiestructuur-afnemer.md)
+- [`GET /onderwijsspecificaties/{id}` (I2)](Applicatiediensten/onderwijsspecificatiestructuur-aanbieder.md)
+- [webhook `verwerkingsstatus` (I3)](Applicatiediensten/verwerkingsuitkomst-afnemer.md)
+- [`GET /onderwijsaanbod/{id}` (I5, optioneel)](Applicatiediensten/planbaar-onderwijsaanbod-aanbieder.md)
 
 ```mermaid
 sequenceDiagram
@@ -797,15 +851,15 @@ sequenceDiagram
     end
 ```
 
-#### 4.1.8 Notify-then-pull: opleidingsaanbod herplannen
+#### 4.1.9 Opleidingsaanbod herplannen
 
 Doel: een lopende planning laten volgen op een nieuwe specificatieversie, met delta of volledige structuur als keuze voor de ontvanger. Trigger: nieuwe versie van een specificatie die al in een manifest is vastgelegd. Initiator: Onderwijscatalogus. Interacties: I2, I3, I4.
 
 Endpoints:
 
-- [`GET /onderwijsspecificaties/{id}/delta` of `GET /onderwijsspecificaties/{id}` (I2)](#32-onderwijscatalogus-oc)
-- [webhook `verwerkingsstatus` (I3)](#32-onderwijscatalogus-oc)
-- [webhook `specificatie-gewijzigd` (I4)](#33-planningssysteem-p)
+- [`GET /onderwijsspecificaties/{id}/delta` of `GET /onderwijsspecificaties/{id}` (I2)](Applicatiediensten/onderwijsspecificatiestructuur-aanbieder.md)
+- [webhook `verwerkingsstatus` (I3)](Applicatiediensten/verwerkingsuitkomst-afnemer.md)
+- [webhook `specificatie-gewijzigd` (I4)](Applicatiediensten/onderwijsspecificatiestructuur-afnemer.md)
 
 ```mermaid
 sequenceDiagram
@@ -828,14 +882,14 @@ sequenceDiagram
     Planningssysteem-)Onderwijscatalogus: I3 [verwerkingsstatus] Status voltooid of mislukt, met referentie naar opleidingsaanbod
 ```
 
-#### 4.1.9 Asynchrone statusmelding: planning niet gelukt
+#### 4.1.10 Planning niet gelukt melden
 
 Doel: de onderwijscatalogus in kennis stellen dat een specificatie voor een of meer cohorten niet planbaar blijkt, met referentie en knelpunten, zonder de aanroep te blokkeren. Trigger: planproces bij het planningssysteem vindt geen geldige planning. Initiator: Planningssysteem. Interacties: I3, (I5).
 
 Endpoints:
 
-- [webhook `verwerkingsstatus` (I3)](#32-onderwijscatalogus-oc)
-- [`GET /onderwijsaanbod/{id}` (I5, optioneel)](#33-planningssysteem-p)
+- [webhook `verwerkingsstatus` (I3)](Applicatiediensten/verwerkingsuitkomst-afnemer.md)
+- [`GET /onderwijsaanbod/{id}` (I5, optioneel)](Applicatiediensten/planbaar-onderwijsaanbod-aanbieder.md)
 
 ```mermaid
 sequenceDiagram
@@ -855,14 +909,14 @@ sequenceDiagram
     Note over Onderwijscatalogus,Planningssysteem: Vervolg is ketenafstemming buiten deze koppeling,<br/>specificatie aanpassen (curriculum-ontwerptool), capaciteit uitbreiden of cohort uitstellen
 ```
 
-#### 4.1.10 Acceptatietoets bij late wijziging
+#### 4.1.11 Acceptatietoets bij late wijziging
 
 Doel: een afgeronde planning beschermen tegen een wijziging die er ongecontroleerd doorheen breekt. Trigger: specificatiewijziging terwijl de planning al is afgerond. Initiator: Onderwijscatalogus. Interacties: I3, I4.
 
 Endpoints:
 
-- [webhook `specificatie-gewijzigd` (I4)](#33-planningssysteem-p)
-- [webhook `verwerkingsstatus` (I3)](#32-onderwijscatalogus-oc)
+- [webhook `specificatie-gewijzigd` (I4)](Applicatiediensten/onderwijsspecificatiestructuur-afnemer.md)
+- [webhook `verwerkingsstatus` (I3)](Applicatiediensten/verwerkingsuitkomst-afnemer.md)
 
 ```mermaid
 sequenceDiagram
@@ -882,15 +936,15 @@ sequenceDiagram
     end
 ```
 
-#### 4.1.11 Asynchrone statusmelding: specificatiestatus gewijzigd
+#### 4.1.12 Specificatiestatus gewijzigd melden
 
 Doel: de onderwijscatalogus een statuswijziging laten melden die los staat van een nieuwe versie, zodat het planningssysteem zijn afgeleide status kan bijwerken zonder herplanronde. Trigger: specificatie krijgt een nieuwe status buiten een versiewijziging om (bv. `gepubliceerd` naar `gedeactiveerd`, [regels bij de schema's](#62-regels-bij-de-schemas)). Initiator: Onderwijscatalogus. Interacties: I6. Voorbeeldgeval: een opleiding die voor een ouder cohort bewust niet meer wordt aangeboden is nog wel planbaar, maar wordt niet meer gepland; dat is deze statuswijziging (met archivering als vervolg), geen planningsfout uit de melding hierboven.
 
 Endpoints:
 
-- [webhook `specificatie-status-gewijzigd` (I6)](#33-planningssysteem-p)
+- [webhook `specificatie-status-gewijzigd` (I6)](Applicatiediensten/onderwijsspecificatiestructuur-afnemer.md)
 
-Geen apart sequentiediagram in de koppelingspecificatie; I6 spiegelt daar het patroon van I4. Opgebouwd uit de interactiebeschrijving in §3.
+I6 volgt het patroon van I4.
 
 ```mermaid
 sequenceDiagram
@@ -903,16 +957,16 @@ sequenceDiagram
     Note over Planningssysteem: Wat het planningssysteem met de statuswijziging doet is applicatiefunctionaliteit,<br/>buiten deze specificatie
 ```
 
-#### 4.1.12 Reconciliatie na gemist event
+#### 4.1.13 Reconciliatie na gemist event
 
 Doel: de gemiste informatie via een gewone opvraag herstellen na een event dat in de Dead Letter Channel is beland, zonder op een herhaalde aflevering te wachten. Trigger: een I1-, I3-, I4- of I6-event is niet aangekomen. Initiator: Onderwijscatalogus of Planningssysteem. Interacties: I7.
 
 Endpoints:
 
-- [`GET /onderwijsspecificaties` (op OC)](#32-onderwijscatalogus-oc)
-- [`GET /onderwijsaanbod` (op P)](#33-planningssysteem-p)
+- [`GET /onderwijsspecificaties` (op OC)](Applicatiediensten/onderwijsspecificatiestructuur-aanbieder.md)
+- [`GET /onderwijsaanbod` (op P)](Applicatiediensten/planbaar-onderwijsaanbod-aanbieder.md)
 
-Geen apart sequentiediagram in de koppelingspecificatie; I7 spiegelt daar het patroon van I2/I5. Opgebouwd uit de interactiebeschrijving in §3 en de endpoints in §7.
+I7 volgt het patroon van I2/I5.
 
 ```mermaid
 sequenceDiagram
@@ -930,15 +984,15 @@ sequenceDiagram
     end
 ```
 
-#### 4.1.13 Abonnement registreren
+#### 4.1.14 Abonnement registreren
 
 Doel: elke partij een callback-URL laten vastleggen voor de events die zij van de ander ontvangt, als voorwaarde voor de event-gedreven interacties (I1, I3, I4, I6). Trigger: inrichting van de koppeling, of wijziging van de callback-URL. Initiator: Onderwijscatalogus en Planningssysteem (over en weer, elk voor de events die de ander van hem ontvangt). Interacties: I8.
 
 Endpoints:
 
-- [`POST /abonnementen` (op OC en op P)](#33-planningssysteem-p)
+- [`POST /abonnementen` (op OC en op P)](Applicatiediensten/afleverabonnement-aanbieder.md)
 
-Geen apart sequentiediagram in de koppelingspecificatie; I8 spiegelt daar het patroon van I2/I5. Opgebouwd uit de endpoints in §7.
+I8 volgt het patroon van I2/I5.
 
 ```mermaid
 sequenceDiagram
@@ -953,7 +1007,7 @@ sequenceDiagram
     Note over Onderwijscatalogus,Planningssysteem: Herregistratie op dezelfde callback-URL + event-type overschrijft,<br/>geen dubbele aflevering (idempotent)
 ```
 
-#### 4.1.14 Context: doorwerking naar het roostersysteem
+#### 4.1.15 Context: doorwerking naar het roostersysteem
 
 Buiten deze koppeling, en niet als vastgelegde interactie: het roostersysteem plaatst het geplande aanbod in tijd en ruimte. Het planningssysteem meldt dat de planning beschikbaar is, het roostersysteem haalt het aanbod op en meldt het rooster terug aan zowel planning als catalogus. Hetzelfde patroon van referentie plus event dus, opgenomen om te tonen dat de lijn doorloopt tot voorbij wat dit pakket specificeert. Het [roostersysteem](#36-roostersysteem-r) draagt daarom geen endpoints.
 
@@ -979,9 +1033,9 @@ sequenceDiagram
 
 <!-- pagina-einde -->
 
-### 4.2 Interactiepatroon: onderwijscatalogus naar studentinformatiesysteem
+### 4.2 Onderwijscatalogus naar studentinformatiesysteem
 
-Het interactiepatroon van deze koppeling: de systeem-naar-systeemberichten (machine-to-machine) tussen de onderwijscatalogus en het studentinformatiesysteem, met de sequentiediagrammen. Doel: per patroon laten zien welk berichtenpatroon het technisch implementeert en wat het oplevert, zonder de koppelingspecificatie te herhalen. De functionele eisen die het proces aan deze koppeling stelt staan als vertrekpunt in de eerste tabel; het interactieoverzicht legt per interactie het bericht, het patroon en de foutafhandeling vast, en de endpoints staan bij de [applicatiecomponent](#3-applicatiecomponenten) dat ze serveert.
+De koppeling tussen de onderwijscatalogus en het studentinformatiesysteem: welke informatie erover beweegt, in welke volgorde, en welk bericht dat draagt, met de sequentiediagrammen erbij. De functionele eisen die het proces aan deze koppeling stelt staan als vertrekpunt in de eerste tabel; het interactieoverzicht legt per interactie het bericht, het patroon en de foutafhandeling vast, en de endpoints staan bij de [applicatiecomponent](#3-applicatiecomponenten) die ze serveert.
 
 #### 4.2.1 Plek in de keten
 
@@ -993,12 +1047,36 @@ De uitsnede komt uit de informatiestromen-hoofdplaat v1.7 (richtinggevend; de le
 
 | Id | Functionele eis | Interactie | Story |
 |---|---|---|---|
-| <a id="functionele-eis-0008"></a>functionele-eis-0008 | De onderwijscatalogus moet het studentinformatiesysteem kunnen laten weten dat een specificatie en resultaatstructuur beschikbaar zijn om het nominale template en de resultaatstructuur op in te richten, en het studentinformatiesysteem moet daarop een inrichtingsstatus met referentie kunnen terugleveren | [Notify-then-pull: nominaal template en resultaatstructuur inrichten](#427-notify-then-pull-nominaal-template-en-resultaatstructuur-inrichten) | [story-0022](#story-0022); [story-0023](#story-0023) |
-| <a id="functionele-eis-0009"></a>functionele-eis-0009 | Een ingerichte resultaatstructuur waarop al verbintenissen lopen moet beschermd zijn tegen een examenplanwijziging die er ongecontroleerd doorheen breekt | [Acceptatietoets bij wijziging examenplan](#428-acceptatietoets-bij-wijziging-examenplan) | [story-0020](#story-0020) |
+| <a id="functionele-eis-0008"></a>functionele-eis-0008 | De onderwijscatalogus moet het studentinformatiesysteem kunnen laten weten dat een specificatie en resultaatstructuur beschikbaar zijn om het nominale template en de resultaatstructuur op in te richten, en het studentinformatiesysteem moet daarop een inrichtingsstatus met referentie kunnen terugleveren | [Nominaal template en resultaatstructuur inrichten](#428-nominaal-template-en-resultaatstructuur-inrichten) | [story-0022](#story-0022); [story-0023](#story-0023) |
+| <a id="functionele-eis-0009"></a>functionele-eis-0009 | Een ingerichte resultaatstructuur waarop al verbintenissen lopen moet beschermd zijn tegen een examenplanwijziging die er ongecontroleerd doorheen breekt | [Acceptatietoets bij wijziging examenplan](#429-acceptatietoets-bij-wijziging-examenplan) | [story-0020](#story-0020) |
 
-#### 4.2.3 Procesbeeld
+#### 4.2.3 Applicatiediensten
 
-**Resource-eigenaarschap** ([U3](#73-u3-resource-eigenaarschap)): de onderwijscatalogus bezit de specificaties en de resultaatstructuren, het studentinformatiesysteem de verbintenissen, individuele structuren, voortgang en resultaten. **Notify-then-pull** ([U4](#74-u4-notify-then-pull)): de catalogus meldt, het studentinformatiesysteem haalt op.
+Deze koppeling is de optelsom van de [applicatiediensten](Applicatiediensten/README.md) in de tabel.
+
+| Applicatiedienst | Geïmplementeerd door |
+|---|---|
+| [onderwijsspecificatiestructuur-aanbieder](Applicatiediensten/onderwijsspecificatiestructuur-aanbieder.md) | Onderwijscatalogus |
+| [onderwijsspecificatiestructuur-afnemer](Applicatiediensten/onderwijsspecificatiestructuur-afnemer.md) | Studentinformatiesysteem |
+| [resultaatstructuur-aanbieder](Applicatiediensten/resultaatstructuur-aanbieder.md) | Onderwijscatalogus |
+| [resultaatstructuur-afnemer](Applicatiediensten/resultaatstructuur-afnemer.md) | Studentinformatiesysteem |
+| [verwerkingsuitkomst-aanbieder](Applicatiediensten/verwerkingsuitkomst-aanbieder.md) | Studentinformatiesysteem |
+| [verwerkingsuitkomst-afnemer](Applicatiediensten/verwerkingsuitkomst-afnemer.md) | Onderwijscatalogus |
+
+Deze koppeling kent geen afleverabonnement: zolang er geen registratie is vastgelegd, is het afleveradres een inrichtingskeuze tussen beide partijen.
+
+#### 4.2.4 Interactiepatronen
+
+Deze koppeling zet de volgende [interactiepatronen](Interactiepatronen/README.md) in. Het interactieoverzicht noemt per interactie welk patroon geldt.
+
+| Interactiepatroon | Waarvoor in deze koppeling | Interacties |
+|---|---|---|
+| [Event Notification](Interactiepatronen/event-notification.md) | Melden dat specificatie en resultaatstructuur beschikbaar zijn of zijn gewijzigd, en het ophalen dat daarop volgt | S1, S2, S3, S5 |
+| [Asynchronous Request-Reply](Interactiepatronen/asynchronous-request-reply.md) | De inrichtingsstatus terugmelden, met een referentie naar de inrichting | S4 |
+
+#### 4.2.5 Procesbeeld
+
+**Resource-eigenaarschap** ([U3](#73-u3-resource-eigenaarschap)): de onderwijscatalogus bezit de specificaties en de resultaatstructuren, het studentinformatiesysteem de verbintenissen, individuele structuren, voortgang en resultaten. **Event notification** ([U4](#74-u4-event-notification)): de catalogus meldt, het studentinformatiesysteem haalt op.
 
 ```mermaid
 flowchart LR
@@ -1014,45 +1092,36 @@ flowchart LR
 
 Wat het diagram niet toont: het studentinformatiesysteem haalt twee dingen op, de specificatiestructuur en de resultaatstructuur, en richt daarmee het **nominale template** in plus de mapping van welke toetsonderdeelresultaten welke leeruitkomsten afdichten ([ADR 0022](../Referentiemateriaal/adr/0022-resultaatbegrippen-conform-rosa-koi.md)). Bij een wijziging draagt het event een wijzigingsklasse mee. Voor het examenplan gelden daarbij de strengste acceptatieregels: lopende verbintenissen mogen niet ongecontroleerd geraakt worden.
 
-#### 4.2.4 Interactieoverzicht
+#### 4.2.6 Interactieoverzicht
 
 De interacties op deze koppeling, met per interactie het messaging-patroon, in dezelfde patroontaal als de koppeling met planning ([Enterprise Integration Patterns, Messaging](https://www.enterpriseintegrationpatterns.com/patterns/messaging/)).
 Wat hier wordt vastgelegd is het **bericht**, niet het **kanaal**: hoe het bericht bij de ontvanger komt is een inrichtingskeuze van instelling en leverancier, binnen de vier eigenschappen die [ADR 0018](../Referentiemateriaal/adr/0018-enterprise-messaging-patronen-voor-betrouwbare-koppelvlakken.md) eist. Zie [uitgangspunt U5](#75-u5-bericht-versus-kanaal).
 
 | # | Interactie | Initiator | Patroon | Synchroniciteit | Gedrag bij dubbele ontvangst | Foutafhandeling |
 |---|---|---|---|---|---|---|
-| S1 | Specificatie en resultaatstructuur beschikbaar melden | OC | [Event Message](https://www.enterpriseintegrationpatterns.com/patterns/messaging/EventMessage.html) (id + versie) | Asynchroon | Geen effect: event-id ([Idempotent Receiver](https://www.enterpriseintegrationpatterns.com/patterns/messaging/IdempotentReceiver.html)) | [Guaranteed Delivery](https://www.enterpriseintegrationpatterns.com/patterns/messaging/GuaranteedDelivery.html); [Dead Letter Channel](https://www.enterpriseintegrationpatterns.com/patterns/messaging/DeadLetterChannel.html) |
-| S2 | Onderwijsspecificatiestructuur of delta ophalen | SIS | [Request-Reply](https://www.enterpriseintegrationpatterns.com/patterns/messaging/RequestReply.html) (GET, alleen-lezen) | Synchroon | Geen effect (alleen-lezen) | HTTP-foutcodes, client bepaalt retry |
-| S3 | Resultaatstructuur ophalen | SIS | [Request-Reply](https://www.enterpriseintegrationpatterns.com/patterns/messaging/RequestReply.html) (GET, alleen-lezen) | Synchroon | Geen effect (alleen-lezen) | HTTP-foutcodes |
-| S4 | Inrichtingsstatus melden, met referentie naar de inrichting | SIS | [Event Message](https://www.enterpriseintegrationpatterns.com/patterns/messaging/EventMessage.html) (status: ontvangen/gestart, afgekeurd, ingericht, niet ingericht) | Asynchroon | Geen effect: status-id | Retry met backoff, daarna [Dead Letter Channel](https://www.enterpriseintegrationpatterns.com/patterns/messaging/DeadLetterChannel.html) |
-| S5 | Wijziging specificatie of resultaatstructuur melden | OC | [Event Message](https://www.enterpriseintegrationpatterns.com/patterns/messaging/EventMessage.html) (object-id, oude en nieuwe versie, wijzigingsklasse) | Asynchroon | Geen effect: event-id | [Guaranteed Delivery](https://www.enterpriseintegrationpatterns.com/patterns/messaging/GuaranteedDelivery.html); [Dead Letter Channel](https://www.enterpriseintegrationpatterns.com/patterns/messaging/DeadLetterChannel.html) |
+| S1 | Specificatie en resultaatstructuur beschikbaar melden | OC | [Event Notification](Interactiepatronen/event-notification.md) (id + versie) | Asynchroon | Geen effect: event-id ([Idempotent Receiver](https://www.enterpriseintegrationpatterns.com/patterns/messaging/IdempotentReceiver.html)) | [Guaranteed Delivery](https://www.enterpriseintegrationpatterns.com/patterns/messaging/GuaranteedDelivery.html); [Dead Letter Channel](https://www.enterpriseintegrationpatterns.com/patterns/messaging/DeadLetterChannel.html) |
+| S2 | Onderwijsspecificatiestructuur of delta ophalen | SIS | [Event Notification](Interactiepatronen/event-notification.md) (GET, alleen-lezen) | Synchroon | Geen effect (alleen-lezen) | HTTP-foutcodes, client bepaalt retry |
+| S3 | Resultaatstructuur ophalen | SIS | [Event Notification](Interactiepatronen/event-notification.md) (GET, alleen-lezen) | Synchroon | Geen effect (alleen-lezen) | HTTP-foutcodes |
+| S4 | Inrichtingsstatus melden, met referentie naar de inrichting | SIS | [Asynchronous Request-Reply](Interactiepatronen/asynchronous-request-reply.md) (status: ontvangen/gestart, afgekeurd, ingericht, niet ingericht) | Asynchroon | Geen effect: status-id | Retry met backoff, daarna [Dead Letter Channel](https://www.enterpriseintegrationpatterns.com/patterns/messaging/DeadLetterChannel.html) |
+| S5 | Wijziging specificatie of resultaatstructuur melden | OC | [Event Notification](Interactiepatronen/event-notification.md) (object-id, oude en nieuwe versie, wijzigingsklasse) | Asynchroon | Geen effect: event-id | [Guaranteed Delivery](https://www.enterpriseintegrationpatterns.com/patterns/messaging/GuaranteedDelivery.html); [Dead Letter Channel](https://www.enterpriseintegrationpatterns.com/patterns/messaging/DeadLetterChannel.html) |
 
-#### 4.2.5 Berichtgedrag
+#### 4.2.7 Berichtstromen
 
-Dat is een voorbeeld van een kanaal, geen voorschrift: een bus, broker of cloud-pubsubdienst mag het vervangen zolang die de vier eigenschappen uit §3 levert. Het bericht blijft in alle gevallen gelijk.
+| Berichtstroom | Patroon | Doel | Trigger | Initiator | Interacties | Endpoints | Sequentiediagram |
+|---|---|---|---|---|---|---|---|
+| Nominaal template en resultaatstructuur inrichten | [Event Notification](Interactiepatronen/event-notification.md), [Asynchronous Request-Reply](Interactiepatronen/asynchronous-request-reply.md) | Een gepubliceerde specificatie en examenplanspecificatie omzetten in een ingericht nominaal template en resultaatstructuur bij het studentinformatiesysteem | Onderwijsspecificatie en examenplanspecificatie krijgen status `gepubliceerd` | Onderwijscatalogus | S1, S2, S3, S4 | webhook `specificatie-en-resultaatstructuur-beschikbaar`; `GET /onderwijsspecificaties/{id}`; `GET /examenplanspecificaties/{id}`; webhook `inrichtingsstatus` | [hieronder](#428-nominaal-template-en-resultaatstructuur-inrichten) |
+| Acceptatietoets bij wijziging examenplan | [Event Notification](Interactiepatronen/event-notification.md), [Asynchronous Request-Reply](Interactiepatronen/asynchronous-request-reply.md) | Lopende verbintenissen beschermen tegen een examenplanwijziging die er ongecontroleerd doorheen breekt | Examenplanspecificatie wijzigt terwijl er al verbintenissen lopen | Onderwijscatalogus | S5 | webhook `examenplanspecificatie-gewijzigd`; webhook `inrichtingsstatus` | [hieronder](#429-acceptatietoets-bij-wijziging-examenplan) |
 
-- Alle GET's zijn alleen-lezen en zonder neveneffect; herhaald aanroepen geeft hetzelfde resultaat.
-- Event-aflevering: ontvanger bevestigt met 200; bij uitblijven daarvan herhaalt de verzender met backoff en daarna [Dead Letter Channel](https://www.enterpriseintegrationpatterns.com/patterns/messaging/DeadLetterChannel.html). Dubbele aflevering is onschadelijk door het event-id ([Idempotent Receiver](https://www.enterpriseintegrationpatterns.com/patterns/messaging/IdempotentReceiver.html)).
-- Registratie van een callback-URL, zoals `POST /abonnementen` bij de koppeling met planning (I8), is voor deze koppeling nog geen eigen interactie in §3; zolang die er niet is, is het afleveradres een inrichtingskeuze tussen OC en SIS, buiten dit document.
-- Mogelijke uitbreidingen (v-next): paginering bij grote structuren.
-
-#### 4.2.6 Interactiepatronen
-
-| Interactiepatroon | Doel | Trigger | Initiator | Interacties (§3) | Endpoints (§7) | Sequentiediagram |
-|---|---|---|---|---|---|---|
-| Notify-then-pull: nominaal template en resultaatstructuur inrichten | Een gepubliceerde specificatie en examenplanspecificatie omzetten in een ingericht nominaal template en resultaatstructuur bij het studentinformatiesysteem | Onderwijsspecificatie en examenplanspecificatie krijgen status `gepubliceerd` | Onderwijscatalogus | S1, S2, S3, S4 | webhook `specificatie-en-resultaatstructuur-beschikbaar`; `GET /onderwijsspecificaties/{id}`; `GET /examenplanspecificaties/{id}`; webhook `inrichtingsstatus` | [hieronder](#427-notify-then-pull-nominaal-template-en-resultaatstructuur-inrichten) |
-| Acceptatietoets bij wijziging examenplan | Lopende verbintenissen beschermen tegen een examenplanwijziging die er ongecontroleerd doorheen breekt | Examenplanspecificatie wijzigt terwijl er al verbintenissen lopen | Onderwijscatalogus | S5 | webhook `examenplanspecificatie-gewijzigd`; webhook `inrichtingsstatus` | [hieronder](#428-acceptatietoets-bij-wijziging-examenplan) |
-
-#### 4.2.7 Notify-then-pull: nominaal template en resultaatstructuur inrichten
+#### 4.2.8 Nominaal template en resultaatstructuur inrichten
 
 Doel: een gepubliceerde specificatie en examenplanspecificatie omzetten in een ingericht nominaal template en resultaatstructuur bij het studentinformatiesysteem. Trigger: onderwijsspecificatie en examenplanspecificatie krijgen status `gepubliceerd`. Initiator: Onderwijscatalogus. Interacties: S1, S2, S3, S4.
 
 Endpoints:
 
-- [webhook `specificatie-en-resultaatstructuur-beschikbaar` (S1)](#34-studentinformatiesysteem-sis)
-- [`GET /onderwijsspecificaties/{id}` (S2)](#32-onderwijscatalogus-oc)
-- [`GET /examenplanspecificaties/{id}` (S3)](#32-onderwijscatalogus-oc)
-- [webhook `inrichtingsstatus` (S4)](#32-onderwijscatalogus-oc)
+- [webhook `specificatie-en-resultaatstructuur-beschikbaar` (S1)](Applicatiediensten/onderwijsspecificatiestructuur-afnemer.md)
+- [`GET /onderwijsspecificaties/{id}` (S2)](Applicatiediensten/onderwijsspecificatiestructuur-aanbieder.md)
+- [`GET /examenplanspecificaties/{id}` (S3)](Applicatiediensten/resultaatstructuur-aanbieder.md)
+- [webhook `inrichtingsstatus` (S4)](Applicatiediensten/verwerkingsuitkomst-afnemer.md)
 
 ```mermaid
 sequenceDiagram
@@ -1075,14 +1144,14 @@ sequenceDiagram
     end
 ```
 
-#### 4.2.8 Acceptatietoets bij wijziging examenplan
+#### 4.2.9 Acceptatietoets bij wijziging examenplan
 
 Doel: lopende verbintenissen beschermen tegen een examenplanwijziging die er ongecontroleerd doorheen breekt. Trigger: examenplanspecificatie wijzigt terwijl er al verbintenissen lopen. Initiator: Onderwijscatalogus. Interacties: S5.
 
 Endpoints:
 
-- [webhook `examenplanspecificatie-gewijzigd` (S5)](#34-studentinformatiesysteem-sis)
-- [webhook `inrichtingsstatus` (S4)](#32-onderwijscatalogus-oc)
+- [webhook `examenplanspecificatie-gewijzigd` (S5)](Applicatiediensten/resultaatstructuur-afnemer.md)
+- [webhook `inrichtingsstatus` (S4)](Applicatiediensten/verwerkingsuitkomst-afnemer.md)
 
 ```mermaid
 sequenceDiagram
@@ -1105,9 +1174,9 @@ sequenceDiagram
 
 <!-- pagina-einde -->
 
-### 4.3 Interactiepatroon: onderwijscatalogus naar leermanagementsysteem
+### 4.3 Onderwijscatalogus naar leermanagementsysteem
 
-Het interactiepatroon van deze koppeling: de systeem-naar-systeemberichten (machine-to-machine) tussen de onderwijscatalogus en het leermanagementsysteem, met de sequentiediagrammen. Doel: per patroon laten zien welk berichtenpatroon het technisch implementeert en wat het oplevert, zonder de koppelingspecificatie te herhalen. De functionele eisen die het proces aan deze koppeling stelt staan als vertrekpunt in de eerste tabel; het interactieoverzicht legt per interactie het bericht, het patroon en de foutafhandeling vast, en de endpoints staan bij de [applicatiecomponent](#3-applicatiecomponenten) dat ze serveert.
+De koppeling tussen de onderwijscatalogus en het leermanagementsysteem: welke informatie erover beweegt, in welke volgorde, en welk bericht dat draagt, met de sequentiediagrammen erbij. De functionele eisen die het proces aan deze koppeling stelt staan als vertrekpunt in de eerste tabel; het interactieoverzicht legt per interactie het bericht, het patroon en de foutafhandeling vast, en de endpoints staan bij de [applicatiecomponent](#3-applicatiecomponenten) die ze serveert.
 
 #### 4.3.1 Plek in de keten
 
@@ -1119,13 +1188,37 @@ De uitsnede komt uit de informatiestromen-hoofdplaat v1.7 (richtinggevend; de le
 
 | Id | Functionele eis | Interactie | Story |
 |---|---|---|---|
-| <a id="functionele-eis-0010"></a>functionele-eis-0010 | De onderwijscatalogus moet het leermanagementsysteem kunnen laten weten dat een specificatie beschikbaar is om de leeromgeving op in te richten, en het leermanagementsysteem moet daarop een inrichtingsstatus met referentie kunnen terugleveren | [Notify-then-pull: leeromgeving inrichten en leermiddelkoppeling melden](#437-notify-then-pull-leeromgeving-inrichten-en-leermiddelkoppeling-melden) | geen |
-| <a id="functionele-eis-0011"></a>functionele-eis-0011 | Het leermanagementsysteem moet een leermiddelkoppeling die het heeft gelegd aan de onderwijscatalogus kunnen melden, zodat die de leermiddelen bij het aanbod kan tonen | [Notify-then-pull: leeromgeving inrichten en leermiddelkoppeling melden](#437-notify-then-pull-leeromgeving-inrichten-en-leermiddelkoppeling-melden) | [story-0003](#story-0003) |
-| <a id="functionele-eis-0012"></a>functionele-eis-0012 | Het leermanagementsysteem moet zijn inrichting kunnen bijwerken wanneer een specificatie wijzigt, zonder verplicht de volledige structuur opnieuw te ontvangen | [Notify-then-pull: inrichting bijwerken na wijziging](#438-notify-then-pull-inrichting-bijwerken-na-wijziging) | geen |
+| <a id="functionele-eis-0010"></a>functionele-eis-0010 | De onderwijscatalogus moet het leermanagementsysteem kunnen laten weten dat een specificatie beschikbaar is om de leeromgeving op in te richten, en het leermanagementsysteem moet daarop een inrichtingsstatus met referentie kunnen terugleveren | [Leeromgeving inrichten en leermiddelkoppeling melden](#438-leeromgeving-inrichten-en-leermiddelkoppeling-melden) | geen |
+| <a id="functionele-eis-0011"></a>functionele-eis-0011 | Het leermanagementsysteem moet een leermiddelkoppeling die het heeft gelegd aan de onderwijscatalogus kunnen melden, zodat die de leermiddelen bij het aanbod kan tonen | [Leeromgeving inrichten en leermiddelkoppeling melden](#438-leeromgeving-inrichten-en-leermiddelkoppeling-melden) | [story-0003](#story-0003) |
+| <a id="functionele-eis-0012"></a>functionele-eis-0012 | Het leermanagementsysteem moet zijn inrichting kunnen bijwerken wanneer een specificatie wijzigt, zonder verplicht de volledige structuur opnieuw te ontvangen | [Inrichting bijwerken na wijziging](#439-inrichting-bijwerken-na-wijziging) | geen |
 
-#### 4.3.3 Procesbeeld
+#### 4.3.3 Applicatiediensten
 
-**Resource-eigenaarschap** ([U3](#73-u3-resource-eigenaarschap)): de onderwijscatalogus bezit de specificaties, de leeromgeving haar inrichting en de leermiddelkoppeling. **Notify-then-pull** ([U4](#74-u4-notify-then-pull)) geldt in beide richtingen.
+Deze koppeling is de optelsom van de [applicatiediensten](Applicatiediensten/README.md) in de tabel.
+
+| Applicatiedienst | Geïmplementeerd door |
+|---|---|
+| [onderwijsspecificatiestructuur-aanbieder](Applicatiediensten/onderwijsspecificatiestructuur-aanbieder.md) | Onderwijscatalogus |
+| [onderwijsspecificatiestructuur-afnemer](Applicatiediensten/onderwijsspecificatiestructuur-afnemer.md) | Leermanagementsysteem |
+| [leermiddelkoppeling-aanbieder](Applicatiediensten/leermiddelkoppeling-aanbieder.md) | Leermanagementsysteem |
+| [leermiddelkoppeling-afnemer](Applicatiediensten/leermiddelkoppeling-afnemer.md) | Onderwijscatalogus |
+| [verwerkingsuitkomst-aanbieder](Applicatiediensten/verwerkingsuitkomst-aanbieder.md) | Leermanagementsysteem |
+| [verwerkingsuitkomst-afnemer](Applicatiediensten/verwerkingsuitkomst-afnemer.md) | Onderwijscatalogus |
+
+Deze koppeling kent geen afleverabonnement: zolang er geen registratie is vastgelegd, is het afleveradres een inrichtingskeuze tussen beide partijen.
+
+#### 4.3.4 Interactiepatronen
+
+Deze koppeling zet de volgende [interactiepatronen](Interactiepatronen/README.md) in. Het interactieoverzicht noemt per interactie welk patroon geldt.
+
+| Interactiepatroon | Waarvoor in deze koppeling | Interacties |
+|---|---|---|
+| [Event Notification](Interactiepatronen/event-notification.md) | Melden dat een specificatie beschikbaar is of is gewijzigd en dat de leermiddelkoppeling er is, met het ophalen dat daarop volgt | L1, L2, L4, L5, L6 |
+| [Asynchronous Request-Reply](Interactiepatronen/asynchronous-request-reply.md) | De inrichtingsstatus terugmelden, met een referentie naar de inrichting | L3 |
+
+#### 4.3.5 Procesbeeld
+
+**Resource-eigenaarschap** ([U3](#73-u3-resource-eigenaarschap)): de onderwijscatalogus bezit de specificaties, de leeromgeving haar inrichting en de leermiddelkoppeling. **Event notification** ([U4](#74-u4-event-notification)) geldt in beide richtingen.
 
 ```mermaid
 flowchart LR
@@ -1141,47 +1234,38 @@ flowchart LR
 
 Wat het diagram niet toont: de leeromgeving richt zich in tot op **leeronderdeelniveau** en vult daaronder haar eigen lesniveau in, waar de catalogus buiten staat. De leermiddelkoppeling gaat de andere kant op zodra de leeromgeving die heeft gelegd; de catalogus haalt hem op wanneer die de leermiddelen bij het aanbod wil tonen. Wijzigt een specificatie, dan volgt een nieuw event en haalt de leeromgeving het verschil of de volledige structuur opnieuw op.
 
-#### 4.3.4 Interactieoverzicht
+#### 4.3.6 Interactieoverzicht
 
 De interacties op deze koppeling, met per interactie het messaging-patroon, in dezelfde patroontaal als de koppeling met planning ([Enterprise Integration Patterns, Messaging](https://www.enterpriseintegrationpatterns.com/patterns/messaging/)).
 Wat hier wordt vastgelegd is het **bericht**, niet het **kanaal**: hoe het bericht bij de ontvanger komt is een inrichtingskeuze van instelling en leverancier, binnen de vier eigenschappen die [ADR 0018](../Referentiemateriaal/adr/0018-enterprise-messaging-patronen-voor-betrouwbare-koppelvlakken.md) eist. Zie [uitgangspunt U5](#75-u5-bericht-versus-kanaal).
 
 | # | Interactie | Initiator | Patroon | Synchroniciteit | Gedrag bij dubbele ontvangst | Foutafhandeling |
 |---|---|---|---|---|---|---|
-| L1 | Specificatie beschikbaar melden | OC | [Event Message](https://www.enterpriseintegrationpatterns.com/patterns/messaging/EventMessage.html) (id + versie) | Asynchroon | Geen effect: event-id ([Idempotent Receiver](https://www.enterpriseintegrationpatterns.com/patterns/messaging/IdempotentReceiver.html)) | [Guaranteed Delivery](https://www.enterpriseintegrationpatterns.com/patterns/messaging/GuaranteedDelivery.html); [Dead Letter Channel](https://www.enterpriseintegrationpatterns.com/patterns/messaging/DeadLetterChannel.html) |
-| L2 | Onderwijsspecificatiestructuur of delta ophalen | LMS | [Request-Reply](https://www.enterpriseintegrationpatterns.com/patterns/messaging/RequestReply.html) (GET, alleen-lezen) | Synchroon | Geen effect (alleen-lezen) | HTTP-foutcodes, client bepaalt retry |
-| L3 | Inrichtingsstatus melden, met referentie | LMS | [Event Message](https://www.enterpriseintegrationpatterns.com/patterns/messaging/EventMessage.html) (status: ontvangen/gestart, afgekeurd, ingericht, niet ingericht) | Asynchroon | Geen effect: status-id | Retry met backoff, daarna [Dead Letter Channel](https://www.enterpriseintegrationpatterns.com/patterns/messaging/DeadLetterChannel.html) |
-| L4 | Leermiddelkoppeling beschikbaar melden | LMS | [Event Message](https://www.enterpriseintegrationpatterns.com/patterns/messaging/EventMessage.html) (referentie + specificatie-id en versie) | Asynchroon | Geen effect: event-id | [Guaranteed Delivery](https://www.enterpriseintegrationpatterns.com/patterns/messaging/GuaranteedDelivery.html); [Dead Letter Channel](https://www.enterpriseintegrationpatterns.com/patterns/messaging/DeadLetterChannel.html) |
-| L5 | Leermiddelkoppeling ophalen | OC | [Request-Reply](https://www.enterpriseintegrationpatterns.com/patterns/messaging/RequestReply.html) op referentie (GET uuid, alleen-lezen) | Synchroon | Geen effect (alleen-lezen) | HTTP-foutcodes |
-| L6 | Specificatiewijziging melden | OC | [Event Message](https://www.enterpriseintegrationpatterns.com/patterns/messaging/EventMessage.html) (object-id, oude en nieuwe versie, wijzigingsklasse) | Asynchroon | Geen effect: event-id | [Guaranteed Delivery](https://www.enterpriseintegrationpatterns.com/patterns/messaging/GuaranteedDelivery.html); [Dead Letter Channel](https://www.enterpriseintegrationpatterns.com/patterns/messaging/DeadLetterChannel.html) |
+| L1 | Specificatie beschikbaar melden | OC | [Event Notification](Interactiepatronen/event-notification.md) (id + versie) | Asynchroon | Geen effect: event-id ([Idempotent Receiver](https://www.enterpriseintegrationpatterns.com/patterns/messaging/IdempotentReceiver.html)) | [Guaranteed Delivery](https://www.enterpriseintegrationpatterns.com/patterns/messaging/GuaranteedDelivery.html); [Dead Letter Channel](https://www.enterpriseintegrationpatterns.com/patterns/messaging/DeadLetterChannel.html) |
+| L2 | Onderwijsspecificatiestructuur of delta ophalen | LMS | [Event Notification](Interactiepatronen/event-notification.md) (GET, alleen-lezen) | Synchroon | Geen effect (alleen-lezen) | HTTP-foutcodes, client bepaalt retry |
+| L3 | Inrichtingsstatus melden, met referentie | LMS | [Asynchronous Request-Reply](Interactiepatronen/asynchronous-request-reply.md) (status: ontvangen/gestart, afgekeurd, ingericht, niet ingericht) | Asynchroon | Geen effect: status-id | Retry met backoff, daarna [Dead Letter Channel](https://www.enterpriseintegrationpatterns.com/patterns/messaging/DeadLetterChannel.html) |
+| L4 | Leermiddelkoppeling beschikbaar melden | LMS | [Event Notification](Interactiepatronen/event-notification.md) (referentie + specificatie-id en versie) | Asynchroon | Geen effect: event-id | [Guaranteed Delivery](https://www.enterpriseintegrationpatterns.com/patterns/messaging/GuaranteedDelivery.html); [Dead Letter Channel](https://www.enterpriseintegrationpatterns.com/patterns/messaging/DeadLetterChannel.html) |
+| L5 | Leermiddelkoppeling ophalen | OC | [Event Notification](Interactiepatronen/event-notification.md) op referentie (GET uuid, alleen-lezen) | Synchroon | Geen effect (alleen-lezen) | HTTP-foutcodes |
+| L6 | Specificatiewijziging melden | OC | [Event Notification](Interactiepatronen/event-notification.md) (object-id, oude en nieuwe versie, wijzigingsklasse) | Asynchroon | Geen effect: event-id | [Guaranteed Delivery](https://www.enterpriseintegrationpatterns.com/patterns/messaging/GuaranteedDelivery.html); [Dead Letter Channel](https://www.enterpriseintegrationpatterns.com/patterns/messaging/DeadLetterChannel.html) |
 
-#### 4.3.5 Berichtgedrag
+#### 4.3.7 Berichtstromen
 
-Dat is een voorbeeld van een kanaal, geen voorschrift: een bus, broker of cloud-pubsubdienst mag het vervangen zolang die de vier eigenschappen uit §3 levert. Het bericht blijft in alle gevallen gelijk.
+| Berichtstroom | Patroon | Doel | Trigger | Initiator | Interacties | Endpoints | Sequentiediagram |
+|---|---|---|---|---|---|---|---|
+| Leeromgeving inrichten en leermiddelkoppeling melden | [Event Notification](Interactiepatronen/event-notification.md), [Asynchronous Request-Reply](Interactiepatronen/asynchronous-request-reply.md) | Een gepubliceerde specificatie omzetten in een ingerichte leeromgeving, met een leermiddelkoppeling terug naar de onderwijscatalogus | Onderwijsspecificatie krijgt status `gepubliceerd` | Onderwijscatalogus | L1, L2, L3, L4, (L5) | webhook `specificatie-beschikbaar`; `GET /onderwijsspecificaties/{id}`; webhook `inrichtingsstatus`; webhook `leermiddelkoppeling-beschikbaar`; (`GET /leermiddelkoppelingen/{id}`) | [hieronder](#438-leeromgeving-inrichten-en-leermiddelkoppeling-melden) |
+| Inrichting bijwerken na wijziging | [Event Notification](Interactiepatronen/event-notification.md), [Asynchronous Request-Reply](Interactiepatronen/asynchronous-request-reply.md) | Een bestaande inrichting laten volgen op een nieuwe specificatieversie, met delta of volledige structuur als keuze voor het leermanagementsysteem | Nieuwe versie van een specificatie waarop het leermanagementsysteem is ingericht | Onderwijscatalogus | L2, L3, L6 | `GET /onderwijsspecificaties/{id}/delta` of `GET /onderwijsspecificaties/{id}`; webhook `inrichtingsstatus`; webhook `specificatie-gewijzigd` | [hieronder](#439-inrichting-bijwerken-na-wijziging) |
 
-- Alle GET's zijn alleen-lezen en zonder neveneffect; herhaald aanroepen geeft hetzelfde resultaat.
-- Event-aflevering: ontvanger bevestigt met 200; bij uitblijven daarvan herhaalt de verzender met backoff en daarna [Dead Letter Channel](https://www.enterpriseintegrationpatterns.com/patterns/messaging/DeadLetterChannel.html). Dubbele aflevering is onschadelijk door het event-id ([Idempotent Receiver](https://www.enterpriseintegrationpatterns.com/patterns/messaging/IdempotentReceiver.html)).
-- Registratie van een callback-URL, zoals `POST /abonnementen` bij de koppeling met planning (I8), is voor deze koppeling nog geen eigen interactie in §3; zolang die er niet is, is het afleveradres een inrichtingskeuze tussen OC en LMS, buiten dit document.
-- Mogelijke uitbreidingen (v-next): paginering bij grote structuren, filter op deelstructuur-selectie bij het ophalen van de structuur.
-
-#### 4.3.6 Interactiepatronen
-
-| Interactiepatroon | Doel | Trigger | Initiator | Interacties (§3) | Endpoints (§7) | Sequentiediagram |
-|---|---|---|---|---|---|---|
-| Notify-then-pull: leeromgeving inrichten en leermiddelkoppeling melden | Een gepubliceerde specificatie omzetten in een ingerichte leeromgeving, met een leermiddelkoppeling terug naar de onderwijscatalogus | Onderwijsspecificatie krijgt status `gepubliceerd` | Onderwijscatalogus | L1, L2, L3, L4, (L5) | webhook `specificatie-beschikbaar`; `GET /onderwijsspecificaties/{id}`; webhook `inrichtingsstatus`; webhook `leermiddelkoppeling-beschikbaar`; (`GET /leermiddelkoppelingen/{id}`) | [hieronder](#437-notify-then-pull-leeromgeving-inrichten-en-leermiddelkoppeling-melden) |
-| Notify-then-pull: inrichting bijwerken na wijziging | Een bestaande inrichting laten volgen op een nieuwe specificatieversie, met delta of volledige structuur als keuze voor het leermanagementsysteem | Nieuwe versie van een specificatie waarop het leermanagementsysteem is ingericht | Onderwijscatalogus | L2, L3, L6 | `GET /onderwijsspecificaties/{id}/delta` of `GET /onderwijsspecificaties/{id}`; webhook `inrichtingsstatus`; webhook `specificatie-gewijzigd` | [hieronder](#438-notify-then-pull-inrichting-bijwerken-na-wijziging) |
-
-#### 4.3.7 Notify-then-pull: leeromgeving inrichten en leermiddelkoppeling melden
+#### 4.3.8 Leeromgeving inrichten en leermiddelkoppeling melden
 
 Doel: een gepubliceerde specificatie omzetten in een ingerichte leeromgeving, met een leermiddelkoppeling terug naar de onderwijscatalogus. Trigger: onderwijsspecificatie krijgt status `gepubliceerd`. Initiator: Onderwijscatalogus. Interacties: L1, L2, L3, L4, (L5).
 
 Endpoints:
 
-- [webhook `specificatie-beschikbaar` (L1)](#35-leermanagementsysteem-lms)
-- [`GET /onderwijsspecificaties/{id}` (L2)](#32-onderwijscatalogus-oc)
-- [webhook `inrichtingsstatus` (L3)](#32-onderwijscatalogus-oc)
-- [webhook `leermiddelkoppeling-beschikbaar` (L4)](#32-onderwijscatalogus-oc)
-- [`GET /leermiddelkoppelingen/{id}` (L5, optioneel)](#35-leermanagementsysteem-lms)
+- [webhook `specificatie-beschikbaar` (L1)](Applicatiediensten/onderwijsspecificatiestructuur-afnemer.md)
+- [`GET /onderwijsspecificaties/{id}` (L2)](Applicatiediensten/onderwijsspecificatiestructuur-aanbieder.md)
+- [webhook `inrichtingsstatus` (L3)](Applicatiediensten/verwerkingsuitkomst-afnemer.md)
+- [webhook `leermiddelkoppeling-beschikbaar` (L4)](Applicatiediensten/leermiddelkoppeling-afnemer.md)
+- [`GET /leermiddelkoppelingen/{id}` (L5, optioneel)](Applicatiediensten/leermiddelkoppeling-aanbieder.md)
 
 ```mermaid
 sequenceDiagram
@@ -1203,15 +1287,15 @@ sequenceDiagram
     end
 ```
 
-#### 4.3.8 Notify-then-pull: inrichting bijwerken na wijziging
+#### 4.3.9 Inrichting bijwerken na wijziging
 
 Doel: een bestaande inrichting laten volgen op een nieuwe specificatieversie, met delta of volledige structuur als keuze voor het leermanagementsysteem. Trigger: nieuwe versie van een specificatie waarop het leermanagementsysteem is ingericht. Initiator: Onderwijscatalogus. Interacties: L2, L3, L6.
 
 Endpoints:
 
-- [`GET /onderwijsspecificaties/{id}/delta` of `GET /onderwijsspecificaties/{id}` (L2)](#32-onderwijscatalogus-oc)
-- [webhook `inrichtingsstatus` (L3)](#32-onderwijscatalogus-oc)
-- [webhook `specificatie-gewijzigd` (L6)](#35-leermanagementsysteem-lms)
+- [`GET /onderwijsspecificaties/{id}/delta` of `GET /onderwijsspecificaties/{id}` (L2)](Applicatiediensten/onderwijsspecificatiestructuur-aanbieder.md)
+- [webhook `inrichtingsstatus` (L3)](Applicatiediensten/verwerkingsuitkomst-afnemer.md)
+- [webhook `specificatie-gewijzigd` (L6)](Applicatiediensten/onderwijsspecificatiestructuur-afnemer.md)
 
 ```mermaid
 sequenceDiagram
@@ -2745,7 +2829,7 @@ Leerroute 1. De `specificatieVerwijzing`-uuid's komen uit de [voorbeeld onderwij
 }
 ```
 
-Loopt de planning vast, dan bestaat de instantie wel maar draagt die status en knelpunten. Zie het faalpad in de [Asynchrone statusmelding: planning niet gelukt](#419-asynchrone-statusmelding-planning-niet-gelukt):
+Loopt de planning vast, dan bestaat de instantie wel maar draagt die status en knelpunten. Zie het faalpad in de [Planning niet gelukt melden](#4110-planning-niet-gelukt-melden):
 
 ```json
 {
@@ -3637,13 +3721,11 @@ Elk systeem bezit zijn eigen resource en is er de enige bron van. De onderwijsca
 
 Over de koppeling gaan daarom **referenties** (uuid) en niet de resource zelf, tenzij die expliciet wordt opgevraagd. Dat voorkomt dat dezelfde gegevens op meerdere plekken een eigen leven gaan leiden.
 
-### 7.4 U4. Notify-then-pull
+### 7.4 U4. Event notification
 
-De bezitter van een resource **publiceert een event** zodra er iets te melden valt. Dat event is dun: het draagt de aanleiding (id en versie) plus een referentie, niet de inhoud. De consument **haalt de resource daarna zelf op**, wanneer het hem uitkomt.
+Een melding over een koppeling is dun: zij draagt de aanleiding en een verwijzing, niet de inhoud, en de afnemer haalt de resource zelf op. Het patroon staat uitgewerkt bij [Event Notification](Interactiepatronen/event-notification.md).
 
-Het is dus geen pull-only model: het event is de trigger, de pull is het ophalen. De combinatie voorkomt dat systemen elkaar bevragen zonder aanleiding, en voorkomt tegelijk dat een grote payload wordt gestuurd naar een ontvanger die er nog niets mee doet.
-
-Vastgelegd in [ADR 0020](../Referentiemateriaal/adr/0020-curriculumontwerp-onderwijscatalogus-happy-flow-synchronisatie-en-federatie-adopt-klonen.md). Dit is een repo-brede keuze, geen keuze per koppeling.
+Dit uitgangspunt legt de keuze vast en niet het patroon: elke koppeling in dit pakket gebruikt het, en het is geen afweging per koppeling. Vastgelegd in [ADR 0020](../Referentiemateriaal/adr/0020-curriculumontwerp-onderwijscatalogus-happy-flow-synchronisatie-en-federatie-adopt-klonen.md).
 
 ### 7.5 U5. Bericht versus kanaal
 
@@ -3715,7 +3797,7 @@ OKx definieert endpoints die ook toekomstige scenario's mogelijk maken. Waar een
 
 Waarom: de keten kent implementaties van verschillende volwassenheid, en scenario's die we nog niet kennen. Eén verplichte vorm dwingt óf onnodige complexiteit af (delta-berekening voor wie die niet nodig heeft) óf onnodig zwaar verkeer (volledige structuur voor wie alleen de wijziging wil). Twee vormen op dezelfde resource houden beide routes open zonder de semantiek te splitsen.
 
-Zichtbaar in het [interactiepatroon onderwijscatalogus naar planning en roostering](#417-notify-then-pull-opleidingsaanbod-aanmaken): de planbaar-melding is dun (conform U4), waarna de afnemer de volledige structuur of de delta ophaalt.
+Zichtbaar in de [koppelingspecificatie onderwijscatalogus naar planning en roostering](#418-opleidingsaanbod-aanmaken): de planbaar-melding is dun (conform U4), waarna de afnemer de volledige structuur of de delta ophaalt.
 
 
 <!-- pagina-einde -->

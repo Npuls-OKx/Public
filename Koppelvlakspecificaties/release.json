@@ -33,11 +33,11 @@
       ]
     },
     {
-      "sectie": "Interactiepatronen",
+      "sectie": "Koppelingspecificaties",
       "documenten": [
-        "Interactiepatronen/onderwijscatalogus-planning-en-roostering.md",
-        "Interactiepatronen/onderwijscatalogus-studentinformatiesysteem.md",
-        "Interactiepatronen/onderwijscatalogus-leermanagementsysteem.md"
+        "Koppelingspecificaties/onderwijscatalogus-planning-en-roostering.md",
+        "Koppelingspecificaties/onderwijscatalogus-studentinformatiesysteem.md",
+        "Koppelingspecificaties/onderwijscatalogus-leermanagementsysteem.md"
       ]
     },
     "auth-standaard.md",
