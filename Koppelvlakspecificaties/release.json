@@ -1,5 +1,5 @@
 {
-  "$comment": "Manifest van het releasepakket koppelvlakspecificatie. De workflow release.yml leest dit bestand: versie bepaalt het label van de release, documenten bepaalt de volgorde in het gebundelde document. Een item in documenten is een pad (dat met ../ ook buiten de pakketmap mag wijzen, zoals de requirementsboom in Referentiemateriaal), een sectie {sectie, inleiding, documenten of schemas} die de genoemde documenten of JSON-schema's als subhoofdstukken onder één kop bundelt, of {inhoudsopgave: true} dat bepaalt waar de inhoudsopgave staat. De koppelingspecificaties, mapping en templates staan voorlopig achteraan; hun plek in de leesvolgorde wordt nog bepaald. Zie Algemeen/release-management/Release-management-algemeen.md.",
+  "$comment": "Manifest van het releasepakket koppelvlakspecificatie. De workflow release.yml leest dit bestand: versie bepaalt het label van de release, documenten bepaalt de volgorde in het gebundelde document. Een item in documenten is een pad (dat met ../ ook buiten de pakketmap mag wijzen, zoals de requirementsboom in Referentiemateriaal), een sectie {sectie, inleiding, documenten of schemas} die de genoemde documenten of JSON-schema's als subhoofdstukken onder een kop bundelt, of {inhoudsopgave: true} dat bepaalt waar de inhoudsopgave staat. Afhankelijkheden noemt de pakketten waarop dit pakket bouwt, elk op een vastgelegde versie: verwijzingen daarheen krijgen bij het bouwen de tag van die versie. De koppelingspecificaties staan voorlopig achteraan; hun plek in de leesvolgorde wordt nog bepaald. Zie Algemeen/release-management/Release-management-algemeen.md.",
   "naam": "Koppelvlakspecificatie",
   "bestandsnaam": "koppelvlakspecificatie",
   "versie": "0.0.1",
@@ -33,26 +33,20 @@
       ]
     },
     {
-      "sectie": "Interactiepatronen",
+      "sectie": "Koppelingspecificaties",
       "documenten": [
-        "Interactiepatronen/onderwijscatalogus-planning-en-roostering.md",
-        "Interactiepatronen/onderwijscatalogus-studentinformatiesysteem.md",
-        "Interactiepatronen/onderwijscatalogus-leermanagementsysteem.md"
+        "Koppelingspecificaties/onderwijscatalogus-planning-en-roostering.md",
+        "Koppelingspecificaties/onderwijscatalogus-studentinformatiesysteem.md",
+        "Koppelingspecificaties/onderwijscatalogus-leermanagementsysteem.md"
       ]
     },
     "auth-standaard.md",
-    {
-      "sectie": "Datamodelschema's",
-      "inleiding": "Datamodelschema's/README.md",
-      "documenten": [
-        "Datamodelschema's/voorbeeldpayloads.md"
-      ],
-      "schemas": "Datamodelschema's"
-    },
-    "uitgangspunten.md",
-    "mapping.md"
+    "uitgangspunten.md"
   ],
-  "meeleveren": [
-    "Datamodelschema's"
+  "afhankelijkheden": [
+    {
+      "pakket": "../Informatie-en-gegevensmodellen",
+      "versie": "0.1.0"
+    }
   ]
 }

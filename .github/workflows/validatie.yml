@@ -4,7 +4,8 @@ name: Validatie
 # elke push naar dev. De scripts geven exitcode 1 bij een probleem; zie scripts/README.md.
 #
 # De bouwcontrole hoort hier bewust bij: zo blijkt op de pull request al of het
-# releasepakket nog te bouwen is, in plaats van pas bij het maken van een release.
+# releasepakket nog te bouwen is, in plaats van pas bij het maken van een release. Elk
+# pakket in het repository gaat door die controle.
 
 on:
   pull_request:
@@ -39,7 +40,7 @@ jobs:
       - name: Drift tussen JSON, schema en gegenereerde bomen
         run: |
           shopt -s globstar nullglob
-          python3 scripts/json-tree.py --check Koppelvlakspecificaties/**/*.md
+          python3 scripts/json-tree.py --check **/*.md
 
       - name: Requirementsboom-navigatie en terugleiding
         run: python3 scripts/validate-requirementsboom-navigatie.py
@@ -48,7 +49,7 @@ jobs:
         run: python3 -m unittest discover -s tests
 
   bouw:
-    name: Releasepakket bouwbaar
+    name: Releasepakketten bouwbaar
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -64,5 +65,14 @@ jobs:
       - name: Pandoc installeren
         uses: ./.github/actions/pandoc
 
-      - name: Pakket bouwen zonder artefacten achter te laten
-        run: python3 scripts/build-release.py Koppelvlakspecificaties --alleen-controle
+      - name: Elk pakket bouwen zonder artefacten achter te laten
+        # Een pakket is een map met een release.json; ze worden opgezocht in plaats van
+        # opgesomd, zodat een nieuw pakket hier geen wijziging vraagt.
+        run: |
+          set -euo pipefail
+          find . -mindepth 2 -maxdepth 2 -name release.json -printf '%h\n' \
+            | sed 's|^\./||' | sort | while read -r pakket; do
+              echo "::group::${pakket}"
+              python3 scripts/build-release.py "$pakket" --alleen-controle
+              echo "::endgroup::"
+            done
