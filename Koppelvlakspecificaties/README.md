@@ -13,10 +13,9 @@ Het releasepakket **koppelvlakspecificatie**. De inhoudelijke inleiding staat in
 | [`Koppelingspecificaties/`](Koppelingspecificaties/) | Per koppeling de stories die zij invult, de diensten en patronen die zij inzet, en de berichtstromen met hun sequentiediagrammen |
 | [`Applicatiediensten/`](Applicatiediensten/) | Per applicatiedienst wat een component moet implementeren om hem te claimen, en welk doel uit de requirementsboom dat bereikt |
 | [`Interactiepatronen/`](Interactiepatronen/) | De patronen waarmee een uitwisseling wordt gerealiseerd, in rollen in plaats van systeemnamen |
-| [`Datamodelschema's/`](Datamodelschema's/) | De informatiemodellen, de JSON Schema's, de regels die een schema niet kan uitdrukken, de gebruiksprofielen en de voorbeeldpayloads |
 | [auth-standaard.md](auth-standaard.md) | De authenticatie die voor elk endpoint geldt |
 | [uitgangspunten.md](uitgangspunten.md) | U1 tot en met U10, de aannames onder alles |
-| [mapping.md](mapping.md) | Veldnamen Engels naar Nederlands |
+| [`../Datamodelschema's/`](../Datamodelschema's/) | De vorm van de uitgewisselde gegevens. Een eigen releasepakket; [release.json](release.json) noemt onder `afhankelijkheden` op welke versie dit pakket bouwt |
 
 Wat er in welke volgorde in het releasedocument komt staat in [release.json](release.json).
 

@@ -6,20 +6,22 @@ De specificaties waarmee een partij een koppelvlak kan bouwen op de standaarden 
 
 Versie 0.0.1
 
+Bouwt op [Datamodelschema's v0.1.0](https://github.com/Npuls-OKx/Public/tree/datamodelschemas-v0.1.0)
+
 
 <!-- pagina-einde -->
 
 ## 1 Inleiding
 
-Dit document specificeert het koppelvlak van elk systeem dat deelneemt aan de uitwisseling van onderwijsspecificaties. Het beschrijft welke applicatiediensten een systeem implementeert en welke endpoints daarbij horen, per koppeling welk berichtverkeer daaroverheen gaat en in welke volgorde, en welke vorm de uitgewisselde gegevens hebben.
+Dit document specificeert het koppelvlak van elk systeem dat deelneemt aan de uitwisseling van onderwijsspecificaties. Het beschrijft welke applicatiediensten een systeem implementeert en welke endpoints daarbij horen, per koppeling welk berichtverkeer daaroverheen gaat en in welke volgorde, en welke payload er bij elke interactie hoort. De vorm van die payloads staat in de [datamodelschema's](https://github.com/Npuls-OKx/Public/blob/datamodelschemas-v0.1.0/Datamodelschema's/inleiding.md): de informatiemodellen, de JSON Schema's en de regels die zo'n schema niet kan uitdrukken. Dat is een eigen releasepakket met een eigen versie, omdat de vorm van de gegevens en het berichtverkeer eromheen niet samen veranderen; deze specificatie bouwt op de versie die haar manifest noemt.
 
-Waar de eisen vandaan komen staat in de [requirementsboom](#2-requirementsboom): van de opdracht via epics en features naar stories, en vandaar naar de berichtstroom in een koppelingspecificatie die de story invult. Voorschrijven doet het document niet; de [uitgangspunten](#7-uitgangspunten-voor-koppelingspecificaties) leggen die doelbinding vast in U1, samen met negen andere aannames die voor het hele pakket gelden. Elk document noemt zo'n uitgangspunt in één regel en verwijst erheen.
+Waar de eisen vandaan komen staat in de [requirementsboom](#2-requirementsboom): van de opdracht via epics en features naar stories, en vandaar naar de berichtstroom in een koppelingspecificatie die de story invult. Voorschrijven doet het document niet; de [uitgangspunten](#6-uitgangspunten-voor-koppelingspecificaties) leggen die doelbinding vast in U1, samen met negen andere aannames die voor het hele pakket gelden. Elk document noemt zo'n uitgangspunt in één regel en verwijst erheen.
 
 ### 1.1 Kernbegrippen
 
 - **Koppeling en koppelvlak** ([ADR 0021](../Referentiemateriaal/adr/0021-koppeling-versus-koppelvlak-terminologie.md)): een koppeling is de informatiestroom tussen twee referentiecomponenten; het koppelvlak van een component is de verzameling koppelingen die dat component raken. De koppelvlakspecificatie van een component is daarmee de optelsom van zijn koppelingen.
 - **Ankertabel, zes begrippenfamilies**: kader, beoogde leeruitkomst, specificatie, aanbod, verbintenis, resultaat. De leeruitkomst verbindt die families: specificaties verankeren erop en onderwijsresultaten worden erop behaald. De tabel staat voluit in het [kaderscenario leerroute 1](../Referentiemateriaal/kaderscenario's/leerroute-1-regulier.md#betrokken-informatie-bij-proces).
-- **Event notification**: het patroon onder vrijwel elke uitwisseling in dit document. De bezitter meldt dun, de afnemer haalt op. Uitgewerkt bij [Event Notification](Interactiepatronen/event-notification.md), als keuze vastgelegd in [U4](#74-u4-event-notification).
+- **Event notification**: het patroon onder vrijwel elke uitwisseling in dit document. De bezitter meldt dun, de afnemer haalt op. Uitgewerkt bij [Event Notification](Interactiepatronen/event-notification.md), als keuze vastgelegd in [U4](#64-u4-event-notification).
 
 De uitwerking volgt leerroute 1, de reguliere route, aan de hand van persona Jochem en de opleiding Apothekersassistent; leerroute 2 en 3 staan erbij als verschil daarop. Het [kaderscenario leerroute 1](../Referentiemateriaal/kaderscenario's/leerroute-1-regulier.md) draagt die route en die persona voluit.
 
@@ -158,76 +160,19 @@ Die lijn loopt van scenario naar informatiestroom, naar koppeling, naar koppelvl
   - [5.1 Mechanisme: OAuth 2.0 Client Credentials](#51-mechanisme-oauth-20-client-credentials)
   - [5.2 Toepassing op webhook-aflevering](#52-toepassing-op-webhook-aflevering)
   - [5.3 Wat dit niet regelt](#53-wat-dit-niet-regelt)
-- [6 Datamodelschema's](#6-datamodelschemas)
-  - [6.1 Informatiemodellen](#61-informatiemodellen)
-  - [6.2 Regels bij de schema's](#62-regels-bij-de-schemas)
-  - [6.3 Gebruiksprofielen](#63-gebruiksprofielen)
-  - [6.4 Voorbeeldpayloads](#64-voorbeeldpayloads)
-    - [6.4.1 Voorbeeld onderwijsspecificatie](#641-voorbeeld-onderwijsspecificatie)
-    - [6.4.2 Voorbeeld onderwijsaanbod](#642-voorbeeld-onderwijsaanbod)
-    - [6.4.3 Voorbeeld resultaatstructuur en examenplan](#643-voorbeeld-resultaatstructuur-en-examenplan)
-  - [6.5 address.json](#65-addressjson)
-  - [6.6 bottleneck.json](#66-bottleneckjson)
-  - [6.7 code.json](#67-codejson)
-  - [6.8 education-offering.json](#68-education-offeringjson)
-  - [6.9 education-specification-delta.json](#69-education-specification-deltajson)
-  - [6.10 education-specification.json](#610-education-specificationjson)
-  - [6.11 geolocation.json](#611-geolocationjson)
-  - [6.12 group.json](#612-groupjson)
-  - [6.13 learning-outcome-designation.json](#613-learning-outcome-designationjson)
-  - [6.14 learning-outcome.json](#614-learning-outcomejson)
-  - [6.15 location.json](#615-locationjson)
-  - [6.16 manifest-item.json](#616-manifest-itemjson)
-  - [6.17 organisation-unit.json](#617-organisation-unitjson)
-  - [6.18 period.json](#618-periodjson)
-  - [6.19 processing-status.json](#619-processing-statusjson)
-  - [6.20 result-model.json](#620-result-modeljson)
-  - [6.21 result-structure.json](#621-result-structurejson)
-  - [6.22 rule-set.json](#622-rule-setjson)
-  - [6.23 source.json](#623-sourcejson)
-  - [6.24 specification-changed.json](#624-specification-changedjson)
-  - [6.25 specification-reference.json](#625-specification-referencejson)
-  - [6.26 specification-status-changed.json](#626-specification-status-changedjson)
-  - [6.27 subscription.json](#627-subscriptionjson)
-  - [6.28 volume.json](#628-volumejson)
-- [7 Uitgangspunten voor koppelingspecificaties](#7-uitgangspunten-voor-koppelingspecificaties)
-  - [7.1 U1. Indicatief en onderbouwend, niet voorschrijvend](#71-u1-indicatief-en-onderbouwend-niet-voorschrijvend)
-  - [7.2 U2. Koppeling versus koppelvlak](#72-u2-koppeling-versus-koppelvlak)
-  - [7.3 U3. Resource-eigenaarschap](#73-u3-resource-eigenaarschap)
-  - [7.4 U4. Event notification](#74-u4-event-notification)
-  - [7.5 U5. Bericht versus kanaal](#75-u5-bericht-versus-kanaal)
-  - [7.6 U6. Semantiek uit de ankertabel](#76-u6-semantiek-uit-de-ankertabel)
-  - [7.7 U7. Payload plat met verwijzingen, en de sleutelconventie](#77-u7-payload-plat-met-verwijzingen-en-de-sleutelconventie)
-  - [7.8 U8. Machine-interpreteerbaar, met leesbare weergaven](#78-u8-machine-interpreteerbaar-met-leesbare-weergaven)
-  - [7.9 U9. Scenario's en persona's](#79-u9-scenarios-en-personas)
-  - [7.10 U10. Scope- en documentdiscipline](#710-u10-scope--en-documentdiscipline)
-  - [7.11 Gerelateerde documenten](#711-gerelateerde-documenten)
-  - [7.12 U11. Toekomstvaste endpoints: volledige structuur en delta](#712-u11-toekomstvaste-endpoints-volledige-structuur-en-delta)
-- [8 Mapping veldnamen: Engels (UK) naar Nederlands](#8-mapping-veldnamen-engels-uk-naar-nederlands)
-  - [8.1 Abonnement — Subscription](#81-abonnement--subscription)
-  - [8.2 Adres — Address](#82-adres--address)
-  - [8.3 Bron — Source](#83-bron--source)
-  - [8.4 Code — Code](#84-code--code)
-  - [8.5 Geolocatie — Geolocation](#85-geolocatie--geolocation)
-  - [8.6 Groep — Group](#86-groep--group)
-  - [8.7 Knelpunt — Bottleneck](#87-knelpunt--bottleneck)
-  - [8.8 Leeruitkomst-aanduiding — Learning outcome designation](#88-leeruitkomst-aanduiding--learning-outcome-designation)
-  - [8.9 Leeruitkomst — Learning outcome](#89-leeruitkomst--learning-outcome)
-  - [8.10 Locatie — Location](#810-locatie--location)
-  - [8.11 Manifest-item — Manifest item](#811-manifest-item--manifest-item)
-  - [8.12 Omvang — Volume](#812-omvang--volume)
-  - [8.13 Onderwijsaanbod — Education offering](#813-onderwijsaanbod--education-offering)
-  - [8.14 Onderwijsspecificatie-delta — Education specification delta](#814-onderwijsspecificatie-delta--education-specification-delta)
-  - [8.15 Onderwijsspecificatie — Education specification](#815-onderwijsspecificatie--education-specification)
-  - [8.16 OrganisatieEenheid — Organisation unit](#816-organisatieeenheid--organisation-unit)
-  - [8.17 Periode — Period](#817-periode--period)
-  - [8.18 Regelset — Rule set](#818-regelset--rule-set)
-  - [8.19 Resultaatmodel — Result model](#819-resultaatmodel--result-model)
-  - [8.20 Resultaatstructuur en examenplan — Result structure and exam plan](#820-resultaatstructuur-en-examenplan--result-structure-and-exam-plan)
-  - [8.21 Specificatie-gewijzigd — Specification changed](#821-specificatie-gewijzigd--specification-changed)
-  - [8.22 Specificatie-referentie — Specification reference](#822-specificatie-referentie--specification-reference)
-  - [8.23 Specificatie-status-gewijzigd — Specification status changed](#823-specificatie-status-gewijzigd--specification-status-changed)
-  - [8.24 Verwerkingsstatus — Processing status](#824-verwerkingsstatus--processing-status)
+- [6 Uitgangspunten voor koppelingspecificaties](#6-uitgangspunten-voor-koppelingspecificaties)
+  - [6.1 U1. Indicatief en onderbouwend, niet voorschrijvend](#61-u1-indicatief-en-onderbouwend-niet-voorschrijvend)
+  - [6.2 U2. Koppeling versus koppelvlak](#62-u2-koppeling-versus-koppelvlak)
+  - [6.3 U3. Resource-eigenaarschap](#63-u3-resource-eigenaarschap)
+  - [6.4 U4. Event notification](#64-u4-event-notification)
+  - [6.5 U5. Bericht versus kanaal](#65-u5-bericht-versus-kanaal)
+  - [6.6 U6. Semantiek uit de ankertabel](#66-u6-semantiek-uit-de-ankertabel)
+  - [6.7 U7. Payload plat met verwijzingen, en de sleutelconventie](#67-u7-payload-plat-met-verwijzingen-en-de-sleutelconventie)
+  - [6.8 U8. Machine-interpreteerbaar, met leesbare weergaven](#68-u8-machine-interpreteerbaar-met-leesbare-weergaven)
+  - [6.9 U9. Scenario's en persona's](#69-u9-scenarios-en-personas)
+  - [6.10 U10. Scope- en documentdiscipline](#610-u10-scope--en-documentdiscipline)
+  - [6.11 Gerelateerde documenten](#611-gerelateerde-documenten)
+  - [6.12 U11. Toekomstvaste endpoints: volledige structuur en delta](#612-u11-toekomstvaste-endpoints-volledige-structuur-en-delta)
 
 <!-- pagina-einde -->
 
@@ -369,7 +314,7 @@ Zes epics zijn tot stories uitgewerkt, in wisselende diepte; de epics voor gezam
 | <a id="epic-0005"></a>epic-0005 | Standaard beproeven en adopteren | Pilotscholen, instellingen en leveranciers implementeren en adopteren de standaard, beproefd in pilots. | [doel-0002](#doel-0002) | [Meetingverslag 17 april](https://github.com/Npuls-OKx/meta/blob/bd6fc9499b283fe974fd32c87bbb9307e75e7d1b/architecture/meetings/20260417_okx_kernteam_inhoud_uitwerken_studentkeuze_roostering_planning_pocs/summary.md#stakeholdermanagement-en-adoptiestrategie) | [features](#285-standaard-beproeven-en-adopteren) |
 | <a id="epic-0006"></a>epic-0006 | Student kiest onderwijsspecificaties | De student kiest zijn onderwijsspecificaties vrij en instellingsonafhankelijk, met zekerheid dat die keuze geldig is. | [doel-0003](#doel-0003) | [ADR 0012](../Referentiemateriaal/adr/0012-leerroute-onafhankelijk-keuzegate-nominaal-maatwerk.md) | [features](#286-student-kiest-onderwijsspecificaties) |
 | <a id="epic-0007"></a>epic-0007 | Keuze en verbintenis vastleggen | Keuze, intekening en verbintenis staan herleidbaar vast en zijn consistent bekend bij alle betrokken systemen. | [doel-0003](#doel-0003) | [Persona Jochem, instellingsjourney](https://github.com/Npuls-OKx/meta/blob/bd6fc9499b283fe974fd32c87bbb9307e75e7d1b/architecture/docs/specificatie/leerroute-uitwerking/doc/persona_jochem.md#instellingsjourney) | [features](#287-keuze-en-verbintenis-vastleggen) |
-| <a id="epic-0008"></a>epic-0008 | Voortgang en resultaat op leeruitkomsten | Voortgang en resultaten op leeruitkomsten zijn instellingsoverstijgend herleidbaar voor student en instelling. | [doel-0003](#doel-0003) | [Uitgangspunt U6](#7-uitgangspunten-voor-koppelingspecificaties) | [features](#288-voortgang-en-resultaat-op-leeruitkomsten) |
+| <a id="epic-0008"></a>epic-0008 | Voortgang en resultaat op leeruitkomsten | Voortgang en resultaten op leeruitkomsten zijn instellingsoverstijgend herleidbaar voor student en instelling. | [doel-0003](#doel-0003) | [Uitgangspunt U6](#6-uitgangspunten-voor-koppelingspecificaties) | [features](#288-voortgang-en-resultaat-op-leeruitkomsten) |
 
 
 <!-- pagina-einde -->
@@ -384,10 +329,10 @@ Laag 3 van de [requirementsboom](#2-requirementsboom): afgebakend gedrag per [ep
 |---|---|---|---|---|---|
 | <a id="feature-0001"></a>feature-0001 | Formele begrippenlijst als artefact | Alle informatiemodellen en data gebruiken eenduidige termen, herleidbaar tot één vastgestelde begrippenlijst. | [Sparsessie 5 augustus](https://github.com/Npuls-OKx/meta/blob/bd6fc9499b283fe974fd32c87bbb9307e75e7d1b/architecture/agent-artifacts/research/20260806_0837_requirementsboom-extractie.md#meetingbronnen-die-alleen-extern-zijn-vastgelegd) | [epic-0001](#epic-0001) | geen |
 | <a id="feature-0002"></a>feature-0002 | Uitlijning met ROSA en KOI | Instellingen en landelijke systemen herkennen dezelfde begrippen, zonder eigen vertaalslag naar ROSA (Referentie Onderwijs Sector Architectuur) of KOI (Kernmodel Onderwijsinformatie). | [Meetingverslag 30 april](https://github.com/Npuls-OKx/meta/blob/bd6fc9499b283fe974fd32c87bbb9307e75e7d1b/architecture/meetings/20260430_nde_nvd_klus53_allignment_OKx_referentiekader/summary.md#executive-summary) | [epic-0001](#epic-0001) | geen |
-| <a id="feature-0003"></a>feature-0003 | N:M-cardinaliteit en prerequisite-relaties | Systemen leggen relaties tussen leeruitkomsten, onderdelen en voorwaarden (prerequisites) eenduidig vast, ook waar één leeruitkomst meerdere onderdelen raakt. | [Datamodelschema's, regels bij de schema's](Datamodelschema%27s/README.md#regels-bij-de-schemas) | [epic-0001](#epic-0001) | geen |
+| <a id="feature-0003"></a>feature-0003 | N:M-cardinaliteit en prerequisite-relaties | Systemen leggen relaties tussen leeruitkomsten, onderdelen en voorwaarden (prerequisites) eenduidig vast, ook waar één leeruitkomst meerdere onderdelen raakt. | [Datamodelschema's, regels bij de schema's](../Datamodelschema%27s/regels.md) | [epic-0001](#epic-0001) | geen |
 | <a id="feature-0004"></a>feature-0004 | Eenduidige regelevaluatie (conformance) | Elk systeem berekent voor dezelfde keuzeregel dezelfde uitkomst, een voorwaarde voor conformance-toetsing. | [Keuze-requirements R6](https://github.com/Npuls-OKx/meta/blob/bd6fc9499b283fe974fd32c87bbb9307e75e7d1b/architecture/docs/specificatie/student-keuze/keuze-requirements.md#6-requirements) | [epic-0001](#epic-0001) | geen |
-| <a id="feature-0005"></a>feature-0005 | Koppeling versus koppelvlak als vaste terminologie | Alle betrokkenen gebruiken de termen koppeling en koppelvlak eenduidig en zonder onderlinge verwarring. | [Uitgangspunt U2](#7-uitgangspunten-voor-koppelingspecificaties) | [epic-0001](#epic-0001) | geen |
-| <a id="feature-0006"></a>feature-0006 | Engelse veldnamen met Nederlandse mapping | Systemen gebruiken Engelstalige veldnamen die eenduidig terugvoeren op de eerdere Nederlandse veldnamen. | [Mapping veldnamen](#8-mapping-veldnamen-engels-uk-naar-nederlands) | [epic-0001](#epic-0001) | geen |
+| <a id="feature-0005"></a>feature-0005 | Koppeling versus koppelvlak als vaste terminologie | Alle betrokkenen gebruiken de termen koppeling en koppelvlak eenduidig en zonder onderlinge verwarring. | [Uitgangspunt U2](#6-uitgangspunten-voor-koppelingspecificaties) | [epic-0001](#epic-0001) | geen |
+| <a id="feature-0006"></a>feature-0006 | Engelse veldnamen met Nederlandse mapping | Systemen gebruiken Engelstalige veldnamen die eenduidig terugvoeren op de eerdere Nederlandse veldnamen. | [Mapping veldnamen](../Datamodelschema%27s/mapping.md) | [epic-0001](#epic-0001) | geen |
 
 #### 2.8.2 [Onderwijsaanbod specificeren en ontsluiten](#epic-0002)
 
@@ -395,7 +340,7 @@ Laag 3 van de [requirementsboom](#2-requirementsboom): afgebakend gedrag per [ep
 |---|---|---|---|---|---|
 | <a id="feature-0007"></a>feature-0007 | Catalogus vullen vanuit curriculumontwerp | Alle ketenpartijen binnen de instelling vertrouwen op één actuele, formeel vastgestelde bron voor haar onderwijsspecificaties. | [ADR 0002](../Referentiemateriaal/adr/0002-prioriteitsketen-catalogus-drielagen-fundament.md) | [epic-0002](#epic-0002) | geen |
 | <a id="feature-0008"></a>feature-0008 | Hiërarchische, refereerbare onderwijsspecificatiestructuur | Elk onderdeel van de onderwijsspecificatie is eenduidig herleidbaar en herbruikbaar, ook over leerwegen en doelgroepvarianten heen. | [Meetingverslag 10 juli, besluiten](https://github.com/Npuls-OKx/meta/blob/bd6fc9499b283fe974fd32c87bbb9307e75e7d1b/architecture/meetings/20260710_okx_kernteam_inhoud_specificatie_uitwerken_OC_P/summary.md#besluiten) en [technische details](https://github.com/Npuls-OKx/meta/blob/bd6fc9499b283fe974fd32c87bbb9307e75e7d1b/architecture/meetings/20260710_okx_kernteam_inhoud_specificatie_uitwerken_OC_P/summary.md#technische--implementatiedetails) | [epic-0002](#epic-0002) | [story-0001](#story-0001) |
-| <a id="feature-0009"></a>feature-0009 | Stabiele identiteit en versionering van specificaties | Verwijzingen van afnemers naar een specificatie blijven geldig, ook na inhoudelijke wijzigingen. | [Regels bij de schema's](Datamodelschema%27s/README.md#regels-bij-de-schemas) | [epic-0002](#epic-0002) | [story-0002](#story-0002); [story-0030](#story-0030); [story-0032](#story-0032) |
+| <a id="feature-0009"></a>feature-0009 | Stabiele identiteit en versionering van specificaties | Verwijzingen van afnemers naar een specificatie blijven geldig, ook na inhoudelijke wijzigingen. | [Regels bij de schema's](../Datamodelschema%27s/regels.md) | [epic-0002](#epic-0002) | [story-0002](#story-0002); [story-0030](#story-0030); [story-0032](#story-0032) |
 | <a id="feature-0010"></a>feature-0010 | Leeromgeving inrichten op de specificatie | De leeromgeving is altijd inhoudelijk consistent met de specificatie, met ruimte voor eigen invulling op lesniveau. | [Koppelingspecificatie OC-LMS](#43-onderwijscatalogus-naar-leermanagementsysteem) | [epic-0002](#epic-0002) | [story-0003](#story-0003); [story-0029](#story-0029); [story-0031](#story-0031) |
 
 #### 2.8.3 [Aanbod plannen en roosteren](#epic-0003)
@@ -412,10 +357,10 @@ Laag 3 van de [requirementsboom](#2-requirementsboom): afgebakend gedrag per [ep
 
 | Id | Feature | Omschrijving | Bron | Epic | Stories |
 |---|---|---|---|---|---|
-| <a id="feature-0016"></a>feature-0016 | Betrouwbaar berichtenverkeer | Consumenten missen nooit een mutatie en verwerken elk bericht eenmalig en in de juiste volgorde. | [Uitgangspunten U4 en U5](#7-uitgangspunten-voor-koppelingspecificaties) | [epic-0004](#epic-0004) | [story-0010](#story-0010); [story-0011](#story-0011) |
+| <a id="feature-0016"></a>feature-0016 | Betrouwbaar berichtenverkeer | Consumenten missen nooit een mutatie en verwerken elk bericht eenmalig en in de juiste volgorde. | [Uitgangspunten U4 en U5](#6-uitgangspunten-voor-koppelingspecificaties) | [epic-0004](#epic-0004) | [story-0010](#story-0010); [story-0011](#story-0011) |
 | <a id="feature-0017"></a>feature-0017 | Authenticatie via OAuth 2.0 Client Credentials | Alleen geautoriseerde consumenten krijgen toegang tot endpoints, via één gedeeld mechanisme voor alle koppelvlakken. | [Auth-standaard](#5-auth-standaard-voor-koppelvlakken) | [epic-0004](#epic-0004) | geen |
 | <a id="feature-0018"></a>feature-0018 | Maximaal twee actieve major versies | Afnemers hebben altijd voldoende tijd om over te stappen naar een nieuwe major versie. | [Meetingverslag 14 juli](https://github.com/Npuls-OKx/meta/blob/bd6fc9499b283fe974fd32c87bbb9307e75e7d1b/architecture/meetings/20260714_SI_afstemming_PR_specificatie_uitwerking_P_en_R/summary.md#progress) | [epic-0004](#epic-0004) | geen |
-| <a id="feature-0019"></a>feature-0019 | Intra-instelling eerst, federatie gefaseerd | Instellingen gebruiken koppelingen eerst betrouwbaar binnen de eigen instelling, vóór cross-instelling uitbreiding nodig is. | [Uitgangspunt U10](#7-uitgangspunten-voor-koppelingspecificaties) | [epic-0004](#epic-0004) | geen |
+| <a id="feature-0019"></a>feature-0019 | Intra-instelling eerst, federatie gefaseerd | Instellingen gebruiken koppelingen eerst betrouwbaar binnen de eigen instelling, vóór cross-instelling uitbreiding nodig is. | [Uitgangspunt U10](#6-uitgangspunten-voor-koppelingspecificaties) | [epic-0004](#epic-0004) | geen |
 
 #### 2.8.5 [Standaard beproeven en adopteren](#epic-0005)
 
@@ -502,7 +447,7 @@ Laag 4 van de [requirementsboom](#2-requirementsboom): toetsbare wensen van éé
 | <a id="story-0014"></a>story-0014 | Als student wil ik alleen keuzedelen als kiesbaar zien wanneer ze op mijn locatie en in mijn periode beschikbaar zijn, zodat ik geen onhaalbare keuze maak. | [feature-0024 Kiesbaarheid bepalen](#feature-0024) | [Keuze-requirements R3](https://github.com/Npuls-OKx/meta/blob/bd6fc9499b283fe974fd32c87bbb9307e75e7d1b/architecture/docs/specificatie/student-keuze/keuze-requirements.md#6-requirements) | geen |
 | <a id="story-0015"></a>story-0015 | Als planner wil ik dezelfde voorwaarde-regel gebruiken die het keuzemoment stuurde, zodat keuze en rooster niet uiteenlopen. | [feature-0026 Regelsets los van items, met min/max-keuzeregels](#feature-0026) | [Keuze-requirements R8](https://github.com/Npuls-OKx/meta/blob/bd6fc9499b283fe974fd32c87bbb9307e75e7d1b/architecture/docs/specificatie/student-keuze/keuze-requirements.md#6-requirements) | geen |
 | <a id="story-0016"></a>story-0016 | Als instelling wil ik naast algemene en beroepsspecifieke keuzedelen eigen kiesbaarheidsklassen kunnen toevoegen, zodat de indeling niet vastligt. | [feature-0026 Regelsets los van items, met min/max-keuzeregels](#feature-0026) | [Keuze-requirements R10](https://github.com/Npuls-OKx/meta/blob/bd6fc9499b283fe974fd32c87bbb9307e75e7d1b/architecture/docs/specificatie/student-keuze/keuze-requirements.md#6-requirements) | geen |
-| <a id="story-0017"></a>story-0017 | Als beheerder wil ik een keuzedeelprogramma via een regelset over opleidingen heen kunnen hergebruiken, zodat ik hetzelfde keuzedeel niet per opleiding opnieuw definieer. | [feature-0026 Regelsets los van items, met min/max-keuzeregels](#feature-0026) | [Datamodelschema's, regels bij de schema's](Datamodelschema%27s/README.md#regels-bij-de-schemas) | geen |
+| <a id="story-0017"></a>story-0017 | Als beheerder wil ik een keuzedeelprogramma via een regelset over opleidingen heen kunnen hergebruiken, zodat ik hetzelfde keuzedeel niet per opleiding opnieuw definieer. | [feature-0026 Regelsets los van items, met min/max-keuzeregels](#feature-0026) | [Datamodelschema's, regels bij de schema's](../Datamodelschema%27s/regels.md) | geen |
 | <a id="story-0018"></a>story-0018 | Als instelling wil ik dezelfde regelvorm op elk specificatieniveau en op leeruitkomsten van elke orde kunnen toepassen, zodat keuzedelen nu en losse leeronderdelen straks dezelfde regels volgen. | [feature-0026 Regelsets los van items, met min/max-keuzeregels](#feature-0026) | [Keuze-requirements R16](https://github.com/Npuls-OKx/meta/blob/bd6fc9499b283fe974fd32c87bbb9307e75e7d1b/architecture/docs/specificatie/student-keuze/keuze-requirements.md#6-requirements) | geen |
 | <a id="story-0019"></a>story-0019 | Als student wil ik mijn opleiding van onderop uit losse leeronderdelen kunnen samenstellen, zodat ik dezelfde leeruitkomsten bereik als via de nominale route van bovenaf. | [feature-0029 Bottom-up en top-down samenstellen](#feature-0029) | [Keuze-requirements R13](https://github.com/Npuls-OKx/meta/blob/bd6fc9499b283fe974fd32c87bbb9307e75e7d1b/architecture/docs/specificatie/student-keuze/keuze-requirements.md#6-requirements) | geen |
 
@@ -543,7 +488,7 @@ De hoofdplaat toont het volledige ecosysteem: alle informatiestromen tussen de a
 
 ### 3.2 Onderwijscatalogus (OC)
 
-De onderwijscatalogus is het distributiepunt voor onderwijsspecificaties: zij neemt ze aan van de curriculum-ontwerptool, legt ze vast en publiceert ze naar de systemen die het onderwijs klaarzetten voor de start van de student. Zij bezit de onderwijsspecificaties ([U3](#73-u3-resource-eigenaarschap)), en is daarmee in elk van de drie koppelingen hieronder de partij die een wijziging meldt en de resource levert ([U4](#74-u4-event-notification)).
+De onderwijscatalogus is het distributiepunt voor onderwijsspecificaties: zij neemt ze aan van de curriculum-ontwerptool, legt ze vast en publiceert ze naar de systemen die het onderwijs klaarzetten voor de start van de student. Zij bezit de onderwijsspecificaties ([U3](#63-u3-resource-eigenaarschap)), en is daarmee in elk van de drie koppelingen hieronder de partij die een wijziging meldt en de resource levert ([U4](#64-u4-event-notification)).
 
 #### 3.2.1 Koppelvlak
 
@@ -576,7 +521,7 @@ Het treedt op in deze koppelingen:
 
 ### 3.3 Planningssysteem (P)
 
-Het planningssysteem maakt van een gepubliceerde onderwijsspecificatie planbaar `opleidingsaanbod`: het bepaalt wanneer, hoe vaak en in welke vorm het onderwijs wordt aangeboden, en meldt de referentie naar dat aanbod terug aan de catalogus. Het bezit het onderwijsaanbod ([U3](#73-u3-resource-eigenaarschap)). Het rooster zelf ligt bij het roostersysteem; dat kent in dit pakket geen eigen koppeling en komt alleen als context voor ([roostersysteem](#36-roostersysteem-r)).
+Het planningssysteem maakt van een gepubliceerde onderwijsspecificatie planbaar `opleidingsaanbod`: het bepaalt wanneer, hoe vaak en in welke vorm het onderwijs wordt aangeboden, en meldt de referentie naar dat aanbod terug aan de catalogus. Het bezit het onderwijsaanbod ([U3](#63-u3-resource-eigenaarschap)). Het rooster zelf ligt bij het roostersysteem; dat kent in dit pakket geen eigen koppeling en komt alleen als context voor ([roostersysteem](#36-roostersysteem-r)).
 
 #### 3.3.1 Koppelvlak
 
@@ -605,7 +550,7 @@ Het treedt op in deze koppelingen:
 
 ### 3.4 Studentinformatiesysteem (SIS)
 
-Het studentinformatiesysteem is hier de combinatie van het **kernregistratiesysteem (KRS)**, dat de inschrijving en de verbintenis vastlegt, en het **studentvolgsysteem (SVS)**, dat de individuele structuur, de voortgang en de resultaten bijhoudt. Het bezit de verbintenissen, de individuele structuren, de voortgang en de resultaten ([U3](#73-u3-resource-eigenaarschap)). Uit de catalogus haalt het twee dingen op, de onderwijsspecificatiestructuur en de resultaatstructuur, en richt daarmee het nominale template in plus de mapping van welke toetsonderdeelresultaten welke leeruitkomsten afdichten.
+Het studentinformatiesysteem is hier de combinatie van het **kernregistratiesysteem (KRS)**, dat de inschrijving en de verbintenis vastlegt, en het **studentvolgsysteem (SVS)**, dat de individuele structuur, de voortgang en de resultaten bijhoudt. Het bezit de verbintenissen, de individuele structuren, de voortgang en de resultaten ([U3](#63-u3-resource-eigenaarschap)). Uit de catalogus haalt het twee dingen op, de onderwijsspecificatiestructuur en de resultaatstructuur, en richt daarmee het nominale template in plus de mapping van welke toetsonderdeelresultaten welke leeruitkomsten afdichten.
 
 #### 3.4.1 Koppelvlak
 
@@ -632,7 +577,7 @@ Het treedt op in deze koppelingen:
 
 ### 3.5 Leermanagementsysteem (LMS)
 
-Het leermanagementsysteem is de online leeromgeving waarin de student het onderwijs volgt. Het neemt de onderwijsspecificatiestructuur van de catalogus over, inclusief de inhoudsvelden van de leeruitkomsten die het aan de student toont, en richt daarmee de leeromgeving in. Het bezit de leermiddelkoppeling, de koppeling tussen leermiddelgroepen en specificatie ([U3](#73-u3-resource-eigenaarschap)), en meldt die terug aan de catalogus. Kiesbaarheid is niet zijn domein: regelsets gaan over deze koppeling niet mee.
+Het leermanagementsysteem is de online leeromgeving waarin de student het onderwijs volgt. Het neemt de onderwijsspecificatiestructuur van de catalogus over, inclusief de inhoudsvelden van de leeruitkomsten die het aan de student toont, en richt daarmee de leeromgeving in. Het bezit de leermiddelkoppeling, de koppeling tussen leermiddelgroepen en specificatie ([U3](#63-u3-resource-eigenaarschap)), en meldt die terug aan de catalogus. Kiesbaarheid is niet zijn domein: regelsets gaan over deze koppeling niet mee.
 
 #### 3.5.1 Koppelvlak
 
@@ -659,7 +604,7 @@ Het treedt op in deze koppelingen:
 
 ### 3.6 Roostersysteem (R)
 
-Het roostersysteem plaatst het geplande onderwijs in tijd en ruimte: het maakt van het `opleidingsaanbod` een rooster met momenten, docenten en zalen. Het bezit het rooster, waar het planningssysteem het aanbod bezit en de catalogus de specificaties ([U3](#73-u3-resource-eigenaarschap)).
+Het roostersysteem plaatst het geplande onderwijs in tijd en ruimte: het maakt van het `opleidingsaanbod` een rooster met momenten, docenten en zalen. Het bezit het rooster, waar het planningssysteem het aanbod bezit en de catalogus de specificaties ([U3](#63-u3-resource-eigenaarschap)).
 
 #### 3.6.1 Koppelvlak
 
@@ -761,7 +706,7 @@ Deze koppeling zet de volgende [interactiepatronen](Interactiepatronen/README.md
 
 #### 4.1.5 Procesbeeld
 
-Twee gedeelde principes bepalen het verkeer over deze koppeling. **Resource-eigenaarschap** ([U3](#73-u3-resource-eigenaarschap)): de onderwijscatalogus bezit de onderwijsspecificaties, het planningssysteem het onderwijsaanbod, het roostersysteem het rooster. **Event notification** ([U4](#74-u4-event-notification)): de onderwijscatalogus meldt, het planningssysteem haalt op wanneer het hem uitkomt.
+Twee gedeelde principes bepalen het verkeer over deze koppeling. **Resource-eigenaarschap** ([U3](#63-u3-resource-eigenaarschap)): de onderwijscatalogus bezit de onderwijsspecificaties, het planningssysteem het onderwijsaanbod, het roostersysteem het rooster. **Event notification** ([U4](#64-u4-event-notification)): de onderwijscatalogus meldt, het planningssysteem haalt op wanneer het hem uitkomt.
 
 ```mermaid
 flowchart LR
@@ -783,6 +728,10 @@ Wat het diagram niet toont: het planningssysteem bouwt de planning **asynchroon*
 #### 4.1.7 Opleidingsaanbod aanmaken
 
 Doel: een gepubliceerde specificatie omzetten in een planbaar `opleidingsaanbod`, met een referentie terug naar de onderwijscatalogus. Trigger: onderwijsspecificatie krijgt status `gepubliceerd`. Initiator: Onderwijscatalogus.
+
+| Versie | Interactiepatronen | Applicatiediensten |
+|---|---|---|
+| 1.0 | [Event Notification](Interactiepatronen/event-notification.md), [Asynchronous Request-Reply](Interactiepatronen/asynchronous-request-reply.md) | [onderwijsspecificatiestructuur-afnemer](Applicatiediensten/onderwijsspecificatiestructuur-afnemer.md), [onderwijsspecificatiestructuur-aanbieder](Applicatiediensten/onderwijsspecificatiestructuur-aanbieder.md), [verwerkingsuitkomst-afnemer](Applicatiediensten/verwerkingsuitkomst-afnemer.md), [planbaar-onderwijsaanbod-aanbieder](Applicatiediensten/planbaar-onderwijsaanbod-aanbieder.md) |
 
 Endpoints:
 
@@ -822,6 +771,10 @@ sequenceDiagram
 
 Doel: een lopende planning laten volgen op een nieuwe specificatieversie, met delta of volledige structuur als keuze voor de ontvanger. Trigger: nieuwe versie van een specificatie die al in een manifest is vastgelegd. Initiator: Onderwijscatalogus.
 
+| Versie | Interactiepatronen | Applicatiediensten |
+|---|---|---|
+| 1.0 | [Event Notification](Interactiepatronen/event-notification.md), [Asynchronous Request-Reply](Interactiepatronen/asynchronous-request-reply.md) | [onderwijsspecificatiestructuur-aanbieder](Applicatiediensten/onderwijsspecificatiestructuur-aanbieder.md), [verwerkingsuitkomst-afnemer](Applicatiediensten/verwerkingsuitkomst-afnemer.md), [onderwijsspecificatiestructuur-afnemer](Applicatiediensten/onderwijsspecificatiestructuur-afnemer.md) |
+
 Endpoints:
 
 - [`GET /onderwijsspecificaties/{id}/delta` of `GET /onderwijsspecificaties/{id}`](Applicatiediensten/onderwijsspecificatiestructuur-aanbieder.md)
@@ -853,6 +806,10 @@ sequenceDiagram
 
 Doel: de onderwijscatalogus in kennis stellen dat een specificatie voor een of meer cohorten niet planbaar blijkt, met referentie en knelpunten, zonder de aanroep te blokkeren. Trigger: planproces bij het planningssysteem vindt geen geldige planning. Initiator: Planningssysteem.
 
+| Versie | Interactiepatronen | Applicatiediensten |
+|---|---|---|
+| 1.0 | [Asynchronous Request-Reply](Interactiepatronen/asynchronous-request-reply.md) | [verwerkingsuitkomst-afnemer](Applicatiediensten/verwerkingsuitkomst-afnemer.md), [planbaar-onderwijsaanbod-aanbieder](Applicatiediensten/planbaar-onderwijsaanbod-aanbieder.md) |
+
 Endpoints:
 
 - [webhook `verwerkingsstatus`](Applicatiediensten/verwerkingsuitkomst-afnemer.md)
@@ -880,6 +837,10 @@ sequenceDiagram
 
 Doel: een afgeronde planning beschermen tegen een wijziging die er ongecontroleerd doorheen breekt. Trigger: specificatiewijziging terwijl de planning al is afgerond. Initiator: Onderwijscatalogus.
 
+| Versie | Interactiepatronen | Applicatiediensten |
+|---|---|---|
+| 1.0 | [Event Notification](Interactiepatronen/event-notification.md), [Asynchronous Request-Reply](Interactiepatronen/asynchronous-request-reply.md) | [onderwijsspecificatiestructuur-afnemer](Applicatiediensten/onderwijsspecificatiestructuur-afnemer.md), [verwerkingsuitkomst-afnemer](Applicatiediensten/verwerkingsuitkomst-afnemer.md) |
+
 Endpoints:
 
 - [webhook `specificatie-gewijzigd`](Applicatiediensten/onderwijsspecificatiestructuur-afnemer.md)
@@ -905,7 +866,11 @@ sequenceDiagram
 
 #### 4.1.11 Specificatiestatus gewijzigd melden
 
-Doel: de onderwijscatalogus een statuswijziging laten melden die los staat van een nieuwe versie, zodat het planningssysteem zijn afgeleide status kan bijwerken zonder herplanronde. Trigger: specificatie krijgt een nieuwe status buiten een versiewijziging om (bv. `gepubliceerd` naar `gedeactiveerd`, [regels bij de schema's](#62-regels-bij-de-schemas)). Initiator: Onderwijscatalogus. Voorbeeldgeval: een opleiding die voor een ouder cohort bewust niet meer wordt aangeboden is nog wel planbaar, maar wordt niet meer gepland; dat is deze statuswijziging (met archivering als vervolg), geen planningsfout uit de melding hierboven.
+Doel: de onderwijscatalogus een statuswijziging laten melden die los staat van een nieuwe versie, zodat het planningssysteem zijn afgeleide status kan bijwerken zonder herplanronde. Trigger: specificatie krijgt een nieuwe status buiten een versiewijziging om (bv. `gepubliceerd` naar `gedeactiveerd`, [regels bij de schema's](https://github.com/Npuls-OKx/Public/blob/datamodelschemas-v0.1.0/Datamodelschema's/regels.md)). Initiator: Onderwijscatalogus. Voorbeeldgeval: een opleiding die voor een ouder cohort bewust niet meer wordt aangeboden is nog wel planbaar, maar wordt niet meer gepland; dat is deze statuswijziging (met archivering als vervolg), geen planningsfout uit de melding hierboven.
+
+| Versie | Interactiepatronen | Applicatiediensten |
+|---|---|---|
+| 1.0 | [Event-Carried State Transfer](Interactiepatronen/event-carried-state-transfer.md) | [onderwijsspecificatiestructuur-afnemer](Applicatiediensten/onderwijsspecificatiestructuur-afnemer.md) |
 
 Endpoints:
 
@@ -925,6 +890,10 @@ sequenceDiagram
 #### 4.1.12 Reconciliatie na gemist event
 
 Doel: de gemiste informatie via een gewone opvraag herstellen na een event dat in de Dead Letter Channel is beland, zonder op een herhaalde aflevering te wachten. Trigger: een event is niet aangekomen. Initiator: Onderwijscatalogus of Planningssysteem.
+
+| Versie | Interactiepatronen | Applicatiediensten |
+|---|---|---|
+| 1.0 | [Request-Reply](Interactiepatronen/request-reply.md) | [onderwijsspecificatiestructuur-aanbieder](Applicatiediensten/onderwijsspecificatiestructuur-aanbieder.md), [planbaar-onderwijsaanbod-aanbieder](Applicatiediensten/planbaar-onderwijsaanbod-aanbieder.md) |
 
 Endpoints:
 
@@ -950,6 +919,10 @@ sequenceDiagram
 #### 4.1.13 Abonnement registreren
 
 Doel: elke partij een callback-URL laten vastleggen voor de events die zij van de ander ontvangt, als voorwaarde voor de event-gedreven stromen. Trigger: inrichting van de koppeling, of wijziging van de callback-URL. Initiator: Onderwijscatalogus en Planningssysteem (over en weer, elk voor de events die de ander van hem ontvangt).
+
+| Versie | Interactiepatronen | Applicatiediensten |
+|---|---|---|
+| 1.0 | [Subscription registration](Interactiepatronen/subscription-registration.md) | [afleverabonnement-aanbieder](Applicatiediensten/afleverabonnement-aanbieder.md) |
 
 Endpoints:
 
@@ -1040,7 +1013,7 @@ Deze koppeling zet de volgende [interactiepatronen](Interactiepatronen/README.md
 
 #### 4.2.5 Procesbeeld
 
-**Resource-eigenaarschap** ([U3](#73-u3-resource-eigenaarschap)): de onderwijscatalogus bezit de specificaties en de resultaatstructuren, het studentinformatiesysteem de verbintenissen, individuele structuren, voortgang en resultaten. **Event notification** ([U4](#74-u4-event-notification)): de catalogus meldt, het studentinformatiesysteem haalt op.
+**Resource-eigenaarschap** ([U3](#63-u3-resource-eigenaarschap)): de onderwijscatalogus bezit de specificaties en de resultaatstructuren, het studentinformatiesysteem de verbintenissen, individuele structuren, voortgang en resultaten. **Event notification** ([U4](#64-u4-event-notification)): de catalogus meldt, het studentinformatiesysteem haalt op.
 
 ```mermaid
 flowchart LR
@@ -1061,6 +1034,10 @@ Wat het diagram niet toont: het studentinformatiesysteem haalt twee dingen op, d
 #### 4.2.7 Nominaal template en resultaatstructuur inrichten
 
 Doel: een gepubliceerde specificatie en examenplanspecificatie omzetten in een ingericht nominaal template en resultaatstructuur bij het studentinformatiesysteem. Trigger: onderwijsspecificatie en examenplanspecificatie krijgen status `gepubliceerd`. Initiator: Onderwijscatalogus.
+
+| Versie | Interactiepatronen | Applicatiediensten |
+|---|---|---|
+| 1.0 | [Event Notification](Interactiepatronen/event-notification.md), [Asynchronous Request-Reply](Interactiepatronen/asynchronous-request-reply.md) | [onderwijsspecificatiestructuur-afnemer](Applicatiediensten/onderwijsspecificatiestructuur-afnemer.md), [onderwijsspecificatiestructuur-aanbieder](Applicatiediensten/onderwijsspecificatiestructuur-aanbieder.md), [resultaatstructuur-aanbieder](Applicatiediensten/resultaatstructuur-aanbieder.md), [verwerkingsuitkomst-afnemer](Applicatiediensten/verwerkingsuitkomst-afnemer.md) |
 
 Endpoints:
 
@@ -1093,6 +1070,10 @@ sequenceDiagram
 #### 4.2.8 Acceptatietoets bij wijziging examenplan
 
 Doel: lopende verbintenissen beschermen tegen een examenplanwijziging die er ongecontroleerd doorheen breekt. Trigger: examenplanspecificatie wijzigt terwijl er al verbintenissen lopen. Initiator: Onderwijscatalogus.
+
+| Versie | Interactiepatronen | Applicatiediensten |
+|---|---|---|
+| 1.0 | [Event Notification](Interactiepatronen/event-notification.md), [Asynchronous Request-Reply](Interactiepatronen/asynchronous-request-reply.md) | [resultaatstructuur-afnemer](Applicatiediensten/resultaatstructuur-afnemer.md), [verwerkingsuitkomst-afnemer](Applicatiediensten/verwerkingsuitkomst-afnemer.md) |
 
 Endpoints:
 
@@ -1166,7 +1147,7 @@ Deze koppeling zet de volgende [interactiepatronen](Interactiepatronen/README.md
 
 #### 4.3.5 Procesbeeld
 
-**Resource-eigenaarschap** ([U3](#73-u3-resource-eigenaarschap)): de onderwijscatalogus bezit de specificaties, de leeromgeving haar inrichting en de leermiddelkoppeling. **Event notification** ([U4](#74-u4-event-notification)) geldt in beide richtingen.
+**Resource-eigenaarschap** ([U3](#63-u3-resource-eigenaarschap)): de onderwijscatalogus bezit de specificaties, de leeromgeving haar inrichting en de leermiddelkoppeling. **Event notification** ([U4](#64-u4-event-notification)) geldt in beide richtingen.
 
 ```mermaid
 flowchart LR
@@ -1187,6 +1168,10 @@ Wat het diagram niet toont: de leeromgeving richt zich in tot op **leeronderdeel
 #### 4.3.7 Leeromgeving inrichten en leermiddelkoppeling melden
 
 Doel: een gepubliceerde specificatie omzetten in een ingerichte leeromgeving, met een leermiddelkoppeling terug naar de onderwijscatalogus. Trigger: onderwijsspecificatie krijgt status `gepubliceerd`. Initiator: Onderwijscatalogus.
+
+| Versie | Interactiepatronen | Applicatiediensten |
+|---|---|---|
+| 1.0 | [Event Notification](Interactiepatronen/event-notification.md), [Asynchronous Request-Reply](Interactiepatronen/asynchronous-request-reply.md) | [onderwijsspecificatiestructuur-afnemer](Applicatiediensten/onderwijsspecificatiestructuur-afnemer.md), [onderwijsspecificatiestructuur-aanbieder](Applicatiediensten/onderwijsspecificatiestructuur-aanbieder.md), [verwerkingsuitkomst-afnemer](Applicatiediensten/verwerkingsuitkomst-afnemer.md), [leermiddelkoppeling-afnemer](Applicatiediensten/leermiddelkoppeling-afnemer.md), [leermiddelkoppeling-aanbieder](Applicatiediensten/leermiddelkoppeling-aanbieder.md) |
 
 Endpoints:
 
@@ -1219,6 +1204,10 @@ sequenceDiagram
 #### 4.3.8 Inrichting bijwerken na wijziging
 
 Doel: een bestaande inrichting laten volgen op een nieuwe specificatieversie, met delta of volledige structuur als keuze voor het leermanagementsysteem. Trigger: nieuwe versie van een specificatie waarop het leermanagementsysteem is ingericht. Initiator: Onderwijscatalogus.
+
+| Versie | Interactiepatronen | Applicatiediensten |
+|---|---|---|
+| 1.0 | [Event Notification](Interactiepatronen/event-notification.md), [Asynchronous Request-Reply](Interactiepatronen/asynchronous-request-reply.md) | [onderwijsspecificatiestructuur-aanbieder](Applicatiediensten/onderwijsspecificatiestructuur-aanbieder.md), [verwerkingsuitkomst-afnemer](Applicatiediensten/verwerkingsuitkomst-afnemer.md), [onderwijsspecificatiestructuur-afnemer](Applicatiediensten/onderwijsspecificatiestructuur-afnemer.md) |
 
 Endpoints:
 
@@ -1258,7 +1247,7 @@ Dit is, net als de uitgangspunten, een repo-brede keuze, geen keuze per koppelin
 
 Consument en leverancier wisselen vooraf, buiten de koppeling om, een `client_id` en `client_secret` uit (onboarding/registratie, bilateraal per koppeling). Een consument vraagt daarmee een access token op bij de token-endpoint van het systeem dat hij aanroept, via de **Client Credentials grant** ([RFC 6749 §4.4](https://www.rfc-editor.org/rfc/rfc6749#section-4.4)): geen gebruiker in de lus, puur systeem-naar-systeem.
 
-Elk systeem dat endpoints serveert is verantwoordelijk voor zijn eigen token-endpoint (of een eigen identity provider erachter); er is geen centrale OKx-brede autorisatieserver. Dat sluit aan bij [U3, resource-eigenaarschap](#73-u3-resource-eigenaarschap): wie de resource bezit, bezit ook de toegang ertoe.
+Elk systeem dat endpoints serveert is verantwoordelijk voor zijn eigen token-endpoint (of een eigen identity provider erachter); er is geen centrale OKx-brede autorisatieserver. Dat sluit aan bij [U3, resource-eigenaarschap](#63-u3-resource-eigenaarschap): wie de resource bezit, bezit ook de toegang ertoe.
 
 ```mermaid
 sequenceDiagram
@@ -1288,2330 +1277,7 @@ Een webhook-event is zelf ook een HTTP-aanroep, van de bezitter naar de callback
 
 <!-- pagina-einde -->
 
-## 6 Datamodelschema's
-
-De JSON Schema's bij de payload-specificaties van dit pakket: per resource de vorm waarin hij over een koppeling gaat. Zij zijn **alfa en indicatief** ([U1](#71-u1-indicatief-en-onderbouwend-niet-voorschrijvend)). Welke velden een koppeling gebruikt, en waarom, staat in de payload-specificatie; die is daarin leidend. Deze map draagt de vorm, niet de betekenis.
-
-De schema's volgen de payloadvorm uit [U7](#77-u7-payload-plat-met-verwijzingen-en-de-sleutelconventie): plat, met verwijzingen tussen objecten in plaats van nesting, zodat een consument alleen ophaalt wat hij nodig heeft. In het gebundelde releasedocument staan ze voluit als bijlage; in de zip en in dit repository staan ze als losse bestanden, zodat je ze direct kunt gebruiken om tegen te valideren.
-
-### 6.1 Informatiemodellen
-
-#### 6.1.1 Onderwijsspecificatie
-
-Alle specificaties zijn hetzelfde objecttype, gespecialiseerd via `specificatieType`. In het informatiemodel hieronder betekent `onderdeel_van` additief (de studielast telt op) en `variant_van` alternatief (een keuze tussen varianten, geen optelling). Elke entiteit draagt daarnaast `versie` (semver); dat is voor de leesbaarheid niet in elke box herhaald.
-
-```mermaid
-erDiagram
-    OPLEIDINGSSPECIFICATIE ||--o{ OPLEIDINGSPROGRAMMASPECIFICATIE_LEERWEG : variant_van
-    OPLEIDINGSPROGRAMMASPECIFICATIE_LEERWEG ||--o{ OPLEIDINGSPROGRAMMASPECIFICATIE_DOELGROEP : variant_van
-    OPLEIDINGSPROGRAMMASPECIFICATIE_DOELGROEP ||--o{ ONDERWIJSEENHEIDSPECIFICATIE : onderdeel_van
-    OPLEIDINGSPROGRAMMASPECIFICATIE_DOELGROEP ||--|| KEUZEDEELRUIMTESPECIFICATIE : bevat
-    ONDERWIJSEENHEIDSPECIFICATIE ||--o{ LEERONDERDEELSPECIFICATIE : onderdeel_van
-    KEUZEDEELRUIMTESPECIFICATIE }o--o{ REGELSET : regelsetVerwijzingen
-    REGELSET }o--o{ KEUZEDEELPROGRAMMASPECIFICATIE : kiesbaar
-    REGELSET }o--o{ LEERUITKOMST : "stelt deelname-voorwaarden in behaalde leeruitkomsten"
-    KEUZEDEELPROGRAMMASPECIFICATIE ||--o{ ONDERWIJSEENHEIDSPECIFICATIE : onderdeel_van
-
-    OPLEIDINGSSPECIFICATIE }o--|| LEERUITKOMST : "verankert op"
-    OPLEIDINGSPROGRAMMASPECIFICATIE_LEERWEG }o--|| LEERUITKOMST : "verankert op"
-    OPLEIDINGSPROGRAMMASPECIFICATIE_DOELGROEP }o--|| LEERUITKOMST : "verankert op"
-    ONDERWIJSEENHEIDSPECIFICATIE }o--|| LEERUITKOMST : "verankert op"
-    LEERONDERDEELSPECIFICATIE }o--|| LEERUITKOMST : "verankert op"
-    KEUZEDEELPROGRAMMASPECIFICATIE }o--|| LEERUITKOMST : "verankert op"
-    LEERUITKOMST ||--o{ LEERUITKOMST : "aggregeert bottom-up en top-down"
-    LEERUITKOMST {
-        uuid id PK
-        string versie "eigen lifecycle"
-        string naam
-        object bron "standaard (nu sbb-kwalificatiekader, later bv. competentnl) + type + code"
-        uuid bovenliggendLeeruitkomstId FK "recursief, orde van grootte per niveau"
-        string waardedocument "diploma, certificaat, later microcredential"
-        array indicatieveOmvang "SBU en/of EC naast elkaar ([ADR 0004](../Referentiemateriaal/adr/0004-leeruitkomsten-sbu-ec-logistieke-containergrootte.md))"
-        string omschrijving "optioneel, per gebruiksprofiel"
-        string resultaat "optioneel"
-        array gedrag "optioneel"
-        int nlqfNiveau
-    }
-    OPLEIDINGSSPECIFICATIE {
-        uuid id PK
-        string specificatieType "opleidingsspecificatie"
-        uuid bovenliggendSpecificatieId "null"
-        uuid leeruitkomstId FK "sleutel naar leeruitkomst"
-        string naam
-        string curriculumtype
-        string versie
-        date geldigVanaf
-        date geldigTot
-        object studielast "waarde + SBU"
-        array manifest "pins: id + version + relatie"
-        string status
-    }
-    OPLEIDINGSPROGRAMMASPECIFICATIE_LEERWEG {
-        uuid id PK
-        string specificatieType "opleidingsprogrammaspecificatie"
-        uuid bovenliggendSpecificatieId FK "opleiding"
-        uuid leeruitkomstId FK "sleutel naar leeruitkomst"
-        string programmaLaag "leerweg"
-        string leerweg "BOL of BBL"
-        string programmatype "diplomaprogramma"
-        object studielast
-    }
-    OPLEIDINGSPROGRAMMASPECIFICATIE_DOELGROEP {
-        uuid id PK
-        string specificatieType "opleidingsprogrammaspecificatie"
-        uuid bovenliggendSpecificatieId FK "leerweg-programma"
-        uuid leeruitkomstId FK "sleutel naar leeruitkomst"
-        string programmaLaag "doelgroep"
-        string doelgroep "regulier, zijinstromer, hybride, organisatiespecifiek"
-        string leerweg
-        string curriculumtype
-        object organisatie "optioneel, bv. Ziekenhuis 12"
-        string cohort
-        date startdatum
-        date geldigVanaf
-        date geldigTot
-        object studielast
-        array manifest "pins: id + version + relatie"
-    }
-    ONDERWIJSEENHEIDSPECIFICATIE {
-        uuid id PK
-        string specificatieType "onderwijseenheidspecificatie"
-        uuid bovenliggendSpecificatieId FK "programma of keuzedeelprogramma"
-        uuid leeruitkomstId FK "sleutel naar leeruitkomst"
-        string naam
-        object studielast
-    }
-    LEERONDERDEELSPECIFICATIE {
-        uuid id PK
-        string specificatieType "leeronderdeelspecificatie"
-        uuid bovenliggendSpecificatieId FK "onderwijseenheid"
-        uuid leeruitkomstId FK "sleutel naar leeruitkomst"
-        string naam
-        string tijdsverdeling "BOT of OOT"
-        object studielast
-    }
-    KEUZEDEELRUIMTESPECIFICATIE {
-        uuid id PK
-        string specificatieType "keuzedeelruimtespecificatie"
-        uuid bovenliggendSpecificatieId FK "doelgroep-programma"
-        object studielast "keuzeruimte in SBU"
-        array regelsetVerwijzingen FK "naar REGELSET"
-    }
-    KEUZEDEELPROGRAMMASPECIFICATIE {
-        uuid id PK
-        string specificatieType "opleidingsprogrammaspecificatie"
-        uuid bovenliggendSpecificatieId "null, zelfstandig"
-        uuid leeruitkomstId FK "sleutel naar leeruitkomst"
-        string programmatype "keuzedeelprogramma"
-        string keuzedeelKlasse "algemeen-verbredend of beroepsspecifiek-verdiepend"
-        object studielast
-    }
-    REGELSET {
-        uuid id PK
-        string naam
-        uuid vanToepassingOp FK "keuzedeelruimte"
-        array regels "kiesbaar + voorwaardeVooraf in behaalde leeruitkomsten"
-    }
-```
-
-Het model toont de relatie tussen specificatie en leeruitkomst als veel-op-veel. De payload implementeert dat voorlopig als één `leeruitkomstId` per specificatie; een array-vorm is nog niet uitgewerkt.
-
-#### 6.1.2 Onderwijsaanbod
-
-```mermaid
-erDiagram
-    AANBODINSTANTIE ||--o{ AANBODINSTANTIE : bovenliggendAanbodId
-    AANBODINSTANTIE }o--|| ONDERWIJSSPECIFICATIE : specificatieVerwijzing
-    AANBODINSTANTIE }o--o| LOCATIE : locatieId
-    AANBODINSTANTIE }o--o| ORGANISATIE_EENHEID : uitvoerendTeamId
-    AANBODINSTANTIE ||--o{ GROEP : groepen
-    LOCATIE ||--o{ LOCATIE : valtBinnenLocatieId
-    ORGANISATIE_EENHEID ||--o{ ORGANISATIE_EENHEID : bovenliggendeEenheidId
-
-    AANBODINSTANTIE {
-        uuid id PK
-        string aanbodType "opleidingsaanbod tot leergelegenheid"
-        string versie "semver"
-        uuid bovenliggendAanbodId FK "null op root"
-        object specificatieVerwijzing "specificatieId + versie"
-        string naam
-        string status
-        array knelpunten "code + omschrijving (par. 3.4)"
-        string cohort
-        object periode "start + eind"
-        int minAantalStudenten
-        int maxAantalStudenten
-        uuid locatieId FK
-        uuid uitvoerendTeamId FK
-    }
-    GROEP {
-        uuid id PK
-        string naam
-        int capaciteit
-    }
-    LOCATIE {
-        uuid id PK
-        string locatieType "campus tot ruimte, virtueel"
-        string naam
-        uuid valtBinnenLocatieId FK "recursief"
-        object adres
-        object geolocatie "breedtegraad + lengtegraad"
-        string verdieping
-        string vleugel
-        string url "bij virtueel"
-        array codes "externe identificaties"
-    }
-    ORGANISATIE_EENHEID {
-        uuid id PK
-        string eenheidType "instelling, sector, onderwijsteam"
-        string naam
-        uuid bovenliggendeEenheidId FK "recursief"
-        array professionalIds "alleen uuid's"
-    }
-    ONDERWIJSSPECIFICATIE {
-        uuid id PK
-        string versie "gepinde versie, het object zelf staat in de onderwijsspecificatie-payload"
-    }
-```
-
-#### 6.1.3 Resultaatstructuur en examenplan
-
-```mermaid
-erDiagram
-    EXAMENPLANSPECIFICATIE ||--o{ RESULTAATEENHEIDSPECIFICATIE : onderdeel_van
-    RESULTAATEENHEIDSPECIFICATIE ||--o{ TOETSONDERDEELSPECIFICATIE : onderdeel_van
-    EXAMENPLANSPECIFICATIE }o--|| OPLEIDINGSPROGRAMMASPECIFICATIE : geldtVoor
-    RESULTAATEENHEIDSPECIFICATIE }o--o{ REGELSET : regelsetVerwijzingen
-
-    EXAMENPLANSPECIFICATIE {
-        uuid id PK
-        string specificatieType "examenplanspecificatie"
-        uuid bovenliggendSpecificatieId "null"
-        uuid geldtVoor FK "opleidingsprogrammaspecificatie"
-        uuid leeruitkomstId FK "sleutel naar de leeruitkomst"
-        object leeruitkomst "leesbaar: type=kwalificatie, code=27141"
-        string aggregatie "allenVoldoende"
-        object resultaatmodel "schaal, cesuur"
-        string versie
-        date geldigVanaf
-        date geldigTot
-        array manifest "pins: id + version + relatie"
-        string status
-    }
-    RESULTAATEENHEIDSPECIFICATIE {
-        uuid id PK
-        string specificatieType "resultaateenheidspecificatie"
-        uuid bovenliggendSpecificatieId FK "examenplanspecificatie"
-        uuid leeruitkomstId FK "sleutel naar de leeruitkomst"
-        object leeruitkomst "leesbaar: type=kerntaak"
-        uuid beoordeelt FK "onderwijseenheid of keuzedeelruimte, optioneel"
-        number weging "relatief binnen ouder"
-        string aggregatie
-        object resultaatmodel
-        boolean verplicht
-        array regelsetVerwijzingen FK "naar REGELSET"
-        array manifest
-    }
-    TOETSONDERDEELSPECIFICATIE {
-        uuid id PK
-        string specificatieType "toetsonderdeelspecificatie"
-        uuid bovenliggendSpecificatieId FK "resultaateenheidspecificatie"
-        uuid leeruitkomstId FK "sleutel naar de leeruitkomst"
-        object leeruitkomst "leesbaar: type=kerntaak of werkproces"
-        string aard "summatief of formatief"
-        string toetsvorm
-        number weging
-        object resultaatmodel
-        boolean verplicht
-    }
-    REGELSET {
-        uuid id PK
-        string naam
-        array regels "welke resultaten meetellen"
-    }
-    OPLEIDINGSPROGRAMMASPECIFICATIE {
-        uuid id PK
-        string versie "gepinde versie, het object zelf staat in de onderwijsspecificatie-payload"
-    }
-```
-
-#### 6.1.4 Onderwijscatalogus naar planning en roostering
-
-De begrippen uit het semantisch kader en hun relaties, in de context van dit proces. Links de wereld van OC (specificeren), rechts die van P (instantiëren); de koppeling verbindt ze via de verwijzing "instantieert".
-
-```mermaid
-erDiagram
-    ONDERWIJSSPECIFICATIE ||--o{ ONDERWIJSSPECIFICATIE : "bestaat uit"
-    ONDERWIJSSPECIFICATIE }o--o{ LEERUITKOMST : "verankert op"
-    ONDERWIJSSPECIFICATIE }o--o{ REGELSET : "kent keuzeregels via"
-    ONDERWIJSAANBOD }o--|| ONDERWIJSSPECIFICATIE : "instantieert (id en versie)"
-    ONDERWIJSAANBOD ||--o{ ONDERWIJSAANBOD : "bestaat uit"
-    ONDERWIJSAANBOD }o--o| LOCATIE : "vindt plaats op"
-    ONDERWIJSAANBOD }o--o| ONDERWIJSTEAM : "wordt uitgevoerd door"
-    ONDERWIJSAANBOD ||--o{ GROEP : "kent"
-    ROOSTER }o--|| ONDERWIJSAANBOD : "plaatst in de tijd (context)"
-```
-
-#### 6.1.5 Onderwijscatalogus naar studentinformatiesysteem
-
-Conform het ROSA Kernmodel Onderwijsinformatie (KOI) en [ADR 0022](../Referentiemateriaal/adr/0022-resultaatbegrippen-conform-rosa-koi.md): een onderwijsresultaat wordt behaald op leeruitkomsten, en meerdere toetsonderdeelresultaten leiden gewogen tot dat onderwijsresultaat. De verbintenis hoort bij het aanbod (ankertabel), niet bij de specificatie, en staat daarom niet in dit kernmodel.
-
-```mermaid
-erDiagram
-    ONDERWIJSSPECIFICATIE ||--o{ ONDERWIJSSPECIFICATIE : "bestaat uit"
-    ONDERWIJSSPECIFICATIE }o--o{ LEERUITKOMST : "verankert op"
-    NOMINAAL_EXAMENPLAN }o--|| ONDERWIJSSPECIFICATIE : "geldt voor"
-    NOMINAAL_EXAMENPLAN ||--o{ TOETSONDERDEEL : "weegt"
-    KEUZEDEEL ||--o| KEUZEDEEL_EXAMENPLANDEEL : "kent eigen"
-    KEUZEDEEL_EXAMENPLANDEEL ||--o{ TOETSONDERDEEL : "weegt"
-    TOETSONDERDEEL }o--o{ LEERUITKOMST : "toetst"
-    INDIVIDUELE_STRUCTUUR }o--|| ONDERWIJSSPECIFICATIE : "is kopie van nominaal template"
-    INDIVIDUELE_STRUCTUUR }o--o{ KEUZEDEEL : "ingevuld met (keuze via SKS)"
-    INDIVIDUEEL_EXAMENPLAN ||--|| INDIVIDUELE_STRUCTUUR : "hoort bij"
-    INDIVIDUEEL_EXAMENPLAN }o--|| NOMINAAL_EXAMENPLAN : "samengesteld uit"
-    INDIVIDUEEL_EXAMENPLAN }o--o{ KEUZEDEEL_EXAMENPLANDEEL : "plus delen van gekozen keuzedelen"
-    TOETSONDERDEELRESULTAAT }o--|| TOETSONDERDEEL : "resultaat op"
-    ONDERWIJSRESULTAAT }o--o{ TOETSONDERDEELRESULTAAT : "gewogen samengesteld uit"
-    ONDERWIJSRESULTAAT }o--o{ LEERUITKOMST : "dicht af"
-    ONDERWIJSRESULTAAT }o--|| INDIVIDUEEL_EXAMENPLAN : "telt mee in"
-```
-
-#### 6.1.6 Onderwijscatalogus naar leermanagementsysteem
-
-```mermaid
-erDiagram
-    ONDERWIJSSPECIFICATIE ||--o{ ONDERWIJSSPECIFICATIE : "bestaat uit"
-    ONDERWIJSSPECIFICATIE }o--o{ LEERUITKOMST : "verankert op"
-    LEEROMGEVING_INRICHTING }o--|| ONDERWIJSSPECIFICATIE : "is ingericht naar (id en versie)"
-    LEERMIDDELKOPPELING }o--|| ONDERWIJSSPECIFICATIE : "hoort bij (id en versie)"
-    LEERMIDDELKOPPELING ||--o{ LEERMIDDELGROEP : "bundelt"
-    LEERMIDDELGROEP ||--o{ LEERMIDDEL : "bevat"
-```
-
-### 6.2 Regels bij de schema's
-
-Wat een JSON Schema niet kan uitdrukken, maar wel geldt. Zonder deze regels valideren twee implementaties allebei en werken ze toch niet samen.
-
-**Twee soorten ouder-verwijzing.** `bovenliggendSpecificatieId` draagt zowel onderdeel-van (additief, een kerntaak onder een programma) als variant-van (alternatief, een doelgroep onder een leerweg). Welke van de twee geldt staat in het `manifest` van de ouder, in `relatie`.
-
-**Aggregatie-invariant.** `studielast` telt bottom-up op binnen onderdeel-van: de som van de onderdelen is gelijk aan de ouder. Over varianten telt hij niet op; een leerweg en een doelgroep zijn alternatieven, geen optelling.
-
-**Keuzedelen staan als root.** Een keuzedeelprogramma draagt geen ouder-verwijzing en is alleen bereikbaar via `regelsetVerwijzingen`. Wie de structuur aflegt via de ouder-verwijzing mist ze. Ze zijn herbruikbaar over opleidingen heen (N:M via de regelset).
-
-**Regels staan buiten de specificatie.** `regelsetVerwijzingen` kan op elke specificatie staan, niet alleen op de keuzeruimte. De regelset draagt de kiesbaarheid en de voorwaarde vooraf, uitgedrukt in **behaalde leeruitkomsten** en niet in afgeronde specificaties. De interne structuur van een regelset valt buiten deze schema's.
-
-**Rekenregels staan op de resultaateenheid.** `aggregatie` en `weging` horen op de `resultaateenheidspecificatie`, niet op het toetsonderdeel: de rekenregel staat op het niveau waar hij geldt. `aard: formatief` betekent weging 0 en telt niet mee voor het diploma.
-
-**Knelpuntcodes.** De code benoemt welke categorie randvoorwaarde onvervulbaar bleek. De lijst is een aanzet; een genormeerde codelijst met foutmodel volgt.
-
-| Code | Geschonden constraint | Voorbeeld |
-|---|---|---|
-| `capaciteitTekort` | Inzetbare uren van team of professionals | 4 groepen vragen 960 contacturen, 666 beschikbaar |
-| `expertiseTekort` | Vereist expertiseprofiel ontbreekt | Geen docent met profiel farmaceutische zorg |
-| `ruimteTekort` | Ruimtetype of ruimtecapaciteit ontoereikend | Geen praktijklokaal beschikbaar in de periode |
-| `locatieConflict` | Zelfde ruimte gelijktijdig dubbel nodig | Twee opleidingen claimen lokaal 2.14 in dezelfde weken |
-| `volgordeConflict` | Voorwaarde vooraf past niet in de periodes | Wiskunde 1 en Ruimtelijk inzicht passen niet na elkaar binnen het jaar |
-| `regelConflict` | Keuzeregels (regelset) onvervulbaar | De regelset sluit alle kiesbare keuzedelen uit |
-| `groepsgrootteConflict` | Minimum of maximum aantal studenten | Prognose blijft onder het minimum |
-| `kalenderConflict` | Urennorm of lesweken passen niet | Vereiste begeleide uren passen niet in de beschikbare weken |
-
-**Versionering.** Semver per specificatie: MAJOR is brekend binnen dezelfde identiteit (leeruitkomsten, structuur, studielast), MINOR is additief, PATCH is een correctie. Het `id` is stabiel; een fundamentele wijziging — een nieuw kwalificatiedossier, gewijzigde wettelijke eisen — is een **nieuwe specificatie met een nieuw id**, geen MAJOR-ophoging. Temporele geldigheid loopt via `geldigVanaf` en `geldigTot`, niet via het versienummer: zo kunnen meerdere versies gelijktijdig actief zijn, de oude voor lopende studenten en de nieuwe voor nieuwe instroom. Eén partij geeft versienummers uit, de onderwijscatalogus.
-
-**Momentopname en manifest.** Een geleverde payload is een momentopname: elke specificatie staat erin met haar `versie`, en de versie van de bovenste specificatie is de release-versie daarvan. Het `manifest` maakt de pin expliciet ([manifest-item.json](Datamodelschema's/manifest-item.json)). Een MAJOR-ophoging van een onderdeel propageert **niet** automatisch omhoog: dat gebeurt alleen als de afhankelijkheid breekt, dus wanneer leeruitkomsten, weging of het recht op een waardedocument veranderen. Anders is het enkel een nieuwe pin.
-
-| Breekt onderdeel A de bovenliggende specificatie? | Bovenliggende specificatie | Manifest pint |
-|---|---|---|
-| Ja (leeruitkomst, weging of diploma-eligibility) | `2.1` naar `3.0` (MAJOR) | A `2.0` |
-| Nee (interne herstructurering van A) | `2.1` naar `2.2` (MINOR) | A `2.0` |
-
-**Deactiveren, niet verwijderen.** Zodra er aanbod, een verbintenis of een resultaat aan een specificatie hangt, is verwijderen geen optie: een lopende student moet herleidbaar blijven tot de versie waarop hij is ingeschreven. Daarvoor is de status `gedeactiveerd`.
-
-**Wijzigingsklasse.** `changeClass` in [specification-changed.json](Datamodelschema's/specification-changed.json) zegt wat de ontvanger moet doen.
-
-| Waarde | Wat het betekent | Gevolg voor de ontvanger |
-|---|---|---|
-| `fundamenteel` | Nieuw kwalificatiedossier, gewijzigde wettelijke eisen, nieuwe onderwijsvisie | Nieuwe specificatie met een nieuw id; meestal alleen voor nieuwe instroom |
-| `examenplan` | Aanpassing van de summatieve resultaatstructuur | Alleen na expliciete impactanalyse en besluit; de strengste regels, want het examenplan is een contractuele afspraak met de student |
-| `onderdeel` | Update van een onderwijseenheid- of leeronderdeelspecificatie | Nieuwe versie van het onderdeel; de bovenliggende specificatie volgt alleen bij een brekende afhankelijkheid |
-| `niet-brekend` | Actualisatie van lessen, materiaal of uitvoeringsvorm | PATCH of MINOR binnen dezelfde identiteit |
-| `na-planning-of-roostering` | Wijziging nadat aanbod of rooster is gepubliceerd | Alleen bij uitzondering en na ketenafstemming |
-
-**Locatie en organisatie.** Eén object `locatie` dekt elke korrelgrootte via `locatieType`, van campus tot ruimte en ook virtueel; `valtBinnenLocatieId` legt de ruimtelijke hiërarchie vast. Een locatie kan een adres en onafhankelijk daarvan een geopunt dragen. `organisatieEenheden` volgt hetzelfde recursiepatroon via `bovenliggendeEenheidId`; `professionalIds` draagt alleen uuid's, want inzet en beschikbaarheid leven in het plan-van-inzetsysteem.
-
-### 6.3 Gebruiksprofielen
-
-Alle koppelingen delen dezelfde onderwijsspecificatie-payload; per koppeling verschilt welke onderdelen meegaan. Dat verschil staat hier, niet in het schema: het schema legt de vorm vast, het profiel wat een koppeling ervan gebruikt.
-
-#### 6.3.1 Onderwijscatalogus naar planning en roostering
-
-| Onderdeel | Gebruik in onderwijscatalogus naar planning en roostering |
-|---|---|
-| `onderwijsspecificaties` | Volledig, inclusief manifest |
-| `regelsets` | Volledig; `voorwaardeVooraf` bevat leeruitkomst-ids uitsluitend als **verbindende sleutels** voor volgordebepaling: planning gebruikt ze zonder de inhoud te kennen ([ADR 0026](../Referentiemateriaal/adr/0026-leeruitkomst-als-verbindende-sleutel.md)) |
-| `leeruitkomsten` | **Niet meegeleverd.** Planning heeft de betekenis, aggregatie en inhoud van leeruitkomsten niet nodig ([ADR 0026](../Referentiemateriaal/adr/0026-leeruitkomst-als-verbindende-sleutel.md)) |
-
-#### 6.3.2 Onderwijscatalogus naar studentinformatiesysteem
-
-| Onderdeel | Gebruik in onderwijscatalogus naar studentinformatiesysteem |
-|---|---|
-| `onderwijsspecificaties` | Volledig, inclusief manifest (nominaal template) |
-| `leeruitkomsten` | **Volledig**, inclusief aggregatie (`bovenliggendLeeruitkomstId`), `waardedocument` en `indicatieveOmvang`: de sleutel tussen specificatie, resultaatstructuur en onderwijsresultaat ([ADR 0022](../Referentiemateriaal/adr/0022-resultaatbegrippen-conform-rosa-koi.md)) |
-| `regelsets` | Volledig (kiesbaarheid keuzedeelruimte, voorwaarden in behaalde leeruitkomsten) |
-
-Voor het ophalen van de resultaatstructuur geldt daarnaast [result-structure.json](Datamodelschema's/result-structure.json) als aparte payload.
-
-#### 6.3.3 Onderwijscatalogus naar leermanagementsysteem
-
-| Onderdeel | Gebruik in onderwijscatalogus naar leermanagementsysteem |
-|---|---|
-| `onderwijsspecificaties` | Volledig tot en met `leeronderdeelspecificatie` |
-| `leeruitkomsten` | **Met inhoudsvelden** (`omschrijving`, `resultaat`, `gedrag`): dat is precies wat het LMS uitwerkt en aan de student exposet |
-| `regelsets` | Niet meegeleverd (kiesbaarheid is het domein van SKS en SIS) |
-
-De leermiddelkoppeling-payload is nog niet uitgewerkt. Verwachte kern: `id`, `versie`, en per specificatie de leermiddelgroepen met een `specificatieVerwijzing` (id en versie).
-
-
-<!-- pagina-einde -->
-
-### 6.4 Voorbeeldpayloads
-
-De waarden in deze voorbeelden zijn **indicatief**: ze illustreren de vorm en de samenhang, niet de inhoud van een bestaande opleiding.
-
-#### 6.4.1 Voorbeeld onderwijsspecificatie
-
-Leerroute 1, waarden indicatief. De `studielast` telt bottom-up op binnen onderdeel-van: de kerntaken 2000 plus 1200 plus 880 is 4080, plus de keuzeruimte van 720 komt op 4800 onder Regulier BOL. Programma-varianten tellen niet op. De inhoud hangt hier onder één doelgroep (Regulier BOL); de andere varianten zijn leeg gelaten. De voorwaarde vooraf van Wiskunde 1 voor Ruimtelijk inzicht komt uit de uitwerking van de keuzedeel-regels.
-
-```json
-{
-  "leeruitkomsten": [
-    {
-      "id": "c5b64fe5-f7bf-490c-acaf-7af1bd24f980",
-      "versie": "0.1.0",
-      "naam": "Apothekersassistent (kwalificatiedossier 23450)",
-      "bron": {
-        "standaard": "sbb-kwalificatiekader",
-        "type": "kwalificatiedossier",
-        "code": "23450"
-      },
-      "indicatieveOmvang": [
-        {
-          "waarde": 4800,
-          "eenheid": "SBU"
-        },
-        {
-          "waarde": 171,
-          "eenheid": "EC"
-        }
-      ],
-      "bovenliggendLeeruitkomstId": null,
-      "waardedocument": "diploma",
-      "nlqfNiveau": 4
-    },
-    {
-      "id": "b84dc98b-6c5f-4ee8-bdfb-40b2639ca5a4",
-      "versie": "0.1.0",
-      "naam": "Apothekersassistent (kwalificatie 27141)",
-      "bron": {
-        "standaard": "sbb-kwalificatiekader",
-        "type": "kwalificatie",
-        "code": "27141"
-      },
-      "indicatieveOmvang": [
-        {
-          "waarde": 4800,
-          "eenheid": "SBU"
-        }
-      ],
-      "bovenliggendLeeruitkomstId": "c5b64fe5-f7bf-490c-acaf-7af1bd24f980"
-    },
-    {
-      "id": "12301838-92d4-4040-aea2-050bb131ceb7",
-      "versie": "0.1.0",
-      "naam": "Biedt farmaceutische patiëntenzorg",
-      "bron": {
-        "standaard": "sbb-kwalificatiekader",
-        "type": "kerntaak",
-        "code": "B1-K1"
-      },
-      "indicatieveOmvang": [
-        {
-          "waarde": 2000,
-          "eenheid": "SBU"
-        }
-      ],
-      "bovenliggendLeeruitkomstId": "b84dc98b-6c5f-4ee8-bdfb-40b2639ca5a4"
-    },
-    {
-      "id": "bedb4c31-b818-491c-8227-9b32146a3363",
-      "versie": "0.1.0",
-      "naam": "Voert logistieke taken uit in de apotheek",
-      "bron": {
-        "standaard": "sbb-kwalificatiekader",
-        "type": "kerntaak",
-        "code": "B1-K2"
-      },
-      "indicatieveOmvang": [
-        {
-          "waarde": 1200,
-          "eenheid": "SBU"
-        }
-      ],
-      "bovenliggendLeeruitkomstId": "b84dc98b-6c5f-4ee8-bdfb-40b2639ca5a4"
-    },
-    {
-      "id": "8b085118-ff81-4639-9152-ed2e447db2db",
-      "versie": "0.1.0",
-      "naam": "Werkt mee aan kwaliteit en deskundigheid",
-      "bron": {
-        "standaard": "sbb-kwalificatiekader",
-        "type": "kerntaak",
-        "code": "B1-K3"
-      },
-      "indicatieveOmvang": [
-        {
-          "waarde": 880,
-          "eenheid": "SBU"
-        }
-      ],
-      "bovenliggendLeeruitkomstId": "b84dc98b-6c5f-4ee8-bdfb-40b2639ca5a4"
-    },
-    {
-      "id": "78f25d62-9fd4-45c4-aa04-3d22f59213f5",
-      "versie": "0.1.0",
-      "naam": "Neemt de zorg-/adviesvraag in behandeling",
-      "bron": {
-        "standaard": "sbb-kwalificatiekader",
-        "type": "werkproces",
-        "code": "B1-K1-W1"
-      },
-      "indicatieveOmvang": [
-        {
-          "waarde": 600,
-          "eenheid": "SBU"
-        }
-      ],
-      "bovenliggendLeeruitkomstId": "12301838-92d4-4040-aea2-050bb131ceb7",
-      "omschrijving": "De beginnend beroepsbeoefenaar neemt de zorg-/adviesvraag in behandeling en staat de patiënt en/of naastbetrokkenen te woord, stelt gerichte vragen, verzamelt en controleert patiëntinformatie en brengt de situatie in kaart, en kiest op basis hiervan een vervolgstap.",
-      "resultaat": "De zorg-/adviesvraag is in behandeling genomen.",
-      "gedrag": [
-        "is geduldig en empathisch",
-        "maakt een realistische inschatting van de situatie",
-        "legt logische verbanden",
-        "past de communicatie aan op doel en doelgroep",
-        "communiceert duidelijk en begrijpelijk",
-        "gaat discreet om met vertrouwelijke informatie",
-        "werkt volgens richtlijnen en protocollen"
-      ]
-    },
-    {
-      "id": "0ffa279f-c595-49d7-b033-c91f66d18bb1",
-      "versie": "0.1.0",
-      "naam": "Voert medicatiebewaking uit",
-      "bron": {
-        "standaard": "sbb-kwalificatiekader",
-        "type": "werkproces",
-        "code": "B1-K1-W2"
-      },
-      "indicatieveOmvang": [
-        {
-          "waarde": 500,
-          "eenheid": "SBU"
-        }
-      ],
-      "bovenliggendLeeruitkomstId": "12301838-92d4-4040-aea2-050bb131ceb7"
-    },
-    {
-      "id": "9d6a5081-9356-4058-8ac0-a4df8f8c60bd",
-      "versie": "0.1.0",
-      "naam": "Verstrekt (zelfzorg)medicijnen en/of hulpmiddelen",
-      "bron": {
-        "standaard": "sbb-kwalificatiekader",
-        "type": "werkproces",
-        "code": "B1-K1-W3"
-      },
-      "indicatieveOmvang": [
-        {
-          "waarde": 500,
-          "eenheid": "SBU"
-        }
-      ],
-      "bovenliggendLeeruitkomstId": "12301838-92d4-4040-aea2-050bb131ceb7"
-    },
-    {
-      "id": "71f42c36-dcfb-42ec-b492-8ed665639eda",
-      "versie": "0.1.0",
-      "naam": "Geeft informatie en advies over medicijngebruik, gezondheid en leefstijl",
-      "bron": {
-        "standaard": "sbb-kwalificatiekader",
-        "type": "werkproces",
-        "code": "B1-K1-W4"
-      },
-      "indicatieveOmvang": [
-        {
-          "waarde": 400,
-          "eenheid": "SBU"
-        }
-      ],
-      "bovenliggendLeeruitkomstId": "12301838-92d4-4040-aea2-050bb131ceb7"
-    },
-    {
-      "id": "1d5f3f8e-76d1-4bf1-bcf2-986a4a2fe7fd",
-      "versie": "0.1.0",
-      "naam": "Maakt medicijnen klaar voor gebruik en/of aflevering",
-      "bron": {
-        "standaard": "sbb-kwalificatiekader",
-        "type": "werkproces",
-        "code": "B1-K2-W1"
-      },
-      "indicatieveOmvang": [
-        {
-          "waarde": 700,
-          "eenheid": "SBU"
-        }
-      ],
-      "bovenliggendLeeruitkomstId": "bedb4c31-b818-491c-8227-9b32146a3363"
-    },
-    {
-      "id": "772c792b-f5ec-425f-9dd7-87d8fad4d2db",
-      "versie": "0.1.0",
-      "naam": "Houdt de voorraad bij",
-      "bron": {
-        "standaard": "sbb-kwalificatiekader",
-        "type": "werkproces",
-        "code": "B1-K2-W2"
-      },
-      "indicatieveOmvang": [
-        {
-          "waarde": 500,
-          "eenheid": "SBU"
-        }
-      ],
-      "bovenliggendLeeruitkomstId": "bedb4c31-b818-491c-8227-9b32146a3363"
-    },
-    {
-      "id": "d929b0df-9119-4b89-ada3-342ab6b9f937",
-      "versie": "0.1.0",
-      "naam": "Draagt bij aan sociaal veilige werkomgeving",
-      "bron": {
-        "standaard": "sbb-kwalificatiekader",
-        "type": "werkproces",
-        "code": "B1-K3-W1"
-      },
-      "indicatieveOmvang": [
-        {
-          "waarde": 280,
-          "eenheid": "SBU"
-        }
-      ],
-      "bovenliggendLeeruitkomstId": "8b085118-ff81-4639-9152-ed2e447db2db"
-    },
-    {
-      "id": "5cb6ce9c-82cc-4143-86bd-9f375b2901bc",
-      "versie": "0.1.0",
-      "naam": "Evalueert de werkzaamheden en ontwikkelt zichzelf als professional",
-      "bron": {
-        "standaard": "sbb-kwalificatiekader",
-        "type": "werkproces",
-        "code": "B1-K3-W2"
-      },
-      "indicatieveOmvang": [
-        {
-          "waarde": 300,
-          "eenheid": "SBU"
-        }
-      ],
-      "bovenliggendLeeruitkomstId": "8b085118-ff81-4639-9152-ed2e447db2db"
-    },
-    {
-      "id": "ac69e604-6192-4eaf-b786-ed2668dc0faf",
-      "versie": "0.1.0",
-      "naam": "Stemt de farmaceutische zorgverlening af",
-      "bron": {
-        "standaard": "sbb-kwalificatiekader",
-        "type": "werkproces",
-        "code": "B1-K3-W3"
-      },
-      "indicatieveOmvang": [
-        {
-          "waarde": 300,
-          "eenheid": "SBU"
-        }
-      ],
-      "bovenliggendLeeruitkomstId": "8b085118-ff81-4639-9152-ed2e447db2db"
-    },
-    {
-      "id": "4dca5ee6-ea76-4cc2-ac34-bbd466d7b6d3",
-      "versie": "0.1.0",
-      "naam": "Keuzedeel Ondernemerschap",
-      "bron": {
-        "standaard": "sbb-kwalificatiekader",
-        "type": "keuzedeel",
-        "code": "K0072"
-      },
-      "indicatieveOmvang": [
-        {
-          "waarde": 240,
-          "eenheid": "SBU"
-        },
-        {
-          "waarde": 8.6,
-          "eenheid": "EC"
-        }
-      ],
-      "bovenliggendLeeruitkomstId": null,
-      "waardedocument": "mbo-certificaat"
-    },
-    {
-      "id": "235745ac-bf0f-4a94-b966-aa4ebbfcdabb",
-      "versie": "0.1.0",
-      "naam": "Zet een onderneming op in de zorg (indicatief)",
-      "bron": {
-        "standaard": "sbb-kwalificatiekader",
-        "type": "kerntaak",
-        "code": "K0072-K1"
-      },
-      "indicatieveOmvang": [
-        {
-          "waarde": 240,
-          "eenheid": "SBU"
-        }
-      ],
-      "bovenliggendLeeruitkomstId": "4dca5ee6-ea76-4cc2-ac34-bbd466d7b6d3"
-    },
-    {
-      "id": "bfcef8b4-49e6-4ba4-87a5-36389838969b",
-      "versie": "0.1.0",
-      "naam": "Stelt een ondernemingsplan op (indicatief)",
-      "bron": {
-        "standaard": "sbb-kwalificatiekader",
-        "type": "werkproces",
-        "code": "K0072-K1-W1"
-      },
-      "indicatieveOmvang": [
-        {
-          "waarde": 240,
-          "eenheid": "SBU"
-        }
-      ],
-      "bovenliggendLeeruitkomstId": "235745ac-bf0f-4a94-b966-aa4ebbfcdabb"
-    },
-    {
-      "id": "a12bbc9c-ce75-41df-837b-489f46df500d",
-      "versie": "0.1.0",
-      "naam": "Keuzedeel Ruimtelijk inzicht (illustratief)",
-      "bron": {
-        "standaard": "sbb-kwalificatiekader",
-        "type": "keuzedeel",
-        "code": "K0000-ri"
-      },
-      "indicatieveOmvang": [
-        {
-          "waarde": 240,
-          "eenheid": "SBU"
-        },
-        {
-          "waarde": 8.6,
-          "eenheid": "EC"
-        }
-      ],
-      "bovenliggendLeeruitkomstId": null,
-      "waardedocument": "mbo-certificaat"
-    },
-    {
-      "id": "3f9dea35-395d-4a4b-8474-64f0d45d19dd",
-      "versie": "0.1.0",
-      "naam": "Past ruimtelijk inzicht toe (illustratief)",
-      "bron": {
-        "standaard": "sbb-kwalificatiekader",
-        "type": "kerntaak",
-        "code": "K0000-ri-K1"
-      },
-      "indicatieveOmvang": [
-        {
-          "waarde": 240,
-          "eenheid": "SBU"
-        }
-      ],
-      "bovenliggendLeeruitkomstId": "a12bbc9c-ce75-41df-837b-489f46df500d"
-    },
-    {
-      "id": "92476363-cd8e-4b3c-aeea-b70add98786f",
-      "versie": "0.1.0",
-      "naam": "Interpreteert ruimtelijke figuren (illustratief)",
-      "bron": {
-        "standaard": "sbb-kwalificatiekader",
-        "type": "werkproces",
-        "code": "K0000-ri-K1-W1"
-      },
-      "indicatieveOmvang": [
-        {
-          "waarde": 240,
-          "eenheid": "SBU"
-        }
-      ],
-      "bovenliggendLeeruitkomstId": "3f9dea35-395d-4a4b-8474-64f0d45d19dd"
-    },
-    {
-      "id": "0d83e73a-e0d8-47de-8b83-983d2b8226e8",
-      "versie": "0.1.0",
-      "naam": "Keuzedeel Wiskunde 1 (illustratief)",
-      "bron": {
-        "standaard": "sbb-kwalificatiekader",
-        "type": "keuzedeel",
-        "code": "K0000-w1"
-      },
-      "indicatieveOmvang": [
-        {
-          "waarde": 240,
-          "eenheid": "SBU"
-        },
-        {
-          "waarde": 8.6,
-          "eenheid": "EC"
-        }
-      ],
-      "bovenliggendLeeruitkomstId": null,
-      "waardedocument": "mbo-certificaat"
-    },
-    {
-      "id": "c980007d-93db-40c9-bd8e-405293f1b20f",
-      "versie": "0.1.0",
-      "naam": "Beheerst basale wiskunde (illustratief)",
-      "bron": {
-        "standaard": "sbb-kwalificatiekader",
-        "type": "kerntaak",
-        "code": "K0000-w1-K1"
-      },
-      "indicatieveOmvang": [
-        {
-          "waarde": 240,
-          "eenheid": "SBU"
-        }
-      ],
-      "bovenliggendLeeruitkomstId": "0d83e73a-e0d8-47de-8b83-983d2b8226e8"
-    },
-    {
-      "id": "d44a185e-1348-4ed7-92a4-f0cb898dd85b",
-      "versie": "0.1.0",
-      "naam": "Rekent met verhoudingen en formules (illustratief)",
-      "bron": {
-        "standaard": "sbb-kwalificatiekader",
-        "type": "werkproces",
-        "code": "K0000-w1-K1-W1"
-      },
-      "indicatieveOmvang": [
-        {
-          "waarde": 240,
-          "eenheid": "SBU"
-        }
-      ],
-      "bovenliggendLeeruitkomstId": "c980007d-93db-40c9-bd8e-405293f1b20f"
-    }
-  ],
-  "onderwijsspecificaties": [
-    {
-      "id": "79736830-1c5c-470f-b2c2-005029c96733",
-      "specificatieType": "opleidingsspecificatie",
-      "versie": "0.1.0",
-      "bovenliggendSpecificatieId": null,
-      "leeruitkomstId": "c5b64fe5-f7bf-490c-acaf-7af1bd24f980",
-      "naam": "Apothekersassistent",
-      "omschrijving": "Opleiding tot apothekersassistent. Domein Zorg en welzijn.",
-      "curriculumtype": "nominaal",
-      "status": "concept",
-      "geldigVanaf": "2026-08-01",
-      "geldigTot": null,
-      "studielast": {
-        "waarde": 4800,
-        "eenheid": "SBU"
-      },
-      "manifest": [
-        {
-          "specificatieId": "5ef37812-ae0f-4232-904f-451b9928e45e",
-          "versie": "0.1.0",
-          "relatie": "variant"
-        },
-        {
-          "specificatieId": "93f3c239-5baa-4d96-a56f-728c09d7fefe",
-          "versie": "0.1.0",
-          "relatie": "variant"
-        }
-      ]
-    },
-    {
-      "id": "5ef37812-ae0f-4232-904f-451b9928e45e",
-      "specificatieType": "opleidingsprogrammaspecificatie",
-      "versie": "0.1.0",
-      "bovenliggendSpecificatieId": "79736830-1c5c-470f-b2c2-005029c96733",
-      "leeruitkomstId": "b84dc98b-6c5f-4ee8-bdfb-40b2639ca5a4",
-      "naam": "Apothekersassistent, leerweg BOL",
-      "programmatype": "diplomaprogramma",
-      "programmaLaag": "leerweg",
-      "leerweg": "BOL",
-      "status": "concept",
-      "studielast": {
-        "waarde": 4800,
-        "eenheid": "SBU"
-      }
-    },
-    {
-      "id": "93f3c239-5baa-4d96-a56f-728c09d7fefe",
-      "specificatieType": "opleidingsprogrammaspecificatie",
-      "versie": "0.1.0",
-      "bovenliggendSpecificatieId": "79736830-1c5c-470f-b2c2-005029c96733",
-      "leeruitkomstId": "b84dc98b-6c5f-4ee8-bdfb-40b2639ca5a4",
-      "naam": "Apothekersassistent, leerweg BBL",
-      "programmatype": "diplomaprogramma",
-      "programmaLaag": "leerweg",
-      "leerweg": "BBL",
-      "status": "concept",
-      "studielast": {
-        "waarde": 4800,
-        "eenheid": "SBU"
-      }
-    },
-    {
-      "id": "7ae25c1e-ee27-43a2-a001-761ee39ea5c7",
-      "specificatieType": "opleidingsprogrammaspecificatie",
-      "versie": "0.1.0",
-      "bovenliggendSpecificatieId": "5ef37812-ae0f-4232-904f-451b9928e45e",
-      "leeruitkomstId": "b84dc98b-6c5f-4ee8-bdfb-40b2639ca5a4",
-      "naam": "Regulier BOL",
-      "programmatype": "diplomaprogramma",
-      "programmaLaag": "doelgroep",
-      "doelgroep": "regulier",
-      "leerweg": "BOL",
-      "curriculumtype": "nominaal",
-      "cohort": "2026",
-      "startdatum": "2026-09-01",
-      "geldigVanaf": "2026-09-01",
-      "geldigTot": null,
-      "status": "concept",
-      "studielast": {
-        "waarde": 4800,
-        "eenheid": "SBU"
-      },
-      "manifest": [
-        {
-          "specificatieId": "402c2342-d897-4df4-a667-7fc5bd930944",
-          "versie": "0.1.0",
-          "relatie": "onderdeel"
-        },
-        {
-          "specificatieId": "aa0a8af1-d383-4981-8a0f-6ec2ba4e6283",
-          "versie": "0.1.0",
-          "relatie": "onderdeel"
-        },
-        {
-          "specificatieId": "f686a286-d555-4eda-bd22-001c5b60e4dc",
-          "versie": "0.1.0",
-          "relatie": "onderdeel"
-        },
-        {
-          "specificatieId": "fb5be5ae-faa0-4b4b-8085-474fce9aae08",
-          "versie": "0.1.0",
-          "relatie": "onderdeel"
-        }
-      ]
-    },
-    {
-      "id": "82de8b94-8a43-4ccf-8114-043f8f9bc2f8",
-      "specificatieType": "opleidingsprogrammaspecificatie",
-      "versie": "0.1.0",
-      "bovenliggendSpecificatieId": "5ef37812-ae0f-4232-904f-451b9928e45e",
-      "leeruitkomstId": "b84dc98b-6c5f-4ee8-bdfb-40b2639ca5a4",
-      "naam": "Zijstroom/LLO BOL (illustratief)",
-      "programmatype": "diplomaprogramma",
-      "programmaLaag": "doelgroep",
-      "doelgroep": "zijinstromer",
-      "leerweg": "BOL",
-      "status": "concept",
-      "studielast": {
-        "waarde": 4800,
-        "eenheid": "SBU"
-      }
-    },
-    {
-      "id": "685dc983-1597-46d5-9935-001d7e3715ca",
-      "specificatieType": "opleidingsprogrammaspecificatie",
-      "versie": "0.1.0",
-      "bovenliggendSpecificatieId": "5ef37812-ae0f-4232-904f-451b9928e45e",
-      "leeruitkomstId": "b84dc98b-6c5f-4ee8-bdfb-40b2639ca5a4",
-      "naam": "Hybride BOL (illustratief)",
-      "programmatype": "diplomaprogramma",
-      "programmaLaag": "doelgroep",
-      "doelgroep": "hybride",
-      "leerweg": "BOL",
-      "curriculumtype": "hybride",
-      "status": "concept",
-      "studielast": {
-        "waarde": 4800,
-        "eenheid": "SBU"
-      }
-    },
-    {
-      "id": "23d18a33-dafc-47e7-a60e-84cd31d27613",
-      "specificatieType": "opleidingsprogrammaspecificatie",
-      "versie": "0.1.0",
-      "bovenliggendSpecificatieId": "93f3c239-5baa-4d96-a56f-728c09d7fefe",
-      "leeruitkomstId": "b84dc98b-6c5f-4ee8-bdfb-40b2639ca5a4",
-      "naam": "Regulier BBL (illustratief)",
-      "programmatype": "diplomaprogramma",
-      "programmaLaag": "doelgroep",
-      "doelgroep": "regulier",
-      "leerweg": "BBL",
-      "status": "concept",
-      "studielast": {
-        "waarde": 4800,
-        "eenheid": "SBU"
-      }
-    },
-    {
-      "id": "c295478c-c1c1-4647-9550-dc728aff1a7c",
-      "specificatieType": "opleidingsprogrammaspecificatie",
-      "versie": "0.1.0",
-      "bovenliggendSpecificatieId": "93f3c239-5baa-4d96-a56f-728c09d7fefe",
-      "leeruitkomstId": "b84dc98b-6c5f-4ee8-bdfb-40b2639ca5a4",
-      "naam": "BBL Ziekenhuis 12 (illustratief)",
-      "programmatype": "diplomaprogramma",
-      "programmaLaag": "doelgroep",
-      "doelgroep": "organisatiespecifiek",
-      "organisatie": {
-        "naam": "Ziekenhuis 12"
-      },
-      "leerweg": "BBL",
-      "toelichting": "BBL-variant, 4 dagen werken en 1 dag school.",
-      "status": "concept",
-      "studielast": {
-        "waarde": 4800,
-        "eenheid": "SBU"
-      }
-    },
-    {
-      "id": "402c2342-d897-4df4-a667-7fc5bd930944",
-      "specificatieType": "onderwijseenheidspecificatie",
-      "versie": "0.1.0",
-      "bovenliggendSpecificatieId": "7ae25c1e-ee27-43a2-a001-761ee39ea5c7",
-      "leeruitkomstId": "12301838-92d4-4040-aea2-050bb131ceb7",
-      "naam": "Biedt farmaceutische patiëntenzorg",
-      "studielast": {
-        "waarde": 2000,
-        "eenheid": "SBU"
-      }
-    },
-    {
-      "id": "aa0a8af1-d383-4981-8a0f-6ec2ba4e6283",
-      "specificatieType": "onderwijseenheidspecificatie",
-      "versie": "0.1.0",
-      "bovenliggendSpecificatieId": "7ae25c1e-ee27-43a2-a001-761ee39ea5c7",
-      "leeruitkomstId": "bedb4c31-b818-491c-8227-9b32146a3363",
-      "naam": "Voert logistieke taken uit in de apotheek",
-      "studielast": {
-        "waarde": 1200,
-        "eenheid": "SBU"
-      }
-    },
-    {
-      "id": "f686a286-d555-4eda-bd22-001c5b60e4dc",
-      "specificatieType": "onderwijseenheidspecificatie",
-      "versie": "0.1.0",
-      "bovenliggendSpecificatieId": "7ae25c1e-ee27-43a2-a001-761ee39ea5c7",
-      "leeruitkomstId": "8b085118-ff81-4639-9152-ed2e447db2db",
-      "naam": "Werkt mee aan kwaliteit en deskundigheid",
-      "studielast": {
-        "waarde": 880,
-        "eenheid": "SBU"
-      }
-    },
-    {
-      "id": "327c8263-3516-4b5a-8d57-c16241ec008d",
-      "specificatieType": "leeronderdeelspecificatie",
-      "versie": "0.1.0",
-      "bovenliggendSpecificatieId": "402c2342-d897-4df4-a667-7fc5bd930944",
-      "leeruitkomstId": "78f25d62-9fd4-45c4-aa04-3d22f59213f5",
-      "naam": "Neemt de zorg-/adviesvraag in behandeling",
-      "tijdsverdeling": "BOT",
-      "studielast": {
-        "waarde": 600,
-        "eenheid": "SBU"
-      }
-    },
-    {
-      "id": "29522e42-fb32-46d2-a504-0869831f941f",
-      "specificatieType": "leeronderdeelspecificatie",
-      "versie": "0.1.0",
-      "bovenliggendSpecificatieId": "402c2342-d897-4df4-a667-7fc5bd930944",
-      "leeruitkomstId": "0ffa279f-c595-49d7-b033-c91f66d18bb1",
-      "naam": "Voert medicatiebewaking uit",
-      "tijdsverdeling": "BOT",
-      "studielast": {
-        "waarde": 500,
-        "eenheid": "SBU"
-      }
-    },
-    {
-      "id": "db4ae6c8-7dda-45ef-953e-a4e8bfc557f8",
-      "specificatieType": "leeronderdeelspecificatie",
-      "versie": "0.1.0",
-      "bovenliggendSpecificatieId": "402c2342-d897-4df4-a667-7fc5bd930944",
-      "leeruitkomstId": "9d6a5081-9356-4058-8ac0-a4df8f8c60bd",
-      "naam": "Verstrekt (zelfzorg)medicijnen en/of hulpmiddelen",
-      "tijdsverdeling": "BOT",
-      "studielast": {
-        "waarde": 500,
-        "eenheid": "SBU"
-      }
-    },
-    {
-      "id": "2a4e31d4-2b27-401f-a28c-f152b0d502db",
-      "specificatieType": "leeronderdeelspecificatie",
-      "versie": "0.1.0",
-      "bovenliggendSpecificatieId": "402c2342-d897-4df4-a667-7fc5bd930944",
-      "leeruitkomstId": "71f42c36-dcfb-42ec-b492-8ed665639eda",
-      "naam": "Geeft informatie en advies over medicijngebruik, gezondheid en leefstijl",
-      "tijdsverdeling": "BOT",
-      "studielast": {
-        "waarde": 400,
-        "eenheid": "SBU"
-      }
-    },
-    {
-      "id": "c36d635f-7b1c-4459-a035-adfca96768da",
-      "specificatieType": "leeronderdeelspecificatie",
-      "versie": "0.1.0",
-      "bovenliggendSpecificatieId": "aa0a8af1-d383-4981-8a0f-6ec2ba4e6283",
-      "leeruitkomstId": "1d5f3f8e-76d1-4bf1-bcf2-986a4a2fe7fd",
-      "naam": "Maakt medicijnen klaar voor gebruik en/of aflevering",
-      "tijdsverdeling": "BOT",
-      "studielast": {
-        "waarde": 700,
-        "eenheid": "SBU"
-      }
-    },
-    {
-      "id": "c5262133-0873-44a7-9b54-d15004c9d940",
-      "specificatieType": "leeronderdeelspecificatie",
-      "versie": "0.1.0",
-      "bovenliggendSpecificatieId": "aa0a8af1-d383-4981-8a0f-6ec2ba4e6283",
-      "leeruitkomstId": "772c792b-f5ec-425f-9dd7-87d8fad4d2db",
-      "naam": "Houdt de voorraad bij",
-      "tijdsverdeling": "BOT",
-      "studielast": {
-        "waarde": 500,
-        "eenheid": "SBU"
-      }
-    },
-    {
-      "id": "f956bad0-f49c-4b5c-a040-c084229b23e0",
-      "specificatieType": "leeronderdeelspecificatie",
-      "versie": "0.1.0",
-      "bovenliggendSpecificatieId": "f686a286-d555-4eda-bd22-001c5b60e4dc",
-      "leeruitkomstId": "d929b0df-9119-4b89-ada3-342ab6b9f937",
-      "naam": "Draagt bij aan sociaal veilige werkomgeving",
-      "tijdsverdeling": "BOT",
-      "studielast": {
-        "waarde": 280,
-        "eenheid": "SBU"
-      }
-    },
-    {
-      "id": "6d5b468e-ceac-47df-b221-d09dce4cce3c",
-      "specificatieType": "leeronderdeelspecificatie",
-      "versie": "0.1.0",
-      "bovenliggendSpecificatieId": "f686a286-d555-4eda-bd22-001c5b60e4dc",
-      "leeruitkomstId": "5cb6ce9c-82cc-4143-86bd-9f375b2901bc",
-      "naam": "Evalueert de werkzaamheden en ontwikkelt zichzelf als professional",
-      "tijdsverdeling": "BOT",
-      "studielast": {
-        "waarde": 300,
-        "eenheid": "SBU"
-      }
-    },
-    {
-      "id": "90245c2e-2f2d-4d58-b770-24427e717f97",
-      "specificatieType": "leeronderdeelspecificatie",
-      "versie": "0.1.0",
-      "bovenliggendSpecificatieId": "f686a286-d555-4eda-bd22-001c5b60e4dc",
-      "leeruitkomstId": "ac69e604-6192-4eaf-b786-ed2668dc0faf",
-      "naam": "Stemt de farmaceutische zorgverlening af",
-      "tijdsverdeling": "BOT",
-      "studielast": {
-        "waarde": 300,
-        "eenheid": "SBU"
-      }
-    },
-    {
-      "id": "fb5be5ae-faa0-4b4b-8085-474fce9aae08",
-      "specificatieType": "keuzedeelruimtespecificatie",
-      "versie": "0.1.0",
-      "bovenliggendSpecificatieId": "7ae25c1e-ee27-43a2-a001-761ee39ea5c7",
-      "naam": "Keuzedeelruimte",
-      "omschrijving": "Ruimte binnen de kwalificatie die met keuzedelen wordt ingevuld.",
-      "studielast": {
-        "waarde": 720,
-        "eenheid": "SBU"
-      },
-      "regelsetVerwijzingen": [
-        "e4037953-17d6-40a4-9e59-92ec1f9c19a8"
-      ],
-      "manifest": [
-        {
-          "specificatieId": "6a5ec549-da21-4034-b0cd-a709731de2eb",
-          "versie": "0.1.0",
-          "relatie": "referentie"
-        },
-        {
-          "specificatieId": "ecf4a1ce-8fe4-4ed2-82d4-6c743862094e",
-          "versie": "0.1.0",
-          "relatie": "referentie"
-        },
-        {
-          "specificatieId": "65342d39-7716-4d33-a5cd-a255cc1a2feb",
-          "versie": "0.1.0",
-          "relatie": "referentie"
-        }
-      ]
-    },
-    {
-      "id": "6a5ec549-da21-4034-b0cd-a709731de2eb",
-      "specificatieType": "opleidingsprogrammaspecificatie",
-      "versie": "0.1.0",
-      "bovenliggendSpecificatieId": null,
-      "leeruitkomstId": "4dca5ee6-ea76-4cc2-ac34-bbd466d7b6d3",
-      "naam": "Keuzedeel Ondernemerschap",
-      "programmatype": "keuzedeelprogramma",
-      "keuzedeelKlasse": "algemeen-verbredend",
-      "studielast": {
-        "waarde": 240,
-        "eenheid": "SBU"
-      }
-    },
-    {
-      "id": "7d4d9a10-bb71-4d05-9b30-0b79d7144be1",
-      "specificatieType": "onderwijseenheidspecificatie",
-      "versie": "0.1.0",
-      "bovenliggendSpecificatieId": "6a5ec549-da21-4034-b0cd-a709731de2eb",
-      "leeruitkomstId": "235745ac-bf0f-4a94-b966-aa4ebbfcdabb",
-      "naam": "Zet een onderneming op in de zorg (indicatief)",
-      "studielast": {
-        "waarde": 240,
-        "eenheid": "SBU"
-      }
-    },
-    {
-      "id": "b4ec6046-fae8-442e-91df-163c5e9e72f2",
-      "specificatieType": "leeronderdeelspecificatie",
-      "versie": "0.1.0",
-      "bovenliggendSpecificatieId": "7d4d9a10-bb71-4d05-9b30-0b79d7144be1",
-      "leeruitkomstId": "bfcef8b4-49e6-4ba4-87a5-36389838969b",
-      "naam": "Stelt een ondernemingsplan op (indicatief)",
-      "tijdsverdeling": "BOT",
-      "studielast": {
-        "waarde": 240,
-        "eenheid": "SBU"
-      }
-    },
-    {
-      "id": "ecf4a1ce-8fe4-4ed2-82d4-6c743862094e",
-      "specificatieType": "opleidingsprogrammaspecificatie",
-      "versie": "0.1.0",
-      "bovenliggendSpecificatieId": null,
-      "leeruitkomstId": "a12bbc9c-ce75-41df-837b-489f46df500d",
-      "naam": "Keuzedeel Ruimtelijk inzicht (illustratief)",
-      "programmatype": "keuzedeelprogramma",
-      "keuzedeelKlasse": "beroepsspecifiek-verdiepend",
-      "studielast": {
-        "waarde": 240,
-        "eenheid": "SBU"
-      }
-    },
-    {
-      "id": "20f1099a-949f-40b8-b893-1aa5bfea3f4c",
-      "specificatieType": "onderwijseenheidspecificatie",
-      "versie": "0.1.0",
-      "bovenliggendSpecificatieId": "ecf4a1ce-8fe4-4ed2-82d4-6c743862094e",
-      "leeruitkomstId": "3f9dea35-395d-4a4b-8474-64f0d45d19dd",
-      "naam": "Past ruimtelijk inzicht toe (illustratief)",
-      "studielast": {
-        "waarde": 240,
-        "eenheid": "SBU"
-      }
-    },
-    {
-      "id": "9e74eb44-1155-4882-8eb4-24e58a9146b2",
-      "specificatieType": "leeronderdeelspecificatie",
-      "versie": "0.1.0",
-      "bovenliggendSpecificatieId": "20f1099a-949f-40b8-b893-1aa5bfea3f4c",
-      "leeruitkomstId": "92476363-cd8e-4b3c-aeea-b70add98786f",
-      "naam": "Interpreteert ruimtelijke figuren (illustratief)",
-      "tijdsverdeling": "BOT",
-      "studielast": {
-        "waarde": 240,
-        "eenheid": "SBU"
-      }
-    },
-    {
-      "id": "65342d39-7716-4d33-a5cd-a255cc1a2feb",
-      "specificatieType": "opleidingsprogrammaspecificatie",
-      "versie": "0.1.0",
-      "bovenliggendSpecificatieId": null,
-      "leeruitkomstId": "0d83e73a-e0d8-47de-8b83-983d2b8226e8",
-      "naam": "Keuzedeel Wiskunde 1 (illustratief)",
-      "programmatype": "keuzedeelprogramma",
-      "keuzedeelKlasse": "beroepsspecifiek-verdiepend",
-      "studielast": {
-        "waarde": 240,
-        "eenheid": "SBU"
-      }
-    },
-    {
-      "id": "729972d9-b83a-418f-91ec-10db1ecb56da",
-      "specificatieType": "onderwijseenheidspecificatie",
-      "versie": "0.1.0",
-      "bovenliggendSpecificatieId": "65342d39-7716-4d33-a5cd-a255cc1a2feb",
-      "leeruitkomstId": "c980007d-93db-40c9-bd8e-405293f1b20f",
-      "naam": "Beheerst basale wiskunde (illustratief)",
-      "studielast": {
-        "waarde": 240,
-        "eenheid": "SBU"
-      }
-    },
-    {
-      "id": "6952e0af-eca5-422e-aa6a-69cfd38f97c9",
-      "specificatieType": "leeronderdeelspecificatie",
-      "versie": "0.1.0",
-      "bovenliggendSpecificatieId": "729972d9-b83a-418f-91ec-10db1ecb56da",
-      "leeruitkomstId": "d44a185e-1348-4ed7-92a4-f0cb898dd85b",
-      "naam": "Rekent met verhoudingen en formules (illustratief)",
-      "tijdsverdeling": "BOT",
-      "studielast": {
-        "waarde": 240,
-        "eenheid": "SBU"
-      }
-    }
-  ],
-  "regelsets": [
-    {
-      "id": "e4037953-17d6-40a4-9e59-92ec1f9c19a8",
-      "versie": "0.1.0",
-      "naam": "Kiesbare keuzedelen voor Apothekersassistent (LR1)",
-      "omschrijving": "Bepaalt welke keuzedelen in de keuzedeelruimte kiesbaar zijn. Deelname-voorwaarden zijn uitgedrukt in behaalde leeruitkomsten ([ADR 0022](../../Referentiemateriaal/adr/0022-resultaatbegrippen-conform-rosa-koi.md)). De regelstructuur wordt in een aparte uitwerking behandeld; onderstaande regels zijn indicatief.",
-      "vanToepassingOp": "fb5be5ae-faa0-4b4b-8085-474fce9aae08",
-      "regels": [
-        {
-          "type": "kiesbaar",
-          "bereik": "alle keuzedelen met keuzedeelKlasse algemeen-verbredend"
-        },
-        {
-          "type": "kiesbaar",
-          "keuzedeel": "ecf4a1ce-8fe4-4ed2-82d4-6c743862094e",
-          "voorwaardeVooraf": [
-            {
-              "vereisteLeeruitkomstId": "0d83e73a-e0d8-47de-8b83-983d2b8226e8",
-              "status": "behaald"
-            }
-          ]
-        }
-      ]
-    }
-  ]
-}
-```
-
-De voorwaarde vooraf (Ruimtelijk inzicht vereist Wiskunde 1) staat in de regelset, niet in de specificatie, en is uitgedrukt in de **behaalde leeruitkomst** (`vereisteLeeruitkomstId`), niet in een afgeronde specificatie. Zo blijft de regel los van het item en toetst hij op wat er werkelijk behaald is ([ADR 0022](../Referentiemateriaal/adr/0022-resultaatbegrippen-conform-rosa-koi.md)).
-
-De drie keuzedeelprogramma's staan als **losse roots**: ze hangen bewust niet onder een opleiding, want een keuzedeel is herbruikbaar over opleidingen heen. Ze zijn alleen bereikbaar via de regelset waarnaar de `keuzedeelruimtespecificatie` verwijst. Dat is precies de N-op-M-relatie die in de platte JSON onzichtbaar blijft.
-
-De leeruitkomstboom volgt de opbouw van het kwalificatiekader: dossier, kwalificatie, kerntaken, werkprocessen. De keuzedeel-leeruitkomsten vormen eigen roots, om dezelfde reden als hierboven.
-
-De bottom-up-optelling sluit alleen **binnen** de kwalificatiekader-tak. Op kwalificatieniveau staat 4800 SBU terwijl de drie kerntaken optellen tot 4080; het verschil is de keuzedeelruimte van 720 SBU, die per ontwerp geen eigen leeruitkomst heeft omdat pas bij de keuze duidelijk wordt welke leeruitkomsten erin vallen.
-
-#### 6.4.2 Voorbeeld onderwijsaanbod
-
-Leerroute 1. De `specificatieVerwijzing`-uuid's komen uit de [voorbeeld onderwijsspecificatie](#641-voorbeeld-onderwijsspecificatie).
-
-```json
-{
-  "aanbodInstanties": [
-    {
-      "id": "7aa6609f-1d1b-471a-a0f8-beae490d31b5",
-      "aanbodType": "opleidingsaanbod",
-      "versie": "0.1.0",
-      "bovenliggendAanbodId": null,
-      "specificatieVerwijzing": { "specificatieId": "79736830-1c5c-470f-b2c2-005029c96733", "versie": "0.1.0" },
-      "naam": "Apothekersassistent, cohort 2026",
-      "status": "gepland",
-      "knelpunten": [],
-      "cohort": "2026",
-      "periode": { "start": "2026-09-01", "eind": "2029-07-15" },
-      "uitvoerendTeamId": "d9561371-5ece-482d-a675-a076e63f980f"
-    },
-    {
-      "id": "8c494250-b67a-4666-a762-6f9ec1e70aff",
-      "aanbodType": "opleidingsprogramma-aanbod",
-      "versie": "0.1.0",
-      "bovenliggendAanbodId": "7aa6609f-1d1b-471a-a0f8-beae490d31b5",
-      "specificatieVerwijzing": { "specificatieId": "7ae25c1e-ee27-43a2-a001-761ee39ea5c7", "versie": "0.1.0" },
-      "naam": "Regulier BOL, cohort 2026",
-      "status": "gepland",
-      "minAantalStudenten": 18,
-      "maxAantalStudenten": 120,
-      "periode": { "start": "2026-09-01", "eind": "2029-07-15" },
-      "uitvoerendTeamId": "d9561371-5ece-482d-a675-a076e63f980f"
-    },
-    {
-      "id": "04af26e6-96be-480a-8413-87a128164681",
-      "aanbodType": "onderwijseenheid-aanbod",
-      "versie": "0.1.0",
-      "bovenliggendAanbodId": "8c494250-b67a-4666-a762-6f9ec1e70aff",
-      "specificatieVerwijzing": { "specificatieId": "402c2342-d897-4df4-a667-7fc5bd930944", "versie": "0.1.0" },
-      "naam": "Biedt farmaceutische patiëntenzorg, leerjaar 1-2",
-      "status": "gepland",
-      "periode": { "start": "2026-09-01", "eind": "2028-07-15" },
-      "locatieId": "59807057-a6f1-473b-9084-114644557a68"
-    },
-    {
-      "id": "04070a96-01e0-4958-9f7e-69b429c72eec",
-      "aanbodType": "leergelegenheid",
-      "versie": "0.1.0",
-      "bovenliggendAanbodId": "04af26e6-96be-480a-8413-87a128164681",
-      "specificatieVerwijzing": { "specificatieId": "327c8263-3516-4b5a-8d57-c16241ec008d", "versie": "0.1.0" },
-      "naam": "Neemt de zorg-/adviesvraag in behandeling, periode 1",
-      "status": "gepland",
-      "periode": { "start": "2026-09-01", "eind": "2026-11-13" },
-      "locatieId": "cfe4ae31-d8d1-40f8-9d62-eda917fefbd3",
-      "uitvoerendTeamId": "d9561371-5ece-482d-a675-a076e63f980f",
-      "groepen": [
-        { "id": "13cc9125-6f0d-4faf-b483-9f0e4102790e", "naam": "APO26-1A", "capaciteit": 30 },
-        { "id": "93937bfe-4e4a-4f6a-9d5b-2754613aa2df", "naam": "APO26-1B", "capaciteit": 30 }
-      ]
-    },
-    {
-      "id": "d18dd9d1-24f2-43c0-b6aa-0090953ac965",
-      "aanbodType": "onderwijseenheid-aanbod",
-      "versie": "0.1.0",
-      "bovenliggendAanbodId": "8c494250-b67a-4666-a762-6f9ec1e70aff",
-      "specificatieVerwijzing": { "specificatieId": "20f1099a-949f-40b8-b893-1aa5bfea3f4c", "versie": "0.1.0" },
-      "naam": "Keuzedeel Ruimtelijk inzicht, periode 3, Utrecht",
-      "status": "gepland",
-      "periode": { "start": "2027-02-01", "eind": "2027-04-16" },
-      "locatieId": "59807057-a6f1-473b-9084-114644557a68",
-      "uitvoerendTeamId": "d9561371-5ece-482d-a675-a076e63f980f",
-      "groepen": [
-        { "id": "9c6dac69-845a-49d8-b3a5-f7a07cfbee5a", "naam": "KD-RI-27-P3-UTR", "capaciteit": 25 }
-      ]
-    }
-  ],
-  "locaties": [
-    {
-      "id": "6293d6a9-51b4-4983-b652-11d784a32aa9",
-      "locatieType": "campus",
-      "naam": "Campus Utrecht Zorg",
-      "valtBinnenLocatieId": null,
-      "adres": { "straat": "Zorglaan", "huisnummer": "1", "postcode": "3500 AA", "plaats": "Utrecht", "land": "NL" },
-      "geolocatie": { "breedtegraad": 52.0907, "lengtegraad": 5.1214 }
-    },
-    {
-      "id": "59807057-a6f1-473b-9084-114644557a68",
-      "locatieType": "vestiging",
-      "naam": "Hoofdlocatie Utrecht",
-      "valtBinnenLocatieId": "6293d6a9-51b4-4983-b652-11d784a32aa9",
-      "codes": [ { "codeType": "vestigingscode", "code": "UTR-01" } ]
-    },
-    {
-      "id": "cfe4ae31-d8d1-40f8-9d62-eda917fefbd3",
-      "locatieType": "ruimte",
-      "naam": "Praktijklokaal farmacie 2.14",
-      "valtBinnenLocatieId": "59807057-a6f1-473b-9084-114644557a68",
-      "verdieping": "2",
-      "vleugel": "B"
-    },
-    {
-      "id": "7ea1af8f-fbac-4fac-891b-8cb7d85af376",
-      "locatieType": "virtueel",
-      "naam": "Online leeromgeving",
-      "valtBinnenLocatieId": null,
-      "url": "https://leren.instelling.nl"
-    }
-  ],
-  "organisatieEenheden": [
-    {
-      "id": "2f1bd932-e862-4b27-9dec-cc1245c1c1c2",
-      "eenheidType": "instelling",
-      "naam": "ROC Voorbeeld",
-      "bovenliggendeEenheidId": null
-    },
-    {
-      "id": "2b76d57f-ab53-4e37-b40a-80d15bc77bc5",
-      "eenheidType": "sector",
-      "naam": "Sector Zorg en Welzijn",
-      "bovenliggendeEenheidId": "2f1bd932-e862-4b27-9dec-cc1245c1c1c2"
-    },
-    {
-      "id": "d9561371-5ece-482d-a675-a076e63f980f",
-      "eenheidType": "onderwijsteam",
-      "naam": "Onderwijsteam Farmacie",
-      "bovenliggendeEenheidId": "2b76d57f-ab53-4e37-b40a-80d15bc77bc5",
-      "professionalIds": ["a821c012-0ed7-4a40-9866-bfac43749342", "51842a28-426b-4edb-b028-1ef7298c4fa2"]
-    }
-  ]
-}
-```
-
-Loopt de planning vast, dan bestaat de instantie wel maar draagt die status en knelpunten. Zie het faalpad in de [Planning niet gelukt melden](#419-planning-niet-gelukt-melden):
-
-```json
-{
-  "aanbodInstanties": [
-    {
-      "id": "7aa6609f-1d1b-471a-a0f8-beae490d31b5",
-      "aanbodType": "opleidingsaanbod",
-      "versie": "0.1.0",
-      "bovenliggendAanbodId": null,
-      "specificatieVerwijzing": { "specificatieId": "79736830-1c5c-470f-b2c2-005029c96733", "versie": "0.1.0" },
-      "naam": "Apothekersassistent, cohort 2026",
-      "status": "nietRealiseerbaar",
-      "knelpunten": [
-        { "code": "expertiseTekort", "omschrijving": "Geen docent beschikbaar met expertiseprofiel farmaceutische zorg voor 4 parallelle groepen.", "betrokkenSpecificatieIds": ["402c2342-d897-4df4-a667-7fc5bd930944"] }
-      ]
-    }
-  ]
-}
-```
-
-#### 6.4.3 Voorbeeld resultaatstructuur en examenplan
-
-```json
-{
-  "onderwijsspecificaties": [
-    {
-      "id": "08b4656d-27ec-4175-8c1b-1f1d51780785",
-      "specificatieType": "examenplanspecificatie",
-      "versie": "0.1.0",
-      "bovenliggendSpecificatieId": null,
-      "geldtVoor": "7ae25c1e-ee27-43a2-a001-761ee39ea5c7",
-      "leeruitkomstId": "b84dc98b-6c5f-4ee8-bdfb-40b2639ca5a4",
-      "leeruitkomst": { "type": "kwalificatie", "code": "27141" },
-      "naam": "Examenplan Apothekersassistent",
-      "omschrijving": "Summatieve resultaatstructuur voor de kwalificatie 27141, leerweg BOL, doelgroep regulier.",
-      "aggregatie": "allenVoldoende",
-      "resultaatmodel": { "schaal": "voldoende-onvoldoende" },
-      "status": "concept",
-      "geldigVanaf": "2026-09-01",
-      "geldigTot": null,
-      "manifest": [
-        { "specificatieId": "7ae25c1e-ee27-43a2-a001-761ee39ea5c7", "versie": "0.1.0", "relatie": "referentie" },
-        { "specificatieId": "0512c773-9c1b-42c4-ae0d-9af8554f2462", "versie": "0.1.0", "relatie": "onderdeel" },
-        { "specificatieId": "aa15c5d9-133e-4976-9154-d2f6f9e7ad7c", "versie": "0.1.0", "relatie": "onderdeel" },
-        { "specificatieId": "3c248e38-504c-4505-b0b8-d860d7b14919", "versie": "0.1.0", "relatie": "onderdeel" },
-        { "specificatieId": "df0d3e50-c7c3-416e-b694-12fe5791eb7c", "versie": "0.1.0", "relatie": "onderdeel" }
-      ]
-    },
-    {
-      "id": "0512c773-9c1b-42c4-ae0d-9af8554f2462",
-      "specificatieType": "resultaateenheidspecificatie",
-      "versie": "0.1.0",
-      "bovenliggendSpecificatieId": "08b4656d-27ec-4175-8c1b-1f1d51780785",
-      "leeruitkomstId": "12301838-92d4-4040-aea2-050bb131ceb7",
-      "leeruitkomst": { "type": "kerntaak", "code": "B1-K1" },
-      "beoordeelt": "402c2342-d897-4df4-a667-7fc5bd930944",
-      "naam": "Resultaat kerntaak B1-K1, biedt farmaceutische patientenzorg",
-      "weging": 1,
-      "aggregatie": "gewogenGemiddelde",
-      "resultaatmodel": { "schaal": "cijfer-1-10", "cesuur": 5.5, "decimalen": 1 },
-      "verplicht": true,
-      "status": "concept",
-      "manifest": [
-        { "specificatieId": "941f180d-b0af-4933-a580-6ab654dfadda", "versie": "0.1.0", "relatie": "onderdeel" },
-        { "specificatieId": "b5dcc33e-681f-4c7e-ab9a-f65c745c855c", "versie": "0.1.0", "relatie": "onderdeel" },
-        { "specificatieId": "f004ba43-1e0b-4b8f-a677-0644ce29f4ea", "versie": "0.1.0", "relatie": "onderdeel" }
-      ]
-    },
-    {
-      "id": "aa15c5d9-133e-4976-9154-d2f6f9e7ad7c",
-      "specificatieType": "resultaateenheidspecificatie",
-      "versie": "0.1.0",
-      "bovenliggendSpecificatieId": "08b4656d-27ec-4175-8c1b-1f1d51780785",
-      "leeruitkomstId": "bedb4c31-b818-491c-8227-9b32146a3363",
-      "leeruitkomst": { "type": "kerntaak", "code": "B1-K2" },
-      "beoordeelt": "aa0a8af1-d383-4981-8a0f-6ec2ba4e6283",
-      "naam": "Resultaat kerntaak B1-K2, voert logistieke taken uit in de apotheek",
-      "weging": 1,
-      "aggregatie": "gewogenGemiddelde",
-      "resultaatmodel": { "schaal": "cijfer-1-10", "cesuur": 5.5, "decimalen": 1 },
-      "verplicht": true,
-      "status": "concept",
-      "manifest": [
-        { "specificatieId": "a1215600-e8c2-4fda-b3a5-be6adb433b71", "versie": "0.1.0", "relatie": "onderdeel" }
-      ]
-    },
-    {
-      "id": "3c248e38-504c-4505-b0b8-d860d7b14919",
-      "specificatieType": "resultaateenheidspecificatie",
-      "versie": "0.1.0",
-      "bovenliggendSpecificatieId": "08b4656d-27ec-4175-8c1b-1f1d51780785",
-      "leeruitkomstId": "8b085118-ff81-4639-9152-ed2e447db2db",
-      "leeruitkomst": { "type": "kerntaak", "code": "B1-K3" },
-      "beoordeelt": "f686a286-d555-4eda-bd22-001c5b60e4dc",
-      "naam": "Resultaat kerntaak B1-K3, werkt mee aan kwaliteit en deskundigheid",
-      "weging": 1,
-      "aggregatie": "gewogenGemiddelde",
-      "resultaatmodel": { "schaal": "cijfer-1-10", "cesuur": 5.5, "decimalen": 1 },
-      "verplicht": true,
-      "status": "concept",
-      "manifest": [
-        { "specificatieId": "7fb3ffd3-621f-4d21-aec2-a1a2e58b7449", "versie": "0.1.0", "relatie": "onderdeel" }
-      ]
-    },
-    {
-      "id": "df0d3e50-c7c3-416e-b694-12fe5791eb7c",
-      "specificatieType": "resultaateenheidspecificatie",
-      "versie": "0.1.0",
-      "bovenliggendSpecificatieId": "08b4656d-27ec-4175-8c1b-1f1d51780785",
-      "beoordeelt": "fb5be5ae-faa0-4b4b-8085-474fce9aae08",
-      "naam": "Resultaat keuzedelen",
-      "omschrijving": "Welke keuzedeelresultaten meetellen staat in de ruleset, niet in deze specificatie.",
-      "weging": 1,
-      "aggregatie": "minimaalAantal",
-      "resultaatmodel": { "schaal": "voldoende-onvoldoende" },
-      "verplicht": true,
-      "status": "concept",
-      "regelsetVerwijzingen": ["132f165a-973c-41c2-98df-e58d4ca6d7eb"]
-    },
-    {
-      "id": "941f180d-b0af-4933-a580-6ab654dfadda",
-      "specificatieType": "toetsonderdeelspecificatie",
-      "versie": "0.1.0",
-      "bovenliggendSpecificatieId": "0512c773-9c1b-42c4-ae0d-9af8554f2462",
-      "leeruitkomstId": "12301838-92d4-4040-aea2-050bb131ceb7",
-      "leeruitkomst": { "type": "kerntaak", "code": "B1-K1" },
-      "naam": "Proeve van bekwaamheid farmaceutische patientenzorg",
-      "aard": "summatief",
-      "toetsvorm": "proeveVanBekwaamheid",
-      "weging": 2,
-      "resultaatmodel": { "schaal": "cijfer-1-10", "cesuur": 5.5, "decimalen": 1 },
-      "verplicht": true,
-      "status": "concept"
-    },
-    {
-      "id": "b5dcc33e-681f-4c7e-ab9a-f65c745c855c",
-      "specificatieType": "toetsonderdeelspecificatie",
-      "versie": "0.1.0",
-      "bovenliggendSpecificatieId": "0512c773-9c1b-42c4-ae0d-9af8554f2462",
-      "leeruitkomstId": "0ffa279f-c595-49d7-b033-c91f66d18bb1",
-      "leeruitkomst": { "type": "werkproces", "code": "B1-K1-W2" },
-      "naam": "Kennistoets medicatiebewaking",
-      "aard": "summatief",
-      "toetsvorm": "kennistoets",
-      "weging": 1,
-      "resultaatmodel": { "schaal": "cijfer-1-10", "cesuur": 5.5, "decimalen": 1 },
-      "verplicht": true,
-      "status": "concept"
-    },
-    {
-      "id": "f004ba43-1e0b-4b8f-a677-0644ce29f4ea",
-      "specificatieType": "toetsonderdeelspecificatie",
-      "versie": "0.1.0",
-      "bovenliggendSpecificatieId": "0512c773-9c1b-42c4-ae0d-9af8554f2462",
-      "leeruitkomstId": "78f25d62-9fd4-45c4-aa04-3d22f59213f5",
-      "leeruitkomst": { "type": "werkproces", "code": "B1-K1-W1" },
-      "naam": "Formatieve voortgangstoets zorg- en adviesvraag",
-      "aard": "formatief",
-      "toetsvorm": "criteriumgesprek",
-      "weging": 0,
-      "resultaatmodel": { "schaal": "voldoende-onvoldoende" },
-      "verplicht": false,
-      "status": "concept"
-    },
-    {
-      "id": "a1215600-e8c2-4fda-b3a5-be6adb433b71",
-      "specificatieType": "toetsonderdeelspecificatie",
-      "versie": "0.1.0",
-      "bovenliggendSpecificatieId": "aa15c5d9-133e-4976-9154-d2f6f9e7ad7c",
-      "leeruitkomstId": "bedb4c31-b818-491c-8227-9b32146a3363",
-      "leeruitkomst": { "type": "kerntaak", "code": "B1-K2" },
-      "naam": "Praktijkopdracht logistiek in de apotheek",
-      "aard": "summatief",
-      "toetsvorm": "praktijkopdracht",
-      "weging": 1,
-      "resultaatmodel": { "schaal": "cijfer-1-10", "cesuur": 5.5, "decimalen": 1 },
-      "verplicht": true,
-      "status": "concept"
-    },
-    {
-      "id": "7fb3ffd3-621f-4d21-aec2-a1a2e58b7449",
-      "specificatieType": "toetsonderdeelspecificatie",
-      "versie": "0.1.0",
-      "bovenliggendSpecificatieId": "3c248e38-504c-4505-b0b8-d860d7b14919",
-      "leeruitkomstId": "8b085118-ff81-4639-9152-ed2e447db2db",
-      "leeruitkomst": { "type": "kerntaak", "code": "B1-K3" },
-      "naam": "Portfolio professioneel handelen en samenwerken",
-      "aard": "summatief",
-      "toetsvorm": "portfolio",
-      "weging": 1,
-      "resultaatmodel": { "schaal": "cijfer-1-10", "cesuur": 5.5, "decimalen": 1 },
-      "verplicht": true,
-      "status": "concept"
-    }
-  ],
-  "regelsets": [
-    {
-      "id": "132f165a-973c-41c2-98df-e58d4ca6d7eb",
-      "versie": "0.1.0",
-      "naam": "Meetellende keuzedeelresultaten Apothekersassistent",
-      "omschrijving": "Bepaalt welke keuzedeelresultaten meetellen voor het diploma. De regelstructuur wordt in een aparte uitwerking behandeld; onderstaande regels zijn indicatief.",
-      "vanToepassingOp": "df0d3e50-c7c3-416e-b694-12fe5791eb7c",
-      "regels": [
-        { "type": "minimaleStudielast", "waarde": 720, "eenheid": "SBU", "bron": "fb5be5ae-faa0-4b4b-8085-474fce9aae08" },
-        { "type": "resultaatEis", "bereik": "elk gekozen keuzedeel", "eis": "voldoende" }
-      ]
-    }
-  ]
-}
-```
-
-**Hoe de weging doorwerkt.** Binnen kerntaak B1-K1 telt de proeve twee keer zo zwaar als de kennistoets (weging 2 tegen 1); de formatieve toets telt niet mee (weging 0). Het gewogen gemiddelde levert een cijfer met cesuur 5.5. Op examenplanniveau geldt `allenVoldoende`: alle vier de resultaateenheden moeten voldoende zijn voor het diploma.
-
-De resultaateenheid Keuzedelen heeft geen toetsonderdelen onder zich: welke keuzedeelresultaten meetellen bepaalt de regelset, niet de structuur. Dat is het mechanisme waarmee een examenplan keuzes kan verwerken die nog niet bestonden toen het werd vastgesteld.
-
-
-<!-- pagina-einde -->
-
-### 6.5 address.json
-
-```json
-{
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://okx.npuls.nl/schema/address/alfa",
-  "title": "Address",
-  "DutchName": "Adres",
-  "$comment": "Alfa en indicatief. Deze vorm onderbouwt welke velden het koppelvlak nodig heeft en kan wijzigen zolang de payload niet is vastgesteld.",
-  "type": "object",
-  "properties": {
-    "street": { "type": "string", "DutchName": "straat" },
-    "houseNumber": { "type": "string", "DutchName": "huisnummer" },
-    "postcode": { "type": "string", "DutchName": "postcode" },
-    "city": { "type": "string", "DutchName": "plaats" },
-    "country": { "type": "string", "DutchName": "land" }
-  }
-}
-```
-
-### 6.6 bottleneck.json
-
-```json
-{
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://okx.npuls.nl/schema/bottleneck/alfa",
-  "title": "Bottleneck",
-  "DutchName": "Knelpunt",
-  "$comment": "Alfa en indicatief. Deze vorm onderbouwt welke velden het koppelvlak nodig heeft en kan wijzigen zolang de payload niet is vastgesteld.",
-  "type": "object",
-  "required": [
-    "code",
-    "description"
-  ],
-  "properties": {
-    "code": {
-      "type": "string",
-      "DutchName": "code",
-      "enum": [
-        "capaciteitTekort",
-        "expertiseTekort",
-        "ruimteTekort",
-        "locatieConflict",
-        "volgordeConflict",
-        "regelConflict",
-        "groepsgrootteConflict",
-        "kalenderConflict"
-      ]
-    },
-    "description": {
-      "type": "string",
-      "DutchName": "omschrijving"
-    },
-    "involvedSpecificationIds": {
-      "type": "array",
-      "items": {
-        "type": "string"
-      },
-      "DutchName": "betrokkenSpecificatieIds"
-    }
-  }
-}
-```
-
-### 6.7 code.json
-
-```json
-{
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://okx.npuls.nl/schema/code/alfa",
-  "title": "Code",
-  "DutchName": "Code",
-  "$comment": "Alfa en indicatief. Externe identificatie, bijvoorbeeld een vestigingscode. Deze vorm onderbouwt welke velden het koppelvlak nodig heeft en kan wijzigen zolang de payload niet is vastgesteld.",
-  "type": "object",
-  "properties": {
-    "codeType": { "type": "string", "DutchName": "codeType" },
-    "code": { "type": "string", "DutchName": "code" }
-  }
-}
-```
-
-### 6.8 education-offering.json
-
-```json
-{
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://okx.npuls.nl/schema/education-offering/alfa",
-  "title": "Education offering",
-  "DutchName": "Onderwijsaanbod",
-  "$comment": "Alfa en indicatief. Deze vorm onderbouwt welke velden het koppelvlak nodig heeft en kan wijzigen zolang de payload niet is vastgesteld.",
-  "type": "object",
-  "required": ["offeringInstances"],
-  "properties": {
-    "offeringInstances": {
-      "type": "array",
-      "items": {
-        "type": "object",
-        "required": ["id", "offeringType", "version", "parentOfferingId", "specificationReference", "name", "status"],
-        "properties": {
-          "id": { "type": "string", "format": "uuid", "DutchName": "id" },
-          "offeringType": { "enum": ["opleidingsaanbod", "opleidingsprogramma-aanbod", "onderwijseenheid-aanbod", "leergelegenheid"], "DutchName": "aanbodType" },
-          "version": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$", "DutchName": "versie" },
-          "parentOfferingId": { "type": ["string", "null"], "format": "uuid", "DutchName": "bovenliggendAanbodId" },
-          "specificationReference": { "$ref": "./specification-reference.json", "DutchName": "specificatieVerwijzing" },
-          "name": { "type": "string", "DutchName": "naam" },
-          "status": { "enum": ["inPlanning", "gepland", "nietRealiseerbaar", "geannuleerd"], "DutchName": "status" },
-          "bottlenecks": {
-            "type": "array",
-            "items": { "$ref": "./bottleneck.json" },
-            "DutchName": "knelpunten"
-          },
-          "cohort": { "type": "string", "DutchName": "cohort" },
-          "period": { "$ref": "./period.json", "DutchName": "periode" },
-          "minStudentCount": { "type": "integer", "DutchName": "minAantalStudenten" },
-          "maxStudentCount": { "type": "integer", "DutchName": "maxAantalStudenten" },
-          "locationId": { "type": "string", "format": "uuid", "DutchName": "locatieId" },
-          "executingTeamId": { "type": "string", "format": "uuid", "DutchName": "uitvoerendTeamId" },
-          "groups": {
-            "type": "array",
-            "items": { "$ref": "./group.json" },
-            "DutchName": "groepen"
-          }
-        }
-      },
-      "DutchName": "aanbodInstanties"
-    },
-    "locations": {
-      "type": "array",
-      "items": { "$ref": "./location.json" },
-      "DutchName": "locaties"
-    },
-    "organisationUnits": {
-      "type": "array",
-      "items": { "$ref": "./organisation-unit.json" },
-      "DutchName": "organisatieEenheden"
-    }
-  }
-}
-```
-
-### 6.9 education-specification-delta.json
-
-```json
-{
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://okx.npuls.nl/schema/education-specification-delta/alfa",
-  "title": "Education specification delta",
-  "DutchName": "Onderwijsspecificatie-delta",
-  "$comment": "Alfa en indicatief. JSON Patch (RFC 6902) tussen twee versies van de onderwijsspecificatiestructuur; RFC 6902 is de normatieve definitie van de operatievorm, dit schema legt vast dat de respons daaraan voldoet.",
-  "type": "array",
-  "items": {
-    "type": "object",
-    "required": ["op", "path"],
-    "properties": {
-      "op": { "enum": ["add", "remove", "replace", "move", "copy", "test"], "DutchName": "op" },
-      "path": { "type": "string", "DutchName": "path" },
-      "from": { "type": "string", "DutchName": "from" },
-      "value": { "DutchName": "value" }
-    }
-  }
-}
-```
-
-### 6.10 education-specification.json
-
-```json
-{
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://okx.npuls.nl/schema/education-specification/alfa",
-  "title": "Education specification",
-  "DutchName": "Onderwijsspecificatie",
-  "$comment": "Alfa en indicatief. Deze vorm onderbouwt welke velden het koppelvlak nodig heeft en kan wijzigen zolang de payload niet is vastgesteld.",
-  "type": "object",
-  "required": ["educationSpecifications"],
-  "$comment_required": "Alleen onderwijsspecificaties is altijd aanwezig. Of leeruitkomsten en regelsets meekomen bepaalt het gebruiksprofiel van de koppeling; binnen onderwijscatalogus naar planning en roostering blijven leeruitkomsten weg ([ADR 0023](../../Referentiemateriaal/adr/0023-leeruitkomsten-als-opaque-sleutels-in-koppeling-oc-p-en-r.md)).",
-  "properties": {
-    "learningOutcomes": {
-      "type": "array",
-      "items": { "$ref": "./learning-outcome.json" },
-      "DutchName": "leeruitkomsten"
-    },
-    "educationSpecifications": {
-      "type": "array",
-      "items": {
-        "type": "object",
-        "required": ["id", "specificationType", "version", "parentSpecificationId", "name", "studyLoad"],
-        "properties": {
-          "id": { "type": "string", "format": "uuid", "DutchName": "id" },
-          "specificationType": { "enum": ["opleidingsspecificatie", "opleidingsprogrammaspecificatie", "onderwijseenheidspecificatie", "leeronderdeelspecificatie", "keuzedeelruimtespecificatie", "toetsonderdeelspecificatie", "examenplanspecificatie", "resultaateenheidspecificatie"], "DutchName": "specificatieType" },
-          "version": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$", "DutchName": "versie" },
-          "parentSpecificationId": { "type": ["string", "null"], "format": "uuid", "DutchName": "bovenliggendSpecificatieId" },
-          "learningOutcomeId": { "type": "string", "format": "uuid", "DutchName": "leeruitkomstId" },
-          "name": { "type": "string", "DutchName": "naam" },
-          "description": { "type": "string", "DutchName": "omschrijving" },
-          "status": { "enum": ["concept", "vastgesteld", "gepubliceerd", "gedeactiveerd", "vervallen", "gearchiveerd"], "DutchName": "status" },
-          "studyLoad": { "$ref": "./volume.json", "DutchName": "studielast" },
-          "curriculumType": { "enum": ["nominaal", "hybride", "flexibel"], "DutchName": "curriculumtype" },
-          "programmeType": { "type": "string", "$comment": "open lijst: diplomaprogramma, keuzedeelprogramma, certificaatprogramma", "DutchName": "programmatype" },
-          "programmeLayer": { "enum": ["leerweg", "doelgroep"], "DutchName": "programmaLaag" },
-          "learningPathway": { "enum": ["BOL", "BBL"], "DutchName": "leerweg" },
-          "targetGroup": { "type": "string", "$comment": "open lijst: regulier, zijinstromer, hybride, organisatiespecifiek", "DutchName": "doelgroep" },
-          "electiveUnitClass": { "type": "string", "$comment": "open lijst: algemeen-verbredend, beroepsspecifiek-verdiepend", "DutchName": "keuzedeelKlasse" },
-          "organisation": { "$ref": "./organisation-unit.json", "$comment": "de organisatie waarvoor deze variant geldt, bijvoorbeeld een leerbedrijf", "DutchName": "organisatie" },
-          "cohort": { "type": "string", "DutchName": "cohort" },
-          "startDate": { "type": "string", "format": "date", "DutchName": "startdatum" },
-          "validFrom": { "type": "string", "format": "date", "DutchName": "geldigVanaf" },
-          "validUntil": { "type": ["string", "null"], "format": "date", "DutchName": "geldigTot" },
-          "timeDistribution": { "type": "string", "$comment": "open lijst: BOT (begeleide onderwijstijd), OOT (overige onderwijstijd), BPV", "DutchName": "tijdsverdeling" },
-          "explanation": { "type": "string", "DutchName": "toelichting" },
-          "ruleSetReferences": { "type": "array", "items": { "type": "string", "format": "uuid" }, "DutchName": "regelsetVerwijzingen" },
-          "manifest": {
-            "type": "array",
-            "items": { "$ref": "./manifest-item.json" },
-            "DutchName": "manifest"
-          }
-        }
-      },
-      "DutchName": "onderwijsspecificaties"
-    },
-    "ruleSets": {
-      "type": "array",
-      "items": { "$ref": "./rule-set.json" },
-      "DutchName": "regelsets"
-    }
-  }
-}
-```
-
-### 6.11 geolocation.json
-
-```json
-{
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://okx.npuls.nl/schema/geolocation/alfa",
-  "title": "Geolocation",
-  "DutchName": "Geolocatie",
-  "$comment": "Alfa en indicatief. Deze vorm onderbouwt welke velden het koppelvlak nodig heeft en kan wijzigen zolang de payload niet is vastgesteld.",
-  "type": "object",
-  "properties": {
-    "latitude": { "type": "number", "DutchName": "breedtegraad" },
-    "longitude": { "type": "number", "DutchName": "lengtegraad" }
-  }
-}
-```
-
-### 6.12 group.json
-
-```json
-{
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://okx.npuls.nl/schema/group/alfa",
-  "title": "Group",
-  "DutchName": "Groep",
-  "$comment": "Alfa en indicatief. Deze vorm onderbouwt welke velden het koppelvlak nodig heeft en kan wijzigen zolang de payload niet is vastgesteld.",
-  "type": "object",
-  "required": ["id", "name"],
-  "properties": {
-    "id": { "type": "string", "format": "uuid", "DutchName": "id" },
-    "name": { "type": "string", "DutchName": "naam" },
-    "capacity": { "type": "integer", "DutchName": "capaciteit" }
-  }
-}
-```
-
-### 6.13 learning-outcome-designation.json
-
-```json
-{
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://okx.npuls.nl/schema/learning-outcome-designation/alfa",
-  "title": "Learning outcome designation",
-  "DutchName": "Leeruitkomst-aanduiding",
-  "$comment": "Alfa en indicatief. Leesbare aanduiding naast de sleutel (leeruitkomstId); type en code komen uit het kwalificatiekader. Deze vorm onderbouwt welke velden het koppelvlak nodig heeft en kan wijzigen zolang de payload niet is vastgesteld.",
-  "type": "object",
-  "required": ["type", "code"],
-  "properties": {
-    "type": { "type": "string", "DutchName": "type" },
-    "code": { "type": "string", "DutchName": "code" }
-  }
-}
-```
-
-### 6.14 learning-outcome.json
-
-```json
-{
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://okx.npuls.nl/schema/learning-outcome/alfa",
-  "title": "Learning outcome",
-  "DutchName": "Leeruitkomst",
-  "$comment": "Alfa en indicatief. Deze vorm onderbouwt welke velden het koppelvlak nodig heeft en kan wijzigen zolang de payload niet is vastgesteld.",
-  "type": "object",
-  "required": ["id", "version", "name", "source", "parentLearningOutcomeId", "indicativeVolume"],
-  "properties": {
-    "id": { "type": "string", "format": "uuid", "DutchName": "id" },
-    "version": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$", "DutchName": "versie" },
-    "name": { "type": "string", "DutchName": "naam" },
-    "source": { "$ref": "./source.json", "DutchName": "bron" },
-    "parentLearningOutcomeId": { "type": ["string", "null"], "format": "uuid", "DutchName": "bovenliggendLeeruitkomstId" },
-    "indicativeVolume": {
-      "type": "array",
-      "items": { "$ref": "./volume.json" },
-      "DutchName": "indicatieveOmvang"
-    },
-    "nlqfLevel": { "type": "integer", "minimum": 1, "maximum": 8, "DutchName": "nlqfNiveau" },
-    "credentialDocument": { "type": "string", "$comment": "open lijst: diploma, mbo-certificaat, microcredential", "DutchName": "waardedocument" },
-    "description": { "type": "string", "DutchName": "omschrijving" },
-    "result": { "type": "string", "DutchName": "resultaat" },
-    "behaviour": { "type": "array", "items": { "type": "string" }, "DutchName": "gedrag" }
-  }
-}
-```
-
-### 6.15 location.json
-
-```json
-{
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://okx.npuls.nl/schema/location/alfa",
-  "title": "Location",
-  "DutchName": "Locatie",
-  "$comment": "Alfa en indicatief. Deze vorm onderbouwt welke velden het koppelvlak nodig heeft en kan wijzigen zolang de payload niet is vastgesteld.",
-  "type": "object",
-  "required": ["id", "locationType", "name"],
-  "properties": {
-    "id": { "type": "string", "format": "uuid", "DutchName": "id" },
-    "locationType": { "enum": ["campus", "vestiging", "gebouw", "ruimte", "balie", "adres", "geopunt", "virtueel"], "DutchName": "locatieType" },
-    "name": { "type": "string", "DutchName": "naam" },
-    "partOfLocationId": { "type": ["string", "null"], "format": "uuid", "DutchName": "valtBinnenLocatieId" },
-    "address": { "$ref": "./address.json", "DutchName": "adres" },
-    "geolocation": { "$ref": "./geolocation.json", "DutchName": "geolocatie" },
-    "floor": { "type": "string", "DutchName": "verdieping" },
-    "wing": { "type": "string", "DutchName": "vleugel" },
-    "url": { "type": "string", "DutchName": "url" },
-    "codes": {
-      "type": "array",
-      "items": { "$ref": "./code.json" },
-      "DutchName": "codes"
-    }
-  }
-}
-```
-
-### 6.16 manifest-item.json
-
-```json
-{
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://okx.npuls.nl/schema/manifest-item/alfa",
-  "title": "Manifest item",
-  "DutchName": "Manifest-item",
-  "$comment": "Alfa en indicatief. Deze vorm onderbouwt welke velden het koppelvlak nodig heeft en kan wijzigen zolang de payload niet is vastgesteld.",
-  "type": "object",
-  "required": ["specificationId", "version", "relation"],
-  "properties": {
-    "specificationId": { "type": "string", "format": "uuid", "DutchName": "specificatieId" },
-    "version": { "type": "string", "DutchName": "versie" },
-    "relation": { "enum": ["onderdeel", "variant", "referentie"], "DutchName": "relatie" }
-  }
-}
-```
-
-### 6.17 organisation-unit.json
-
-```json
-{
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://okx.npuls.nl/schema/organisation-unit/alfa",
-  "title": "Organisation unit",
-  "DutchName": "OrganisatieEenheid",
-  "$comment": "Alfa en indicatief. Deze vorm onderbouwt welke velden het koppelvlak nodig heeft en kan wijzigen zolang de payload niet is vastgesteld.",
-  "type": "object",
-  "required": ["id", "unitType", "name"],
-  "properties": {
-    "id": { "type": "string", "format": "uuid", "DutchName": "id" },
-    "unitType": { "type": "string", "$comment": "open lijst: instelling, sector, college, afdeling, onderwijsteam", "DutchName": "eenheidType" },
-    "name": { "type": "string", "DutchName": "naam" },
-    "parentUnitId": { "type": ["string", "null"], "format": "uuid", "DutchName": "bovenliggendeEenheidId" },
-    "professionalIds": { "type": "array", "items": { "type": "string", "format": "uuid" }, "DutchName": "professionalIds" }
-  }
-}
-```
-
-### 6.18 period.json
-
-```json
-{
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://okx.npuls.nl/schema/period/alfa",
-  "title": "Period",
-  "DutchName": "Periode",
-  "$comment": "Alfa en indicatief. Deze vorm onderbouwt welke velden het koppelvlak nodig heeft en kan wijzigen zolang de payload niet is vastgesteld.",
-  "type": "object",
-  "properties": {
-    "start": { "type": "string", "format": "date", "DutchName": "start" },
-    "end": { "type": "string", "format": "date", "DutchName": "eind" }
-  }
-}
-```
-
-### 6.19 processing-status.json
-
-```json
-{
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://okx.npuls.nl/schema/processing-status/alfa",
-  "title": "Processing status",
-  "DutchName": "Verwerkingsstatus",
-  "$comment": "Alfa en indicatief. Deze vorm onderbouwt welke velden het koppelvlak nodig heeft en kan wijzigen zolang de payload niet is vastgesteld.",
-  "type": "object",
-  "required": ["status", "specificationReference"],
-  "properties": {
-    "status": { "enum": ["ontvangen", "gestart", "afgekeurd", "gelukt", "nietGelukt"], "DutchName": "status" },
-    "programmeOfferingId": { "type": ["string", "null"], "format": "uuid", "DutchName": "opleidingsaanbodId" },
-    "specificationReference": { "$ref": "./specification-reference.json", "DutchName": "specificatieVerwijzing" }
-  }
-}
-```
-
-### 6.20 result-model.json
-
-```json
-{
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://okx.npuls.nl/schema/result-model/alfa",
-  "title": "Result model",
-  "DutchName": "Resultaatmodel",
-  "$comment": "Alfa en indicatief. Deze vorm onderbouwt welke velden het koppelvlak nodig heeft en kan wijzigen zolang de payload niet is vastgesteld.",
-  "type": "object",
-  "properties": {
-    "scale": { "type": "string", "$comment": "open lijst: cijfer-1-10, voldoende-onvoldoende, punten", "DutchName": "schaal" },
-    "passMark": { "type": "number", "DutchName": "cesuur" },
-    "decimalPlaces": { "type": "integer", "DutchName": "decimalen" }
-  }
-}
-```
-
-### 6.21 result-structure.json
-
-```json
-{
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://okx.npuls.nl/schema/result-structure/alfa",
-  "title": "Result structure and exam plan",
-  "DutchName": "Resultaatstructuur en examenplan",
-  "$comment": "Alfa en indicatief. Deze vorm onderbouwt welke velden het koppelvlak nodig heeft en kan wijzigen zolang de payload niet is vastgesteld.",
-  "type": "object",
-  "required": ["educationSpecifications"],
-  "properties": {
-    "educationSpecifications": {
-      "type": "array",
-      "items": {
-        "type": "object",
-        "required": ["id", "specificationType", "version", "parentSpecificationId", "name", "status", "resultModel"],
-        "properties": {
-          "id": { "type": "string", "format": "uuid", "DutchName": "id" },
-          "specificationType": { "enum": ["examenplanspecificatie", "resultaateenheidspecificatie", "toetsonderdeelspecificatie"], "DutchName": "specificatieType" },
-          "version": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$", "DutchName": "versie" },
-          "parentSpecificationId": { "type": ["string", "null"], "format": "uuid", "DutchName": "bovenliggendSpecificatieId" },
-          "name": { "type": "string", "DutchName": "naam" },
-          "description": { "type": "string", "DutchName": "omschrijving" },
-          "status": { "type": "string", "DutchName": "status" },
-          "validFrom": { "type": "string", "format": "date", "DutchName": "geldigVanaf" },
-          "validUntil": { "type": ["string", "null"], "format": "date", "DutchName": "geldigTot" },
-          "appliesTo": { "type": "string", "format": "uuid", "$comment": "de opleidingsprogrammaspecificatie waarvoor dit examenplan geldt", "DutchName": "geldtVoor" },
-          "assesses": { "type": "string", "format": "uuid", "$comment": "de specificatie die deze resultaateenheid beoordeelt", "DutchName": "beoordeelt" },
-          "learningOutcomeId": { "type": "string", "format": "uuid", "$comment": "verwijst naar de leeruitkomst in de onderwijsspecificatie-payload; dit is de sleutel waarop het onderwijsresultaat wordt behaald (ADR 0022)", "DutchName": "leeruitkomstId" },
-          "learningOutcome": { "$ref": "./learning-outcome-designation.json", "DutchName": "leeruitkomst" },
-          "nature": { "enum": ["summatief", "formatief"], "DutchName": "aard" },
-          "assessmentForm": { "type": "string", "$comment": "open lijst: proeveVanBekwaamheid, kennistoets, praktijkopdracht, portfolio, criteriumgesprek", "DutchName": "toetsvorm" },
-          "aggregation": { "enum": ["gewogenGemiddelde", "som", "allenVoldoende", "minimaalAantal"], "DutchName": "aggregatie" },
-          "weighting": { "type": "number", "$comment": "relatief binnen de ouder; 0 bij formatief", "DutchName": "weging" },
-          "mandatory": { "type": "boolean", "DutchName": "verplicht" },
-          "resultModel": { "$ref": "./result-model.json", "DutchName": "resultaatmodel" },
-          "ruleSetReferences": { "type": "array", "items": { "type": "string", "format": "uuid" }, "DutchName": "regelsetVerwijzingen" },
-          "manifest": {
-            "type": "array",
-            "items": { "$ref": "./manifest-item.json" },
-            "DutchName": "manifest"
-          }
-        }
-      },
-      "DutchName": "onderwijsspecificaties"
-    },
-    "ruleSets": {
-      "type": "array",
-      "items": { "$ref": "./rule-set.json" },
-      "DutchName": "regelsets"
-    }
-  }
-}
-```
-
-### 6.22 rule-set.json
-
-```json
-{
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://okx.npuls.nl/schema/rule-set/alfa",
-  "title": "Rule set",
-  "DutchName": "Regelset",
-  "$comment": "Alfa en indicatief. Deze vorm onderbouwt welke velden het koppelvlak nodig heeft en kan wijzigen zolang de payload niet is vastgesteld.",
-  "type": "object",
-  "required": ["id", "version", "name", "appliesTo", "rules"],
-  "properties": {
-    "id": { "type": "string", "format": "uuid", "DutchName": "id" },
-    "version": { "type": "string", "DutchName": "versie" },
-    "name": { "type": "string", "DutchName": "naam" },
-    "description": { "type": "string", "DutchName": "omschrijving" },
-    "appliesTo": { "type": "string", "format": "uuid", "DutchName": "vanToepassingOp" },
-    "rules": { "type": "array", "items": { "type": "object" }, "DutchName": "regels" }
-  }
-}
-```
-
-### 6.23 source.json
-
-```json
-{
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://okx.npuls.nl/schema/source/alfa",
-  "title": "Source",
-  "DutchName": "Bron",
-  "$comment": "Alfa en indicatief. Deze vorm onderbouwt welke velden het koppelvlak nodig heeft en kan wijzigen zolang de payload niet is vastgesteld.",
-  "type": "object",
-  "required": ["standard", "type", "code"],
-  "properties": {
-    "standard": { "type": "string", "$comment": "open lijst; nu sbb-kwalificatiekader, later bijvoorbeeld competentnl", "DutchName": "standaard" },
-    "type": { "enum": ["kwalificatiedossier", "kwalificatie", "kerntaak", "werkproces", "keuzedeel"], "DutchName": "type" },
-    "code": { "type": "string", "DutchName": "code" }
-  }
-}
-```
-
-### 6.24 specification-changed.json
-
-```json
-{
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://okx.npuls.nl/schema/specification-changed/alfa",
-  "title": "Specification changed",
-  "DutchName": "Specificatie-gewijzigd",
-  "$comment": "Alfa en indicatief. Deze vorm onderbouwt welke velden het koppelvlak nodig heeft en kan wijzigen zolang de payload niet is vastgesteld. Wijzigingsklasse volgt de classificatie in de lifecycle-uitwerking, §4.",
-  "type": "object",
-  "required": ["objectId", "oldVersion", "newVersion", "changeClass"],
-  "properties": {
-    "objectId": { "type": "string", "format": "uuid", "DutchName": "objectId" },
-    "oldVersion": { "type": "string", "DutchName": "oudeVersie" },
-    "newVersion": { "type": "string", "DutchName": "nieuweVersie" },
-    "changeClass": { "enum": ["fundamenteel", "examenplan", "onderdeel", "niet-brekend", "na-planning-of-roostering"], "DutchName": "wijzigingsklasse" }
-  }
-}
-```
-
-### 6.25 specification-reference.json
-
-```json
-{
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://okx.npuls.nl/schema/specification-reference/alfa",
-  "title": "Specification reference",
-  "DutchName": "Specificatie-referentie",
-  "$comment": "Alfa en indicatief. Deze vorm onderbouwt welke velden het koppelvlak nodig heeft en kan wijzigen zolang de payload niet is vastgesteld.",
-  "type": "object",
-  "required": ["specificationId", "version"],
-  "properties": {
-    "specificationId": { "type": "string", "format": "uuid", "DutchName": "specificatieId" },
-    "version": { "type": "string", "DutchName": "versie" }
-  }
-}
-```
-
-### 6.26 specification-status-changed.json
-
-```json
-{
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://okx.npuls.nl/schema/specification-status-changed/alfa",
-  "title": "Specification status changed",
-  "DutchName": "Specificatie-status-gewijzigd",
-  "$comment": "Alfa en indicatief. Deze vorm onderbouwt welke velden het koppelvlak nodig heeft en kan wijzigen zolang de payload niet is vastgesteld. Status-lifecycle volgt de lifecycle-uitwerking, §3.",
-  "type": "object",
-  "required": ["objectId", "oldStatus", "newStatus"],
-  "properties": {
-    "objectId": { "type": "string", "format": "uuid", "DutchName": "objectId" },
-    "oldStatus": { "enum": ["concept", "vastgesteld", "gepubliceerd", "gedeactiveerd", "gearchiveerd", "vervallen"], "DutchName": "oudeStatus" },
-    "newStatus": { "enum": ["concept", "vastgesteld", "gepubliceerd", "gedeactiveerd", "gearchiveerd", "vervallen"], "DutchName": "nieuweStatus" }
-  }
-}
-```
-
-### 6.27 subscription.json
-
-```json
-{
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://okx.npuls.nl/schema/subscription/alfa",
-  "title": "Subscription",
-  "DutchName": "Abonnement",
-  "$comment": "Alfa en indicatief. Deze vorm onderbouwt welke velden het koppelvlak nodig heeft en kan wijzigen zolang de payload niet is vastgesteld. `id` is afwezig in het verzoek en door de server toegekend in de respons.",
-  "type": "object",
-  "required": ["callbackUrl", "events"],
-  "properties": {
-    "id": { "type": "string", "format": "uuid", "DutchName": "id" },
-    "callbackUrl": { "type": "string", "format": "uri", "DutchName": "callbackUrl" },
-    "events": {
-      "type": "array",
-      "items": { "enum": ["specificatie-planbaar", "specificatie-gewijzigd", "specificatie-status-gewijzigd", "verwerkingsstatus"] },
-      "DutchName": "events"
-    }
-  }
-}
-```
-
-### 6.28 volume.json
-
-```json
-{
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://okx.npuls.nl/schema/volume/alfa",
-  "title": "Volume",
-  "DutchName": "Omvang",
-  "$comment": "Alfa en indicatief. Deze vorm onderbouwt welke velden het koppelvlak nodig heeft en kan wijzigen zolang de payload niet is vastgesteld.",
-  "type": "object",
-  "required": ["value", "unit"],
-  "properties": {
-    "value": { "type": "number", "DutchName": "waarde" },
-    "unit": { "enum": ["SBU", "EC"], "DutchName": "eenheid" }
-  }
-}
-```
-
-<!-- pagina-einde -->
-
-## 7 Uitgangspunten voor koppelingspecificaties
+## 6 Uitgangspunten voor koppelingspecificaties
 
 **Aanleiding.** Bij het uitwerken van de eerste koppelingen bleek dat elk document dezelfde aannames opnieuw uitlegde: waarom een beschrijving indicatief is, wie welke resource bezit, waarom een event dun blijft. Die herhaling maakte de documenten langer dan nodig en, erger, liet de redenering op meerdere plekken uit elkaar lopen zodra er iets wijzigde. Daarom staan de gedeelde aannames hier eenmaal.
 
@@ -3621,7 +1287,7 @@ De uitgangspunten zijn genummerd (U1 tot en met U11) zodat je er in een document
 
 Herkomst: de [OKx-architectuurprincipes](../Referentiemateriaal/principes/principes.md) en [OKx-uitgangspunten](../Referentiemateriaal/principes/uitgangspunten.md), plus de architectuurbesluiten in [`Referentiemateriaal/adr/`](../Referentiemateriaal/adr). Waar een uitgangspunt op een besluit steunt, staat dat erbij. Alle aangehaalde besluiten hebben op dit moment de status voorstel.
 
-### 7.1 U1. Indicatief en onderbouwend, niet voorschrijvend
+### 6.1 U1. Indicatief en onderbouwend, niet voorschrijvend
 
 Een koppelingspecificatie beschrijft hoe een informatiestroom er in een scenario uit **kan** zien. OKx legt de sector niet op hoe een koppeling gerealiseerd moet worden; instellingen en leveranciers geven hun koppelingen zelf vorm.
 
@@ -3638,25 +1304,25 @@ De beschreven koppelingen zijn **niet uitputtend**. Nieuwe functionaliteit kan o
 
 Sluit aan op [OKx-AP02 — Semantiek vóór techniek](../Referentiemateriaal/principes/principes.md#okx-ap02--semantiek-vóór-techniek) (geen API-first zonder voorafgaande keten- en informatiemodelcontext) en [OKx-AP06 — Contracten zijn versieerbaar en evolueerbaar](../Referentiemateriaal/principes/principes.md#okx-ap06--contracten-zijn-versieerbaar-en-evolueerbaar).
 
-### 7.2 U2. Koppeling versus koppelvlak
+### 6.2 U2. Koppeling versus koppelvlak
 
 Een **koppeling** is de gestandaardiseerde informatiestroom tussen twee referentiecomponenten. Een **koppelvlak** is de verzameling van alle koppelingen die één component raken. Een koppelingspecificatie beschrijft dus één stroom; de koppelvlakspecificatie is de optelsom per component.
 
 Vastgelegd in [ADR 0021](../Referentiemateriaal/adr/0021-koppeling-versus-koppelvlak-terminologie.md).
 
-### 7.3 U3. Resource-eigenaarschap
+### 6.3 U3. Resource-eigenaarschap
 
 Elk systeem bezit zijn eigen resource en is er de enige bron van. De onderwijscatalogus bezit de onderwijsspecificaties, planning bezit het onderwijsaanbod, roostering bezit het rooster, het studentinformatiesysteem bezit de verbintenissen en resultaten. Niemand kopieert de resource van een ander.
 
 Over de koppeling gaan daarom **referenties** (uuid) en niet de resource zelf, tenzij die expliciet wordt opgevraagd. Dat voorkomt dat dezelfde gegevens op meerdere plekken een eigen leven gaan leiden.
 
-### 7.4 U4. Event notification
+### 6.4 U4. Event notification
 
 Een melding over een koppeling is dun: zij draagt de aanleiding en een verwijzing, niet de inhoud, en de afnemer haalt de resource zelf op. Het patroon staat uitgewerkt bij [Event Notification](Interactiepatronen/event-notification.md).
 
 Dit uitgangspunt legt de keuze vast en niet het patroon: elke koppeling in dit pakket gebruikt het, en het is geen afweging per koppeling. Vastgelegd in [ADR 0020](../Referentiemateriaal/adr/0020-curriculumontwerp-onderwijscatalogus-happy-flow-synchronisatie-en-federatie-adopt-klonen.md).
 
-### 7.5 U5. Bericht versus kanaal
+### 6.5 U5. Bericht versus kanaal
 
 Een koppelingspecificatie legt het **bericht** vast: wat erin staat, wanneer het wordt verstuurd, hoe een ontvanger een herhaling herkent, en in welke volgorde berichten over dezelfde sleutel aankomen.
 
@@ -3675,13 +1341,13 @@ De laatste is de scherpste. Twee implementaties die allebei "een bericht sturen"
 
 **Open punt.** Welk afleveringsmechanisme partijen onderling kiezen is nog niet belegd. Twee systemen die beide aan het bericht voldoen maar waarvan het ene een webhook aanbiedt en het andere op een eigen broker publiceert, kunnen zonder afspraak of adapter alsnog niet koppelen. Dat is een vraag voor het koppelvlak, niet voor een afzonderlijke koppeling.
 
-### 7.6 U6. Semantiek uit de ankertabel
+### 6.6 U6. Semantiek uit de ankertabel
 
 Begrippen komen uit de [ankertabel](../Referentiemateriaal/kaderscenario's/leerroute-1-regulier.md#betrokken-informatie-bij-proces): kader, beoogde leeruitkomst, specificatie, aanbod, verbintenis, resultaat. Geen verzonnen termen; subtypen voluit met backquotes.
 
 De **leeruitkomst is de sleutel**. Specificaties verankeren erop, en onderwijsresultaten worden erop behaald ([ADR 0022](../Referentiemateriaal/adr/0022-resultaatbegrippen-conform-rosa-koi.md), conform het ROSA Kernmodel Onderwijsinformatie). Verankering gebeurt op de uuid van de leeruitkomst, niet op een tekstcode; een leesbare aanduiding mag ernaast staan.
 
-### 7.7 U7. Payload plat met verwijzingen, en de sleutelconventie
+### 6.7 U7. Payload plat met verwijzingen, en de sleutelconventie
 
 Objecten staan in **platte arrays** met een zelfverwijzende ouder-pointer, niet fysiek genest. Daardoor is elk object los adresseerbaar en los te versioneren, en hoef je geen halve boom mee te sturen om één onderdeel te wijzigen. De prijs is dat de hiërarchie niet meer uit de JSON zelf blijkt; daarom hoort er een instantieboom bij (U8).
 
@@ -3691,19 +1357,19 @@ Dit wijkt bewust af van de Open Onderwijs API, die getypeerde sleutels hanteert 
 
 **Taal.** Veldnamen en waarden in het Nederlands, met de Engelse of OEAPI-term tussen haakjes waar dat helpt.
 
-### 7.8 U8. Machine-interpreteerbaar, met leesbare weergaven
+### 6.8 U8. Machine-interpreteerbaar, met leesbare weergaven
 
 Elke payload-specificatie draagt een **JSON Schema** (draft 2020-12) dat de vorm vastlegt: types, verplicht of optioneel, enums en patronen. Enumeraties horen daar, niet in een aparte tabel. De volwassenheid wordt op het schema zelf gemarkeerd (`$comment`), niet in de documenttitel of de doelstelling (zie U10).
 
 Sluit aan op de uitgangspunten [machine-interpreteerbare formaten](../Referentiemateriaal/principes/uitgangspunten.md#technologie-en-standaarden) en [show don't tell](../Referentiemateriaal/principes/uitgangspunten.md#afstemming-en-beschrijvingswijze).
 
-### 7.9 U9. Scenario's en persona's
+### 6.9 U9. Scenario's en persona's
 
 Documenten werken **leerroute 1** (regulier) uit aan de hand van persona **Jochem**, opleiding Apothekersassistent (SBB-kwalificatiedossier 23450, kwalificatie 27141). Leerroute 2 (temporiseren) en 3 (versnellen) volgen als **verschil** ten opzichte daarvan: de structuur blijft gelijk, een handvol attributen wijzigt.
 
 De route en de persona staan volledig uitgewerkt in het [kaderscenario leerroute 1 — regulier](../Referentiemateriaal/kaderscenario's/leerroute-1-regulier.md). Dat document is de kaderstellende basis waarop de koppelingspecificaties hier doorbouwen; het beschrijft per processtap wat er gebeurt en welke informatie beweegt. De overige leerroutes: [`kaderscenario's/`](../Referentiemateriaal/kaderscenario's).
 
-### 7.10 U10. Scope- en documentdiscipline
+### 6.10 U10. Scope- en documentdiscipline
 
 - **Intra-instelling eerst.** Koppelingen worden eerst binnen één instelling uitgewerkt; federatie en cross-instelling volgen gefaseerd ([ADR 0008](../Referentiemateriaal/adr/0008-scope-planning-eerst-intra-instelling.md)).
 - **Scope sluit af.** Een document benoemt positief wat in scope is, noemt de afbakeningen die anders verwarring geven, en sluit af met de regel dat al het overige buiten het document valt. Een lezer hoeft dan niet te raden of iets vergeten of bewust weggelaten is.
@@ -3715,356 +1381,15 @@ De route en de persona staan volledig uitgewerkt in het [kaderscenario leerroute
 
 De bredere schrijfstijl staat in [`.cursor/rules/docs-style.mdc`](https://github.com/Npuls-OKx/meta/blob/d47bb0c74ec899a4384d06331692f74b9bd1db58/.cursor/rules/docs-style.mdc).
 
-### 7.11 Gerelateerde documenten
+### 6.11 Gerelateerde documenten
 
 - [Instap voor nieuwkomers](README.md): ketenoverzicht, hoofdplaat, afkortingenlegenda en leesvolgorde.
 - [OKx-architectuurprincipes](../Referentiemateriaal/principes/principes.md) en [OKx-uitgangspunten](../Referentiemateriaal/principes/uitgangspunten.md): de richting waarop deze uitgangspunten steunen.
 
-### 7.12 U11. Toekomstvaste endpoints: volledige structuur en delta
+### 6.12 U11. Toekomstvaste endpoints: volledige structuur en delta
 
 OKx definieert endpoints die ook toekomstige scenario's mogelijk maken. Waar een resource als structuur wordt ontsloten, biedt de eigenaar daarom beide vormen aan: de volledige structuur en de wijziging (delta). Een implementatie kiest zelf wat bij haar situatie past: een eenvoudige implementatie verwerkt de volledige structuur opnieuw, een rijkere implementatie verwerkt alleen de delta.
 
 Waarom: de keten kent implementaties van verschillende volwassenheid, en scenario's die we nog niet kennen. Eén verplichte vorm dwingt óf onnodige complexiteit af (delta-berekening voor wie die niet nodig heeft) óf onnodig zwaar verkeer (volledige structuur voor wie alleen de wijziging wil). Twee vormen op dezelfde resource houden beide routes open zonder de semantiek te splitsen.
 
 Zichtbaar in de [koppelingspecificatie onderwijscatalogus naar planning en roostering](#417-opleidingsaanbod-aanmaken): de planbaar-melding is dun (conform U4), waarna de afnemer de volledige structuur of de delta ophaalt.
-
-
-<!-- pagina-einde -->
-
-## 8 Mapping veldnamen: Engels (UK) naar Nederlands
-
-De veldnamen in de datamodelschema's ([`Datamodelschema's/`](Datamodelschema's)) zijn vertaald van Nederlands naar Engels (UK). Dit document legt per model vast welke Engelse veldnaam bij welke oorspronkelijke Nederlandse naam hoort, zodat wie de modellen kent vanuit eerdere Nederlandstalige documentatie of werksessies de nieuwe velden kan terugvoeren op de bekende termen.
-
-Elke tabel dekt de velden van één schema. Velden in geneste objecten — de items van een array-eigenschap — staan in een aparte tabel direct daaronder, met een verwijzing naar de eigenschap waar ze bij horen. Vertaald zijn alleen de veldnamen: de sleutels onder `properties` en `required`. Enumeratiewaarden (zoals status- en typewaarden), `$id`, bestandsnamen en de `title`- en `$comment`-velden van de schema's blijven ongewijzigd Nederlands.
-
-### 8.1 Abonnement — Subscription
-
-[`subscription.json`](Datamodelschema's/subscription.json)
-
-| English (UK) | Nederlands |
-|---|---|
-| id | id |
-| callbackUrl | callbackUrl |
-| events | events |
-
-### 8.2 Adres — Address
-
-[`address.json`](Datamodelschema's/address.json)
-
-| English (UK) | Nederlands |
-|---|---|
-| street | straat |
-| houseNumber | huisnummer |
-| postcode | postcode |
-| city | plaats |
-| country | land |
-
-### 8.3 Bron — Source
-
-[`source.json`](Datamodelschema's/source.json)
-
-| English (UK) | Nederlands |
-|---|---|
-| standard | standaard |
-| type | type |
-| code | code |
-
-### 8.4 Code — Code
-
-[`code.json`](Datamodelschema's/code.json)
-
-| English (UK) | Nederlands |
-|---|---|
-| codeType | codeType |
-| code | code |
-
-### 8.5 Geolocatie — Geolocation
-
-[`geolocation.json`](Datamodelschema's/geolocation.json)
-
-| English (UK) | Nederlands |
-|---|---|
-| latitude | breedtegraad |
-| longitude | lengtegraad |
-
-### 8.6 Groep — Group
-
-[`group.json`](Datamodelschema's/group.json)
-
-| English (UK) | Nederlands |
-|---|---|
-| id | id |
-| name | naam |
-| capacity | capaciteit |
-
-### 8.7 Knelpunt — Bottleneck
-
-[`bottleneck.json`](Datamodelschema's/bottleneck.json)
-
-| English (UK) | Nederlands |
-|---|---|
-| code | code |
-| description | omschrijving |
-| involvedSpecificationIds | betrokkenSpecificatieIds |
-
-### 8.8 Leeruitkomst-aanduiding — Learning outcome designation
-
-[`learning-outcome-designation.json`](Datamodelschema's/learning-outcome-designation.json)
-
-| English (UK) | Nederlands |
-|---|---|
-| type | type |
-| code | code |
-
-### 8.9 Leeruitkomst — Learning outcome
-
-[`learning-outcome.json`](Datamodelschema's/learning-outcome.json)
-
-| English (UK) | Nederlands |
-|---|---|
-| id | id |
-| version | versie |
-| name | naam |
-| source | bron |
-| parentLearningOutcomeId | bovenliggendLeeruitkomstId |
-| indicativeVolume | indicatieveOmvang |
-| nlqfLevel | nlqfNiveau |
-| credentialDocument | waardedocument |
-| description | omschrijving |
-| result | resultaat |
-| behaviour | gedrag |
-
-### 8.10 Locatie — Location
-
-[`location.json`](Datamodelschema's/location.json)
-
-| English (UK) | Nederlands |
-|---|---|
-| id | id |
-| locationType | locatieType |
-| name | naam |
-| partOfLocationId | valtBinnenLocatieId |
-| address | adres |
-| geolocation | geolocatie |
-| floor | verdieping |
-| wing | vleugel |
-| url | url |
-| codes | codes |
-
-### 8.11 Manifest-item — Manifest item
-
-[`manifest-item.json`](Datamodelschema's/manifest-item.json)
-
-| English (UK) | Nederlands |
-|---|---|
-| specificationId | specificatieId |
-| version | versie |
-| relation | relatie |
-
-### 8.12 Omvang — Volume
-
-[`volume.json`](Datamodelschema's/volume.json)
-
-| English (UK) | Nederlands |
-|---|---|
-| value | waarde |
-| unit | eenheid |
-
-### 8.13 Onderwijsaanbod — Education offering
-
-[`education-offering.json`](Datamodelschema's/education-offering.json)
-
-| English (UK) | Nederlands |
-|---|---|
-| offeringInstances | aanbodInstanties |
-| locations | locaties |
-| organisationUnits | organisatieEenheden |
-
-Velden per item in `offeringInstances`:
-
-| English (UK) | Nederlands |
-|---|---|
-| id | id |
-| offeringType | aanbodType |
-| version | versie |
-| parentOfferingId | bovenliggendAanbodId |
-| specificationReference | specificatieVerwijzing |
-| name | naam |
-| status | status |
-| bottlenecks | knelpunten |
-| cohort | cohort |
-| period | periode |
-| minStudentCount | minAantalStudenten |
-| maxStudentCount | maxAantalStudenten |
-| locationId | locatieId |
-| executingTeamId | uitvoerendTeamId |
-| groups | groepen |
-
-### 8.14 Onderwijsspecificatie-delta — Education specification delta
-
-[`education-specification-delta.json`](Datamodelschema's/education-specification-delta.json)
-
-| English (UK) | Nederlands |
-|---|---|
-| op | op |
-| path | path |
-| from | from |
-| value | value |
-
-### 8.15 Onderwijsspecificatie — Education specification
-
-[`education-specification.json`](Datamodelschema's/education-specification.json)
-
-| English (UK) | Nederlands |
-|---|---|
-| learningOutcomes | leeruitkomsten |
-| educationSpecifications | onderwijsspecificaties |
-| ruleSets | regelsets |
-
-Velden per item in `educationSpecifications`:
-
-| English (UK) | Nederlands |
-|---|---|
-| id | id |
-| specificationType | specificatieType |
-| version | versie |
-| parentSpecificationId | bovenliggendSpecificatieId |
-| learningOutcomeId | leeruitkomstId |
-| name | naam |
-| description | omschrijving |
-| status | status |
-| studyLoad | studielast |
-| curriculumType | curriculumtype |
-| programmeType | programmatype |
-| programmeLayer | programmaLaag |
-| learningPathway | leerweg |
-| targetGroup | doelgroep |
-| electiveUnitClass | keuzedeelKlasse |
-| organisation | organisatie |
-| cohort | cohort |
-| startDate | startdatum |
-| validFrom | geldigVanaf |
-| validUntil | geldigTot |
-| timeDistribution | tijdsverdeling |
-| explanation | toelichting |
-| ruleSetReferences | regelsetVerwijzingen |
-| manifest | manifest |
-
-### 8.16 OrganisatieEenheid — Organisation unit
-
-[`organisation-unit.json`](Datamodelschema's/organisation-unit.json)
-
-| English (UK) | Nederlands |
-|---|---|
-| id | id |
-| unitType | eenheidType |
-| name | naam |
-| parentUnitId | bovenliggendeEenheidId |
-| professionalIds | professionalIds |
-
-### 8.17 Periode — Period
-
-[`period.json`](Datamodelschema's/period.json)
-
-| English (UK) | Nederlands |
-|---|---|
-| start | start |
-| end | eind |
-
-### 8.18 Regelset — Rule set
-
-[`rule-set.json`](Datamodelschema's/rule-set.json)
-
-| English (UK) | Nederlands |
-|---|---|
-| id | id |
-| version | versie |
-| name | naam |
-| description | omschrijving |
-| appliesTo | vanToepassingOp |
-| rules | regels |
-
-### 8.19 Resultaatmodel — Result model
-
-[`result-model.json`](Datamodelschema's/result-model.json)
-
-| English (UK) | Nederlands |
-|---|---|
-| scale | schaal |
-| passMark | cesuur |
-| decimalPlaces | decimalen |
-
-### 8.20 Resultaatstructuur en examenplan — Result structure and exam plan
-
-[`result-structure.json`](Datamodelschema's/result-structure.json)
-
-| English (UK) | Nederlands |
-|---|---|
-| educationSpecifications | onderwijsspecificaties |
-| ruleSets | regelsets |
-
-Velden per item in `educationSpecifications`:
-
-| English (UK) | Nederlands |
-|---|---|
-| id | id |
-| specificationType | specificatieType |
-| version | versie |
-| parentSpecificationId | bovenliggendSpecificatieId |
-| name | naam |
-| description | omschrijving |
-| status | status |
-| validFrom | geldigVanaf |
-| validUntil | geldigTot |
-| appliesTo | geldtVoor |
-| assesses | beoordeelt |
-| learningOutcomeId | leeruitkomstId |
-| learningOutcome | leeruitkomst |
-| nature | aard |
-| assessmentForm | toetsvorm |
-| aggregation | aggregatie |
-| weighting | weging |
-| mandatory | verplicht |
-| resultModel | resultaatmodel |
-| ruleSetReferences | regelsetVerwijzingen |
-| manifest | manifest |
-
-### 8.21 Specificatie-gewijzigd — Specification changed
-
-[`specification-changed.json`](Datamodelschema's/specification-changed.json)
-
-| English (UK) | Nederlands |
-|---|---|
-| objectId | objectId |
-| oldVersion | oudeVersie |
-| newVersion | nieuweVersie |
-| changeClass | wijzigingsklasse |
-
-### 8.22 Specificatie-referentie — Specification reference
-
-[`specification-reference.json`](Datamodelschema's/specification-reference.json)
-
-| English (UK) | Nederlands |
-|---|---|
-| specificationId | specificatieId |
-| version | versie |
-
-### 8.23 Specificatie-status-gewijzigd — Specification status changed
-
-[`specification-status-changed.json`](Datamodelschema's/specification-status-changed.json)
-
-| English (UK) | Nederlands |
-|---|---|
-| objectId | objectId |
-| oldStatus | oudeStatus |
-| newStatus | nieuweStatus |
-
-### 8.24 Verwerkingsstatus — Processing status
-
-[`processing-status.json`](Datamodelschema's/processing-status.json)
-
-| English (UK) | Nederlands |
-|---|---|
-| status | status |
-| programmeOfferingId | opleidingsaanbodId |
-| specificationReference | specificatieVerwijzing |

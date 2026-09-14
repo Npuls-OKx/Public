@@ -920,7 +920,7 @@ Leerroute 1, waarden indicatief. De `studielast` telt bottom-up op binnen onderd
       "id": "e4037953-17d6-40a4-9e59-92ec1f9c19a8",
       "versie": "0.1.0",
       "naam": "Kiesbare keuzedelen voor Apothekersassistent (LR1)",
-      "omschrijving": "Bepaalt welke keuzedelen in de keuzedeelruimte kiesbaar zijn. Deelname-voorwaarden zijn uitgedrukt in behaalde leeruitkomsten ([ADR 0022](../../Referentiemateriaal/adr/0022-resultaatbegrippen-conform-rosa-koi.md)). De regelstructuur wordt in een aparte uitwerking behandeld; onderstaande regels zijn indicatief.",
+      "omschrijving": "Bepaalt welke keuzedelen in de keuzedeelruimte kiesbaar zijn. Deelname-voorwaarden zijn uitgedrukt in behaalde leeruitkomsten ([ADR 0022](../Referentiemateriaal/adr/0022-resultaatbegrippen-conform-rosa-koi.md)). De regelstructuur wordt in een aparte uitwerking behandeld; onderstaande regels zijn indicatief.",
       "vanToepassingOp": "fb5be5ae-faa0-4b4b-8085-474fce9aae08",
       "regels": [
         {
@@ -943,7 +943,7 @@ Leerroute 1, waarden indicatief. De `studielast` telt bottom-up op binnen onderd
 }
 ```
 
-De voorwaarde vooraf (Ruimtelijk inzicht vereist Wiskunde 1) staat in de regelset, niet in de specificatie, en is uitgedrukt in de **behaalde leeruitkomst** (`vereisteLeeruitkomstId`), niet in een afgeronde specificatie. Zo blijft de regel los van het item en toetst hij op wat er werkelijk behaald is ([ADR 0022](../../Referentiemateriaal/adr/0022-resultaatbegrippen-conform-rosa-koi.md)).
+De voorwaarde vooraf (Ruimtelijk inzicht vereist Wiskunde 1) staat in de regelset, niet in de specificatie, en is uitgedrukt in de **behaalde leeruitkomst** (`vereisteLeeruitkomstId`), niet in een afgeronde specificatie. Zo blijft de regel los van het item en toetst hij op wat er werkelijk behaald is ([ADR 0022](../Referentiemateriaal/adr/0022-resultaatbegrippen-conform-rosa-koi.md)).
 
 De drie keuzedeelprogramma's staan als **losse roots**: ze hangen bewust niet onder een opleiding, want een keuzedeel is herbruikbaar over opleidingen heen. Ze zijn alleen bereikbaar via de regelset waarnaar de `keuzedeelruimtespecificatie` verwijst. Dat is precies de N-op-M-relatie die in de platte JSON onzichtbaar blijft.
 
@@ -1083,7 +1083,7 @@ Leerroute 1. De `specificatieVerwijzing`-uuid's komen uit de [voorbeeld onderwij
 }
 ```
 
-Loopt de planning vast, dan bestaat de instantie wel maar draagt die status en knelpunten. Zie het faalpad in de [Planning niet gelukt melden](../Koppelingspecificaties/onderwijscatalogus-planning-en-roostering.md#planning-niet-gelukt-melden):
+Loopt de planning vast, dan bestaat de instantie wel maar draagt die status en knelpunten. Zie het faalpad in de [Planning niet gelukt melden](../Koppelvlakspecificaties/Koppelingspecificaties/onderwijscatalogus-planning-en-roostering.md#planning-niet-gelukt-melden):
 
 ```json
 {

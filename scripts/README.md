@@ -19,7 +19,7 @@ python3 scripts/validate-requirementsboom-navigatie.py   # requirementsboom
 python3 -m unittest discover -s tests             # testgevallen van de scripts
 
 python3 scripts/build-release.py Koppelvlakspecificaties --uit dist
-python3 scripts/build-release.py Koppelvlakspecificaties --alleen-controle
+python3 scripts/build-release.py "Datamodelschema's" --alleen-controle
 ```
 
 De controlescripts geven exitcode 1 bij een probleem, zodat ze in een pre-commit hook of workflow passen.
@@ -38,7 +38,9 @@ Het anchor-algoritme volgt dat van GitHub, waar elke spatie afzonderlijk een kop
 
 ## Het releasepakket bouwen
 
-`build-release.py` schrijft het gebundelde document eerst als markdown in de pakketmap ([`Koppelvlakspecificaties/koppelvlakspecificatie.md`](../Koppelvlakspecificaties/koppelvlakspecificatie.md)) en bouwt de artefacten daaruit. Dat bestand is gegenereerd; `--alleen-controle` faalt wanneer het niet meer overeenkomt met de bronnen, zodat een wijziging met de hand opvalt. Verder maakt `build-release.py` van de markdown-bronnen twee artefacten: één gebundeld document met alle documenten in leesvolgorde, en de documenten los in een zip met de mapstructuur erbij. Welke documenten meegaan, in welke volgorde, en onder welke versie staat in het manifest van het pakket: [`Koppelvlakspecificaties/release.json`](../Koppelvlakspecificaties/release.json). Documenten die bij elkaar horen kun je daar als **sectie** opnemen (`{"sectie", "inleiding", "documenten"}`); ze worden dan subhoofdstukken onder één kop, zoals de applicatiecomponenten. In de losse documenten verandert dat niets. Een nieuw pakket krijgt een eigen map met een eigen `release.json`; het script en de workflow werken dan zonder aanpassing.
+`build-release.py` schrijft het gebundelde document eerst als markdown in de pakketmap ([`Koppelvlakspecificaties/koppelvlakspecificatie.md`](../Koppelvlakspecificaties/koppelvlakspecificatie.md)) en bouwt de artefacten daaruit. Dat bestand is gegenereerd; `--alleen-controle` faalt wanneer het niet meer overeenkomt met de bronnen, zodat een wijziging met de hand opvalt. Verder maakt `build-release.py` van de markdown-bronnen twee artefacten: één gebundeld document met alle documenten in leesvolgorde, en de documenten los in een zip met de mapstructuur erbij. Welke documenten meegaan, in welke volgorde, en onder welke versie staat in het manifest van het pakket: [`Koppelvlakspecificaties/release.json`](../Koppelvlakspecificaties/release.json). Documenten die bij elkaar horen kun je daar als **sectie** opnemen (`{"sectie", "inleiding", "documenten"}`); ze worden dan subhoofdstukken onder één kop, zoals de applicatiecomponenten. In de losse documenten verandert dat niets. Een nieuw pakket krijgt een eigen map met een eigen `release.json`; het script en de workflow werken dan zonder aanpassing, want die zoeken de pakketmappen zelf op.
+
+Bouwt een pakket op een ander, dan noemt zijn manifest dat onder `afhankelijkheden`, met de versie erbij — de koppelvlakspecificatie doet dat voor de datamodelschema's. Verwijzingen die in zo'n pakket landen krijgen de tag van díe versie in plaats van de ref die nu gebouwd wordt; anders zou een verwijzing stilzwijgend meebewegen met wat er later in het andere pakket landt. Staat dat pakket inmiddels op een hogere versie, dan faalt de bouw met de vraag vast te stellen of de wijziging hier doorwerkt.
 
 Drie dingen doet het script die pandoc alleen niet doet.
 
@@ -54,9 +56,9 @@ Lokaal bouwen vraagt `pandoc`, `node` en `npx`. In de workflow staat pandoc op e
 
 | Workflow | Wanneer | Wat |
 |---|---|---|
-| [`validatie.yml`](../.github/workflows/validatie.yml) | pull request, push naar `dev` | De drie controlescripts, plus een bouwcontrole die bewijst dat het pakket nog te bouwen is |
-| [`release.yml`](../.github/workflows/release.yml) | push naar `release-*` | Bouwt het pakket en zet het klaar als **concept**-release |
+| [`validatie.yml`](../.github/workflows/validatie.yml) | pull request, push naar `dev` | De drie controlescripts, plus een bouwcontrole die bewijst dat elk pakket nog te bouwen is |
+| [`release.yml`](../.github/workflows/release.yml) | push naar `release-*` | Bouwt elk pakket en zet het klaar als **concept**-release, elk onder een eigen tag |
 
 Het publiceren van een concept-release blijft handwerk. Dat is met opzet: het [releaseproces](../Algemeen/release-management/Release-management-algemeen.md#6-releaseproces) legt de kwaliteitstoets bij de Tester, en een workflow die zelf publiceert zou die stap overslaan.
 
-De versie komt uit `release.json`, niet uit een tag: de bron bepaalt welke versie hij draagt, de tag is het gevolg. De workflow zet die tag bij het bouwen en bouwt er ook mee, zodat de verwijzingen in de uitgeleverde documenten naar de tag wijzen en niet naar de release branch. Staat er een versie in die al gepubliceerd is, dan faalt de workflow met de vraag om de versie te verhogen. De tag draagt de pakketnaam (`koppelvlakspecificatie-v1.2.0`), omdat deze repository meerdere releasepakketten kan bevatten en een kale `v1.2.0` dan niet zegt waarover het gaat.
+De versie komt uit `release.json`, niet uit een tag: de bron bepaalt welke versie hij draagt, de tag is het gevolg. De workflow zet die tag bij het bouwen en bouwt er ook mee, zodat de verwijzingen in de uitgeleverde documenten naar de tag wijzen en niet naar de release branch. Staat er een versie in die al gepubliceerd is, dan faalt de workflow met de vraag om de versie te verhogen. De tag draagt de pakketnaam (`koppelvlakspecificatie-v1.2.0`), omdat deze repository meerdere releasepakketten bevat en een kale `v1.2.0` dan niet zegt waarover het gaat.

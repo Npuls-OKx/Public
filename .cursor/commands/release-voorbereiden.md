@@ -8,6 +8,7 @@ Welk releasepakket gaat eruit, en welke wijzigingen zitten erin sinds de vorige 
 
 ```bash
 git log --oneline <vorige-tag>..dev -- <pakketmap>
+grep -rl '"pakket": "../<pakketmap>"' */release.json    # wie bouwt hierop
 ```
 
 ## 2. Bepaal de bump
@@ -21,6 +22,8 @@ SemVer, en de **zwaarste wijziging wint**: één breaking change maakt de hele r
 | **PATCH** | Correctie zonder semantische wijziging: typefix, verduidelijking, gerepareerde link of voorbeeld |
 
 Twijfel je tussen minor en major, dan is het major. Een breaking change hoort al tijdens refinement helder te zijn, niet pas bij de release.
+
+Bouwt een ander pakket op dit pakket, dan hoort de versie in zijn `afhankelijkheden` mee te bewegen: stel per afhankelijk pakket vast of de wijziging daar doorwerkt, en neem het bijwerken van die versie mee in dezelfde wijziging. Zolang dat niet gebeurd is, faalt de bouw van dat pakket.
 
 ## 3. Controleer de baseline
 

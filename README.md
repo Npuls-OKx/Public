@@ -9,10 +9,11 @@ OKx werkt aan uniforme koppelvlakken zodat systemen in de onderwijsketen beter s
 | Map | Container | Inhoud |
 | --- | --- | --- |
 | [`Koppelvlakspecificaties/`](Koppelvlakspecificaties/) | Source Material | Het releasepakket **koppelvlakspecificatie**: uitgangspunten, de koppelingspecificaties per informatiestroom (OC naar P&R, LMS en SIS) met hun payload-specificaties, en de templates om er een te schrijven |
+| [`Datamodelschema's/`](Datamodelschema's/) | Source Material | Het releasepakket **datamodelschema's**: de informatiemodellen achter de payloads, de JSON Schema's, de regels die zo'n schema niet kan uitdrukken, en per koppeling welk deel ervan meegaat |
 | [`Referentiemateriaal/`](Referentiemateriaal/) | Reference Material | De principes en uitgangspunten, de kaderscenario's per leerroute met hun persona's, en de architectuurbesluiten (ADR's) waarop de specificaties steunen; onderbouwing, geen onderdeel van een releasepakket |
 | [`scripts/`](scripts/) | CI/CD | Gereedschap, waaronder de generator en validator voor de schema- en instantiebomen in de payload-specificaties |
 
-De kolom *Container* verwijst naar het repo-setupmodel, dat deze repository beschrijft als **Public source**: de bron van de releaseartefacten, naast een private projectrepository en de gepubliceerde releasepakketten.
+De kolom *Container* verwijst naar het repo-setupmodel, dat deze repository beschrijft als **Public source**: de bron van de releaseartefacten, naast een private projectrepository en de gepubliceerde releasepakketten. Elk releasepakket is een map met een `release.json`, draagt een eigen versie en wordt onder een eigen tag uitgebracht; de koppelvlakspecificatie bouwt op de datamodelschema's en legt in haar manifest vast op welke versie.
 
 **Templates staan bij hun onderwerp**, niet in een aparte map: wie een koppelingspecificatie schrijft, vindt het template naast de uitgangspunten en de bestaande specificaties waar hij zich toch aan spiegelt. De container *Documentation* uit het repo-setupmodel wordt ingevuld door de README's zelf, die per map de weg wijzen.
 
