@@ -1,10 +1,6 @@
 # Planbaar-onderwijsaanbod-aanbieder
 
-Stelt het planbare onderwijsaanbod beschikbaar: het stadium tussen specificatie en rooster.
-
-## Doel
-
-Er is aanbod dat herleidbaar is naar de specificatie die het instantieert, zonder dat het specificatie-inhoud dupliceert.
+Het implementerende component stelt het planbare onderwijsaanbod beschikbaar: het stadium tussen specificatie en rooster. Aan de andere kant staat een component dat [planbaar-onderwijsaanbod-afnemer](planbaar-onderwijsaanbod-afnemer.md) implementeert.
 
 ## Verplichtingen
 
@@ -21,13 +17,9 @@ De endpoints die het component implementeert om deze dienst te leveren.
 
 | Endpoint | Methode | Parameters | Request | Response | Statuscodes |
 |---|---|---|---|---|---|
-| `/onderwijsaanbod/{id}` | GET | `status`, optioneel filter op onderliggende instanties | — | [education-offering.json](../Datamodelschema's/education-offering.json): de instantie plus haar subtree via `bovenliggendAanbodId` | 200, 400, 404 |
-| `/onderwijsaanbod` | GET | `specificatieId`, verplicht; `versie`, optioneel, standaard alle versies | — | [education-offering.json](../Datamodelschema's/education-offering.json) als lijst | 200, 400 |
+| `/onderwijsaanbod/{id}` | GET | `status`, optioneel filter op onderliggende instanties | — | [education-offering.json](../../Datamodelschema's/schemas/education-offering.json): de instantie plus haar subtree via `bovenliggendAanbodId` | 200, 400, 404 |
+| `/onderwijsaanbod` | GET | `specificatieId`, verplicht; `versie`, optioneel, standaard alle versies | — | [education-offering.json](../../Datamodelschema's/schemas/education-offering.json) als lijst | 200, 400 |
 
 ## Gebruikt in
 
 - [Onderwijscatalogus naar planning en roostering](../Koppelingspecificaties/onderwijscatalogus-planning-en-roostering.md)
-
-## Tegenhanger
-
-[Planbaar-onderwijsaanbod-afnemer](planbaar-onderwijsaanbod-afnemer.md)

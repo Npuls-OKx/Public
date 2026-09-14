@@ -1,10 +1,6 @@
 # Kiesbaarheidsbepaling-afnemer
 
-Vraagt op wat een student mag kiezen en gebruikt de uitkomst, bijvoorbeeld om alleen kiesbaar aanbod te tonen.
-
-## Doel
-
-De student ziet geen keuze die hij niet mag of niet kan maken.
+Het implementerende component vraagt op wat een student mag kiezen en gebruikt de uitkomst, bijvoorbeeld om alleen kiesbaar aanbod te tonen. Aan de andere kant staat een component dat [kiesbaarheidsbepaling-aanbieder](kiesbaarheidsbepaling-aanbieder.md) implementeert.
 
 ## Verplichtingen
 
@@ -22,8 +18,3 @@ Dit contract is nog niet uitgewerkt. De dienst volgt uit de requirements; welke 
 ## Gebruikt in
 
 Nog niet gebruikt in een koppeling in dit pakket.
-
-## Tegenhanger
-
-[Kiesbaarheidsbepaling-aanbieder](kiesbaarheidsbepaling-aanbieder.md)
-

@@ -1,10 +1,6 @@
 # Onderwijsaanbod-zoekvraag-afnemer
 
-Stelt een zoekvraag op het onderwijsaanbod en gebruikt de uitkomst, bijvoorbeeld om een student te tonen wat hij kan kiezen.
-
-## Doel
-
-De leervraag van een student wordt zonder vertaalslag een aanbodvraag.
+Het implementerende component stelt een zoekvraag op het onderwijsaanbod en gebruikt de uitkomst, bijvoorbeeld om een student te tonen wat hij kan kiezen. Aan de andere kant staat een component dat [onderwijsaanbod-zoekvraag-aanbieder](onderwijsaanbod-zoekvraag-aanbieder.md) implementeert.
 
 ## Verplichtingen
 
@@ -23,8 +19,3 @@ Dit contract is nog niet uitgewerkt. De dienst volgt uit de requirements; welke 
 ## Gebruikt in
 
 Nog niet gebruikt in een koppeling in dit pakket.
-
-## Tegenhanger
-
-[Onderwijsaanbod-zoekvraag-aanbieder](onderwijsaanbod-zoekvraag-aanbieder.md)
-

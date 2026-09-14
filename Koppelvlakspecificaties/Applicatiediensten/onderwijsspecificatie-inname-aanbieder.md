@@ -1,10 +1,6 @@
 # Onderwijsspecificatie-inname-aanbieder
 
-Neemt een elders ontworpen onderwijsspecificatie aan, stelt hem vast en bevestigt de opname. De enige inkomende dienst: hier stroomt de specificatie naar de aanbieder toe.
-
-## Doel
-
-De keten heeft één actuele, formeel vastgestelde bron voor haar onderwijsspecificaties.
+Het implementerende component neemt een elders ontworpen onderwijsspecificatie aan, stelt hem vast en bevestigt de opname. Dit is de enige inkomende dienst: de specificatie stroomt hier naar het implementerende component toe. Het aanleverende component implementeert [onderwijsspecificatie-inname-afnemer](onderwijsspecificatie-inname-afnemer.md).
 
 ## Verplichtingen
 
@@ -24,8 +20,3 @@ Dit contract is nog niet uitgewerkt. De dienst volgt uit de requirements; welke 
 ## Gebruikt in
 
 Nog niet gebruikt in een koppeling in dit pakket.
-
-## Tegenhanger
-
-[Onderwijsspecificatie-inname-afnemer](onderwijsspecificatie-inname-afnemer.md)
-

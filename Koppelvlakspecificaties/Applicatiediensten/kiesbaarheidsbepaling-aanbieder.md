@@ -1,10 +1,6 @@
 # Kiesbaarheidsbepaling-aanbieder
 
-Bepaalt voor een student welke onderwijsspecificaties hij mag kiezen. Berekent een oordeel uit regelsets en behaalde leeruitkomsten in plaats van een resource te ontsluiten.
-
-## Doel
-
-Voor elke student staat op elk niveau vast wat kiesbaar is, en elk systeem komt voor dezelfde regel tot dezelfde uitkomst.
+Het implementerende component bepaalt voor een student welke onderwijsspecificaties hij mag kiezen: het berekent een oordeel uit regelsets en behaalde leeruitkomsten in plaats van een resource te ontsluiten. Aan de andere kant staat een component dat [kiesbaarheidsbepaling-afnemer](kiesbaarheidsbepaling-afnemer.md) implementeert.
 
 ## Verplichtingen
 
@@ -24,8 +20,3 @@ Dit contract is nog niet uitgewerkt. De dienst volgt uit de requirements; welke 
 ## Gebruikt in
 
 Nog niet gebruikt in een koppeling in dit pakket.
-
-## Tegenhanger
-
-[Kiesbaarheidsbepaling-afnemer](kiesbaarheidsbepaling-afnemer.md)
-

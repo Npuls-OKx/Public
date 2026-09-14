@@ -1,10 +1,6 @@
 # Verwerkingsuitkomst-afnemer
 
-Kan de uitkomst van een verwerking afnemen en zijn eigen beeld daarop bijstellen.
-
-## Doel
-
-De aanleverende partij hoeft niet te wachten en weet toch wat er met haar levering is gebeurd.
+Het implementerende component neemt de uitkomst van een verwerking af en stelt zijn eigen beeld daarop bij. Aan de andere kant staat een component dat [verwerkingsuitkomst-aanbieder](verwerkingsuitkomst-aanbieder.md) implementeert.
 
 ## Verplichtingen
 
@@ -21,7 +17,7 @@ De endpoints die het component implementeert om deze dienst te leveren.
 
 | Endpoint | Methode | Parameters | Request | Response | Statuscodes |
 |---|---|---|---|---|---|
-| `verwerkingsuitkomst` | POST | — | [processing-status.json](../Datamodelschema's/processing-status.json) | — | 200 |
+| `verwerkingsuitkomst` | POST | — | [processing-status.json](../../Datamodelschema's/schemas/processing-status.json) | — | 200 |
 
 Dit endpoint heet vandaag `verwerkingsstatus` bij het planningssysteem en `inrichtingsstatus` bij het studentinformatiesysteem en het leermanagementsysteem; alleen de eerste draagt een schema. De naam hierboven is de voorgestelde keuze; die is nog niet vastgesteld.
 
@@ -30,7 +26,3 @@ Dit endpoint heet vandaag `verwerkingsstatus` bij het planningssysteem en `inric
 - [Onderwijscatalogus naar planning en roostering](../Koppelingspecificaties/onderwijscatalogus-planning-en-roostering.md)
 - [Onderwijscatalogus naar studentinformatiesysteem](../Koppelingspecificaties/onderwijscatalogus-studentinformatiesysteem.md)
 - [Onderwijscatalogus naar leermanagementsysteem](../Koppelingspecificaties/onderwijscatalogus-leermanagementsysteem.md)
-
-## Tegenhanger
-
-[Verwerkingsuitkomst-aanbieder](verwerkingsuitkomst-aanbieder.md)

@@ -1,10 +1,6 @@
 # Leermiddelkoppeling-aanbieder
 
-Publiceert de leermiddelkoppeling die het component heeft gelegd, als eigen resource met een eigen identiteit.
-
-## Doel
-
-De partij die de specificatie leverde kan tonen welke leermiddelen erbij horen, zonder die zelf te beheren.
+Het implementerende component publiceert de leermiddelkoppeling die het zelf heeft gelegd, als eigen resource met een eigen identiteit. Aan de andere kant staat een component dat [leermiddelkoppeling-afnemer](leermiddelkoppeling-afnemer.md) implementeert.
 
 ## Verplichtingen
 
@@ -25,8 +21,3 @@ De endpoints die het component implementeert om deze dienst te leveren.
 ## Gebruikt in
 
 - [Onderwijscatalogus naar leermanagementsysteem](../Koppelingspecificaties/onderwijscatalogus-leermanagementsysteem.md)
-
-## Tegenhanger
-
-[Leermiddelkoppeling-afnemer](leermiddelkoppeling-afnemer.md)
-

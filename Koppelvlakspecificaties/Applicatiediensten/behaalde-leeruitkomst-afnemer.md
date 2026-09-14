@@ -1,10 +1,6 @@
 # Behaalde-leeruitkomst-afnemer
 
-Haalt de behaalde leeruitkomsten van een student op om er voorwaarden vooraf, vrijstelling of toetsbaarheid op te bepalen.
-
-## Doel
-
-Een voorwaarde vooraf wordt getoetst op wat de student heeft behaald, ongeacht via welke route hij dat deed.
+Het implementerende component haalt de behaalde leeruitkomsten van een student op om er voorwaarden vooraf, vrijstelling of toetsbaarheid op te bepalen. Aan de andere kant staat een component dat [behaalde-leeruitkomst-aanbieder](behaalde-leeruitkomst-aanbieder.md) implementeert.
 
 ## Verplichtingen
 
@@ -23,8 +19,3 @@ Dit contract is nog niet uitgewerkt. De dienst volgt uit de requirements; welke 
 ## Gebruikt in
 
 Nog niet gebruikt in een koppeling in dit pakket.
-
-## Tegenhanger
-
-[Behaalde-leeruitkomst-aanbieder](behaalde-leeruitkomst-aanbieder.md)
-

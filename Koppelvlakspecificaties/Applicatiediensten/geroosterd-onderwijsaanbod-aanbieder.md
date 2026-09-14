@@ -1,10 +1,6 @@
 # Geroosterd-onderwijsaanbod-aanbieder
 
-Publiceert geroosterd onderwijsaanbod per periode: het derde en laatste stadium van aanbod.
-
-## Doel
-
-Student en docent weten voor de start van de periode waar zij aan toe zijn, en latere perioden blijven planbaar.
+Het implementerende component publiceert geroosterd onderwijsaanbod per periode: het derde en laatste stadium van aanbod. Aan de andere kant staat een component dat [geroosterd-onderwijsaanbod-afnemer](geroosterd-onderwijsaanbod-afnemer.md) implementeert.
 
 ## Verplichtingen
 
@@ -23,8 +19,3 @@ Dit contract is nog niet uitgewerkt. De dienst volgt uit de requirements; welke 
 ## Gebruikt in
 
 Nog niet gebruikt in een koppeling in dit pakket.
-
-## Tegenhanger
-
-[Geroosterd-onderwijsaanbod-afnemer](geroosterd-onderwijsaanbod-afnemer.md)
-

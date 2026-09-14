@@ -1,10 +1,6 @@
 # Behaalde-leeruitkomst-aanbieder
 
-Publiceert welke leeruitkomsten een student heeft behaald, met de bewijsvoering die daarbij hoort.
-
-## Doel
-
-Voortgang en resultaat zijn instellingsoverstijgend herleidbaar op het niveau van de leeruitkomst, niet alleen als verbintenisstatus.
+Het implementerende component publiceert welke leeruitkomsten een student heeft behaald, met de bewijsvoering die daarbij hoort. Aan de andere kant staat een component dat [behaalde-leeruitkomst-afnemer](behaalde-leeruitkomst-afnemer.md) implementeert.
 
 ## Verplichtingen
 
@@ -23,8 +19,3 @@ Dit contract is nog niet uitgewerkt. De dienst volgt uit de requirements; welke 
 ## Gebruikt in
 
 Nog niet gebruikt in een koppeling in dit pakket.
-
-## Tegenhanger
-
-[Behaalde-leeruitkomst-afnemer](behaalde-leeruitkomst-afnemer.md)
-

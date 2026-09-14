@@ -1,10 +1,6 @@
 # Resultaatstructuur-afnemer
 
-Kan de resultaatstructuur afnemen, zijn beoordeling erop inrichten, en een gemelde wijziging beoordelen voordat hij hem doorvoert.
-
-## Doel
-
-Lopende verbintenissen blijven beschermd tegen een wijziging in het examenplan.
+Het implementerende component neemt de resultaatstructuur af, richt zijn beoordeling erop in, en beoordeelt een gemelde wijziging voordat het die doorvoert. Aan de andere kant staat een component dat [resultaatstructuur-aanbieder](resultaatstructuur-aanbieder.md) implementeert.
 
 ## Verplichtingen
 
@@ -21,12 +17,8 @@ De endpoints die het component implementeert om deze dienst te leveren.
 | Endpoint | Methode | Parameters | Request | Response | Statuscodes |
 |---|---|---|---|---|---|
 | `resultaatstructuur-beschikbaar` | POST | — | Specificatie-id en versie, examenplan-id en versie. Payloadschema nog niet uitgewerkt | — | 200 |
-| `examenplanspecificatie-gewijzigd` | POST | — | [specification-changed.json](../Datamodelschema's/specification-changed.json), met wijzigingsklasse | — | 200 |
+| `examenplanspecificatie-gewijzigd` | POST | — | [specification-changed.json](../../Datamodelschema's/schemas/specification-changed.json), met wijzigingsklasse | — | 200 |
 
 ## Gebruikt in
 
 - [Onderwijscatalogus naar studentinformatiesysteem](../Koppelingspecificaties/onderwijscatalogus-studentinformatiesysteem.md)
-
-## Tegenhanger
-
-[Resultaatstructuur-aanbieder](resultaatstructuur-aanbieder.md)

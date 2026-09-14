@@ -1,10 +1,6 @@
 # Keuzeregelset-afnemer
 
-Haalt de geldende regelsets op en past ze toe, zodat zijn uitkomst gelijk is aan die van elk ander component dat dezelfde regel toepast.
-
-## Doel
-
-Elk systeem berekent voor dezelfde keuzeregel dezelfde uitkomst, wat de voorwaarde is om conformiteit te kunnen toetsen.
+Het implementerende component haalt de geldende regelsets op en past ze toe, zodat zijn uitkomst gelijk is aan die van elk ander component dat dezelfde regel toepast. Aan de andere kant staat een component dat [keuzeregelset-aanbieder](keuzeregelset-aanbieder.md) implementeert.
 
 ## Verplichtingen
 
@@ -23,8 +19,3 @@ Dit contract is nog niet uitgewerkt. De dienst volgt uit de requirements; welke 
 ## Gebruikt in
 
 Nog niet gebruikt in een koppeling in dit pakket.
-
-## Tegenhanger
-
-[Keuzeregelset-aanbieder](keuzeregelset-aanbieder.md)
-

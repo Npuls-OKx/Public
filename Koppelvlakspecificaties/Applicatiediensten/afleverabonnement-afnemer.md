@@ -1,10 +1,6 @@
 # Afleverabonnement-afnemer
 
-Kan zijn afleveradres vastleggen bij een partij van wie hij meldingen wil ontvangen.
-
-## Doel
-
-Er gaan geen meldingen verloren omdat de afzender niet weet waar hij ze kwijt kan.
+Het implementerende component legt zijn afleveradres vast bij het component waarvan het meldingen wil ontvangen. Dat andere component implementeert [afleverabonnement-aanbieder](afleverabonnement-aanbieder.md).
 
 ## Verplichtingen
 
@@ -23,7 +19,3 @@ Geen. Deze dienst vraagt geen eigen endpoints: de afnemer registreert zich bij d
 ## Gebruikt in
 
 - [Onderwijscatalogus naar planning en roostering](../Koppelingspecificaties/onderwijscatalogus-planning-en-roostering.md)
-
-## Tegenhanger
-
-[Afleverabonnement-aanbieder](afleverabonnement-aanbieder.md)

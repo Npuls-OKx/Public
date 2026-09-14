@@ -1,10 +1,6 @@
 # Onderwijsaanbod-haalbaarheidstoets-aanbieder
 
-Beoordeelt een voorgelegd programma of een voorgenomen keuze op realiseerbaarheid, en antwoordt met acceptatie, afwijzing of een alternatief. Berekent een oordeel in plaats van een resource te ontsluiten.
-
-## Doel
-
-Een ontwerp of een keuze is getoetst voordat hij wordt vastgelegd, zodat er niet achteraf hoeft te worden teruggedraaid.
+Het implementerende component beoordeelt een voorgelegd programma of een voorgenomen keuze op realiseerbaarheid en antwoordt met acceptatie, afwijzing of een alternatief: het berekent een oordeel in plaats van een resource te ontsluiten. Aan de andere kant staat een component dat [onderwijsaanbod-haalbaarheidstoets-afnemer](onderwijsaanbod-haalbaarheidstoets-afnemer.md) implementeert.
 
 ## Verplichtingen
 
@@ -23,8 +19,3 @@ Dit contract is nog niet uitgewerkt. De dienst volgt uit de requirements; welke 
 ## Gebruikt in
 
 Nog niet gebruikt in een koppeling in dit pakket.
-
-## Tegenhanger
-
-[Onderwijsaanbod-haalbaarheidstoets-afnemer](onderwijsaanbod-haalbaarheidstoets-afnemer.md)
-

@@ -1,10 +1,6 @@
 # Onderwijsspecificatiestructuur-aanbieder
 
-Stelt de vastgestelde onderwijsspecificatiestructuur beschikbaar en maakt bekend wanneer die verandert. Elk component dat onderwijsspecificaties bezit kan deze dienst implementeren.
-
-## Doel
-
-Afnemers werken met dezelfde actuele specificatiestructuur, en een verwijzing die zij eenmaal hebben vastgelegd blijft geldig nadat de specificatie wijzigt.
+Het implementerende component stelt de vastgestelde onderwijsspecificatiestructuur beschikbaar en maakt bekend wanneer die verandert. Elk component dat onderwijsspecificaties bezit kan deze dienst implementeren; aan de andere kant staat een component dat [onderwijsspecificatiestructuur-afnemer](onderwijsspecificatiestructuur-afnemer.md) implementeert.
 
 ## Verplichtingen
 
@@ -22,9 +18,9 @@ De endpoints die het component implementeert om deze dienst te leveren.
 
 | Endpoint | Methode | Parameters | Request | Response | Statuscodes |
 |---|---|---|---|---|---|
-| `/onderwijsspecificaties/{id}` | GET | `versie`, optioneel, standaard laatst gepubliceerd | — | [education-specification.json](../Datamodelschema's/education-specification.json) | 200, 400, 404 |
-| `/onderwijsspecificaties/{id}/delta` | GET | `van` en `naar`, beide verplicht | — | JSON Patch (RFC 6902), [education-specification-delta.json](../Datamodelschema's/education-specification-delta.json) | 200, 400, 404 |
-| `/onderwijsspecificaties` | GET | `status`, optioneel, standaard `gepubliceerd`; `gewijzigdSinds`, optioneel | — | Lijst van [specification-reference.json](../Datamodelschema's/specification-reference.json) | 200, 400 |
+| `/onderwijsspecificaties/{id}` | GET | `versie`, optioneel, standaard laatst gepubliceerd | — | [education-specification.json](../../Datamodelschema's/schemas/education-specification.json) | 200, 400, 404 |
+| `/onderwijsspecificaties/{id}/delta` | GET | `van` en `naar`, beide verplicht | — | JSON Patch (RFC 6902), [education-specification-delta.json](../../Datamodelschema's/schemas/education-specification-delta.json) | 200, 400, 404 |
+| `/onderwijsspecificaties` | GET | `status`, optioneel, standaard `gepubliceerd`; `gewijzigdSinds`, optioneel | — | Lijst van [specification-reference.json](../../Datamodelschema's/schemas/specification-reference.json) | 200, 400 |
 
 Het bekendmaken van een wijziging vraagt geen endpoint van de aanbieder: waar die melding landt hangt af van hoe de koppeling is ingericht.
 
@@ -33,7 +29,3 @@ Het bekendmaken van een wijziging vraagt geen endpoint van de aanbieder: waar di
 - [Onderwijscatalogus naar planning en roostering](../Koppelingspecificaties/onderwijscatalogus-planning-en-roostering.md)
 - [Onderwijscatalogus naar studentinformatiesysteem](../Koppelingspecificaties/onderwijscatalogus-studentinformatiesysteem.md)
 - [Onderwijscatalogus naar leermanagementsysteem](../Koppelingspecificaties/onderwijscatalogus-leermanagementsysteem.md)
-
-## Tegenhanger
-
-[Onderwijsspecificatiestructuur-afnemer](onderwijsspecificatiestructuur-afnemer.md)

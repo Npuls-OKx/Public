@@ -1,10 +1,6 @@
 # Planbaar-onderwijsaanbod-afnemer
 
-Kan het planbare onderwijsaanbod van een aanbieder afnemen, op de referentie die hij heeft gekregen.
-
-## Doel
-
-Het component weet welk aanbod uit een specificatie is afgeleid en in welke staat dat verkeert, zonder er een eigen kopie van te beheren.
+Het implementerende component neemt het planbare onderwijsaanbod af op de referentie die het heeft gekregen. Aan de andere kant staat een component dat [planbaar-onderwijsaanbod-aanbieder](planbaar-onderwijsaanbod-aanbieder.md) implementeert.
 
 ## Verplichtingen
 
@@ -23,7 +19,3 @@ Geen. Deze dienst vraagt geen eigen endpoints: de afnemer haalt op bij de aanbie
 ## Gebruikt in
 
 - [Onderwijscatalogus naar planning en roostering](../Koppelingspecificaties/onderwijscatalogus-planning-en-roostering.md)
-
-## Tegenhanger
-
-[Planbaar-onderwijsaanbod-aanbieder](planbaar-onderwijsaanbod-aanbieder.md)

@@ -1,10 +1,6 @@
 # Verbintenistoestand-afnemer
 
-Volgt de toestandsovergangen van een verbintenis en werkt zijn eigen afgeleide beeld daarop bij.
-
-## Doel
-
-Het component weet in welke fase een student verkeert zonder daar een eigen administratie naast te voeren.
+Het implementerende component volgt de toestandsovergangen van een verbintenis en werkt zijn eigen afgeleide beeld daarop bij. Aan de andere kant staat een component dat [verbintenistoestand-aanbieder](verbintenistoestand-aanbieder.md) implementeert.
 
 ## Verplichtingen
 
@@ -22,8 +18,3 @@ Dit contract is nog niet uitgewerkt. De dienst volgt uit de requirements; welke 
 ## Gebruikt in
 
 Nog niet gebruikt in een koppeling in dit pakket.
-
-## Tegenhanger
-
-[Verbintenistoestand-aanbieder](verbintenistoestand-aanbieder.md)
-

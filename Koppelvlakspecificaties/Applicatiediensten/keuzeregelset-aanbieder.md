@@ -1,10 +1,6 @@
 # Keuzeregelset-aanbieder
 
-Publiceert de regelsets waarmee keuzeruimte wordt begrensd, los van de items waarop ze van toepassing zijn.
-
-## Doel
-
-Beheerders wijzigen regelsets zonder de catalogusitems te raken en hergebruiken dezelfde regelset over opleidingen heen, en achteraf staat vast welke regelversie gold bij een keuze.
+Het implementerende component publiceert de regelsets waarmee keuzeruimte wordt begrensd, los van de items waarop ze van toepassing zijn. Aan de andere kant staat een component dat [keuzeregelset-afnemer](keuzeregelset-afnemer.md) implementeert.
 
 ## Verplichtingen
 
@@ -25,8 +21,3 @@ Dit contract is nog niet uitgewerkt. De dienst volgt uit de requirements; welke 
 ## Gebruikt in
 
 Nog niet gebruikt in een koppeling in dit pakket.
-
-## Tegenhanger
-
-[Keuzeregelset-afnemer](keuzeregelset-afnemer.md)
-

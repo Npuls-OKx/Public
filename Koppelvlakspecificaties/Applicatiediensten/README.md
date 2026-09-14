@@ -1,6 +1,6 @@
 # Applicatiediensten
 
-Een applicatiedienst is een capability: gedrag dat een applicatiecomponent kan implementeren. Diensten zijn de bouwstenen waaruit een [koppeling](../Koppelingspecificaties/) wordt samengesteld. De dienst zegt wát er moet kunnen en waarom, niet wie het doet — elk component kan hem claimen, en een component claimt er meestal meer dan één.
+Een applicatiedienst is een capability: gedrag dat een applicatiecomponent kan implementeren. Diensten zijn de bouwstenen waaruit een [koppeling](../Koppelingspecificaties/) wordt samengesteld. De dienst zegt wát er moet kunnen, niet welk systeem het doet: elk component kan hem claimen, en een component claimt er meestal meer dan één. Op elke dienstpagina is de handelende partij daarom het component dat de dienst implementeert, en niemand anders; waar die dienst voor dient blijkt uit de koppeling die hem inzet, onder **Gebruikt in**.
 
 Een aanbieder zorgt dat hij een gegeven of een functionaliteit levert; een afnemer zorgt dat hij die kan afnemen. Dat zijn **twee losse diensten**, niet twee kanten van één, en op een pagina staan daarom alleen verplichtingen van één van beide richtingen. Een component dat onderwijsspecificaties publiceert implementeert `onderwijsspecificatiestructuur-aanbieder`; een component dat ze wil gebruiken implementeert `onderwijsspecificatiestructuur-afnemer`. Beide zijn zelfstandig te claimen en zelfstandig te versioneren.
 

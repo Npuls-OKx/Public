@@ -1,10 +1,6 @@
 # Onderwijsaanbod-zoekvraag-aanbieder
 
-Beantwoordt zoekvragen op het onderwijsaanbod met criteria die rechtstreeks uit de leervraag volgen. Ontsluit geen resource maar berekent een selectie.
-
-## Doel
-
-Systemen doorzoeken het aanbod met precieze, herbruikbare criteria in plaats van zelf te filteren op een volledige lijst.
+Het implementerende component beantwoordt zoekvragen op het onderwijsaanbod met criteria die rechtstreeks uit de leervraag volgen: het ontsluit geen resource maar berekent een selectie. Aan de andere kant staat een component dat [onderwijsaanbod-zoekvraag-afnemer](onderwijsaanbod-zoekvraag-afnemer.md) implementeert.
 
 ## Verplichtingen
 
@@ -24,8 +20,3 @@ Dit contract is nog niet uitgewerkt. De dienst volgt uit de requirements; welke 
 ## Gebruikt in
 
 Nog niet gebruikt in een koppeling in dit pakket.
-
-## Tegenhanger
-
-[Onderwijsaanbod-zoekvraag-afnemer](onderwijsaanbod-zoekvraag-afnemer.md)
-

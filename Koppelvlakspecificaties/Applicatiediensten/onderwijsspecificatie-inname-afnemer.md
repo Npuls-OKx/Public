@@ -1,10 +1,6 @@
 # Onderwijsspecificatie-inname-afnemer
 
-Levert een ontworpen onderwijsspecificatie aan bij een innemende partij en verwerkt de uitkomst. Afnemer betekent hier gebruiker van de dienst; de gegevens bewegen de andere kant op.
-
-## Doel
-
-Een ontwerp bereikt de bron van waarheid zonder handmatige overname.
+Het implementerende component levert een ontworpen onderwijsspecificatie aan en verwerkt de uitkomst. Afnemer betekent hier gebruiker van de dienst; de gegevens bewegen de andere kant op. Het innemende component implementeert [onderwijsspecificatie-inname-aanbieder](onderwijsspecificatie-inname-aanbieder.md).
 
 ## Verplichtingen
 
@@ -23,8 +19,3 @@ Dit contract is nog niet uitgewerkt. De dienst volgt uit de requirements; welke 
 ## Gebruikt in
 
 Nog niet gebruikt in een koppeling in dit pakket.
-
-## Tegenhanger
-
-[Onderwijsspecificatie-inname-aanbieder](onderwijsspecificatie-inname-aanbieder.md)
-

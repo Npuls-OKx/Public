@@ -1,10 +1,6 @@
 # Leermiddelkoppeling-afnemer
 
-Volgt de gelegde leermiddelkoppelingen en haalt ze op om ze bij het aanbod te tonen.
-
-## Doel
-
-Bij een specificatie is zichtbaar welke leermiddelen eraan hangen, zonder dat de tonende partij ze beheert.
+Het implementerende component volgt de gelegde leermiddelkoppelingen en haalt ze op om ze bij het aanbod te tonen. Aan de andere kant staat een component dat [leermiddelkoppeling-aanbieder](leermiddelkoppeling-aanbieder.md) implementeert.
 
 ## Verplichtingen
 
@@ -24,8 +20,3 @@ De endpoints die het component implementeert om deze dienst te leveren.
 ## Gebruikt in
 
 - [Onderwijscatalogus naar leermanagementsysteem](../Koppelingspecificaties/onderwijscatalogus-leermanagementsysteem.md)
-
-## Tegenhanger
-
-[Leermiddelkoppeling-aanbieder](leermiddelkoppeling-aanbieder.md)
-

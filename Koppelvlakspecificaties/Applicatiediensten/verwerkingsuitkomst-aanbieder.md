@@ -1,10 +1,6 @@
 # Verwerkingsuitkomst-aanbieder
 
-Maakt bekend wat zijn verwerking van een aangeleverde structuur heeft opgeleverd, met een referentie naar wat daarbij is aangemaakt.
-
-## Doel
-
-De aanleverende partij weet of haar levering is verwerkt, en zo niet waarom, zonder op die verwerking te wachten.
+Het implementerende component maakt bekend wat zijn verwerking van een aangeleverde structuur heeft opgeleverd, met een referentie naar wat daarbij is aangemaakt. Aan de andere kant staat een component dat [verwerkingsuitkomst-afnemer](verwerkingsuitkomst-afnemer.md) implementeert.
 
 ## Verplichtingen
 
@@ -27,7 +23,3 @@ Geen. De uitkomst wordt gemeld, niet aangeboden op een eigen endpoint; waar zij 
 - [Onderwijscatalogus naar planning en roostering](../Koppelingspecificaties/onderwijscatalogus-planning-en-roostering.md)
 - [Onderwijscatalogus naar studentinformatiesysteem](../Koppelingspecificaties/onderwijscatalogus-studentinformatiesysteem.md)
 - [Onderwijscatalogus naar leermanagementsysteem](../Koppelingspecificaties/onderwijscatalogus-leermanagementsysteem.md)
-
-## Tegenhanger
-
-[Verwerkingsuitkomst-afnemer](verwerkingsuitkomst-afnemer.md)

@@ -1,10 +1,6 @@
 # Verbintenistoestand-aanbieder
 
-Houdt de toestand van de onderwijsverbintenis bij, per niveau van programma tot toets, en meldt de overgangen.
-
-## Doel
-
-Elk betrokken systeem kan op elk moment de actuele status van de verbintenis vaststellen, ook wanneer die per niveau verschilt.
+Het implementerende component houdt de toestand van de onderwijsverbintenis bij, per niveau van programma tot toets, en meldt de overgangen. Aan de andere kant staat een component dat [verbintenistoestand-afnemer](verbintenistoestand-afnemer.md) implementeert.
 
 ## Verplichtingen
 
@@ -24,8 +20,3 @@ Dit contract is nog niet uitgewerkt. De dienst volgt uit de requirements; welke 
 ## Gebruikt in
 
 Nog niet gebruikt in een koppeling in dit pakket.
-
-## Tegenhanger
-
-[Verbintenistoestand-afnemer](verbintenistoestand-afnemer.md)
-

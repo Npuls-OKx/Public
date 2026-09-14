@@ -1,10 +1,6 @@
 # Onderwijsaanbod-haalbaarheidstoets-afnemer
 
-Legt een programma of een voorgenomen keuze ter toetsing voor en verwerkt het oordeel voordat hij vastlegt.
-
-## Doel
-
-De student of ontwerper weet vóór bevestiging of zijn keuze haalbaar is.
+Het implementerende component legt een programma of een voorgenomen keuze ter toetsing voor en verwerkt het oordeel voordat het vastlegt. Aan de andere kant staat een component dat [onderwijsaanbod-haalbaarheidstoets-aanbieder](onderwijsaanbod-haalbaarheidstoets-aanbieder.md) implementeert.
 
 ## Verplichtingen
 
@@ -22,8 +18,3 @@ Dit contract is nog niet uitgewerkt. De dienst volgt uit de requirements; welke 
 ## Gebruikt in
 
 Nog niet gebruikt in een koppeling in dit pakket.
-
-## Tegenhanger
-
-[Onderwijsaanbod-haalbaarheidstoets-aanbieder](onderwijsaanbod-haalbaarheidstoets-aanbieder.md)
-

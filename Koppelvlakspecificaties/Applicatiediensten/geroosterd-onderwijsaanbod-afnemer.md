@@ -1,10 +1,6 @@
 # Geroosterd-onderwijsaanbod-afnemer
 
-Volgt het geroosterde aanbod en haalt het op om het aan student of docent te tonen, of om er zijn eigen planning op af te stemmen.
-
-## Doel
-
-De student heeft voor de eerste lesdag toegang tot zijn periode-rooster.
+Het implementerende component volgt het geroosterde aanbod en haalt het op om het aan student of docent te tonen, of om er zijn eigen planning op af te stemmen. Aan de andere kant staat een component dat [geroosterd-onderwijsaanbod-aanbieder](geroosterd-onderwijsaanbod-aanbieder.md) implementeert.
 
 ## Verplichtingen
 
@@ -22,8 +18,3 @@ Dit contract is nog niet uitgewerkt. De dienst volgt uit de requirements; welke 
 ## Gebruikt in
 
 Nog niet gebruikt in een koppeling in dit pakket.
-
-## Tegenhanger
-
-[Geroosterd-onderwijsaanbod-aanbieder](geroosterd-onderwijsaanbod-aanbieder.md)
-
