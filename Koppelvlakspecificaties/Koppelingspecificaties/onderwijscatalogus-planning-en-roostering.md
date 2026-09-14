@@ -74,6 +74,10 @@ Wat het diagram niet toont: het planningssysteem bouwt de planning **asynchroon*
 
 Doel: een gepubliceerde specificatie omzetten in een planbaar `opleidingsaanbod`, met een referentie terug naar de onderwijscatalogus. Trigger: onderwijsspecificatie krijgt status `gepubliceerd`. Initiator: Onderwijscatalogus.
 
+| Versie | Interactiepatronen | Applicatiediensten |
+|---|---|---|
+| 1.0 | [Event Notification](../Interactiepatronen/event-notification.md), [Asynchronous Request-Reply](../Interactiepatronen/asynchronous-request-reply.md) | [onderwijsspecificatiestructuur-afnemer](../Applicatiediensten/onderwijsspecificatiestructuur-afnemer.md), [onderwijsspecificatiestructuur-aanbieder](../Applicatiediensten/onderwijsspecificatiestructuur-aanbieder.md), [verwerkingsuitkomst-afnemer](../Applicatiediensten/verwerkingsuitkomst-afnemer.md), [planbaar-onderwijsaanbod-aanbieder](../Applicatiediensten/planbaar-onderwijsaanbod-aanbieder.md) |
+
 Endpoints:
 
 - [webhook `specificatie-planbaar`](../Applicatiediensten/onderwijsspecificatiestructuur-afnemer.md)
@@ -112,6 +116,10 @@ sequenceDiagram
 
 Doel: een lopende planning laten volgen op een nieuwe specificatieversie, met delta of volledige structuur als keuze voor de ontvanger. Trigger: nieuwe versie van een specificatie die al in een manifest is vastgelegd. Initiator: Onderwijscatalogus.
 
+| Versie | Interactiepatronen | Applicatiediensten |
+|---|---|---|
+| 1.0 | [Event Notification](../Interactiepatronen/event-notification.md), [Asynchronous Request-Reply](../Interactiepatronen/asynchronous-request-reply.md) | [onderwijsspecificatiestructuur-aanbieder](../Applicatiediensten/onderwijsspecificatiestructuur-aanbieder.md), [verwerkingsuitkomst-afnemer](../Applicatiediensten/verwerkingsuitkomst-afnemer.md), [onderwijsspecificatiestructuur-afnemer](../Applicatiediensten/onderwijsspecificatiestructuur-afnemer.md) |
+
 Endpoints:
 
 - [`GET /onderwijsspecificaties/{id}/delta` of `GET /onderwijsspecificaties/{id}`](../Applicatiediensten/onderwijsspecificatiestructuur-aanbieder.md)
@@ -143,6 +151,10 @@ sequenceDiagram
 
 Doel: de onderwijscatalogus in kennis stellen dat een specificatie voor een of meer cohorten niet planbaar blijkt, met referentie en knelpunten, zonder de aanroep te blokkeren. Trigger: planproces bij het planningssysteem vindt geen geldige planning. Initiator: Planningssysteem.
 
+| Versie | Interactiepatronen | Applicatiediensten |
+|---|---|---|
+| 1.0 | [Asynchronous Request-Reply](../Interactiepatronen/asynchronous-request-reply.md) | [verwerkingsuitkomst-afnemer](../Applicatiediensten/verwerkingsuitkomst-afnemer.md), [planbaar-onderwijsaanbod-aanbieder](../Applicatiediensten/planbaar-onderwijsaanbod-aanbieder.md) |
+
 Endpoints:
 
 - [webhook `verwerkingsstatus`](../Applicatiediensten/verwerkingsuitkomst-afnemer.md)
@@ -169,6 +181,10 @@ sequenceDiagram
 ## Acceptatietoets bij late wijziging
 
 Doel: een afgeronde planning beschermen tegen een wijziging die er ongecontroleerd doorheen breekt. Trigger: specificatiewijziging terwijl de planning al is afgerond. Initiator: Onderwijscatalogus.
+
+| Versie | Interactiepatronen | Applicatiediensten |
+|---|---|---|
+| 1.0 | [Event Notification](../Interactiepatronen/event-notification.md), [Asynchronous Request-Reply](../Interactiepatronen/asynchronous-request-reply.md) | [onderwijsspecificatiestructuur-afnemer](../Applicatiediensten/onderwijsspecificatiestructuur-afnemer.md), [verwerkingsuitkomst-afnemer](../Applicatiediensten/verwerkingsuitkomst-afnemer.md) |
 
 Endpoints:
 
@@ -197,6 +213,10 @@ sequenceDiagram
 
 Doel: de onderwijscatalogus een statuswijziging laten melden die los staat van een nieuwe versie, zodat het planningssysteem zijn afgeleide status kan bijwerken zonder herplanronde. Trigger: specificatie krijgt een nieuwe status buiten een versiewijziging om (bv. `gepubliceerd` naar `gedeactiveerd`, [regels bij de schema's](../Datamodelschema's/README.md#regels-bij-de-schemas)). Initiator: Onderwijscatalogus. Voorbeeldgeval: een opleiding die voor een ouder cohort bewust niet meer wordt aangeboden is nog wel planbaar, maar wordt niet meer gepland; dat is deze statuswijziging (met archivering als vervolg), geen planningsfout uit de melding hierboven.
 
+| Versie | Interactiepatronen | Applicatiediensten |
+|---|---|---|
+| 1.0 | [Event-Carried State Transfer](../Interactiepatronen/event-carried-state-transfer.md) | [onderwijsspecificatiestructuur-afnemer](../Applicatiediensten/onderwijsspecificatiestructuur-afnemer.md) |
+
 Endpoints:
 
 - [webhook `specificatie-status-gewijzigd`](../Applicatiediensten/onderwijsspecificatiestructuur-afnemer.md)
@@ -215,6 +235,10 @@ sequenceDiagram
 ## Reconciliatie na gemist event
 
 Doel: de gemiste informatie via een gewone opvraag herstellen na een event dat in de Dead Letter Channel is beland, zonder op een herhaalde aflevering te wachten. Trigger: een event is niet aangekomen. Initiator: Onderwijscatalogus of Planningssysteem.
+
+| Versie | Interactiepatronen | Applicatiediensten |
+|---|---|---|
+| 1.0 | [Request-Reply](../Interactiepatronen/request-reply.md) | [onderwijsspecificatiestructuur-aanbieder](../Applicatiediensten/onderwijsspecificatiestructuur-aanbieder.md), [planbaar-onderwijsaanbod-aanbieder](../Applicatiediensten/planbaar-onderwijsaanbod-aanbieder.md) |
 
 Endpoints:
 
@@ -240,6 +264,10 @@ sequenceDiagram
 ## Abonnement registreren
 
 Doel: elke partij een callback-URL laten vastleggen voor de events die zij van de ander ontvangt, als voorwaarde voor de event-gedreven stromen. Trigger: inrichting van de koppeling, of wijziging van de callback-URL. Initiator: Onderwijscatalogus en Planningssysteem (over en weer, elk voor de events die de ander van hem ontvangt).
+
+| Versie | Interactiepatronen | Applicatiediensten |
+|---|---|---|
+| 1.0 | [Subscription registration](../Interactiepatronen/subscription-registration.md) | [afleverabonnement-aanbieder](../Applicatiediensten/afleverabonnement-aanbieder.md) |
 
 Endpoints:
 

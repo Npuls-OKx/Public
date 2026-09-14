@@ -66,6 +66,10 @@ Wat het diagram niet toont: het studentinformatiesysteem haalt twee dingen op, d
 
 Doel: een gepubliceerde specificatie en examenplanspecificatie omzetten in een ingericht nominaal template en resultaatstructuur bij het studentinformatiesysteem. Trigger: onderwijsspecificatie en examenplanspecificatie krijgen status `gepubliceerd`. Initiator: Onderwijscatalogus.
 
+| Versie | Interactiepatronen | Applicatiediensten |
+|---|---|---|
+| 1.0 | [Event Notification](../Interactiepatronen/event-notification.md), [Asynchronous Request-Reply](../Interactiepatronen/asynchronous-request-reply.md) | [onderwijsspecificatiestructuur-afnemer](../Applicatiediensten/onderwijsspecificatiestructuur-afnemer.md), [onderwijsspecificatiestructuur-aanbieder](../Applicatiediensten/onderwijsspecificatiestructuur-aanbieder.md), [resultaatstructuur-aanbieder](../Applicatiediensten/resultaatstructuur-aanbieder.md), [verwerkingsuitkomst-afnemer](../Applicatiediensten/verwerkingsuitkomst-afnemer.md) |
+
 Endpoints:
 
 - [webhook `specificatie-en-resultaatstructuur-beschikbaar`](../Applicatiediensten/onderwijsspecificatiestructuur-afnemer.md)
@@ -97,6 +101,10 @@ sequenceDiagram
 ## Acceptatietoets bij wijziging examenplan
 
 Doel: lopende verbintenissen beschermen tegen een examenplanwijziging die er ongecontroleerd doorheen breekt. Trigger: examenplanspecificatie wijzigt terwijl er al verbintenissen lopen. Initiator: Onderwijscatalogus.
+
+| Versie | Interactiepatronen | Applicatiediensten |
+|---|---|---|
+| 1.0 | [Event Notification](../Interactiepatronen/event-notification.md), [Asynchronous Request-Reply](../Interactiepatronen/asynchronous-request-reply.md) | [resultaatstructuur-afnemer](../Applicatiediensten/resultaatstructuur-afnemer.md), [verwerkingsuitkomst-afnemer](../Applicatiediensten/verwerkingsuitkomst-afnemer.md) |
 
 Endpoints:
 
