@@ -18,7 +18,7 @@
     "TestComponentOfferingAssociation"
   ],
   "bron": {
-    "model": "architecture/model/model.archimate",
+    "model": "https://github.com/Npuls-OKx/meta/blob/01cb57fdc7ba76c1be0bf4952b875c3d115f6688/architecture/model/model.archimate",
     "views": [
       "OKx informatiemodel",
       "OKx informatiemodel en mapping OEAPI"
