@@ -1,6 +1,6 @@
 # Subscription registration
 
-Een partij legt bij de ander vast waar events afgeleverd mogen worden, en voor welke soorten. Het patroon is gestandaardiseerd als [WebSub](https://www.w3.org/TR/websub/), een W3C Recommendation, en als de [CloudEvents Subscriptions API](https://github.com/cloudevents/spec/blob/main/subscriptions/spec.md).
+Een partij legt bij de ander vast waar events afgeleverd mogen worden, en voor welke soorten. De enige vastgestelde standaard voor dit patroon is [WebSub](https://www.w3.org/TR/websub/), een W3C Recommendation. De [CloudEvents Subscriptions API](https://github.com/cloudevents/spec/blob/main/subscriptions/spec.md) beschrijft hetzelfde patroon uitgebreider, maar draagt versie 0.1-wip en is nooit vrijgegeven; die is een richting om te volgen, geen grond om op te bouwen. Een Nederlandse abonneerstandaard is er niet: het [NL GOV profiel voor CloudEvents](https://gitdocumentatie.logius.nl/publicatie/notificatieservices/CloudEvents-NL/) legt het formaat van een event vast en houdt abonneren buiten scope.
 
 ## Wanneer
 

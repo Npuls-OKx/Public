@@ -12,6 +12,6 @@ Alle vijf komen uit bestaande catalogi en dragen de naam die daar geldt; per pat
 | [Event-Carried State Transfer](event-carried-state-transfer.md) | Het event draagt de wijziging zelf, de ontvanger hoeft niets op te halen | Fowler |
 | [Asynchronous Request-Reply](asynchronous-request-reply.md) | De verwerking duurt; de uitkomst komt terug als apart bericht | Azure Cloud Design Patterns, AIP-151 |
 | [Request-Reply](request-reply.md) | De afnemer vraagt zelf op, zonder voorafgaand event | Enterprise Integration Patterns |
-| [Subscription registration](subscription-registration.md) | Vastleggen waar events afgeleverd mogen worden | WebSub, CloudEvents Subscriptions |
+| [Subscription registration](subscription-registration.md) | Vastleggen waar events afgeleverd mogen worden | WebSub (W3C Recommendation); CloudEvents Subscriptions (0.1-wip) |
 
 Twee onderscheidingen bepalen de keuze. Of het event genoeg draagt om zonder opvraag te handelen scheidt de eerste twee. Wie begint scheidt de derde van de vierde: bij Asynchronous Request-Reply komt de uitkomst ongevraagd terug op iets dat de ander startte, bij Request-Reply vraagt de afnemer zelf.
