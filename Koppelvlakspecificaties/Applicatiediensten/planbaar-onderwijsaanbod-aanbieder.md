@@ -17,8 +17,8 @@ De endpoints die het component implementeert om deze dienst te leveren.
 
 | Endpoint | Methode | Parameters | Request | Response | Statuscodes |
 |---|---|---|---|---|---|
-| `/onderwijsaanbod/{id}` | GET | `status`, optioneel filter op onderliggende instanties | — | [education-offering.json](../../Datamodelschema's/schemas/education-offering.json): de instantie plus haar subtree via `bovenliggendAanbodId` | 200, 400, 404 |
-| `/onderwijsaanbod` | GET | `specificatieId`, verplicht; `versie`, optioneel, standaard alle versies | — | [education-offering.json](../../Datamodelschema's/schemas/education-offering.json) als lijst | 200, 400 |
+| `/onderwijsaanbod/{id}` | GET | `status`, optioneel filter op onderliggende instanties | — | [education-offering.json](../../Informatie-en-gegevensmodellen/schemas/education-offering.json): de instantie plus haar subtree via `bovenliggendAanbodId` | 200, 400, 404 |
+| `/onderwijsaanbod` | GET | `specificatieId`, verplicht; `versie`, optioneel, standaard alle versies | — | [education-offering.json](../../Informatie-en-gegevensmodellen/schemas/education-offering.json) als lijst | 200, 400 |
 
 ## Gebruikt in
 

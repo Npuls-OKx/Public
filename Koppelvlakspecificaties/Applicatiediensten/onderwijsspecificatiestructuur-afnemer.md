@@ -18,9 +18,9 @@ De endpoints die het component implementeert om deze dienst te leveren.
 
 | Endpoint | Methode | Parameters | Request | Response | Statuscodes |
 |---|---|---|---|---|---|
-| `specificatie-beschikbaar` | POST | — | [specification-reference.json](../../Datamodelschema's/schemas/specification-reference.json) | — | 200 |
-| `specificatie-gewijzigd` | POST | — | [specification-changed.json](../../Datamodelschema's/schemas/specification-changed.json) | — | 200 |
-| `specificatie-status-gewijzigd` | POST | — | [specification-status-changed.json](../../Datamodelschema's/schemas/specification-status-changed.json) | — | 200 |
+| `specificatie-beschikbaar` | POST | — | [specification-reference.json](../../Informatie-en-gegevensmodellen/schemas/specification-reference.json) | — | 200 |
+| `specificatie-gewijzigd` | POST | — | [specification-changed.json](../../Informatie-en-gegevensmodellen/schemas/specification-changed.json) | — | 200 |
+| `specificatie-status-gewijzigd` | POST | — | [specification-status-changed.json](../../Informatie-en-gegevensmodellen/schemas/specification-status-changed.json) | — | 200 |
 
 Het eerste endpoint heet vandaag `specificatie-planbaar` bij het planningssysteem, `specificatie-beschikbaar` bij het leermanagementsysteem en `specificatie-en-resultaatstructuur-beschikbaar` bij het studentinformatiesysteem, terwijl het om hetzelfde bericht gaat. De naam hierboven is de voorgestelde keuze; die is nog niet vastgesteld.
 

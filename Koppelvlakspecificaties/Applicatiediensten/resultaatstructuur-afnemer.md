@@ -17,7 +17,7 @@ De endpoints die het component implementeert om deze dienst te leveren.
 | Endpoint | Methode | Parameters | Request | Response | Statuscodes |
 |---|---|---|---|---|---|
 | `resultaatstructuur-beschikbaar` | POST | — | Specificatie-id en versie, examenplan-id en versie. Payloadschema nog niet uitgewerkt | — | 200 |
-| `examenplanspecificatie-gewijzigd` | POST | — | [specification-changed.json](../../Datamodelschema's/schemas/specification-changed.json), met wijzigingsklasse | — | 200 |
+| `examenplanspecificatie-gewijzigd` | POST | — | [specification-changed.json](../../Informatie-en-gegevensmodellen/schemas/specification-changed.json), met wijzigingsklasse | — | 200 |
 
 ## Gebruikt in
 

@@ -1,4 +1,6 @@
-# Informatiemodellen
+# Logisch gegevensmodel
+
+Per begrippenfamilie de entiteiten, hun velden en hun onderlinge relaties, onafhankelijk van de techniek waarin ze worden uitgewisseld. Wat een diagram niet kan uitdrukken staat in [regels bij de schema's](regels.md); de technische vorm die hieruit volgt staat in de [schema's](schemas/).
 
 ## Onderwijsspecificatie
 

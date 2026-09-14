@@ -1,8 +1,8 @@
 <!-- Gegenereerd door scripts/build-release.py uit release.json. Niet met de hand wijzigen: pas de bronnen aan en bouw opnieuw. -->
 
-# Datamodelschema's
+# Informatie- en gegevensmodellen
 
-De vorm waarin onderwijsgegevens over een koppeling gaan: informatiemodellen, JSON Schema's en de regels daarbij.
+De vorm waarin onderwijsgegevens over een koppeling gaan: het logisch gegevensmodel, de JSON Schema's en de regels daarbij.
 
 Versie 0.1.0
 
@@ -11,15 +11,24 @@ Versie 0.1.0
 
 ## 1 Inleiding
 
-Dit document specificeert de vorm waarin onderwijsgegevens over een koppeling gaan: de informatiemodellen achter de payloads, de JSON Schema's waartegen een implementatie kan valideren, de regels die zo'n schema niet kan uitdrukken, en per koppeling welk deel van een model meegaat.
+Dit document legt de vorm vast waarin onderwijsgegevens over een koppeling gaan: de entiteiten en hun samenhang, de JSON Schema's waartegen een implementatie kan valideren, de regels die zo'n schema niet kan uitdrukken, en per koppeling welk deel ervan meegaat.
 
-**Aanleiding.** De schema's zijn eerder als bijlage bij de koppelvlakspecificatie uitgebracht. Ze hebben een eigen ritme: een veld erbij of een strakkere validatie raakt wel elke implementatie die tegen het schema valideert, maar niet de berichtstroom of het endpoint eromheen. Omgekeerd verandert een nieuwe koppelingspecificatie vaak niets aan de vorm van de gegevens. Als bijlage deelden beide noodgedwongen één versienummer, en zei een versiesprong van het ene niets over het andere. Daarom is het datamodel een eigen releasepakket met een eigen versie.
+**Aanleiding.** De modellen zijn eerder als bijlage bij de koppelvlakspecificatie uitgebracht. Ze hebben een eigen ritme: een veld erbij of een strakkere validatie raakt wel elke implementatie die tegen het schema valideert, maar niet de berichtstroom of het endpoint eromheen. Omgekeerd verandert een nieuwe koppelingspecificatie vaak niets aan de vorm van de gegevens. Als bijlage deelden beide noodgedwongen één versienummer, en zei een versiesprong van het ene niets over het andere.
 
-**Context.** De [koppelvlakspecificatie](../Koppelvlakspecificaties/inleiding.md) beschrijft welke applicatiediensten een systeem implementeert en welk berichtverkeer daaroverheen gaat; zij verwijst naar dit pakket op een vastgelegde versie voor de vorm van wat er in die berichten zit. Deze modellen zijn **alfa en indicatief** ([U1](../Koppelvlakspecificaties/uitgangspunten.md#u1-indicatief-en-onderbouwend-niet-voorschrijvend)) en volgen de payloadvorm uit [U7](../Koppelvlakspecificaties/uitgangspunten.md#u7-payload-plat-met-verwijzingen-en-de-sleutelconventie): plat, met verwijzingen tussen objecten in plaats van nesting, zodat een consument alleen ophaalt wat hij nodig heeft.
+**Context.** OKx modelleert in vier lagen, van betekenis naar techniek. De begrippen leggen vast wat een term betekent; het conceptueel informatiemodel ordent die begrippen en hun samenhang; het logisch gegevensmodel zet dat om in entiteiten, velden en relaties, onafhankelijk van de techniek; het technisch gegevensmodel legt vast hoe dat over de lijn gaat. Dit document draagt de onderste twee lagen en verbindt ze: elke entiteit in het logisch model is terug te vinden als schema, en elk schema is terug te voeren op een entiteit.
+
+| Laag | Wat de laag vastlegt | Waar |
+|---|---|---|
+| 1. Begrippen | Wat een term betekent | Buiten dit document |
+| 2. Conceptueel informatiemodel | Welke begrippen er zijn en hoe ze samenhangen | Buiten dit document |
+| 3. Logisch gegevensmodel | Entiteiten, velden en relaties, techniekonafhankelijk | Dit document |
+| 4. Technisch gegevensmodel | De JSON Schema's waartegen een implementatie valideert | Dit document |
+
+De [koppelvlakspecificatie](../Koppelvlakspecificaties/inleiding.md) beschrijft welke applicatiediensten een systeem implementeert en welk berichtverkeer daaroverheen gaat; zij verwijst naar dit pakket op een vastgelegde versie voor de vorm van wat er in die berichten zit. Deze modellen zijn **alfa en indicatief** ([U1](../Koppelvlakspecificaties/uitgangspunten.md#u1-indicatief-en-onderbouwend-niet-voorschrijvend)) en volgen de payloadvorm uit [U7](../Koppelvlakspecificaties/uitgangspunten.md#u7-payload-plat-met-verwijzingen-en-de-sleutelconventie): plat, met verwijzingen tussen objecten in plaats van nesting, zodat een consument alleen ophaalt wat hij nodig heeft.
 
 **Doel.** Een bouwer moet hieruit kunnen afleiden welke objecten er zijn, hoe ze samenhangen, welke velden ze dragen, en wat er geldt bovenop wat het schema afdwingt. Geslaagd is het document wanneer twee partijen die er onafhankelijk tegenaan bouwen berichten uitwisselen die elkaar begrijpen.
 
-**Scope.** De informatiemodellen per begrippenfamilie, de regels bij de schema's, de gebruiksprofielen per koppeling, de voorbeeldpayloads, de mapping van Engelse veldnamen naar hun Nederlandse oorsprong, en de schema's zelf. Welke velden een koppeling gebruikt en waarom staat in de payload-specificatie van die koppeling, in de koppelvlakspecificatie; die is daarin leidend. Dit pakket draagt de vorm, niet de betekenis. De interne structuur van een regelset, de endpoints waarover een payload gaat en de technische ontsluiting in OpenAPI vallen erbuiten, en al het overige eveneens.
+**Scope.** Het logisch gegevensmodel met de regels daarbij, het technisch gegevensmodel met de voorbeeldpayloads en de mapping van Engelse veldnamen naar hun Nederlandse oorsprong, en de gebruiksprofielen per koppeling. De begrippen en het conceptueel informatiemodel, laag 1 en 2, staan er nog niet in. Welke velden een koppeling gebruikt en waarom staat in de payload-specificatie van die koppeling, in de koppelvlakspecificatie; die is daarin leidend. De interne structuur van een regelset, de endpoints waarover een payload gaat en de technische ontsluiting in OpenAPI vallen erbuiten, en al het overige eveneens.
 
 
 <!-- pagina-einde -->
@@ -27,76 +36,78 @@ Dit document specificeert de vorm waarin onderwijsgegevens over een koppeling ga
 ## Inhoudsopgave
 
 - [1 Inleiding](#1-inleiding)
-- [2 Informatiemodellen](#2-informatiemodellen)
+- [2 Logisch gegevensmodel](#2-logisch-gegevensmodel)
   - [2.1 Onderwijsspecificatie](#21-onderwijsspecificatie)
   - [2.2 Onderwijsaanbod](#22-onderwijsaanbod)
   - [2.3 Resultaatstructuur en examenplan](#23-resultaatstructuur-en-examenplan)
   - [2.4 Onderwijscatalogus naar planning en roostering](#24-onderwijscatalogus-naar-planning-en-roostering)
   - [2.5 Onderwijscatalogus naar studentinformatiesysteem](#25-onderwijscatalogus-naar-studentinformatiesysteem)
   - [2.6 Onderwijscatalogus naar leermanagementsysteem](#26-onderwijscatalogus-naar-leermanagementsysteem)
-- [3 Regels bij de schema's](#3-regels-bij-de-schemas)
+  - [2.7 Regels bij de schema's](#27-regels-bij-de-schemas)
+- [3 Technisch gegevensmodel](#3-technisch-gegevensmodel)
+  - [3.1 address.json](#31-addressjson)
+  - [3.2 bottleneck.json](#32-bottleneckjson)
+  - [3.3 code.json](#33-codejson)
+  - [3.4 education-offering.json](#34-education-offeringjson)
+  - [3.5 education-specification-delta.json](#35-education-specification-deltajson)
+  - [3.6 education-specification.json](#36-education-specificationjson)
+  - [3.7 geolocation.json](#37-geolocationjson)
+  - [3.8 group.json](#38-groupjson)
+  - [3.9 learning-outcome-designation.json](#39-learning-outcome-designationjson)
+  - [3.10 learning-outcome.json](#310-learning-outcomejson)
+  - [3.11 location.json](#311-locationjson)
+  - [3.12 manifest-item.json](#312-manifest-itemjson)
+  - [3.13 organisation-unit.json](#313-organisation-unitjson)
+  - [3.14 period.json](#314-periodjson)
+  - [3.15 processing-status.json](#315-processing-statusjson)
+  - [3.16 result-model.json](#316-result-modeljson)
+  - [3.17 result-structure.json](#317-result-structurejson)
+  - [3.18 rule-set.json](#318-rule-setjson)
+  - [3.19 source.json](#319-sourcejson)
+  - [3.20 specification-changed.json](#320-specification-changedjson)
+  - [3.21 specification-reference.json](#321-specification-referencejson)
+  - [3.22 specification-status-changed.json](#322-specification-status-changedjson)
+  - [3.23 subscription.json](#323-subscriptionjson)
+  - [3.24 volume.json](#324-volumejson)
+  - [3.25 Voorbeeldpayloads](#325-voorbeeldpayloads)
+    - [3.25.1 Voorbeeld onderwijsspecificatie](#3251-voorbeeld-onderwijsspecificatie)
+    - [3.25.2 Voorbeeld onderwijsaanbod](#3252-voorbeeld-onderwijsaanbod)
+    - [3.25.3 Voorbeeld resultaatstructuur en examenplan](#3253-voorbeeld-resultaatstructuur-en-examenplan)
+  - [3.26 Mapping veldnamen](#326-mapping-veldnamen)
+    - [3.26.1 Abonnement — Subscription](#3261-abonnement--subscription)
+    - [3.26.2 Adres — Address](#3262-adres--address)
+    - [3.26.3 Bron — Source](#3263-bron--source)
+    - [3.26.4 Code — Code](#3264-code--code)
+    - [3.26.5 Geolocatie — Geolocation](#3265-geolocatie--geolocation)
+    - [3.26.6 Groep — Group](#3266-groep--group)
+    - [3.26.7 Knelpunt — Bottleneck](#3267-knelpunt--bottleneck)
+    - [3.26.8 Leeruitkomst-aanduiding — Learning outcome designation](#3268-leeruitkomst-aanduiding--learning-outcome-designation)
+    - [3.26.9 Leeruitkomst — Learning outcome](#3269-leeruitkomst--learning-outcome)
+    - [3.26.10 Locatie — Location](#32610-locatie--location)
+    - [3.26.11 Manifest-item — Manifest item](#32611-manifest-item--manifest-item)
+    - [3.26.12 Omvang — Volume](#32612-omvang--volume)
+    - [3.26.13 Onderwijsaanbod — Education offering](#32613-onderwijsaanbod--education-offering)
+    - [3.26.14 Onderwijsspecificatie-delta — Education specification delta](#32614-onderwijsspecificatie-delta--education-specification-delta)
+    - [3.26.15 Onderwijsspecificatie — Education specification](#32615-onderwijsspecificatie--education-specification)
+    - [3.26.16 OrganisatieEenheid — Organisation unit](#32616-organisatieeenheid--organisation-unit)
+    - [3.26.17 Periode — Period](#32617-periode--period)
+    - [3.26.18 Regelset — Rule set](#32618-regelset--rule-set)
+    - [3.26.19 Resultaatmodel — Result model](#32619-resultaatmodel--result-model)
+    - [3.26.20 Resultaatstructuur en examenplan — Result structure and exam plan](#32620-resultaatstructuur-en-examenplan--result-structure-and-exam-plan)
+    - [3.26.21 Specificatie-gewijzigd — Specification changed](#32621-specificatie-gewijzigd--specification-changed)
+    - [3.26.22 Specificatie-referentie — Specification reference](#32622-specificatie-referentie--specification-reference)
+    - [3.26.23 Specificatie-status-gewijzigd — Specification status changed](#32623-specificatie-status-gewijzigd--specification-status-changed)
+    - [3.26.24 Verwerkingsstatus — Processing status](#32624-verwerkingsstatus--processing-status)
 - [4 Gebruiksprofielen](#4-gebruiksprofielen)
   - [4.1 Onderwijscatalogus naar planning en roostering](#41-onderwijscatalogus-naar-planning-en-roostering)
   - [4.2 Onderwijscatalogus naar studentinformatiesysteem](#42-onderwijscatalogus-naar-studentinformatiesysteem)
   - [4.3 Onderwijscatalogus naar leermanagementsysteem](#43-onderwijscatalogus-naar-leermanagementsysteem)
-- [5 JSON Schema's](#5-json-schemas)
-  - [5.1 address.json](#51-addressjson)
-  - [5.2 bottleneck.json](#52-bottleneckjson)
-  - [5.3 code.json](#53-codejson)
-  - [5.4 education-offering.json](#54-education-offeringjson)
-  - [5.5 education-specification-delta.json](#55-education-specification-deltajson)
-  - [5.6 education-specification.json](#56-education-specificationjson)
-  - [5.7 geolocation.json](#57-geolocationjson)
-  - [5.8 group.json](#58-groupjson)
-  - [5.9 learning-outcome-designation.json](#59-learning-outcome-designationjson)
-  - [5.10 learning-outcome.json](#510-learning-outcomejson)
-  - [5.11 location.json](#511-locationjson)
-  - [5.12 manifest-item.json](#512-manifest-itemjson)
-  - [5.13 organisation-unit.json](#513-organisation-unitjson)
-  - [5.14 period.json](#514-periodjson)
-  - [5.15 processing-status.json](#515-processing-statusjson)
-  - [5.16 result-model.json](#516-result-modeljson)
-  - [5.17 result-structure.json](#517-result-structurejson)
-  - [5.18 rule-set.json](#518-rule-setjson)
-  - [5.19 source.json](#519-sourcejson)
-  - [5.20 specification-changed.json](#520-specification-changedjson)
-  - [5.21 specification-reference.json](#521-specification-referencejson)
-  - [5.22 specification-status-changed.json](#522-specification-status-changedjson)
-  - [5.23 subscription.json](#523-subscriptionjson)
-  - [5.24 volume.json](#524-volumejson)
-- [6 Voorbeeldpayloads](#6-voorbeeldpayloads)
-  - [6.1 Voorbeeld onderwijsspecificatie](#61-voorbeeld-onderwijsspecificatie)
-  - [6.2 Voorbeeld onderwijsaanbod](#62-voorbeeld-onderwijsaanbod)
-  - [6.3 Voorbeeld resultaatstructuur en examenplan](#63-voorbeeld-resultaatstructuur-en-examenplan)
-- [7 Mapping veldnamen](#7-mapping-veldnamen)
-  - [7.1 Abonnement — Subscription](#71-abonnement--subscription)
-  - [7.2 Adres — Address](#72-adres--address)
-  - [7.3 Bron — Source](#73-bron--source)
-  - [7.4 Code — Code](#74-code--code)
-  - [7.5 Geolocatie — Geolocation](#75-geolocatie--geolocation)
-  - [7.6 Groep — Group](#76-groep--group)
-  - [7.7 Knelpunt — Bottleneck](#77-knelpunt--bottleneck)
-  - [7.8 Leeruitkomst-aanduiding — Learning outcome designation](#78-leeruitkomst-aanduiding--learning-outcome-designation)
-  - [7.9 Leeruitkomst — Learning outcome](#79-leeruitkomst--learning-outcome)
-  - [7.10 Locatie — Location](#710-locatie--location)
-  - [7.11 Manifest-item — Manifest item](#711-manifest-item--manifest-item)
-  - [7.12 Omvang — Volume](#712-omvang--volume)
-  - [7.13 Onderwijsaanbod — Education offering](#713-onderwijsaanbod--education-offering)
-  - [7.14 Onderwijsspecificatie-delta — Education specification delta](#714-onderwijsspecificatie-delta--education-specification-delta)
-  - [7.15 Onderwijsspecificatie — Education specification](#715-onderwijsspecificatie--education-specification)
-  - [7.16 OrganisatieEenheid — Organisation unit](#716-organisatieeenheid--organisation-unit)
-  - [7.17 Periode — Period](#717-periode--period)
-  - [7.18 Regelset — Rule set](#718-regelset--rule-set)
-  - [7.19 Resultaatmodel — Result model](#719-resultaatmodel--result-model)
-  - [7.20 Resultaatstructuur en examenplan — Result structure and exam plan](#720-resultaatstructuur-en-examenplan--result-structure-and-exam-plan)
-  - [7.21 Specificatie-gewijzigd — Specification changed](#721-specificatie-gewijzigd--specification-changed)
-  - [7.22 Specificatie-referentie — Specification reference](#722-specificatie-referentie--specification-reference)
-  - [7.23 Specificatie-status-gewijzigd — Specification status changed](#723-specificatie-status-gewijzigd--specification-status-changed)
-  - [7.24 Verwerkingsstatus — Processing status](#724-verwerkingsstatus--processing-status)
 
 <!-- pagina-einde -->
 
-## 2 Informatiemodellen
+## 2 Logisch gegevensmodel
+
+Per begrippenfamilie de entiteiten, hun velden en hun onderlinge relaties, onafhankelijk van de techniek waarin ze worden uitgewisseld. Wat een diagram niet kan uitdrukken staat in [regels bij de schema's](#27-regels-bij-de-schemas); de technische vorm die hieruit volgt staat in de [schema's](schemas).
 
 ### 2.1 Onderwijsspecificatie
 
@@ -393,7 +404,7 @@ erDiagram
 
 <!-- pagina-einde -->
 
-## 3 Regels bij de schema's
+### 2.7 Regels bij de schema's
 
 Wat een JSON Schema niet kan uitdrukken, maar wel geldt. Zonder deze regels valideren twee implementaties allebei en werken ze toch niet samen.
 
@@ -446,46 +457,11 @@ Wat een JSON Schema niet kan uitdrukken, maar wel geldt. Zonder deze regels vali
 
 <!-- pagina-einde -->
 
-## 4 Gebruiksprofielen
-
-Alle koppelingen delen dezelfde onderwijsspecificatie-payload; per koppeling verschilt welke onderdelen meegaan. Dat verschil staat hier, niet in het schema: het schema legt de vorm vast, het profiel wat een koppeling ervan gebruikt.
-
-### 4.1 Onderwijscatalogus naar planning en roostering
-
-| Onderdeel | Gebruik in onderwijscatalogus naar planning en roostering |
-|---|---|
-| `onderwijsspecificaties` | Volledig, inclusief manifest |
-| `regelsets` | Volledig; `voorwaardeVooraf` bevat leeruitkomst-ids uitsluitend als **verbindende sleutels** voor volgordebepaling: planning gebruikt ze zonder de inhoud te kennen ([ADR 0026](../Referentiemateriaal/adr/0026-leeruitkomst-als-verbindende-sleutel.md)) |
-| `leeruitkomsten` | **Niet meegeleverd.** Planning heeft de betekenis, aggregatie en inhoud van leeruitkomsten niet nodig ([ADR 0026](../Referentiemateriaal/adr/0026-leeruitkomst-als-verbindende-sleutel.md)) |
-
-### 4.2 Onderwijscatalogus naar studentinformatiesysteem
-
-| Onderdeel | Gebruik in onderwijscatalogus naar studentinformatiesysteem |
-|---|---|
-| `onderwijsspecificaties` | Volledig, inclusief manifest (nominaal template) |
-| `leeruitkomsten` | **Volledig**, inclusief aggregatie (`bovenliggendLeeruitkomstId`), `waardedocument` en `indicatieveOmvang`: de sleutel tussen specificatie, resultaatstructuur en onderwijsresultaat ([ADR 0022](../Referentiemateriaal/adr/0022-resultaatbegrippen-conform-rosa-koi.md)) |
-| `regelsets` | Volledig (kiesbaarheid keuzedeelruimte, voorwaarden in behaalde leeruitkomsten) |
-
-Voor het ophalen van de resultaatstructuur geldt daarnaast [result-structure.json](schemas/result-structure.json) als aparte payload.
-
-### 4.3 Onderwijscatalogus naar leermanagementsysteem
-
-| Onderdeel | Gebruik in onderwijscatalogus naar leermanagementsysteem |
-|---|---|
-| `onderwijsspecificaties` | Volledig tot en met `leeronderdeelspecificatie` |
-| `leeruitkomsten` | **Met inhoudsvelden** (`omschrijving`, `resultaat`, `gedrag`): dat is precies wat het LMS uitwerkt en aan de student exposet |
-| `regelsets` | Niet meegeleverd (kiesbaarheid is het domein van SKS en SIS) |
-
-De leermiddelkoppeling-payload is nog niet uitgewerkt. Verwachte kern: `id`, `versie`, en per specificatie de leermiddelgroepen met een `specificatieVerwijzing` (id en versie).
-
+## 3 Technisch gegevensmodel
 
 <!-- pagina-einde -->
 
-## 5 JSON Schema's
-
-<!-- pagina-einde -->
-
-### 5.1 address.json
+### 3.1 address.json
 
 ```json
 {
@@ -505,7 +481,7 @@ De leermiddelkoppeling-payload is nog niet uitgewerkt. Verwachte kern: `id`, `ve
 }
 ```
 
-### 5.2 bottleneck.json
+### 3.2 bottleneck.json
 
 ```json
 {
@@ -549,7 +525,7 @@ De leermiddelkoppeling-payload is nog niet uitgewerkt. Verwachte kern: `id`, `ve
 }
 ```
 
-### 5.3 code.json
+### 3.3 code.json
 
 ```json
 {
@@ -566,7 +542,7 @@ De leermiddelkoppeling-payload is nog niet uitgewerkt. Verwachte kern: `id`, `ve
 }
 ```
 
-### 5.4 education-offering.json
+### 3.4 education-offering.json
 
 ```json
 {
@@ -625,7 +601,7 @@ De leermiddelkoppeling-payload is nog niet uitgewerkt. Verwachte kern: `id`, `ve
 }
 ```
 
-### 5.5 education-specification-delta.json
+### 3.5 education-specification-delta.json
 
 ```json
 {
@@ -648,7 +624,7 @@ De leermiddelkoppeling-payload is nog niet uitgewerkt. Verwachte kern: `id`, `ve
 }
 ```
 
-### 5.6 education-specification.json
+### 3.6 education-specification.json
 
 ```json
 {
@@ -713,7 +689,7 @@ De leermiddelkoppeling-payload is nog niet uitgewerkt. Verwachte kern: `id`, `ve
 }
 ```
 
-### 5.7 geolocation.json
+### 3.7 geolocation.json
 
 ```json
 {
@@ -730,7 +706,7 @@ De leermiddelkoppeling-payload is nog niet uitgewerkt. Verwachte kern: `id`, `ve
 }
 ```
 
-### 5.8 group.json
+### 3.8 group.json
 
 ```json
 {
@@ -749,7 +725,7 @@ De leermiddelkoppeling-payload is nog niet uitgewerkt. Verwachte kern: `id`, `ve
 }
 ```
 
-### 5.9 learning-outcome-designation.json
+### 3.9 learning-outcome-designation.json
 
 ```json
 {
@@ -767,7 +743,7 @@ De leermiddelkoppeling-payload is nog niet uitgewerkt. Verwachte kern: `id`, `ve
 }
 ```
 
-### 5.10 learning-outcome.json
+### 3.10 learning-outcome.json
 
 ```json
 {
@@ -798,7 +774,7 @@ De leermiddelkoppeling-payload is nog niet uitgewerkt. Verwachte kern: `id`, `ve
 }
 ```
 
-### 5.11 location.json
+### 3.11 location.json
 
 ```json
 {
@@ -828,7 +804,7 @@ De leermiddelkoppeling-payload is nog niet uitgewerkt. Verwachte kern: `id`, `ve
 }
 ```
 
-### 5.12 manifest-item.json
+### 3.12 manifest-item.json
 
 ```json
 {
@@ -847,7 +823,7 @@ De leermiddelkoppeling-payload is nog niet uitgewerkt. Verwachte kern: `id`, `ve
 }
 ```
 
-### 5.13 organisation-unit.json
+### 3.13 organisation-unit.json
 
 ```json
 {
@@ -868,7 +844,7 @@ De leermiddelkoppeling-payload is nog niet uitgewerkt. Verwachte kern: `id`, `ve
 }
 ```
 
-### 5.14 period.json
+### 3.14 period.json
 
 ```json
 {
@@ -885,7 +861,7 @@ De leermiddelkoppeling-payload is nog niet uitgewerkt. Verwachte kern: `id`, `ve
 }
 ```
 
-### 5.15 processing-status.json
+### 3.15 processing-status.json
 
 ```json
 {
@@ -904,7 +880,7 @@ De leermiddelkoppeling-payload is nog niet uitgewerkt. Verwachte kern: `id`, `ve
 }
 ```
 
-### 5.16 result-model.json
+### 3.16 result-model.json
 
 ```json
 {
@@ -922,7 +898,7 @@ De leermiddelkoppeling-payload is nog niet uitgewerkt. Verwachte kern: `id`, `ve
 }
 ```
 
-### 5.17 result-structure.json
+### 3.17 result-structure.json
 
 ```json
 {
@@ -978,7 +954,7 @@ De leermiddelkoppeling-payload is nog niet uitgewerkt. Verwachte kern: `id`, `ve
 }
 ```
 
-### 5.18 rule-set.json
+### 3.18 rule-set.json
 
 ```json
 {
@@ -1000,7 +976,7 @@ De leermiddelkoppeling-payload is nog niet uitgewerkt. Verwachte kern: `id`, `ve
 }
 ```
 
-### 5.19 source.json
+### 3.19 source.json
 
 ```json
 {
@@ -1019,7 +995,7 @@ De leermiddelkoppeling-payload is nog niet uitgewerkt. Verwachte kern: `id`, `ve
 }
 ```
 
-### 5.20 specification-changed.json
+### 3.20 specification-changed.json
 
 ```json
 {
@@ -1039,7 +1015,7 @@ De leermiddelkoppeling-payload is nog niet uitgewerkt. Verwachte kern: `id`, `ve
 }
 ```
 
-### 5.21 specification-reference.json
+### 3.21 specification-reference.json
 
 ```json
 {
@@ -1057,7 +1033,7 @@ De leermiddelkoppeling-payload is nog niet uitgewerkt. Verwachte kern: `id`, `ve
 }
 ```
 
-### 5.22 specification-status-changed.json
+### 3.22 specification-status-changed.json
 
 ```json
 {
@@ -1076,7 +1052,7 @@ De leermiddelkoppeling-payload is nog niet uitgewerkt. Verwachte kern: `id`, `ve
 }
 ```
 
-### 5.23 subscription.json
+### 3.23 subscription.json
 
 ```json
 {
@@ -1099,7 +1075,7 @@ De leermiddelkoppeling-payload is nog niet uitgewerkt. Verwachte kern: `id`, `ve
 }
 ```
 
-### 5.24 volume.json
+### 3.24 volume.json
 
 ```json
 {
@@ -1119,11 +1095,11 @@ De leermiddelkoppeling-payload is nog niet uitgewerkt. Verwachte kern: `id`, `ve
 
 <!-- pagina-einde -->
 
-## 6 Voorbeeldpayloads
+### 3.25 Voorbeeldpayloads
 
 De waarden in deze voorbeelden zijn **indicatief**: ze illustreren de vorm en de samenhang, niet de inhoud van een bestaande opleiding.
 
-### 6.1 Voorbeeld onderwijsspecificatie
+#### 3.25.1 Voorbeeld onderwijsspecificatie
 
 Leerroute 1, waarden indicatief. De `studielast` telt bottom-up op binnen onderdeel-van: de kerntaken 2000 plus 1200 plus 880 is 4080, plus de keuzeruimte van 720 komt op 4800 onder Regulier BOL. Programma-varianten tellen niet op. De inhoud hangt hier onder één doelgroep (Regulier BOL); de andere varianten zijn leeg gelaten. De voorwaarde vooraf van Wiskunde 1 voor Ruimtelijk inzicht komt uit de uitwerking van de keuzedeel-regels.
 
@@ -2072,9 +2048,9 @@ De leeruitkomstboom volgt de opbouw van het kwalificatiekader: dossier, kwalific
 
 De bottom-up-optelling sluit alleen **binnen** de kwalificatiekader-tak. Op kwalificatieniveau staat 4800 SBU terwijl de drie kerntaken optellen tot 4080; het verschil is de keuzedeelruimte van 720 SBU, die per ontwerp geen eigen leeruitkomst heeft omdat pas bij de keuze duidelijk wordt welke leeruitkomsten erin vallen.
 
-### 6.2 Voorbeeld onderwijsaanbod
+#### 3.25.2 Voorbeeld onderwijsaanbod
 
-Leerroute 1. De `specificatieVerwijzing`-uuid's komen uit de [voorbeeld onderwijsspecificatie](#61-voorbeeld-onderwijsspecificatie).
+Leerroute 1. De `specificatieVerwijzing`-uuid's komen uit de [voorbeeld onderwijsspecificatie](#3251-voorbeeld-onderwijsspecificatie).
 
 ```json
 {
@@ -2225,7 +2201,7 @@ Loopt de planning vast, dan bestaat de instantie wel maar draagt die status en k
 }
 ```
 
-### 6.3 Voorbeeld resultaatstructuur en examenplan
+#### 3.25.3 Voorbeeld resultaatstructuur en examenplan
 
 ```json
 {
@@ -2423,13 +2399,13 @@ De resultaateenheid Keuzedelen heeft geen toetsonderdelen onder zich: welke keuz
 
 <!-- pagina-einde -->
 
-## 7 Mapping veldnamen
+### 3.26 Mapping veldnamen
 
 De veldnamen in de [schema's](schemas) zijn vertaald van Nederlands naar Engels (UK). Dit document legt per model vast welke Engelse veldnaam bij welke oorspronkelijke Nederlandse naam hoort, zodat wie de modellen kent vanuit eerdere Nederlandstalige documentatie of werksessies de nieuwe velden kan terugvoeren op de bekende termen.
 
 Elke tabel dekt de velden van één schema. Velden in geneste objecten — de items van een array-eigenschap — staan in een aparte tabel direct daaronder, met een verwijzing naar de eigenschap waar ze bij horen. Vertaald zijn alleen de veldnamen: de sleutels onder `properties` en `required`. Enumeratiewaarden (zoals status- en typewaarden), `$id`, bestandsnamen en de `title`- en `$comment`-velden van de schema's blijven ongewijzigd Nederlands.
 
-### 7.1 Abonnement — Subscription
+#### 3.26.1 Abonnement — Subscription
 
 [`subscription.json`](schemas/subscription.json)
 
@@ -2439,7 +2415,7 @@ Elke tabel dekt de velden van één schema. Velden in geneste objecten — de it
 | callbackUrl | callbackUrl |
 | events | events |
 
-### 7.2 Adres — Address
+#### 3.26.2 Adres — Address
 
 [`address.json`](schemas/address.json)
 
@@ -2451,7 +2427,7 @@ Elke tabel dekt de velden van één schema. Velden in geneste objecten — de it
 | city | plaats |
 | country | land |
 
-### 7.3 Bron — Source
+#### 3.26.3 Bron — Source
 
 [`source.json`](schemas/source.json)
 
@@ -2461,7 +2437,7 @@ Elke tabel dekt de velden van één schema. Velden in geneste objecten — de it
 | type | type |
 | code | code |
 
-### 7.4 Code — Code
+#### 3.26.4 Code — Code
 
 [`code.json`](schemas/code.json)
 
@@ -2470,7 +2446,7 @@ Elke tabel dekt de velden van één schema. Velden in geneste objecten — de it
 | codeType | codeType |
 | code | code |
 
-### 7.5 Geolocatie — Geolocation
+#### 3.26.5 Geolocatie — Geolocation
 
 [`geolocation.json`](schemas/geolocation.json)
 
@@ -2479,7 +2455,7 @@ Elke tabel dekt de velden van één schema. Velden in geneste objecten — de it
 | latitude | breedtegraad |
 | longitude | lengtegraad |
 
-### 7.6 Groep — Group
+#### 3.26.6 Groep — Group
 
 [`group.json`](schemas/group.json)
 
@@ -2489,7 +2465,7 @@ Elke tabel dekt de velden van één schema. Velden in geneste objecten — de it
 | name | naam |
 | capacity | capaciteit |
 
-### 7.7 Knelpunt — Bottleneck
+#### 3.26.7 Knelpunt — Bottleneck
 
 [`bottleneck.json`](schemas/bottleneck.json)
 
@@ -2499,7 +2475,7 @@ Elke tabel dekt de velden van één schema. Velden in geneste objecten — de it
 | description | omschrijving |
 | involvedSpecificationIds | betrokkenSpecificatieIds |
 
-### 7.8 Leeruitkomst-aanduiding — Learning outcome designation
+#### 3.26.8 Leeruitkomst-aanduiding — Learning outcome designation
 
 [`learning-outcome-designation.json`](schemas/learning-outcome-designation.json)
 
@@ -2508,7 +2484,7 @@ Elke tabel dekt de velden van één schema. Velden in geneste objecten — de it
 | type | type |
 | code | code |
 
-### 7.9 Leeruitkomst — Learning outcome
+#### 3.26.9 Leeruitkomst — Learning outcome
 
 [`learning-outcome.json`](schemas/learning-outcome.json)
 
@@ -2526,7 +2502,7 @@ Elke tabel dekt de velden van één schema. Velden in geneste objecten — de it
 | result | resultaat |
 | behaviour | gedrag |
 
-### 7.10 Locatie — Location
+#### 3.26.10 Locatie — Location
 
 [`location.json`](schemas/location.json)
 
@@ -2543,7 +2519,7 @@ Elke tabel dekt de velden van één schema. Velden in geneste objecten — de it
 | url | url |
 | codes | codes |
 
-### 7.11 Manifest-item — Manifest item
+#### 3.26.11 Manifest-item — Manifest item
 
 [`manifest-item.json`](schemas/manifest-item.json)
 
@@ -2553,7 +2529,7 @@ Elke tabel dekt de velden van één schema. Velden in geneste objecten — de it
 | version | versie |
 | relation | relatie |
 
-### 7.12 Omvang — Volume
+#### 3.26.12 Omvang — Volume
 
 [`volume.json`](schemas/volume.json)
 
@@ -2562,7 +2538,7 @@ Elke tabel dekt de velden van één schema. Velden in geneste objecten — de it
 | value | waarde |
 | unit | eenheid |
 
-### 7.13 Onderwijsaanbod — Education offering
+#### 3.26.13 Onderwijsaanbod — Education offering
 
 [`education-offering.json`](schemas/education-offering.json)
 
@@ -2592,7 +2568,7 @@ Velden per item in `offeringInstances`:
 | executingTeamId | uitvoerendTeamId |
 | groups | groepen |
 
-### 7.14 Onderwijsspecificatie-delta — Education specification delta
+#### 3.26.14 Onderwijsspecificatie-delta — Education specification delta
 
 [`education-specification-delta.json`](schemas/education-specification-delta.json)
 
@@ -2603,7 +2579,7 @@ Velden per item in `offeringInstances`:
 | from | from |
 | value | value |
 
-### 7.15 Onderwijsspecificatie — Education specification
+#### 3.26.15 Onderwijsspecificatie — Education specification
 
 [`education-specification.json`](schemas/education-specification.json)
 
@@ -2642,7 +2618,7 @@ Velden per item in `educationSpecifications`:
 | ruleSetReferences | regelsetVerwijzingen |
 | manifest | manifest |
 
-### 7.16 OrganisatieEenheid — Organisation unit
+#### 3.26.16 OrganisatieEenheid — Organisation unit
 
 [`organisation-unit.json`](schemas/organisation-unit.json)
 
@@ -2654,7 +2630,7 @@ Velden per item in `educationSpecifications`:
 | parentUnitId | bovenliggendeEenheidId |
 | professionalIds | professionalIds |
 
-### 7.17 Periode — Period
+#### 3.26.17 Periode — Period
 
 [`period.json`](schemas/period.json)
 
@@ -2663,7 +2639,7 @@ Velden per item in `educationSpecifications`:
 | start | start |
 | end | eind |
 
-### 7.18 Regelset — Rule set
+#### 3.26.18 Regelset — Rule set
 
 [`rule-set.json`](schemas/rule-set.json)
 
@@ -2676,7 +2652,7 @@ Velden per item in `educationSpecifications`:
 | appliesTo | vanToepassingOp |
 | rules | regels |
 
-### 7.19 Resultaatmodel — Result model
+#### 3.26.19 Resultaatmodel — Result model
 
 [`result-model.json`](schemas/result-model.json)
 
@@ -2686,7 +2662,7 @@ Velden per item in `educationSpecifications`:
 | passMark | cesuur |
 | decimalPlaces | decimalen |
 
-### 7.20 Resultaatstructuur en examenplan — Result structure and exam plan
+#### 3.26.20 Resultaatstructuur en examenplan — Result structure and exam plan
 
 [`result-structure.json`](schemas/result-structure.json)
 
@@ -2721,7 +2697,7 @@ Velden per item in `educationSpecifications`:
 | ruleSetReferences | regelsetVerwijzingen |
 | manifest | manifest |
 
-### 7.21 Specificatie-gewijzigd — Specification changed
+#### 3.26.21 Specificatie-gewijzigd — Specification changed
 
 [`specification-changed.json`](schemas/specification-changed.json)
 
@@ -2732,7 +2708,7 @@ Velden per item in `educationSpecifications`:
 | newVersion | nieuweVersie |
 | changeClass | wijzigingsklasse |
 
-### 7.22 Specificatie-referentie — Specification reference
+#### 3.26.22 Specificatie-referentie — Specification reference
 
 [`specification-reference.json`](schemas/specification-reference.json)
 
@@ -2741,7 +2717,7 @@ Velden per item in `educationSpecifications`:
 | specificationId | specificatieId |
 | version | versie |
 
-### 7.23 Specificatie-status-gewijzigd — Specification status changed
+#### 3.26.23 Specificatie-status-gewijzigd — Specification status changed
 
 [`specification-status-changed.json`](schemas/specification-status-changed.json)
 
@@ -2751,7 +2727,7 @@ Velden per item in `educationSpecifications`:
 | oldStatus | oudeStatus |
 | newStatus | nieuweStatus |
 
-### 7.24 Verwerkingsstatus — Processing status
+#### 3.26.24 Verwerkingsstatus — Processing status
 
 [`processing-status.json`](schemas/processing-status.json)
 
@@ -2760,3 +2736,38 @@ Velden per item in `educationSpecifications`:
 | status | status |
 | programmeOfferingId | opleidingsaanbodId |
 | specificationReference | specificatieVerwijzing |
+
+
+<!-- pagina-einde -->
+
+## 4 Gebruiksprofielen
+
+Alle koppelingen delen dezelfde onderwijsspecificatie-payload; per koppeling verschilt welke onderdelen meegaan. Dat verschil staat hier, niet in het schema: het schema legt de vorm vast, het profiel wat een koppeling ervan gebruikt.
+
+### 4.1 Onderwijscatalogus naar planning en roostering
+
+| Onderdeel | Gebruik in onderwijscatalogus naar planning en roostering |
+|---|---|
+| `onderwijsspecificaties` | Volledig, inclusief manifest |
+| `regelsets` | Volledig; `voorwaardeVooraf` bevat leeruitkomst-ids uitsluitend als **verbindende sleutels** voor volgordebepaling: planning gebruikt ze zonder de inhoud te kennen ([ADR 0026](../Referentiemateriaal/adr/0026-leeruitkomst-als-verbindende-sleutel.md)) |
+| `leeruitkomsten` | **Niet meegeleverd.** Planning heeft de betekenis, aggregatie en inhoud van leeruitkomsten niet nodig ([ADR 0026](../Referentiemateriaal/adr/0026-leeruitkomst-als-verbindende-sleutel.md)) |
+
+### 4.2 Onderwijscatalogus naar studentinformatiesysteem
+
+| Onderdeel | Gebruik in onderwijscatalogus naar studentinformatiesysteem |
+|---|---|
+| `onderwijsspecificaties` | Volledig, inclusief manifest (nominaal template) |
+| `leeruitkomsten` | **Volledig**, inclusief aggregatie (`bovenliggendLeeruitkomstId`), `waardedocument` en `indicatieveOmvang`: de sleutel tussen specificatie, resultaatstructuur en onderwijsresultaat ([ADR 0022](../Referentiemateriaal/adr/0022-resultaatbegrippen-conform-rosa-koi.md)) |
+| `regelsets` | Volledig (kiesbaarheid keuzedeelruimte, voorwaarden in behaalde leeruitkomsten) |
+
+Voor het ophalen van de resultaatstructuur geldt daarnaast [result-structure.json](schemas/result-structure.json) als aparte payload.
+
+### 4.3 Onderwijscatalogus naar leermanagementsysteem
+
+| Onderdeel | Gebruik in onderwijscatalogus naar leermanagementsysteem |
+|---|---|
+| `onderwijsspecificaties` | Volledig tot en met `leeronderdeelspecificatie` |
+| `leeruitkomsten` | **Met inhoudsvelden** (`omschrijving`, `resultaat`, `gedrag`): dat is precies wat het LMS uitwerkt en aan de student exposet |
+| `regelsets` | Niet meegeleverd (kiesbaarheid is het domein van SKS en SIS) |
+
+De leermiddelkoppeling-payload is nog niet uitgewerkt. Verwachte kern: `id`, `versie`, en per specificatie de leermiddelgroepen met een `specificatieVerwijzing` (id en versie).

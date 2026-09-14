@@ -8,7 +8,7 @@ De mapindeling volgt de containers uit het repo-setupmodel (`Project and repo se
 | Map | Container | Wat erin hoort |
 |---|---|---|
 | `Koppelvlakspecificaties/` | Source Material | Het releasepakket: wat een afnemer gebruikt om te bouwen |
-| `Datamodelschema's/` | Source Material | Het releasepakket met de vorm van de uitgewisselde gegevens: informatiemodellen, JSON Schema's, de regels daarbij |
+| `Informatie-en-gegevensmodellen/` | Source Material | Het releasepakket met de vorm van de uitgewisselde gegevens: het logisch gegevensmodel, de JSON Schema's en de regels daarbij |
 | `Referentiemateriaal/` | Reference Material | Onderbouwing: waarom de keuzes in het pakket zo zijn. Geen onderdeel van een release |
 | `scripts/` | CI/CD | Gereedschap: generatoren en validators |
 

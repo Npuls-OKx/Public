@@ -45,7 +45,7 @@
   ],
   "afhankelijkheden": [
     {
-      "pakket": "../Datamodelschema's",
+      "pakket": "../Informatie-en-gegevensmodellen",
       "versie": "0.1.0"
     }
   ]

@@ -19,15 +19,16 @@ eigen H1 vervalt, want de sectiekop zegt hetzelfde al), en elk document eronder 
 een subhoofdstuk. In de losse documenten verandert een sectie niets: die blijven per
 bestand staan, met de mapstructuur eromheen.
 
-Een sectie kan in plaats van `documenten` ook `schemas` dragen: de naam van een map met
-JSON-schema's. Elk schema wordt dan een subhoofdstuk met zijn volledige inhoud, ingelezen
-bij het bouwen. De schema's blijven zo hun eigen bron; een bijlage die met de hand was
-overgeschreven zou bij de eerste schemawijziging uit de pas gaan lopen.
+Een sectie kan naast of in plaats van `documenten` ook `schemas` dragen: de naam van een
+map met JSON-schema's. Elk schema wordt dan een subhoofdstuk met zijn volledige inhoud,
+ingelezen bij het bouwen. De schema's blijven zo hun eigen bron; een bijlage die met de
+hand was overgeschreven zou bij de eerste schemawijziging uit de pas gaan lopen. Dragen
+ze allebei, dan komen de schema's eerst en staan de documenten er als toelichting achter.
 
 Naast `documenten` kan een manifest `afhankelijkheden` dragen: andere releasepakketten
 in dit repository waarop dit pakket bouwt, elk op een vastgelegde versie:
 
-    "afhankelijkheden": [{"pakket": "../Datamodelschema's", "versie": "0.1.0"}]
+    "afhankelijkheden": [{"pakket": "../Informatie-en-gegevensmodellen", "versie": "0.1.0"}]
 
 Twee pakketten hebben een eigen ritme, dus een verwijzing van het ene naar het andere
 hoort te wijzen naar de versie waartegen dit pakket geschreven is, niet naar wat er
@@ -343,12 +344,12 @@ def bouw_inhoudsopgave(pakket: pathlib.Path, documenten: list, kaart: dict,
         regels.append(f"- [{label(item['sectie'], anchor)}](#{anchor})")
         if item.get("inleiding"):
             regels_voor(item["inleiding"], 0, sla_titel_over=True)
-        for doc in item.get("documenten") or []:
-            regels_voor(doc, 1)
         if item.get("schemas"):
             for bestand in schemabestanden(pakket, item):
                 anchor = f"schema--{slug(bestand.stem)}"
                 regels.append(f"  - [{label(bestand.name, anchor)}](#{anchor})")
+        for doc in item.get("documenten") or []:
+            regels_voor(doc, 1)
     return "\n".join(regels)
 
 
@@ -994,19 +995,21 @@ def main(argv: list) -> int:
             subdocumenten = item.get("documenten") or []
             if item.get("inleiding"):
                 kop += "\n\n" + zonder_titel(bouw_deel(item["inleiding"], False))
-            elif subdocumenten:
+            elif subdocumenten and not item.get("schemas"):
                 # Zonder inleiding is er niets om de kop gezelschap te houden en houdt
                 # hij een pagina voor zich alleen. Dan maar samen met het eerste document.
+                # Dragen de schema's de sectie, dan volgen die direct op de kop en is er
+                # niets op te lossen.
                 kop += "\n\n" + bouw_deel(subdocumenten[0], True)
                 subdocumenten = subdocumenten[1:]
             gebundelde_delen.append(kop)
+            if item.get("schemas"):
+                # Vóór de documenten van de sectie: de schema's zijn het onderwerp, wat
+                # eromheen staat licht ze toe. Als één deel, want elk schema een eigen
+                # pagina zou een bijlage van vijfentwintig halflege pagina's opleveren.
+                gebundelde_delen.append(schema_bijlage(pakket, item))
             for doc in subdocumenten:
                 gebundelde_delen.append(bouw_deel(doc, True))
-            if item.get("schemas"):
-                # Achter de documenten, want de inhoudsopgave zet ze daar ook. En als
-                # één deel: elk schema een eigen pagina zou een bijlage van
-                # vijfentwintig halflege pagina's opleveren.
-                gebundelde_delen.append(schema_bijlage(pakket, item))
 
         # Noemt het manifest geen plek, dan staat de inhoudsopgave achter de titelpagina.
         if inhoud_op is None:

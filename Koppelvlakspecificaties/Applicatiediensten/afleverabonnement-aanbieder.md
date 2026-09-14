@@ -16,7 +16,7 @@ De endpoints die het component implementeert om deze dienst te leveren.
 
 | Endpoint | Methode | Parameters | Request | Response | Statuscodes |
 |---|---|---|---|---|---|
-| `/abonnementen` | POST | — | [subscription.json](../../Datamodelschema's/schemas/subscription.json): `callbackUrl` en de soorten meldingen | Abonnement-id | 201, 400 |
+| `/abonnementen` | POST | — | [subscription.json](../../Informatie-en-gegevensmodellen/schemas/subscription.json): `callbackUrl` en de soorten meldingen | Abonnement-id | 201, 400 |
 
 ## Gebruikt in
 

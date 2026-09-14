@@ -17,7 +17,7 @@ De endpoints die het component implementeert om deze dienst te leveren.
 
 | Endpoint | Methode | Parameters | Request | Response | Statuscodes |
 |---|---|---|---|---|---|
-| `verwerkingsuitkomst` | POST | — | [processing-status.json](../../Datamodelschema's/schemas/processing-status.json) | — | 200 |
+| `verwerkingsuitkomst` | POST | — | [processing-status.json](../../Informatie-en-gegevensmodellen/schemas/processing-status.json) | — | 200 |
 
 Dit endpoint heet vandaag `verwerkingsstatus` bij het planningssysteem en `inrichtingsstatus` bij het studentinformatiesysteem en het leermanagementsysteem; alleen de eerste draagt een schema. De naam hierboven is de voorgestelde keuze; die is nog niet vastgesteld.
 

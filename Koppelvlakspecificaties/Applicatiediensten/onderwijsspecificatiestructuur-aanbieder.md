@@ -18,9 +18,9 @@ De endpoints die het component implementeert om deze dienst te leveren.
 
 | Endpoint | Methode | Parameters | Request | Response | Statuscodes |
 |---|---|---|---|---|---|
-| `/onderwijsspecificaties/{id}` | GET | `versie`, optioneel, standaard laatst gepubliceerd | — | [education-specification.json](../../Datamodelschema's/schemas/education-specification.json) | 200, 400, 404 |
-| `/onderwijsspecificaties/{id}/delta` | GET | `van` en `naar`, beide verplicht | — | JSON Patch (RFC 6902), [education-specification-delta.json](../../Datamodelschema's/schemas/education-specification-delta.json) | 200, 400, 404 |
-| `/onderwijsspecificaties` | GET | `status`, optioneel, standaard `gepubliceerd`; `gewijzigdSinds`, optioneel | — | Lijst van [specification-reference.json](../../Datamodelschema's/schemas/specification-reference.json) | 200, 400 |
+| `/onderwijsspecificaties/{id}` | GET | `versie`, optioneel, standaard laatst gepubliceerd | — | [education-specification.json](../../Informatie-en-gegevensmodellen/schemas/education-specification.json) | 200, 400, 404 |
+| `/onderwijsspecificaties/{id}/delta` | GET | `van` en `naar`, beide verplicht | — | JSON Patch (RFC 6902), [education-specification-delta.json](../../Informatie-en-gegevensmodellen/schemas/education-specification-delta.json) | 200, 400, 404 |
+| `/onderwijsspecificaties` | GET | `status`, optioneel, standaard `gepubliceerd`; `gewijzigdSinds`, optioneel | — | Lijst van [specification-reference.json](../../Informatie-en-gegevensmodellen/schemas/specification-reference.json) | 200, 400 |
 
 Het bekendmaken van een wijziging vraagt geen endpoint van de aanbieder: waar die melding landt hangt af van hoe de koppeling is ingericht.
 

@@ -15,7 +15,7 @@ Het releasepakket **koppelvlakspecificatie**. De inhoudelijke inleiding staat in
 | [`Interactiepatronen/`](Interactiepatronen/) | De patronen waarmee een uitwisseling wordt gerealiseerd, in rollen in plaats van systeemnamen |
 | [auth-standaard.md](auth-standaard.md) | De authenticatie die voor elk endpoint geldt |
 | [uitgangspunten.md](uitgangspunten.md) | U1 tot en met U10, de aannames onder alles |
-| [`../Datamodelschema's/`](../Datamodelschema's/) | De vorm van de uitgewisselde gegevens. Een eigen releasepakket; [release.json](release.json) noemt onder `afhankelijkheden` op welke versie dit pakket bouwt |
+| [`../Informatie-en-gegevensmodellen/`](../Informatie-en-gegevensmodellen/) | De vorm van de uitgewisselde gegevens. Een eigen releasepakket; [release.json](release.json) noemt onder `afhankelijkheden` op welke versie dit pakket bouwt |
 
 Wat er in welke volgorde in het releasedocument komt staat in [release.json](release.json).
 
