@@ -8,6 +8,10 @@ De onderwijscatalogus is het distributiepunt voor onderwijsspecificaties: zij ne
 
 De view toont het koppelvlak van de onderwijscatalogus: de optelsom van haar koppelingen op de informatiestromen-hoofdplaat v1.7.
 
+![Applicatiediensten en endpoints van het koppelvlak](../src/diagrammen/referentie/koppelvlak-van-de-onderwijscatalogus.png)
+
+Dezelfde optelsom van binnen: elke applicatiedienst die de catalogus claimt, met daaronder de endpoints waarmee zij die levert. Een dienst die zelf niets aanbiedt draagt in plaats daarvan een blok dat benoemt wat hij dan doet. De plaat wordt gegenereerd uit [`model/componenten.c4`](../model/componenten.c4); die bron gaat met de release mee, zodat de inhoud machinaal te lezen is en niet alleen als plaat.
+
 ## Applicatiediensten
 
 Dit component implementeert de volgende [applicatiediensten](../Applicatiediensten/README.md):

@@ -9,3 +9,8 @@ __pycache__/
 
 # Bouwuitvoer van scripts/build-release.py
 dist/
+
+# Gereedschap voor de diagrammen; zie scripts/likec4-render.sh
+node_modules/
+likec4.json
+.likec4/

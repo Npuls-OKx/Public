@@ -14,6 +14,10 @@ Het releasepakket **koppelvlakspecificatie**. De inhoudelijke inleiding staat in
 | [`Applicatiediensten/`](Applicatiediensten/) | Per applicatiedienst wat een component moet implementeren om hem te claimen, en welk doel uit de requirementsboom dat bereikt |
 | [`Interactiepatronen/`](Interactiepatronen/) | De patronen waarmee een uitwisseling wordt gerealiseerd, in rollen in plaats van systeemnamen |
 | [auth-standaard.md](auth-standaard.md) | De authenticatie die voor elk endpoint geldt |
+| [release-management.md](release-management.md) | Wat versiebeheer voor dit pakket betekent: waar een partij zich aan houdt en langs welke weg de inhoud wijzigt |
+| [versiebeheer-in-de-praktijk.md](versiebeheer-in-de-praktijk.md) | Eén versiesprong doorgerekend over drie gekoppelde systemen, met wat dat van elke partij vraagt |
+| [`model/`](model/) | Het LikeC4-model waaruit de structuurdiagrammen komen. **Bron**: wijzig hier, niet de platen |
+| [`src/diagrammen/`](src/diagrammen/) | De gerenderde platen, in een map per categorie. **Gegenereerd**: `npm run diagrammen:render` |
 | [uitgangspunten.md](uitgangspunten.md) | U1 tot en met U10, de aannames onder alles |
 | [`../Informatie-en-gegevensmodellen/`](../Informatie-en-gegevensmodellen/) | De vorm van de uitgewisselde gegevens. Een eigen releasepakket; [release.json](release.json) noemt onder `afhankelijkheden` op welke versie dit pakket bouwt |
 

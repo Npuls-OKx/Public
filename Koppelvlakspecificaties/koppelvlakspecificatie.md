@@ -496,6 +496,10 @@ De onderwijscatalogus is het distributiepunt voor onderwijsspecificaties: zij ne
 
 De view toont het koppelvlak van de onderwijscatalogus: de optelsom van haar koppelingen op de informatiestromen-hoofdplaat v1.7.
 
+![Applicatiediensten en endpoints van het koppelvlak](src/diagrammen/referentie/koppelvlak-van-de-onderwijscatalogus.png)
+
+Dezelfde optelsom van binnen: elke applicatiedienst die de catalogus claimt, met daaronder de endpoints waarmee zij die levert. Een dienst die zelf niets aanbiedt draagt in plaats daarvan een blok dat benoemt wat hij dan doet. De plaat wordt gegenereerd uit [`model/componenten.c4`](model/componenten.c4); die bron gaat met de release mee, zodat de inhoud machinaal te lezen is en niet alleen als plaat.
+
 #### 3.2.2 Applicatiediensten
 
 Dit component implementeert de volgende [applicatiediensten](Applicatiediensten/README.md):
@@ -529,6 +533,10 @@ Het planningssysteem maakt van een gepubliceerde onderwijsspecificatie planbaar 
 
 De view toont het gedeelde koppelvlak van planning en roostering op de informatiestromen-hoofdplaat v1.7. Beide componenten delen dit koppelvlak; het rooster zelf blijft bij het roostersysteem.
 
+![Applicatiediensten en endpoints van het koppelvlak](src/diagrammen/referentie/koppelvlak-van-het-planningssysteem.png)
+
+Dezelfde optelsom van binnen: elke applicatiedienst die het planningssysteem claimt, met daaronder de endpoints waarmee het die levert. Een dienst die zelf niets aanbiedt draagt in plaats daarvan een blok dat benoemt wat hij dan doet. De plaat wordt gegenereerd uit [`model/componenten.c4`](model/componenten.c4); die bron gaat met de release mee, zodat de inhoud machinaal te lezen is en niet alleen als plaat.
+
 #### 3.3.2 Applicatiediensten
 
 Dit component implementeert de volgende [applicatiediensten](Applicatiediensten/README.md):
@@ -558,6 +566,10 @@ Het studentinformatiesysteem is hier de combinatie van het **kernregistratiesyst
 
 De view toont het koppelvlak van het studentinformatiesysteem op de informatiestromen-hoofdplaat v1.7. Kernregistratie (KRS) en studievoortgang (SVS) maken er deel van uit.
 
+![Applicatiediensten en endpoints van het koppelvlak](src/diagrammen/referentie/koppelvlak-van-het-studentinformatiesysteem.png)
+
+Dezelfde optelsom van binnen: elke applicatiedienst die het studentinformatiesysteem claimt, met daaronder de endpoints waarmee het die levert. Een dienst die zelf niets aanbiedt draagt in plaats daarvan een blok dat benoemt wat hij dan doet. De plaat wordt gegenereerd uit [`model/componenten.c4`](model/componenten.c4); die bron gaat met de release mee, zodat de inhoud machinaal te lezen is en niet alleen als plaat.
+
 #### 3.4.2 Applicatiediensten
 
 Dit component implementeert de volgende [applicatiediensten](Applicatiediensten/README.md):
@@ -584,6 +596,10 @@ Het leermanagementsysteem is de online leeromgeving waarin de student het onderw
 ![Koppelvlak van het leermanagementsysteem op de hoofdplaat v1.7](src/koppelvlak_lms_view_ihp_v1_7.png)
 
 De view toont het koppelvlak van het leermanagementsysteem: de optelsom van zijn koppelingen op de informatiestromen-hoofdplaat v1.7.
+
+![Applicatiediensten en endpoints van het koppelvlak](src/diagrammen/referentie/koppelvlak-van-het-leermanagementsysteem.png)
+
+Dezelfde optelsom van binnen: elke applicatiedienst die het leermanagementsysteem claimt, met daaronder de endpoints waarmee het die levert. Een dienst die zelf niets aanbiedt draagt in plaats daarvan een blok dat benoemt wat hij dan doet. De plaat wordt gegenereerd uit [`model/componenten.c4`](model/componenten.c4); die bron gaat met de release mee, zodat de inhoud machinaal te lezen is en niet alleen als plaat.
 
 #### 3.5.2 Applicatiediensten
 

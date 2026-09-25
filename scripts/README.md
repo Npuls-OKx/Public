@@ -9,6 +9,10 @@ Gereedschap om te controleren wat machinaal te controleren is, en om het release
 | [`json-tree.py`](json-tree.py) | Vangt drift tussen de JSON, het schema en de gegenereerde bomen in een payload-document |
 | [`build-release.py`](build-release.py) | Bouwt het releasepakket: docx-documenten uit de markdown-bronnen |
 | [`validate-requirementsboom-navigatie.py`](validate-requirementsboom-navigatie.py) | Vangt gebroken navigatie in de requirementsboom: dode ankers, eenzijdige laagverwijzingen, terugleiding die niet spoort met de stories |
+| [`likec4-render.sh`](likec4-render.sh) | Rendert de LikeC4-views van een pakket naar PNG: valideren, plaatsing berekenen, exporteren, marge eromheen |
+| [`likec4-layout.py`](likec4-layout.py) | Berekent de plaatsing van views zonder relaties, waar graphviz geen bruikbare oplevert |
+| [`likec4-marge.py`](likec4-marge.py) | Zet een geëxporteerde plaat op een witte ondergrond met lucht eromheen |
+| [`likec4-plaatsen.py`](likec4-plaatsen.py) | Zet elke plaat in de map van zijn categorie, met een bestandsnaam uit de titel van de view |
 
 ```bash
 python3 scripts/check-links.py                    # hele repository
@@ -20,7 +24,12 @@ python3 -m unittest discover -s tests             # testgevallen van de scripts
 
 python3 scripts/build-release.py Koppelvlakspecificaties --uit dist
 python3 scripts/build-release.py "Informatie-en-gegevensmodellen" --alleen-controle
+
+npm run diagrammen:controle                       # LikeC4-model valideren
+npm run diagrammen:render                         # de platen opnieuw renderen
 ```
+
+De vier `likec4`-scripts horen bij elkaar en worden via `npm run diagrammen:render` in de goede volgorde gedraaid; zie [`.agents/skills/okx-diagrammen/`](../.agents/skills/okx-diagrammen/SKILL.md) voor wat ze doen en waarom de plaatsing apart wordt berekend.
 
 De controlescripts geven exitcode 1 bij een probleem, zodat ze in een pre-commit hook of workflow passen.
 

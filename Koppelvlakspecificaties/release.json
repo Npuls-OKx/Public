@@ -1,5 +1,5 @@
 {
-  "$comment": "Manifest van het releasepakket koppelvlakspecificatie. De workflow release.yml leest dit bestand: versie bepaalt het label van de release, documenten bepaalt de volgorde in het gebundelde document. Een item in documenten is een pad (dat met ../ ook buiten de pakketmap mag wijzen, zoals de requirementsboom in Referentiemateriaal), een sectie {sectie, inleiding, documenten of schemas} die de genoemde documenten of JSON-schema's als subhoofdstukken onder een kop bundelt, of {inhoudsopgave: true} dat bepaalt waar de inhoudsopgave staat. Afhankelijkheden noemt de pakketten waarop dit pakket bouwt, elk op een vastgelegde versie: verwijzingen daarheen krijgen bij het bouwen de tag van die versie. De koppelingspecificaties staan voorlopig achteraan; hun plek in de leesvolgorde wordt nog bepaald. Zie Algemeen/release-management/Release-management-algemeen.md.",
+  "$comment": "Manifest van het releasepakket koppelvlakspecificatie. De workflow release.yml leest dit bestand: versie bepaalt het label van de release, documenten bepaalt de volgorde in het gebundelde document. Een item in documenten is een pad (dat met ../ ook buiten de pakketmap mag wijzen, zoals de requirementsboom in Referentiemateriaal), een sectie {sectie, inleiding, documenten of schemas} die de genoemde documenten of JSON-schema's als subhoofdstukken onder een kop bundelt, of {inhoudsopgave: true} dat bepaalt waar de inhoudsopgave staat. Afhankelijkheden noemt de pakketten waarop dit pakket bouwt, elk op een vastgelegde versie: verwijzingen daarheen krijgen bij het bouwen de tag van die versie. De koppelingspecificaties staan voorlopig achteraan; hun plek in de leesvolgorde wordt nog bepaald. Zie Algemeen/release-management/Release-management-algemeen.md. Meeleveren noemt wat er als bestand met de release meegaat: het LikeC4-model, zodat de diagrammen ook machinaal te lezen zijn.",
   "naam": "Koppelvlakspecificatie",
   "bestandsnaam": "koppelvlakspecificatie",
   "versie": "0.0.1",
@@ -48,5 +48,8 @@
       "pakket": "../Informatie-en-gegevensmodellen",
       "versie": "0.1.0"
     }
+  ],
+  "meeleveren": [
+    "model"
   ]
 }

@@ -1,0 +1,220 @@
+// Situaties waarin de componenten niet op dezelfde versie zitten.
+//
+// Deze views voegen niets aan het model toe: ze hergebruiken de systemen en de
+// pakketversies en geven ze per view een eigen omschrijving en kleur met `with`.
+// Zo staat een toestand in de view en niet in het model, want het model beschrijft
+// de keten en niet één moment daarin.
+
+views {
+
+  dynamic view volgorde_fout {
+    title 'Situaties / De volgorde die niet werkt'
+    order 13
+    description '
+      Een afnemer die eerder overstapt dan zijn aanbieder roept een endpoint aan
+      dat nog niet bestaat. Van de vier combinaties van versies is dit de enige
+      die breekt, en de release notes waarschuwen er niet voor.
+    '
+
+    okx.store.pkg_kvs.kvs_v2 -> lev_p 'release notes: meld voortaan op verwerkingsuitkomst'
+    lev_p -> instelling.p 'verlegt de aanroep in de eerstvolgende release'
+    instelling.p -> instelling.oc 'POST verwerkingsuitkomst'
+    instelling.oc -> instelling.p 'dat endpoint bestaat hier nog niet'
+    lev_oc -> instelling.oc 'voegt het pas een ronde later toe'
+  }
+
+  view afnemer_blijft {
+    title 'Situaties / De afnemer gaat niet mee'
+    order 14
+    description '
+      Het venster sluit niet uit zichzelf. De catalogus draagt het oude pad voor
+      onbepaalde tijd naast het nieuwe, en de toezegging van hoogstens twee
+      gelijktijdige majors hangt op één leverancier.
+    '
+
+    autoLayout TopBottom 40 40
+
+    include instelling
+    include instelling.oc with {
+      description 'Draagt v1 én v2, voor onbepaalde tijd'
+      color amber
+    }
+    include instelling.p with {
+      description 'Volledig op v2, oude endpoint verwijderd'
+      color green
+    }
+    include instelling.lms with {
+      description 'Blijft op v1: de hernoeming levert deze leverancier niets op'
+      color red
+    }
+    include instelling.oc -> instelling.p with {
+      title 'meldt op specificatie-beschikbaar (v2)'
+      color green
+    }
+    include instelling.oc -> instelling.lms with {
+      title 'meldt op inrichtingsstatus (v1), zonder einddatum'
+      color red
+    }
+
+    exclude instelling.p -> instelling.oc
+    exclude instelling.lms -> instelling.oc
+    exclude instelling.oc.** -> instelling.p.**
+    exclude instelling.p.** -> instelling.oc.**
+    exclude instelling.oc.** -> instelling.lms.**
+    exclude instelling.lms.** -> instelling.oc.**
+  }
+
+  view aanbieder_achter {
+    title 'Situaties / De aanbieder loopt achter'
+    order 15
+    description '
+      Een achterblijvende afnemer houdt één koppeling op, een achterblijvende
+      aanbieder houdt ze allemaal op. De releasekalender van de catalogus is
+      daarmee het plafond voor de hele keten.
+    '
+
+    autoLayout TopBottom 40 40
+
+    include instelling
+    include instelling.oc with {
+      description 'Nog op v1: het nieuwe endpoint bestaat hier niet'
+      color red
+    }
+    include instelling.p with {
+      description 'Klaar voor v2, kan niet over'
+      color amber
+    }
+    include instelling.lms with {
+      description 'Klaar voor v2, kan niet over'
+      color amber
+    }
+    include instelling.p -> instelling.oc with {
+      title 'wacht op de aanbieder'
+      color red
+    }
+    include instelling.lms -> instelling.oc with {
+      title 'wacht op de aanbieder'
+      color red
+    }
+
+    exclude instelling.oc -> instelling.p
+    exclude instelling.oc -> instelling.lms
+    exclude instelling.oc.** -> instelling.p.**
+    exclude instelling.p.** -> instelling.oc.**
+    exclude instelling.oc.** -> instelling.lms.**
+    exclude instelling.lms.** -> instelling.oc.**
+  }
+
+  view derde_major {
+    title 'Situaties / Een tweede major tijdens het venster'
+    order 16
+    description '
+      Met latest en latest-1 dragen v3 en v2 de ondersteuning. Zolang er nog een
+      koppeling op v1 draait, valt die buiten het venster en moet iemand kiezen.
+    '
+
+    autoLayout TopBottom 40 40
+
+    include
+      okx.store.pkg_kvs.kvs_v3,
+      instelling,
+      instelling.oc,
+      instelling.p,
+      instelling.lms
+    include okx.store.pkg_kvs.kvs_v1 with {
+      description 'Valt buiten het venster zodra v3 verschijnt'
+      color red
+    }
+    include okx.store.pkg_kvs.kvs_v2 with {
+      description 'latest-1: ondersteund'
+      color green
+    }
+    include okx.store.pkg_kvs.kvs_v3 with {
+      description 'latest: ondersteund'
+      color green
+    }
+    include okx.store.pkg_kvs.kvs_v1 -> instelling.lms with {
+      title 'draait hier nog, en wordt niet meer ondersteund'
+      color red
+    }
+    include okx.store.pkg_kvs.kvs_v2 -> instelling.oc with {
+      title 'draait hier'
+    }
+    include okx.store.pkg_kvs.kvs_v2 -> instelling.p with {
+      title 'draait hier'
+    }
+    include okx.store.pkg_kvs.kvs_v3 -> instelling.oc with {
+      title 'zou hier moeten landen'
+    }
+
+    exclude okx.store.pkg_kvs.kvs_v1 -> instelling.oc
+    exclude okx.store.pkg_kvs.kvs_v1 -> instelling.p
+    exclude okx.store.pkg_kvs.kvs_v2 -> instelling.lms
+    exclude instelling.oc -> instelling.p
+    exclude instelling.p -> instelling.oc
+    exclude instelling.oc -> instelling.lms
+    exclude instelling.lms -> instelling.oc
+    exclude instelling.oc.** -> instelling.p.**
+    exclude instelling.p.** -> instelling.oc.**
+    exclude instelling.oc.** -> instelling.lms.**
+    exclude instelling.lms.** -> instelling.oc.**
+  }
+}
+
+views {
+
+  view reikwijdte {
+    title 'Versiescenario / Reikwijdte per bumptype'
+    order 17
+    description '
+      Het aantal pijlen is het verhaal. De major raakt alle drie de partijen en
+      kost twee releaseronden, de minor raakt alleen wie de nieuwe mogelijkheid
+      wil gebruiken, en de patch raakt niemand.
+    '
+
+    autoLayout TopBottom 40 40
+
+    include instelling, instelling.oc, instelling.p, instelling.lms
+    include okx.store.pkg_kvs.kvs_v2 with {
+      description 'major: twee endpoints hernoemd'
+      color red
+    }
+    include okx.store.pkg_igm.igm_v110 with {
+      description 'minor: optioneel veld erbij'
+      color amber
+    }
+    include okx.store.pkg_igm.igm_v111 with {
+      description 'patch: tekst gelijkgetrokken met het schema — geen enkele partij hoeft iets'
+      color green
+    }
+    include okx.store.pkg_kvs.kvs_v2 -> instelling.oc with {
+      title 'endpoint erbij, oude pad blijft staan'
+      color red
+    }
+    include okx.store.pkg_kvs.kvs_v2 -> instelling.p with {
+      title 'endpoint erbij én aanroep verleggen'
+      color red
+    }
+    include okx.store.pkg_kvs.kvs_v2 -> instelling.lms with {
+      title 'aanroep verleggen, pas bij de halfjaarrelease'
+      color red
+    }
+    include okx.store.pkg_igm.igm_v110 -> instelling.oc with {
+      title 'mag de nieuwe waarde leveren, hoeft niet'
+      color amber
+    }
+
+    exclude okx.store.pkg_kvs.kvs_v1 -> instelling.oc
+    exclude okx.store.pkg_kvs.kvs_v1 -> instelling.p
+    exclude okx.store.pkg_kvs.kvs_v1 -> instelling.lms
+    exclude okx.store.pkg_kvs.kvs_v2 -> okx.store.pkg_igm.igm_v110
+    exclude instelling.oc -> instelling.p
+    exclude instelling.p -> instelling.oc
+    exclude instelling.oc -> instelling.lms
+    exclude instelling.lms -> instelling.oc
+    exclude instelling.oc.** -> instelling.p.**
+    exclude instelling.p.** -> instelling.oc.**
+    exclude instelling.oc.** -> instelling.lms.**
+    exclude instelling.lms.** -> instelling.oc.**
+  }
+}

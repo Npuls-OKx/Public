@@ -48,6 +48,25 @@ jobs:
       - name: Testgevallen van de controlescripts
         run: python3 -m unittest discover -s tests
 
+  diagrammen:
+    name: LikeC4-model
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Gereedschap installeren
+        run: npm ci
+
+      # Vangt syntax en semantiek van het model, en een snapshot in model/.likec4/
+      # die niet meer bij het model past. Die snapshots horen er niet te staan: de
+      # renderstap ruimt ze op. Staat er toch een, dan is een rit afgebroken.
+      - name: Model valideren
+        run: npm run diagrammen:controle
+
   bouw:
     name: Releasepakketten bouwbaar
     runs-on: ubuntu-latest

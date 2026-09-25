@@ -1,0 +1,212 @@
+views {
+
+  // ── Referentiebeeld ────────────────────────────────────────────────────
+
+
+
+
+
+  // ── Versielijnen ───────────────────────────────────────────────────────
+
+  view basis {
+    title 'Versiescenario / Basisversie'
+    order 5
+    description '
+      Het vertrekpunt. Alle drie de systemen implementeren dezelfde versie van
+      het releasepakket, dat op zijn beurt een vastgelegde versie van de
+      informatie- en gegevensmodellen gebruikt.
+    '
+
+    autoLayout TopBottom 40 40
+
+    include
+      okx.store.pkg_kvs.kvs_v1,
+      okx.store.pkg_igm.igm_v100,
+      instelling,
+      instelling.oc,
+      instelling.p,
+      instelling.lms
+
+    exclude instelling.oc -> instelling.p
+    exclude instelling.p -> instelling.oc
+    exclude instelling.oc -> instelling.lms
+    exclude instelling.lms -> instelling.oc
+    exclude instelling.oc.** -> instelling.p.**
+    exclude instelling.p.** -> instelling.oc.**
+    exclude instelling.oc.** -> instelling.lms.**
+    exclude instelling.lms.** -> instelling.oc.**
+  }
+
+  view na_de_bump {
+    title 'Versiescenario / Na de bump'
+    order 12
+    description '
+      De catalogus draagt beide majors zolang niet iedereen over is. Planning
+      staat volledig op v2, het leermanagementsysteem blijft tot zijn
+      halfjaarrelease op latest-1.
+    '
+
+    autoLayout TopBottom 40 40
+    global style versiekleuren
+
+    include
+      okx.store.pkg_kvs.kvs_v1,
+      okx.store.pkg_kvs.kvs_v2,
+      instelling,
+      instelling.oc,
+      instelling.p,
+      instelling.lms
+
+    exclude okx.store.pkg_kvs.kvs_v1 -> instelling.p
+    exclude instelling.oc -> instelling.p
+    exclude instelling.p -> instelling.oc
+    exclude instelling.oc -> instelling.lms
+    exclude instelling.lms -> instelling.oc
+    exclude instelling.oc.** -> instelling.p.**
+    exclude instelling.p.** -> instelling.oc.**
+    exclude instelling.oc.** -> instelling.lms.**
+    exclude instelling.lms.** -> instelling.oc.**
+  }
+
+  // ── De release ─────────────────────────────────────────────────────────
+
+  dynamic view release_branches {
+    title 'Versiescenario / Van change request naar de release branches'
+    order 6
+    description '
+      Beide wijzigingen lopen via dezelfde weg, maar niet naar dezelfde branch:
+      op de vorige major landt alleen wat niets breekt.
+    '
+
+    okx.contributor -> okx.repo.br_feature 'CR 1: één naam per bericht'
+    okx.contributor -> okx.repo.br_feature 'CR 2: optioneel veld erbij'
+    okx.maintainer -> okx.repo.br_feature 'reviewt en keurt goed'
+    okx.repo.br_feature -> okx.repo.br_dev 'merge'
+    okx.repo.br_dev -> okx.repo.br_n 'beide wijzigingen'
+    okx.repo.br_dev -> okx.repo.br_n1 'alleen de enum-uitbreiding'
+  }
+
+  dynamic view release_publicatie {
+    title 'Versiescenario / Van baseline naar gepubliceerde release'
+    order 7
+    description '
+      De zwaarste wijziging bepaalt de bump van het hele pakket. De twee
+      pakketten krijgen elk hun eigen tag en hun onderlinge verhouding wordt
+      vastgelegd.
+    '
+
+    okx.maintainer -> okx.repo.br_n 'bump: hernoemen breekt, dus major'
+    okx.tester -> okx.repo.br_n 'toetst de baseline'
+    okx.repo.br_n -> okx.store.pkg_igm.igm_v110 'tag v1.1.0'
+    okx.repo.br_n -> okx.store.pkg_kvs.kvs_v2 'tag v2.0.0'
+    okx.store.pkg_kvs.kvs_v2 -> okx.store.pkg_igm.igm_v110 'release.json pint v1.1.0'
+    okx.pm -> okx.store.pkg_kvs.kvs_v2 'release notes'
+  }
+
+  // ── De adoptie ─────────────────────────────────────────────────────────
+
+  dynamic view adoptie_oc_p {
+    title 'Versiescenario / Adoptie door de catalogus en het planningssysteem'
+    order 8
+    description '
+      Beide leveranciers halen de eerstvolgende kwartaalrelease. De catalogus
+      voegt toe zonder iets weg te halen, planning migreert in één ronde.
+    '
+
+    okx.store.pkg_kvs.kvs_v2 -> lev_oc 'twee endpoints worden er één'
+    okx.store.pkg_kvs.kvs_v2 -> lev_p 'specificatie-planbaar wordt specificatie-beschikbaar'
+    lev_oc -> instelling.oc 'zet POST verwerkingsuitkomst erbij'
+    lev_p -> instelling.p 'zet POST specificatie-beschikbaar erbij'
+    instelling.p -> instelling.oc 'herregistreert het afleveradres'
+    instelling.oc -> instelling.p 'meldt op specificatie-beschikbaar'
+    lev_p -> instelling.p 'verwijdert specificatie-planbaar'
+  }
+
+  dynamic view adoptie_lms {
+    title 'Versiescenario / Adoptie door het leermanagementsysteem'
+    order 9
+    description '
+      De kleinste aanpassing van de drie, en toch de traagste: de halfjaarrelease
+      bepaalt wanneer de catalogus haar oude endpoints mag opruimen.
+    '
+
+    okx.store.pkg_kvs.kvs_v2 -> lev_lms 'eigen naam blijft, de aanroep verandert'
+    lev_lms -> instelling.lms 'plant de halfjaarrelease'
+    instelling.lms -> instelling.oc 'blijft op inrichtingsstatus (latest-1)'
+    lev_lms -> instelling.lms 'verlegt naar verwerkingsuitkomst'
+    lev_oc -> instelling.oc 'verwijdert de twee oude endpoints'
+  }
+
+  // ── Het migratievenster ────────────────────────────────────────────────
+
+  view migratie_oc_p {
+    title 'Versiescenario / Migratievenster catalogus en planningssysteem'
+    order 10
+    description '
+      Rood is wat vervalt, groen is wat de nieuwe major meebrengt. Beide partijen
+      dragen tijdens de overgang twee endpoints voor hetzelfde bericht.
+    '
+
+    autoLayout TopBottom 40 40
+    global style versiekleuren
+
+    include
+      instelling.oc.kv_oc.oc_uitkomst_afnemer,
+      instelling.oc.kv_oc.oc_uitkomst_afnemer.oc_hook_verwerkingsstatus,
+      instelling.oc.kv_oc.oc_uitkomst_afnemer.oc_hook_verwerkingsuitkomst,
+      instelling.oc.kv_oc.oc_spec_aanbieder,
+      instelling.oc.kv_oc.oc_spec_aanbieder.oc_spec_melden,
+      instelling.p.kv_p.p_spec_afnemer,
+      instelling.p.kv_p.p_spec_afnemer.p_hook_planbaar,
+      instelling.p.kv_p.p_spec_afnemer.p_hook_beschikbaar,
+      instelling.p.kv_p.p_uitkomst_aanbieder,
+      instelling.p.kv_p.p_uitkomst_aanbieder.p_uitkomst_melden
+
+    exclude instelling.p.kv_p.p_spec_afnemer -> instelling.oc.kv_oc.oc_spec_aanbieder
+  }
+
+  view migratie_oc_lms {
+    title 'Versiescenario / Migratievenster catalogus en leermanagementsysteem'
+    order 11
+    description '
+      Het leermanagementsysteem draagt zelf niets dubbels: zijn endpoint hield de
+      vastgestelde naam. Alleen de aanroep naar de catalogus verhuist.
+    '
+
+    autoLayout TopBottom 40 40
+    global style versiekleuren
+
+    include
+      instelling.oc.kv_oc.oc_uitkomst_afnemer,
+      instelling.oc.kv_oc.oc_uitkomst_afnemer.oc_hook_inrichtingsstatus,
+      instelling.oc.kv_oc.oc_uitkomst_afnemer.oc_hook_verwerkingsuitkomst,
+      instelling.oc.kv_oc.oc_spec_aanbieder,
+      instelling.oc.kv_oc.oc_spec_aanbieder.oc_spec_melden,
+      instelling.lms.kv_lms.lms_spec_afnemer,
+      instelling.lms.kv_lms.lms_spec_afnemer.lms_hook_beschikbaar,
+      instelling.lms.kv_lms.lms_uitkomst_aanbieder,
+      instelling.lms.kv_lms.lms_uitkomst_aanbieder.lms_uitkomst_melden
+
+    exclude instelling.lms.kv_lms.lms_spec_afnemer -> instelling.oc.kv_oc.oc_spec_aanbieder
+  }
+}
+
+views {
+  view koppelingen_in_scope {
+    title 'Versiescenario / De twee koppelingen in dit scenario'
+    order 10
+    description '
+      Niet de hele keten, maar de twee koppelingen waarover dit document gaat:
+      de onderwijscatalogus als aanbieder, met het planningssysteem en het
+      leermanagementsysteem als afnemers.
+    '
+
+    autoLayout TopBottom 40 40
+
+    include instelling, instelling.oc, instelling.p, instelling.lms
+    exclude instelling.oc.** -> instelling.p.**
+    exclude instelling.p.** -> instelling.oc.**
+    exclude instelling.oc.** -> instelling.lms.**
+    exclude instelling.lms.** -> instelling.oc.**
+  }
+}
