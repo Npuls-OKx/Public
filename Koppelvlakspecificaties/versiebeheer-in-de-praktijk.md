@@ -25,37 +25,43 @@ Geslaagd wanneer een architect eruit kan afleiden wat een aangekondigde major vo
 
 ## 2. Het referentiebeeld
 
-Dit document gaat niet over de hele keten maar over twee koppelingen daarbinnen: [onderwijscatalogus naar planning en roostering](Koppelingspecificaties/onderwijscatalogus-planning-en-roostering.md) en [onderwijscatalogus naar leermanagementsysteem](Koppelingspecificaties/onderwijscatalogus-leermanagementsysteem.md). Samen negen berichtstromen. Diagram 1 toont ze zoals de koppelingspecificaties ze beschrijven, en daarmee meteen waar versiebeheer feitelijk op aangrijpt: elke stroom draagt een eigen versienummer. Het volledige ecosysteem staat op de [informatiestromen-hoofdplaat](Applicatiecomponenten/README.md#ecosysteem).
+Dit document gaat niet over de hele keten maar over twee koppelingen daarbinnen: [onderwijscatalogus naar planning en roostering](Koppelingspecificaties/onderwijscatalogus-planning-en-roostering.md) en [onderwijscatalogus naar leermanagementsysteem](Koppelingspecificaties/onderwijscatalogus-leermanagementsysteem.md). Diagram 1 toont de drie systemen daarin en wat er per richting beweegt. Het volledige ecosysteem staat op de [informatiestromen-hoofdplaat](Applicatiecomponenten/README.md#ecosysteem).
 
-**Diagram 1 — De twee koppelingen met hun berichtstromen.**
+**Diagram 1 — De drie systemen in dit scenario.**
+
+![De drie systemen in dit scenario](src/diagrammen/versiescenario/de-drie-systemen-in-dit-scenario.png)
+
+Die twee koppelingen bestaan samen uit negen berichtstromen. Diagram 2 toont ze zoals de koppelingspecificaties ze beschrijven, en daarmee meteen waar versiebeheer feitelijk op aangrijpt: elke stroom draagt een eigen versienummer.
+
+**Diagram 2 — De twee koppelingen met hun berichtstromen.**
 
 ![De twee koppelingen met hun berichtstromen](src/diagrammen/versiescenario/de-twee-koppelingen-met-hun-berichtstromen.png)
 
 De catalogus is in beide koppelingen de aanbieder: zij bezit de onderwijsspecificaties en meldt elke wijziging, waarna het planningssysteem en het leermanagementsysteem ophalen wanneer het hun uitkomt en hun uitkomst terugmelden ([U3](uitgangspunten.md#u3-resource-eigenaarschap), [U4](uitgangspunten.md#u4-event-notification)).
 
-Onder die drie blokken zit het referentiebeeld van dit scenario: per systeem het koppelvlak, daarin de applicatiediensten die het claimt, en onder elke dienst de endpoints waarmee het die dienst levert. Diagram 2 tot en met 4 tonen dat koppelvlak per systeem, elk op een eigen plaat zodat de endpoints leesbaar blijven.
+Onder die drie blokken zit het referentiebeeld van dit scenario: per systeem het koppelvlak, daarin de applicatiediensten die het claimt, en onder elke dienst de endpoints waarmee het die dienst levert. Diagram 3 tot en met 5 tonen dat koppelvlak per systeem, elk op een eigen plaat zodat de endpoints leesbaar blijven.
 
-**Diagram 2 — Koppelvlak van de onderwijscatalogus.**
+**Diagram 3 — Koppelvlak van de onderwijscatalogus.**
 
 ![Koppelvlak van de onderwijscatalogus](src/diagrammen/referentie/koppelvlak-van-de-onderwijscatalogus.png)
 
-**Diagram 3 — Koppelvlak van het planningssysteem.**
+**Diagram 4 — Koppelvlak van het planningssysteem.**
 
 ![Koppelvlak van het planningssysteem](src/diagrammen/referentie/koppelvlak-van-het-planningssysteem.png)
 
-**Diagram 4 — Koppelvlak van het leermanagementsysteem.**
+**Diagram 5 — Koppelvlak van het leermanagementsysteem.**
 
 ![Koppelvlak van het leermanagementsysteem](src/diagrammen/referentie/koppelvlak-van-het-leermanagementsysteem.png)
 
-Op diagram 2 staat één dienst die buiten dit scenario valt: `resultaatstructuur-aanbieder` hoort bij de koppeling naar het studentinformatiesysteem, en staat er alleen om het koppelvlak van de catalogus compleet te tonen.
+Op diagram 3 staat één dienst die buiten dit scenario valt: `resultaatstructuur-aanbieder` hoort bij de koppeling naar het studentinformatiesysteem, en staat er alleen om het koppelvlak van de catalogus compleet te tonen.
 
-De drie platen maken samen zichtbaar waarom een dienst en een endpoint niet hetzelfde zijn. Een dienst als `verwerkingsuitkomst-aanbieder`, op diagram 3 en 4, draagt geen endpoint: wie meldt, biedt niets aan. Zijn tegenhanger `verwerkingsuitkomst-afnemer` draagt in de catalogus juist twee, voor hetzelfde bericht, omdat elke koppeling de melding een eigen naam gaf. Diagram 2 laat dat zien als `POST verwerkingsstatus` naast `POST inrichtingsstatus`. Dat is de situatie die de bump opruimt.
+De drie platen maken samen zichtbaar waarom een dienst en een endpoint niet hetzelfde zijn. Een dienst als `verwerkingsuitkomst-aanbieder`, op diagram 4 en 5, draagt geen endpoint: wie meldt, biedt niets aan. Zijn tegenhanger `verwerkingsuitkomst-afnemer` draagt in de catalogus juist twee, voor hetzelfde bericht, omdat elke koppeling de melding een eigen naam gaf. Diagram 3 laat dat zien als `POST verwerkingsstatus` naast `POST inrichtingsstatus`. Dat is de situatie die de bump opruimt.
 
 ## 3. De basisversie
 
 Het vertrekpunt is `koppelvlakspecificatie-v1.0.0`, gebouwd op `informatie-en-gegevensmodellen-v1.0.0`. Alle drie de systemen implementeren die versie, elk gebouwd door een eigen leverancier met een eigen releasekalender: de catalogus en het planningssysteem brengen elk kwartaal een release uit, het leermanagementsysteem twee keer per jaar. Dat verschil in tempo is het enige wat dit scenario nodig heeft om scherp te worden; verder is de uitgangssituatie symmetrisch.
 
-**Diagram 5 — Basisversie: alle drie de systemen op `koppelvlakspecificatie-v1.0.0`.**
+**Diagram 6 — Basisversie: alle drie de systemen op `koppelvlakspecificatie-v1.0.0`.**
 
 ![Basisversie](src/diagrammen/versiescenario/basisversie.png)
 
@@ -75,9 +81,9 @@ De verdeling van de endpoints over de drie koppelvlakken ziet er in die basisver
 
 ## 4. Waar een versie zit
 
-Het versienummer van het releasepakket is de buitenste schil, en niet de plek waar de modulariteit zit. De specificatie is opgebouwd uit bouwblokken die los van elkaar bewegen: een koppeling bestaat uit **berichtstromen**, en elke berichtstroom draagt een eigen versienummer. Zo'n stroom zet interactiepatronen en applicatiediensten in, een dienst draagt endpoints, en een endpoint staat op een schema uit het pakket informatie- en gegevensmodellen. Diagram 6 volgt die keten van links naar rechts, van het pakket naar het schema.
+Het versienummer van het releasepakket is de buitenste schil, en niet de plek waar de modulariteit zit. De specificatie is opgebouwd uit bouwblokken die los van elkaar bewegen: een koppeling bestaat uit **berichtstromen**, en elke berichtstroom draagt een eigen versienummer. Zo'n stroom zet interactiepatronen en applicatiediensten in, een dienst draagt endpoints, en een endpoint staat op een schema uit het pakket informatie- en gegevensmodellen. Diagram 7 volgt die keten van links naar rechts, van het pakket naar het schema.
 
-**Diagram 6 — Waar de versienummers zitten.**
+**Diagram 7 — Waar de versienummers zitten.**
 
 ![Waar de versienummers zitten](src/diagrammen/bouwblokken/waar-de-versienummers-zitten.png)
 
@@ -87,7 +93,7 @@ De vier platen hierna lopen van de kleinste reikwijdte naar de grootste. Ze zijn
 
 ### Vertrekpunt: een berichtstroom
 
-**Diagram 7 — Een wijziging in één berichtstroom.**
+**Diagram 8 — Een wijziging in één berichtstroom.**
 
 ![Een wijziging in één berichtstroom](src/diagrammen/bouwblokken/vertrekpunt-een-berichtstroom.png)
 
@@ -95,7 +101,7 @@ Een extra stap in `Acceptatietoets bij late wijziging` raakt die ene stroom en v
 
 ### Vertrekpunt: een applicatiedienst
 
-**Diagram 8 — Een wijziging in een applicatiedienst.**
+**Diagram 9 — Een wijziging in een applicatiedienst.**
 
 ![Een wijziging in een applicatiedienst](src/diagrammen/bouwblokken/vertrekpunt-een-applicatiedienst.png)
 
@@ -103,7 +109,7 @@ Dit is de wijziging die in [§5](#5-de-wijziging-en-waarom-die-breekt) is doorge
 
 ### Vertrekpunt: een interactiepatroon
 
-**Diagram 9 — Een wijziging in een interactiepatroon.**
+**Diagram 10 — Een wijziging in een interactiepatroon.**
 
 ![Een wijziging in een interactiepatroon](src/diagrammen/bouwblokken/vertrekpunt-een-interactiepatroon.png)
 
@@ -111,7 +117,7 @@ Een patroon wordt over koppelingen heen hergebruikt. Event Notification zit onde
 
 ### Vertrekpunt: een schema
 
-**Diagram 10 — Een wijziging in een schema.**
+**Diagram 11 — Een wijziging in een schema.**
 
 ![Een wijziging in een schema](src/diagrammen/bouwblokken/vertrekpunt-een-schema.png)
 
@@ -140,7 +146,7 @@ Het hernoemen van een endpoint breekt bestaande aanroepen en is daarmee een majo
 
 Op bouwblokniveau, in de termen van [§4](#4-waar-een-versie-zit), raakt de hernoeming drie endpoints op twee applicatiediensten: `specificatie-planbaar` op `onderwijsspecificatiestructuur-afnemer`, en `verwerkingsstatus` en `inrichtingsstatus` op `verwerkingsuitkomst-afnemer`. Zes van de negen berichtstromen gebruiken een van die drie en bewegen dus mee, verdeeld over beide koppelingen: `Opleidingsaanbod aanmaken`, `Opleidingsaanbod herplannen`, `Planning niet gelukt melden`, `Acceptatietoets bij late wijziging`, `Leeromgeving inrichten en leermiddelkoppeling melden` en `Inrichting bijwerken na wijziging`. Elk van die zes gaat naar `versie 2.0`; de drie andere blijven op `1.0`.
 
-Let op het verschil met diagram 8, dat de reikwijdte van de dienst als geheel toont. `Specificatiestatus gewijzigd melden` zet `onderwijsspecificatiestructuur-afnemer` óók in, maar alleen via `specificatie-status-gewijzigd`, en die naam verandert niet. Op dienstniveau zijn er dus zeven stromen in beeld en op endpointniveau zes. Hoe fijnmaziger je kijkt, hoe kleiner de reikwijdte, en dat verschil is precies wat een afnemer wil weten: wie alleen `Abonnement registreren` en `Reconciliatie na gemist event` implementeert, hoeft bij deze major niets te doen.
+Let op het verschil met diagram 9, dat de reikwijdte van de dienst als geheel toont. `Specificatiestatus gewijzigd melden` zet `onderwijsspecificatiestructuur-afnemer` óók in, maar alleen via `specificatie-status-gewijzigd`, en die naam verandert niet. Op dienstniveau zijn er dus zeven stromen in beeld en op endpointniveau zes. Hoe fijnmaziger je kijkt, hoe kleiner de reikwijdte, en dat verschil is precies wat een afnemer wil weten: wie alleen `Abonnement registreren` en `Reconciliatie na gemist event` implementeert, hoeft bij deze major niets te doen.
 
 De keuze om te hernoemen is niet de goedkoopste. Je kunt de drie namen laten staan: dat breekt niemand, maar elke nieuwe afnemer moet dan te horen krijgen welke van de drie namen voor hém geldt, en de dienstpagina blijft een contract met drie gezichten. Je kunt de oude naam ook eerst als vervallen markeren en pas in een volgende major verwijderen: dat verkort de onderbreking bij de afnemer, maar verlengt de periode waarin de aanbieder twee paden onderhoudt. Hier wint begrijpelijkheid van het contract, en de prijs is een migratie die drie leveranciers raakt en die de traagste van de drie bepaalt.
 
@@ -150,17 +156,17 @@ Eén ding maakt deze major mild, en dat is de moeite waard om te benoemen omdat 
 
 Deze paragraaf gaat over de kant van de uitgever, en staat hier om twee redenen. In dit proces valt het besluit dat de bump een major is, en daar hangt alles aan wat de afnemers daarna moeten doen. En het levert de release notes op: het enige wat de drie leveranciers in handen krijgen, want zij lezen geen branches mee.
 
-Diagram 11 volgt de twee change requests tot op de release branches, met de rollen uit het [releaseproces](../Algemeen/release-management/Release-management-algemeen.md#6-releaseproces).
+Diagram 12 volgt de twee change requests tot op de release branches, met de rollen uit het [releaseproces](../Algemeen/release-management/Release-management-algemeen.md#6-releaseproces).
 
-**Diagram 11 — Van change request naar de release branches.**
+**Diagram 12 — Van change request naar de release branches.**
 
 ![Van change request naar de release branches](src/diagrammen/versiescenario/van-change-request-naar-de-release-branches.png)
 
 De contributor dient beide wijzigingen in op een feature branch en stelt per change request de bump voor. De maintainer reviewt en keurt goed, waarna de feature branch naar `dev` merget. Vanaf `dev` gaan beide wijzigingen naar release branch N, maar naar release branch N-1 gaat alleen de enum-uitbreiding: op de vorige major landt geen breaking change, dat is precies waar die tweede branch voor is.
 
-Diagram 12 loopt door tot de gepubliceerde release.
+Diagram 13 loopt door tot de gepubliceerde release.
 
-**Diagram 12 — Van baseline naar gepubliceerde release.**
+**Diagram 13 — Van baseline naar gepubliceerde release.**
 
 ![Van baseline naar gepubliceerde release](src/diagrammen/versiescenario/van-baseline-naar-gepubliceerde-release.png)
 
@@ -170,9 +176,9 @@ Die migratieparagraaf is het enige wat de drie leveranciers straks in handen heb
 
 ## 7. Stap voor stap: de adoptie
 
-De catalogus en het planningssysteem halen allebei de eerstvolgende kwartaalrelease. Diagram 13 volgt die twee.
+De catalogus en het planningssysteem halen allebei de eerstvolgende kwartaalrelease. Diagram 14 volgt die twee.
 
-**Diagram 13 — Adoptie: de catalogus en het planningssysteem.**
+**Diagram 14 — Adoptie: de catalogus en het planningssysteem.**
 
 ![Adoptie: de catalogus en het planningssysteem](src/diagrammen/versiescenario/adoptie-door-de-catalogus-en-het-planningssysteem.png)
 
@@ -180,9 +186,9 @@ De leverancier van de catalogus zet `POST verwerkingsuitkomst` naast de twee bes
 
 Het planningssysteem zet in dezelfde ronde `POST specificatie-beschikbaar` naast `POST specificatie-planbaar`, verlegt zijn eigen uitkomstmelding naar `POST verwerkingsuitkomst`, en herregistreert zijn afleveradres op `POST /abonnementen` bij de catalogus. De catalogus doet hetzelfde de andere kant op, want ook haar callback-URL voor de uitkomst verandert. Pas daarna meldt de catalogus op de nieuwe naam en kan het planningssysteem het oude endpoint verwijderen.
 
-Het leermanagementsysteem kan niet mee. Diagram 14 laat zien wat dat betekent.
+Het leermanagementsysteem kan niet mee. Diagram 15 laat zien wat dat betekent.
 
-**Diagram 14 — Adoptie: het leermanagementsysteem.**
+**Diagram 15 — Adoptie: het leermanagementsysteem.**
 
 ![Adoptie: het leermanagementsysteem](src/diagrammen/versiescenario/adoptie-door-het-leermanagementsysteem.png)
 
@@ -192,21 +198,21 @@ De catalogus ruimt pas op als de laatste afnemer over is. Op dat moment vervalle
 
 ## 8. Impact per systeem
 
-Diagram 15 en 16 tonen de toestand tijdens het venster, per koppeling: welke endpoints er op dat moment naast elkaar in de lucht zijn, en welke van de twee majors elke melding aanspreekt. Rood is wat vervalt, groen is wat de nieuwe major meebrengt.
+Diagram 16 en 17 tonen de toestand tijdens het venster, per koppeling: welke endpoints er op dat moment naast elkaar in de lucht zijn, en welke van de twee majors elke melding aanspreekt. Rood is wat vervalt, groen is wat de nieuwe major meebrengt.
 
-**Diagram 15 — Migratievenster: de catalogus en het planningssysteem.**
+**Diagram 16 — Migratievenster: de catalogus en het planningssysteem.**
 
 ![Migratievenster: de catalogus en het planningssysteem](src/diagrammen/versiescenario/migratievenster-catalogus-en-planningssysteem.png)
 
-**Diagram 16 — Migratievenster: de catalogus en het leermanagementsysteem.**
+**Diagram 17 — Migratievenster: de catalogus en het leermanagementsysteem.**
 
 ![Migratievenster: de catalogus en het leermanagementsysteem](src/diagrammen/versiescenario/migratievenster-catalogus-en-leermanagementsysteem.png)
 
 Het verschil tussen de twee platen is de kern van dit scenario. In de koppeling met planning dragen beide partijen tijdelijk twee endpoints voor hetzelfde bericht; in de koppeling met het leermanagementsysteem alleen de catalogus, omdat het endpoint aan de andere kant zijn naam houdt.
 
-Diagram 17 zet daar de versielijnen naast: welk systeem welke versie van het pakket implementeert zodra planning is overgestapt en het leermanagementsysteem nog wacht.
+Diagram 18 zet daar de versielijnen naast: welk systeem welke versie van het pakket implementeert zodra planning is overgestapt en het leermanagementsysteem nog wacht.
 
-**Diagram 17 — Na de bump: twee majors tegelijk in de lucht.**
+**Diagram 18 — Na de bump: twee majors tegelijk in de lucht.**
 
 ![Na de bump](src/diagrammen/versiescenario/na-de-bump.png)
 
@@ -251,9 +257,9 @@ Eerst een correctie op de vraag. Een systeem draait geen versie; een **koppeling
 
 ### De enige volgorde die niet werkt
 
-Diagram 18 loopt de vierde rij af. De afnemer doet precies wat de release notes vragen, en juist daardoor breekt de koppeling.
+Diagram 19 loopt de vierde rij af. De afnemer doet precies wat de release notes vragen, en juist daardoor breekt de koppeling.
 
-**Diagram 18 — Een afnemer die eerder overstapt dan zijn aanbieder.**
+**Diagram 19 — Een afnemer die eerder overstapt dan zijn aanbieder.**
 
 ![Een afnemer die eerder overstapt dan zijn aanbieder](src/diagrammen/situaties/de-volgorde-die-niet-werkt.png)
 
@@ -261,9 +267,9 @@ Daaruit volgt een regel die het beleid nergens uitspreekt: **de aanbieder gaat e
 
 ### De afnemer gaat niet mee
 
-De leverancier van het leermanagementsysteem kan besluiten `v2` over te slaan. Dat is geen nalatigheid: zijn eigen endpoint heette al goed, de enige wijziging is een aanroep die vandaag werkt, en daar zet een leverancier zelden capaciteit op. Diagram 19 toont de toestand die dan blijft staan.
+De leverancier van het leermanagementsysteem kan besluiten `v2` over te slaan. Dat is geen nalatigheid: zijn eigen endpoint heette al goed, de enige wijziging is een aanroep die vandaag werkt, en daar zet een leverancier zelden capaciteit op. Diagram 20 toont de toestand die dan blijft staan.
 
-**Diagram 19 — De afnemer gaat niet mee: het venster sluit niet uit zichzelf.**
+**Diagram 20 — De afnemer gaat niet mee: het venster sluit niet uit zichzelf.**
 
 ![De afnemer gaat niet mee](src/diagrammen/situaties/de-afnemer-gaat-niet-mee.png)
 
@@ -271,9 +277,9 @@ De catalogus draagt het oude pad voor onbepaalde tijd, en de toezegging van hoog
 
 ### De aanbieder loopt achter
 
-Loopt de aanbieder achter in plaats van een afnemer, dan heeft dat een andere vorm. Diagram 20 zet die naast de vorige.
+Loopt de aanbieder achter in plaats van een afnemer, dan heeft dat een andere vorm. Diagram 21 zet die naast de vorige.
 
-**Diagram 20 — De aanbieder loopt achter: geen enkele afnemer kan over.**
+**Diagram 21 — De aanbieder loopt achter: geen enkele afnemer kan over.**
 
 ![De aanbieder loopt achter](src/diagrammen/situaties/de-aanbieder-loopt-achter.png)
 
@@ -283,7 +289,7 @@ Een achterblijvende afnemer houdt één koppeling op `v1`; een achterblijvende a
 
 Komt er een volgende major voordat de traagste afnemer de vorige heeft gehaald, dan loopt de keten tegen het ondersteuningsvenster aan.
 
-**Diagram 21 — Een tweede major terwijl er nog een koppeling op de oudste draait.**
+**Diagram 22 — Een tweede major terwijl er nog een koppeling op de oudste draait.**
 
 ![Een tweede major tijdens het venster](src/diagrammen/situaties/een-tweede-major-tijdens-het-venster.png)
 
@@ -308,9 +314,9 @@ Dat is ook de plek waar het ondersteuningsvenster gaat knellen. De [applicatiedi
 
 ## 11. Drie versiesprongen naast elkaar
 
-Een major is het zwaarste geval en daarmee niet het gewone geval. Diagram 22 zet de drie bumptypes naast elkaar; het aantal pijlen is het verhaal.
+Een major is het zwaarste geval en daarmee niet het gewone geval. Diagram 23 zet de drie bumptypes naast elkaar; het aantal pijlen is het verhaal.
 
-**Diagram 22 — Wat elke sprong van de partijen vraagt.**
+**Diagram 23 — Wat elke sprong van de partijen vraagt.**
 
 ![Wat elke sprong van de partijen vraagt](src/diagrammen/versiescenario/reikwijdte-per-bumptype.png)
 

@@ -208,3 +208,22 @@ views {
     exclude * -> *
   }
 }
+
+views {
+  view koppelingen_overzicht {
+    title 'Versiescenario / De drie systemen in dit scenario'
+    order 9
+    description '
+      De onderwijscatalogus als aanbieder, met het planningssysteem en het
+      leermanagementsysteem als afnemers, en per richting wat erover beweegt.
+    '
+
+    autoLayout TopBottom 40 40
+
+    include instelling, instelling.oc, instelling.p, instelling.lms
+    exclude instelling.oc.** -> instelling.p.**
+    exclude instelling.p.** -> instelling.oc.**
+    exclude instelling.oc.** -> instelling.lms.**
+    exclude instelling.lms.** -> instelling.oc.**
+  }
+}
