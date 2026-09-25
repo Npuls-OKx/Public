@@ -193,20 +193,18 @@ views {
 
 views {
   view koppelingen_in_scope {
-    title 'Versiescenario / De twee koppelingen in dit scenario'
+    title 'Versiescenario / De twee koppelingen met hun berichtstromen'
     order 10
     description '
-      Niet de hele keten, maar de twee koppelingen waarover dit document gaat:
-      de onderwijscatalogus als aanbieder, met het planningssysteem en het
-      leermanagementsysteem als afnemers.
+      Niet de hele keten, maar de twee koppelingen waarover dit document gaat,
+      met de berichtstromen waaruit ze bestaan. Elke stroom draagt een eigen
+      versienummer; dat is de eenheid waarop versiebeheer plaatsvindt.
     '
 
     autoLayout TopBottom 40 40
 
-    include instelling, instelling.oc, instelling.p, instelling.lms
-    exclude instelling.oc.** -> instelling.p.**
-    exclude instelling.p.** -> instelling.oc.**
-    exclude instelling.oc.** -> instelling.lms.**
-    exclude instelling.lms.** -> instelling.oc.**
+    include spec, spec.kop_oc_p, spec.kop_oc_p.*, spec.kop_oc_lms, spec.kop_oc_lms.*
+    exclude spec.patronen
+    exclude * -> *
   }
 }

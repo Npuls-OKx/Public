@@ -25,11 +25,13 @@ Geslaagd wanneer een architect eruit kan afleiden wat een aangekondigde major vo
 
 ## 2. Het referentiebeeld
 
-Dit document gaat niet over de hele keten maar over twee koppelingen daarbinnen: de onderwijscatalogus als aanbieder, met het planningssysteem en het leermanagementsysteem als afnemers. De catalogus bezit de onderwijsspecificaties en meldt elke wijziging; de twee afnemers halen op wanneer het hun uitkomt en melden hun uitkomst terug ([U3](uitgangspunten.md#u3-resource-eigenaarschap), [U4](uitgangspunten.md#u4-event-notification)). Diagram 1 toont die verhouding, met per richting samengevat wat erover beweegt. Het volledige ecosysteem staat op de [informatiestromen-hoofdplaat](Applicatiecomponenten/README.md#ecosysteem).
+Dit document gaat niet over de hele keten maar over twee koppelingen daarbinnen: [onderwijscatalogus naar planning en roostering](Koppelingspecificaties/onderwijscatalogus-planning-en-roostering.md) en [onderwijscatalogus naar leermanagementsysteem](Koppelingspecificaties/onderwijscatalogus-leermanagementsysteem.md). Samen negen berichtstromen. Diagram 1 toont ze zoals de koppelingspecificaties ze beschrijven, en daarmee meteen waar versiebeheer feitelijk op aangrijpt: elke stroom draagt een eigen versienummer. Het volledige ecosysteem staat op de [informatiestromen-hoofdplaat](Applicatiecomponenten/README.md#ecosysteem).
 
-**Diagram 1 — De twee koppelingen in dit scenario.**
+**Diagram 1 — De twee koppelingen met hun berichtstromen.**
 
-![De twee koppelingen in dit scenario](src/diagrammen/versiescenario/de-twee-koppelingen-in-dit-scenario.png)
+![De twee koppelingen met hun berichtstromen](src/diagrammen/versiescenario/de-twee-koppelingen-met-hun-berichtstromen.png)
+
+De catalogus is in beide koppelingen de aanbieder: zij bezit de onderwijsspecificaties en meldt elke wijziging, waarna het planningssysteem en het leermanagementsysteem ophalen wanneer het hun uitkomt en hun uitkomst terugmelden ([U3](uitgangspunten.md#u3-resource-eigenaarschap), [U4](uitgangspunten.md#u4-event-notification)).
 
 Onder die drie blokken zit het referentiebeeld van dit scenario: per systeem het koppelvlak, daarin de applicatiediensten die het claimt, en onder elke dienst de endpoints waarmee het die dienst levert. Diagram 2 tot en met 4 tonen dat koppelvlak per systeem, elk op een eigen plaat zodat de endpoints leesbaar blijven.
 
