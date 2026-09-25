@@ -1,0 +1,133 @@
+specification {
+
+  element organisatie {
+    notation 'Organisatie of afgebakend geheel'
+    style {
+      textSize lg
+      shape rectangle
+      color gray
+      opacity 5%
+      border dashed
+    }
+  }
+
+  element rol {
+    notation 'Rol: een mens of een partij die handelt'
+    style {
+      textSize md
+      shape person
+      color secondary
+      size xs
+    }
+  }
+
+  element systeem {
+    notation 'Applicatiecomponent uit de keten'
+    style {
+      textSize lg
+      shape component
+      color green
+      opacity 5%
+      border dashed
+    }
+  }
+
+  element koppelvlak {
+    notation 'Koppelvlak: alle koppelingen die het component raken'
+    style {
+      textSize lg
+      shape rectangle
+      color slate
+      opacity 15%
+      border dotted
+    }
+  }
+
+  element dienst {
+    notation 'Applicatiedienst die het component implementeert'
+    style {
+      textSize md
+      shape rectangle
+      color blue
+      opacity 25%
+      size sm
+      padding sm
+    }
+  }
+
+  element gedrag {
+    notation 'Gedrag zonder eigen endpoint: de dienst roept aan of meldt'
+    style {
+      textSize md
+      shape rectangle
+      color gray
+      size md
+      padding sm
+    }
+  }
+
+  element endpoint {
+    notation 'Endpoint waarmee het component die dienst levert'
+    style {
+      textSize md
+      shape rectangle
+      color sky
+      size md
+      padding sm
+    }
+  }
+
+  element pakket {
+    notation 'Releasepakket onder zijn tag'
+    style {
+      textSize md
+      shape document
+      color green
+      size sm
+    }
+  }
+
+  element branch {
+    notation 'Branch in het repository'
+    style {
+      textSize md
+      shape queue
+      color amber
+      size xs
+    }
+  }
+
+  relationship melding {
+    notation 'Melding: een dun event met een verwijzing (U4)'
+    line dotted
+  }
+
+  relationship aanroep {
+    notation 'Aanroep: synchroon, met antwoord'
+    line solid
+  }
+
+  tag v1
+  tag v2
+  tag v3
+  tag breaking
+  tag additief
+  tag ongewijzigd
+}
+
+global {
+  styleGroup versiekleuren {
+    style element.tag = #v1 {
+      color amber
+    }
+    style element.tag = #v2 {
+      color green
+    }
+    style element.tag = #ongewijzigd {
+      color sky
+    }
+    style element.tag = #breaking {
+      color red
+    }
+  }
+}

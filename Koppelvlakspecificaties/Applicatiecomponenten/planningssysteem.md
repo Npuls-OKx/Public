@@ -8,15 +8,22 @@ Het planningssysteem maakt van een gepubliceerde onderwijsspecificatie planbaar 
 
 De view toont het gedeelde koppelvlak van planning en roostering op de informatiestromen-hoofdplaat v1.7. Beide componenten delen dit koppelvlak; het rooster zelf blijft bij het roostersysteem.
 
-## Endpoints
+![Applicatiediensten en endpoints van het koppelvlak](../src/diagrammen/referentie/koppelvlak-van-het-planningssysteem.png)
 
-Endpoints die het planningssysteem zelf implementeert. Authenticatie op elk endpoint: [auth-standaard](../auth-standaard.md).
+Dezelfde optelsom van binnen: elke applicatiedienst die het planningssysteem claimt, met daaronder de endpoints waarmee het die levert. Een dienst die zelf niets aanbiedt draagt in plaats daarvan een blok dat benoemt wat hij dan doet. De plaat wordt gegenereerd uit [`model/componenten.c4`](../model/componenten.c4); die bron gaat met de release mee, zodat de inhoud machinaal te lezen is en niet alleen als plaat.
 
-| Endpoint/event | Methode | Parameters | Request | Response | Statuscodes | Interacties |
-|---|---|---|---|---|---|---|
-| `/onderwijsaanbod/{id}` | GET | `status` (optioneel filter op onderliggende instanties) | — | [education-offering.json](../Datamodelschema's/education-offering.json): de gevraagde instantie plus haar subtree via `bovenliggendAanbodId` | 200, 400, 404 | I5 |
-| `/onderwijsaanbod` | GET | `specificatieId` (verplicht), `versie` (optioneel, standaard alle versies) | — | [education-offering.json](../Datamodelschema's/education-offering.json) (lijst): de instanties die deze specificatie instantiëren | 200, 400 | I7 |
-| `/abonnementen` | POST | — | [subscription.json](../Datamodelschema's/subscription.json): `callbackUrl` en de events | Abonnement-id | 201, 400 | I8 |
-| `specificatie-planbaar` | POST | — | [specification-reference.json](../Datamodelschema's/specification-reference.json) | — | 200 | I1 |
-| `specificatie-gewijzigd` | POST | — | [specification-changed.json](../Datamodelschema's/specification-changed.json) | — | 200 | I4 |
-| `specificatie-status-gewijzigd` | POST | — | [specification-status-changed.json](../Datamodelschema's/specification-status-changed.json) | — | 200 | I6 |
+## Applicatiediensten
+
+Dit component implementeert de volgende [applicatiediensten](../Applicatiediensten/README.md):
+
+- [onderwijsspecificatiestructuur-afnemer](../Applicatiediensten/onderwijsspecificatiestructuur-afnemer.md)
+- [planbaar-onderwijsaanbod-aanbieder](../Applicatiediensten/planbaar-onderwijsaanbod-aanbieder.md)
+- [verwerkingsuitkomst-aanbieder](../Applicatiediensten/verwerkingsuitkomst-aanbieder.md)
+- [afleverabonnement-aanbieder](../Applicatiediensten/afleverabonnement-aanbieder.md)
+- [afleverabonnement-afnemer](../Applicatiediensten/afleverabonnement-afnemer.md)
+
+## Koppelingen
+
+Het treedt op in deze koppelingen:
+
+- [Onderwijscatalogus naar planning en roostering](../Koppelingspecificaties/onderwijscatalogus-planning-en-roostering.md)

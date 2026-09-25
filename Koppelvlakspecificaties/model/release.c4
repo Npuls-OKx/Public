@@ -1,0 +1,119 @@
+model {
+
+  okx = organisatie 'OKx' {
+    description '
+      De uitgever van de standaard. Brengt releasepakketten uit onder een tag
+      en publiceert de release notes langs de standaardroute.
+    '
+
+    contributor = rol 'Contributor' {
+      description 'Dient change requests in.'
+    }
+    maintainer = rol 'Maintainer' {
+      description 'Reviewt en bepaalt wat er op de release branches landt.'
+    }
+    tester = rol 'Tester' {
+      description 'Toetst de baseline.'
+    }
+    pm = rol 'Product Manager' {
+      description 'Eigenaar van de communicatie.'
+    }
+
+    repo = organisatie 'Npuls-OKx/Public' {
+      description 'De bron van de releaseartefacten.'
+      technology 'git'
+
+      br_feature = branch 'feature/...' {
+        description 'Eén change request.'
+      }
+      br_dev = branch 'dev' {
+        description 'De gecureerde bron.'
+      }
+      br_n = branch 'release-N' {
+        description 'Actuele major.'
+      }
+      br_n1 = branch 'release-N-1' {
+        description 'Vorige major, alleen minor en patch.'
+      }
+    }
+
+    store = organisatie 'Release store' {
+      description 'Waar een gepubliceerd releasepakket landt, vindbaar onder zijn tag.'
+
+      pkg_kvs = pakket 'koppelvlakspecificatie' {
+        description 'De specificaties waarmee een partij een koppelvlak kan bouwen.'
+
+        kvs_v1 = pakket 'v1.0.0' {
+          #v1
+          description 'koppelvlakspecificatie, de basisversie'
+        }
+        kvs_v2 = pakket 'v2.0.0' {
+          #v2
+          description 'koppelvlakspecificatie: twee endpoints hernoemd, dus major'
+        }
+        kvs_v3 = pakket 'v3.0.0' {
+          #v3
+          description 'koppelvlakspecificatie: de volgende major, die het venster vult'
+        }
+      }
+      pkg_igm = pakket 'informatie-en-gegevensmodellen' {
+        description 'De vorm waarin onderwijsgegevens over een koppeling gaan.'
+
+        igm_v100 = pakket 'v1.0.0' {
+          #v1
+          description 'informatie- en gegevensmodellen'
+        }
+        igm_v110 = pakket 'v1.1.0' {
+          #additief
+          description 'gegevensmodellen: optioneel veld erbij, dus minor'
+        }
+        igm_v111 = pakket 'v1.1.1' {
+          description 'gegevensmodellen: parameternaam in de tekst gelijkgetrokken met het schema, dus patch'
+        }
+      }
+    }
+  }
+
+  lev_oc = rol 'Leverancier catalogus' {
+    description 'Kwartaalrelease.'
+  }
+  lev_p = rol 'Leverancier planning' {
+    description 'Kwartaalrelease.'
+  }
+  lev_lms = rol 'Leverancier LMS' {
+    description 'Halfjaarrelease.'
+  }
+
+  // Vaste verhoudingen: elke versie van het pakket pint de versie waarop zij bouwt
+  kvs_v1 -> igm_v100 'release.json, afhankelijkheden'
+  kvs_v2 -> igm_v110 'release.json, afhankelijkheden'
+
+  contributor -> br_feature 'dient change request in'
+  maintainer -> br_feature 'reviewt en keurt goed'
+  br_feature -> br_dev 'merge na review'
+  br_dev -> br_n 'alle wijzigingen'
+  br_dev -> br_n1 'alleen minor en patch'
+  br_n -> kvs_v2 'bouwt en tagt de baseline'
+  br_n -> igm_v110 'bouwt en tagt de baseline'
+  maintainer -> br_n 'bepaalt de bump'
+  tester -> br_n 'toetst de baseline'
+  pm -> kvs_v2 'publiceert release notes'
+
+  lev_oc -> instelling.oc 'bouwt en beheert'
+  lev_p -> instelling.p 'bouwt en beheert'
+  lev_lms -> instelling.lms 'bouwt en beheert'
+
+  kvs_v1 -> instelling.oc 'geïmplementeerd'
+  kvs_v1 -> instelling.p 'geïmplementeerd'
+  kvs_v1 -> instelling.lms 'geïmplementeerd'
+
+  kvs_v2 -> instelling.oc 'geïmplementeerd naast v1'
+  kvs_v2 -> instelling.p 'geïmplementeerd, v1 afgebouwd'
+  kvs_v2 -> instelling.lms 'nog niet geïmplementeerd: blijft op latest-1'
+
+  kvs_v3 -> instelling.oc 'zou hier landen'
+
+  // Wat elke sprong van de betrokken partijen vraagt. De patch vraagt niets en
+  // heeft daarom geen enkele relatie naar een systeem; dat is precies het punt.
+  igm_v110 -> instelling.oc 'mag de nieuwe waarde leveren, hoeft niet'
+}

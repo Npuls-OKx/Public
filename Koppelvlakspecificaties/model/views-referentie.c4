@@ -1,0 +1,94 @@
+// De views. Eén ketenbeeld en per component met een koppelvlak een eigen plaat.
+//
+// De koppelvlakplaten dragen geen relaties: ze tonen wat een component aanbiedt,
+// niet wie het aanroept. Dat betekent dat graphviz er geen bruikbare plaatsing
+// voor oplevert; scripts/likec4-layout.py rekent die daarom zelf uit.
+
+views {
+
+  view index {
+    title 'Referentie / De keten op hoofdlijnen'
+    description '
+      De applicatiecomponenten en wat er tussen ze beweegt. De catalogus bezit de
+      onderwijsspecificaties en meldt elke wijziging; de afnemers halen op wanneer
+      het hun uitkomt (U3, U4).
+    '
+    order 1
+
+    autoLayout TopBottom 40 40
+
+    include
+      instelling,
+      instelling.co,
+      instelling.oc,
+      instelling.p,
+      instelling.rooster,
+      instelling.sis,
+      instelling.lms,
+      instelling.sks
+
+    exclude instelling.oc.** -> instelling.p.**
+    exclude instelling.p.** -> instelling.oc.**
+    exclude instelling.oc.** -> instelling.sis.**
+    exclude instelling.sis.** -> instelling.oc.**
+    exclude instelling.oc.** -> instelling.lms.**
+    exclude instelling.lms.** -> instelling.oc.**
+  }
+
+  view koppelvlak_oc {
+    title 'Referentie / Koppelvlak van de onderwijscatalogus'
+    description '
+      De applicatiediensten die de catalogus claimt, met onder elke dienst de
+      endpoints waarmee zij die levert.
+    '
+    order 2
+
+    autoLayout TopBottom 40 40
+
+    include instelling.oc, instelling.oc.**
+    exclude * -> *
+  }
+
+  view koppelvlak_p {
+    title 'Referentie / Koppelvlak van het planningssysteem'
+    description '
+      Gedeeld met het roostersysteem; het rooster zelf blijft daar. Het
+      planningssysteem biedt zijn opleidingsaanbod aan en neemt de meldingen over
+      specificaties aan.
+    '
+    order 3
+
+    autoLayout TopBottom 40 40
+
+    include instelling.p, instelling.p.**
+    exclude * -> *
+  }
+
+  view koppelvlak_sis {
+    title 'Referentie / Koppelvlak van het studentinformatiesysteem'
+    description '
+      Het studentinformatiesysteem neemt twee dingen aan uit de catalogus: de
+      onderwijsspecificatiestructuur en de resultaatstructuur.
+    '
+    order 4
+
+    autoLayout TopBottom 40 40
+
+    include instelling.sis, instelling.sis.**
+    exclude * -> *
+  }
+
+  view koppelvlak_lms {
+    title 'Referentie / Koppelvlak van het leermanagementsysteem'
+    description '
+      De lichtste van de vier: de leeromgeving neemt de structuur aan en biedt de
+      leermiddelkoppeling aan.
+    '
+    order 5
+
+    autoLayout TopBottom 40 40
+
+    include instelling.lms, instelling.lms.**
+    exclude * -> *
+  }
+}
