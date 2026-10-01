@@ -11,9 +11,10 @@ Het onderscheid met de andere repositories bepaalt wat hier wel en niet thuishoo
 |---|---|---|
 | [`Npuls-OKx/meta`](https://github.com/Npuls-OKx/meta) | Kaderstelling | Referentiekader, ArchiMate-model, meeting-notulen, besluitvorming in wording |
 | **`Npuls-OKx/Public`** (hier) | Bron van releaseartefacten | Wat rijp genoeg is om gepubliceerd te worden |
-| `Npuls-OKx/specification` | Technische implementatie | OpenAPI-specificatie |
 
 Werk rijpt in **meta** en komt hierheen zodra het releasebaar is. Materiaal dat nog in beweging is hoort niet hier.
+
+De technische uitwerking op OEAPI leeft buiten beide repositories: een overlay op de OEAPI-specificatie, binnengehaald als git-submodule op een vastgezet versielabel. Waar die overlay komt te staan is nog niet besloten.
 
 ## Branchmodel
 
