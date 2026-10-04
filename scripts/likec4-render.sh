@@ -39,7 +39,8 @@ npx --yes likec4 export png "$modelmap" --output "$tijdelijk" --theme light --fl
   --filter 'release_*' --filter 'adoptie_*' --filter 'volgorde_*'
 npx --yes likec4 export png "$modelmap" --output "$tijdelijk" --theme light --flat \
   --filter 'afnemer_blijft' --filter 'aanbieder_achter' --filter 'derde_major' \
-  --filter 'reikwijdte' --filter 'staalkaart_*' --filter 'pad_*' --filter 'versielagen'
+  --filter 'reikwijdte' --filter 'staalkaart_*' --filter 'pad_*' --filter 'versielagen' \
+  --filter 'uitgave_*' --filter 'structuuroverzicht'
 
 python3 scripts/likec4-marge.py "$tijdelijk"
 python3 scripts/likec4-plaatsen.py "$tijdelijk" "$beeldmap"

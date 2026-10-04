@@ -385,6 +385,14 @@ Zonder die vorm is er geen manier om vooraf vast te stellen of twee partijen kun
 
 **De volgorde tussen aanbieder en afnemer staat nergens.** Een afnemer die eerder overstapt dan zijn aanbieder roept een endpoint aan dat nog niet bestaat, en dat is de enige combinatie van versies die niet werkt ([§9](#9-wanneer-niet-iedereen-meegaat)). De release notes vertellen elke partij wat er voor haar verandert, maar niet dat de aanbieder als eerste moet. Bij koppelingen waarvan de releasekalenders uiteenlopen is dat het verschil tussen een migratie en een storing.
 
+### Waar deze punten inmiddels op zijn beland
+
+De acht punten hierboven zijn vastgesteld tegen het beleid zoals het gold toen dit scenario werd doorgerekend. Het [versiebeheer van dit pakket](release-management.md#4-versiebeheer) is daarna op een andere leest geschoeid: een uitgave voegt bouwblokken toe en wijzigt de bestaande niet, en conformiteit hangt aan de applicatiediensten die een partij implementeert in plaats van aan het versienummer van het pakket.
+
+Dat raakt vier van de acht rechtstreeks. Er hoeft geen termijn te zijn wanneer niemand hoeft over te stappen; er is geen volgorde tussen aanbieder en afnemer wanneer er geen endpoint verdwijnt; twee majors tegelijk aanspreken is niet nodig wanneer het oude pad blijft staan; en de vraag of het pakketnummer zegt of jíj geraakt wordt, vervalt met het loslaten van conformiteit op versie. Voor de vraag wat een partij ondersteunt ligt er een voorstel: een voorgeschreven [metadata-endpoint](release-management.md#47-wat-een-component-ondersteunt).
+
+De drie overige punten staan nog open, en het zijn de punten die over de inhoud gaan in plaats van over het mechanisme: het intrekken van een abonnement, de verhouding tussen de versienummers van de twee pakketten, en de vraag wanneer een veld een gesloten enumeratie krijgt en wanneer een open lijst.
+
 ## 13. Conclusie
 
 [§12](#12-houdt-de-huidige-manier-van-versioneren-stand) beantwoordt of het beleid standhoudt. Deze paragraaf zet daar de vraag naast die een instelling of leverancier moet beantwoorden voordat er iets gebeurt: welke wijzigingen kun je verwachten, en hoe hard komen ze aan.
@@ -412,4 +420,4 @@ Drie dingen volgen daaruit.
 
 **De twee met maximale reikwijdte hebben geen migratiepad.** Een wijziging in de auth-standaard of in een uitgangspunt raakt alles tegelijk, en voor geen van beide beschrijft het beleid hoe je dat gefaseerd doet. Ze zijn onwaarschijnlijk, en dat is nu de enige reden dat het geen probleem is.
 
-**De berichtstroom is de eenheid waarin partijen elkaar moeten kunnen vinden.** Niet het bumptype, want dat is voor elk van de vier grote gevallen hierboven een major, en niet het pakketnummer, want dat beweegt bij alles mee. Twee partijen koppelen niet op een pakket maar op een stroom, en de vraag die zij elkaar moeten kunnen stellen is niet "welke release draai jij" maar "welke stromen ondersteun je, en op welke versie". Zolang daar geen vorm voor is, is de tabel hierboven een hulpmiddel om mee te plannen en niet iets wat twee systemen onderling kunnen vaststellen.
+**De berichtstroom is de eenheid waarin partijen elkaar moeten kunnen vinden.** Niet het bumptype, want dat is voor elk van de vier grote gevallen hierboven een major, en niet het pakketnummer, want dat beweegt bij alles mee. Twee partijen koppelen niet op een pakket maar op een stroom, en de vraag die zij elkaar moeten kunnen stellen is niet "welke release draai jij" maar "welke stromen ondersteun je, en op welke versie". Voor die vraag ligt er inmiddels een voorstel — een metadata-endpoint dat dit pakket voorschrijft — maar zolang dat niet is gespecificeerd en een berichtstroom geen stabiele aanduiding draagt, is de tabel hierboven een hulpmiddel om mee te plannen en niet iets wat twee systemen onderling kunnen vaststellen.
