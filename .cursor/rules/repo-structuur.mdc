@@ -8,10 +8,25 @@ De mapindeling volgt de containers uit het repo-setupmodel (`Project and repo se
 | Map | Container | Wat erin hoort |
 |---|---|---|
 | `Koppelvlakspecificaties/` | Source Material | Het releasepakket: wat een afnemer gebruikt om te bouwen |
+| `Informatie-en-gegevensmodellen/` | Source Material | Het releasepakket met de vorm van de uitgewisselde gegevens: het logisch gegevensmodel, de JSON Schema's en de regels daarbij |
 | `Referentiemateriaal/` | Reference Material | Onderbouwing: waarom de keuzes in het pakket zo zijn. Geen onderdeel van een release |
 | `scripts/` | CI/CD | Gereedschap: generatoren en validators |
 
 De container *Documentation* wordt ingevuld door de README's per map, niet door een aparte map.
+
+## Een pakket per ritme
+
+Een releasepakket is een map met een `release.json`. Een onderwerp krijgt een eigen pakket
+wanneer het zijn eigen ritme heeft: de schema's veranderen door een veld of een strakkere
+validatie, het berichtverkeer eromheen door een nieuwe koppeling of een ander patroon, en
+die twee vallen zelden samen. Gedeeld in één pakket zou elke schemawijziging de hele
+koppelvlakspecificatie opnieuw uitbrengen, en zou een versiesprong niet meer zeggen wat er
+veranderd is.
+
+Bouwt het ene pakket op het andere, dan legt het manifest dat vast onder
+`afhankelijkheden`, met de versie erbij. Verwijzingen daarheen krijgen bij het bouwen de
+tag van die versie, en de bouw faalt zodra het andere pakket doorschuift zonder dat iemand
+heeft vastgesteld of dat hier doorwerkt.
 
 ## Binnen het releasepakket
 

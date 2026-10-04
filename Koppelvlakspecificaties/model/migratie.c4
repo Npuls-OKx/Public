@@ -1,0 +1,48 @@
+// Wat de major-bump aan het koppelvlak verandert. De basis staat in keten.c4;
+// dit bestand voegt eraan toe wat versie 2.0.0 meebrengt en markeert wat vervalt.
+model {
+
+  extend instelling.oc.kv_oc.oc_uitkomst_afnemer {
+    oc_hook_verwerkingsuitkomst = endpoint 'POST verwerkingsuitkomst' {
+      #v2
+      description 'processing-status.json — één naam voor beide tegenpartijen'
+    }
+  }
+
+  extend instelling.oc.kv_oc.oc_uitkomst_afnemer.oc_hook_verwerkingsstatus {
+    #v1
+    #breaking
+  }
+
+  extend instelling.oc.kv_oc.oc_uitkomst_afnemer.oc_hook_inrichtingsstatus {
+    #v1
+    #breaking
+  }
+
+  extend instelling.p.kv_p.p_spec_afnemer {
+    p_hook_beschikbaar = endpoint 'POST specificatie-beschikbaar' {
+      #v2
+      description 'specification-reference.json — dezelfde melding, vastgestelde naam'
+    }
+  }
+
+  extend instelling.p.kv_p.p_spec_afnemer.p_hook_planbaar {
+    #v1
+    #breaking
+  }
+
+  extend instelling.lms.kv_lms.lms_spec_afnemer.lms_hook_beschikbaar {
+    #ongewijzigd
+  }
+
+  // Het verkeer zoals het na de bump loopt
+  instelling.oc.kv_oc.oc_spec_aanbieder.oc_spec_melden -[melding]-> instelling.p.kv_p.p_spec_afnemer.p_hook_beschikbaar 'meldt: specificatie beschikbaar' {
+    #v2
+  }
+  instelling.p.kv_p.p_uitkomst_aanbieder.p_uitkomst_melden -[melding]-> instelling.oc.kv_oc.oc_uitkomst_afnemer.oc_hook_verwerkingsuitkomst 'meldt: uitkomst planproces' {
+    #v2
+  }
+  instelling.lms.kv_lms.lms_uitkomst_aanbieder.lms_uitkomst_melden -[melding]-> instelling.oc.kv_oc.oc_uitkomst_afnemer.oc_hook_verwerkingsuitkomst 'meldt: uitkomst inrichting' {
+    #v2
+  }
+}

@@ -1,0 +1,15 @@
+---
+description: Structuurdiagrammen komen uit een model, niet uit een tekening
+alwaysApply: true
+---
+
+Een **structuurdiagram** — een koppelvlak, een applicatiecomponent, een ketenbeeld — komt uit het LikeC4-model in [`Koppelvlakspecificaties/model/`](../../Koppelvlakspecificaties/model/). De PNG in `src/` is gegenereerd: wijzig hem niet, maar wijzig het model en render opnieuw met `npm run diagrammen:render`.
+
+Een **sequentiediagram** blijft mermaid in de markdown. LikeC4 kan het wel, maar rendert het in markdown als stroomdiagram zonder stapnummers, en dat is een verslechtering.
+
+De modelleerconventies, de rendervolgorde en de valkuilen van het gereedschap staan in [`.agents/skills/okx-diagrammen/`](../../.agents/skills/okx-diagrammen/SKILL.md). Twee daarvan gaan het vaakst mis:
+
+- **Elke applicatiedienst is een container**, ook als er geen endpoint onder hangt. Zonder kind rendert dezelfde elementsoort op twee manieren. Geef zo'n dienst een blok van de soort `gedrag` dat benoemt wat hij dan doet.
+- **De begrippen op de plaat komen uit de dienstpagina's**, niet uit het hoofd. Wijzigt een endpoint in [`Applicatiediensten/`](../../Koppelvlakspecificaties/Applicatiediensten/), dan wijzigt het model mee.
+
+Het model gaat via `meeleveren` in [`release.json`](../../Koppelvlakspecificaties/release.json) met de release mee, zodat een afnemer de inhoud machinaal kan lezen en niet alleen de plaat krijgt.

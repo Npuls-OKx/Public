@@ -1,0 +1,133 @@
+// Waar een versiewijziging kan beginnen, en wat zij vandaaruit raakt.
+//
+// De reikwijdte van een wijziging hangt af van waar in het bouwwerk zij zit.
+// Deze views tonen per vertrekpunt het deel van het bouwwerk dat meebeweegt;
+// het vertrekpunt is rood, wat het raakt amber.
+
+views {
+
+  view versielagen {
+    title 'Bouwblokken / Waar de versienummers zitten'
+    order 30
+    description '
+      Twee releasepakketten dragen een versie, en daarbinnen draagt elke
+      berichtstroom er zelf ook een. Daartussen zitten lagen die geen eigen
+      nummer hebben maar wel meebewegen: de koppeling, de applicatiedienst en
+      het endpoint.
+    '
+
+    autoLayout LeftRight 60 40
+
+    // Alleen de lagen die in de keten van versienummers zitten. De instelling,
+    // het component en het koppelvlak staan er bewust niet bij: die zeggen wie
+    // de dienst claimt, niet waar een versie zit.
+    include
+      spec,
+      spec.kop_oc_lms,
+      spec.kop_oc_lms.bs_bijwerken,
+      instelling.oc,
+      instelling.oc.kv_oc.oc_spec_aanbieder,
+      instelling.oc.kv_oc.oc_spec_aanbieder.oc_get_delta,
+      modellen,
+      modellen.sch_delta
+  }
+
+  view pad_vanuit_schema {
+    title 'Bouwblokken / Vertrekpunt een schema'
+    order 31
+    description '
+      Een schema staat onder meerdere endpoints, die onder meerdere
+      applicatiediensten hangen, die door meerdere berichtstromen worden
+      ingezet. Van alle vertrekpunten waaiert dit het breedst uit.
+    '
+
+    autoLayout TopBottom 40 40
+
+    include modellen
+    include modellen.sch_changed with {
+      description 'wijzigt'
+      color red
+    }
+    include
+      instelling, instelling.p, instelling.p.kv_p, instelling.lms, instelling.lms.kv_lms,
+      spec, spec.kop_oc_p, spec.kop_oc_lms
+    include instelling.p.kv_p.p_spec_afnemer with { color amber }
+    include instelling.p.kv_p.p_spec_afnemer.p_hook_gewijzigd with { color amber }
+    include instelling.lms.kv_lms.lms_spec_afnemer with { color amber }
+    include instelling.lms.kv_lms.lms_spec_afnemer.lms_hook_gewijzigd with { color amber }
+    include spec.kop_oc_p.bs_aanmaken with { color amber }
+    include spec.kop_oc_p.bs_herplannen with { color amber }
+    include spec.kop_oc_p.bs_acceptatie with { color amber }
+    include spec.kop_oc_p.bs_status with { color amber }
+    include spec.kop_oc_lms.bs_inrichten with { color amber }
+    include spec.kop_oc_lms.bs_bijwerken with { color amber }
+  }
+
+  view pad_vanuit_dienst {
+    title 'Bouwblokken / Vertrekpunt een applicatiedienst'
+    order 32
+    description '
+      Een hernoemd endpoint raakt elke berichtstroom die de dienst inzet, en
+      daarmee beide koppelingen. Dit is de wijziging die in §4 is doorgerekend,
+      nu gezien vanuit het bouwwerk in plaats van vanuit het pakket.
+    '
+
+    autoLayout TopBottom 40 40
+
+    include instelling, instelling.oc, instelling.oc.kv_oc, spec, spec.kop_oc_p, spec.kop_oc_lms
+    include instelling.oc.kv_oc.oc_uitkomst_afnemer with {
+      description 'twee endpoints worden er één'
+      color red
+    }
+    include instelling.oc.kv_oc.oc_uitkomst_afnemer.oc_hook_verwerkingsstatus with { color red }
+    include instelling.oc.kv_oc.oc_uitkomst_afnemer.oc_hook_inrichtingsstatus with { color red }
+    include spec.kop_oc_p.bs_aanmaken with { color amber }
+    include spec.kop_oc_p.bs_herplannen with { color amber }
+    include spec.kop_oc_p.bs_nietgelukt with { color amber }
+    include spec.kop_oc_p.bs_acceptatie with { color amber }
+    include spec.kop_oc_lms.bs_inrichten with { color amber }
+    include spec.kop_oc_lms.bs_bijwerken with { color amber }
+  }
+
+  view pad_vanuit_berichtstroom {
+    title 'Bouwblokken / Vertrekpunt een berichtstroom'
+    order 33
+    description '
+      Een extra stap in één berichtstroom raakt alleen die stroom en zijn eigen
+      koppeling. De diensten en de endpoints blijven ongemoeid, en de andere
+      stromen in dezelfde koppeling ook. Dit is de kleinste reikwijdte die er is.
+    '
+
+    autoLayout TopBottom 40 40
+
+    include spec, spec.kop_oc_p, spec.kop_oc_p.*, spec.kop_oc_lms, spec.kop_oc_lms.*
+    include spec.kop_oc_p.bs_acceptatie with {
+      description 'krijgt een stap erbij: versie 1.1'
+      color red
+    }
+    exclude spec.patronen
+  }
+
+  view pad_vanuit_patroon {
+    title 'Bouwblokken / Vertrekpunt een interactiepatroon'
+    order 34
+    description '
+      Een patroon wordt over koppelingen heen hergebruikt. Event Notification
+      zit onder vijf van de negen berichtstromen, dus een wijziging daar raakt
+      beide koppelingen zonder dat er één endpoint verandert.
+    '
+
+    autoLayout TopBottom 40 40
+
+    include spec, spec.kop_oc_p, spec.kop_oc_lms, spec.patronen, spec.patronen.*
+    include spec.patronen.pat_event with {
+      description 'wijzigt'
+      color red
+    }
+    include spec.kop_oc_p.bs_aanmaken with { color amber }
+    include spec.kop_oc_p.bs_herplannen with { color amber }
+    include spec.kop_oc_p.bs_acceptatie with { color amber }
+    include spec.kop_oc_lms.bs_inrichten with { color amber }
+    include spec.kop_oc_lms.bs_bijwerken with { color amber }
+  }
+}

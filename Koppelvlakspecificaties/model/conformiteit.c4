@@ -1,0 +1,160 @@
+// Conformiteit en versie: waaraan een partij zich houdt, en wat het versienummer
+// dan nog doet.
+//
+// De platen hier horen bij het versiebeheer zoals release-management.md het
+// beschrijft: een partij implementeert bouwblokken, niet een uitgave, en een
+// uitgave voegt toe in plaats van te wijzigen.
+//
+// De elementen onder `voorbeeld` staan niet in de specificatie. Het is een
+// uitgewerkt rekenvoorbeeld.
+
+model {
+
+  // ── Rekenvoorbeeld: hoe uitgave 1.1 groeit ──────────────────────────────
+  voorbeeld = organisatie 'Rekenvoorbeeld: hoe een uitgave groeit' {
+
+    u10 = koppeling 'Koppelvlakspecificatie 1.0' {
+      u10_ks = koppeling 'Onderwijscatalogus naar planning en roostering' {
+        b10_a = berichtstroom 'Opleidingsaanbod aanmaken'
+      }
+      b10_p = patroon 'Event Notification'
+      b10_d = dienst 'onderwijsspecificatiestructuur-aanbieder'
+    }
+
+    u11 = koppeling 'Koppelvlakspecificatie 1.1' {
+      u11_ks = koppeling 'Onderwijscatalogus naar planning en roostering' {
+        b11_a = berichtstroom 'Opleidingsaanbod aanmaken' {
+          technology 'ongewijzigd'
+        }
+        b11_a2 = berichtstroom 'Opleidingsaanbod aanmaken 2026' {
+          technology 'nieuw in 1.1'
+        }
+      }
+      b11_p = patroon 'Event Notification' {
+        technology 'ongewijzigd'
+      }
+      b11_q = patroon 'Event-Carried State Transfer' {
+        technology 'nieuw ingezet in 1.1'
+      }
+      b11_d = dienst 'onderwijsspecificatiestructuur-aanbieder' {
+        technology 'ongewijzigd'
+      }
+    }
+  }
+
+  gegevensmodellen = organisatie 'Informatie- en gegevensmodellen' {
+    im10 = pakket 'datamodelschemas 1.0'
+    im11 = pakket 'datamodelschemas 1.1' {
+      description 'voegt veld X toe als optioneel veld'
+    }
+  }
+
+  // In 1.0 staat dienst D op de modellen van dat moment.
+  b10_d -> im10 'staat op'
+  // In 1.1 is D niet gewijzigd en draagt zijn endpoint beide versies: veld X is
+  // optioneel, dus wie op 1.0 bouwde blijft geldig.
+  b11_d -> im10 'staat op'
+  b11_d -> im11 'ondersteunt ook'
+
+  b10_a -> b10_p 'zet in'
+  b10_a -> b10_d 'zet in'
+  b11_a -> b11_p 'zet in'
+  b11_a -> b11_d 'zet in'
+  b11_a2 -> b11_q 'zet in'
+  b11_a2 -> b11_d 'zet in, met het nieuwe veld'
+
+  opbouw = organisatie 'Structuur van de koppelvlakspecificatie' {
+    o_uitgave = pakket 'Koppelvlakspecificatie' {
+      description 'uitgebracht onder een eigen tag'
+    }
+    o_koppeling = koppeling 'Koppelingspecificatie'
+    o_stroom = berichtstroom 'Berichtstroom'
+    o_patroon = patroon 'Interactiepatroon'
+    o_dienst = dienst 'Applicatiedienst'
+    o_endpoint = endpoint 'Endpoint'
+    o_modellen = pakket 'Informatie- en gegevensmodellen' {
+      description 'afhankelijkheid, gepind in release.json'
+    }
+  }
+
+  o_uitgave -> o_koppeling 'stelt vast'
+  o_koppeling -> o_stroom 'bepaalt'
+  o_stroom -> o_patroon 'zet in'
+  o_stroom -> o_dienst 'zet in'
+  o_dienst -> o_endpoint 'levert via'
+  o_endpoint -> o_modellen 'staat op een reeks versies van'
+}
+
+views {
+
+  view structuuroverzicht {
+    title 'Conformiteit / Structuur van de koppelvlakspecificatie'
+    description '
+      Een uitgave stelt koppelingspecificaties vast; die bepalen berichtstromen;
+      een berichtstroom zet interactiepatronen en applicatiediensten in; een
+      dienst levert via endpoints. De afhankelijkheid op de informatie- en
+      gegevensmodellen hangt aan het endpoint, en één endpoint kan een reeks
+      versies van dat pakket ondersteunen.
+    '
+    order 39
+
+    autoLayout LeftRight 70 40
+
+    include opbouw, opbouw.*
+  }
+
+  view uitgave_groeit {
+    title 'Conformiteit / Wat een uitgave toevoegt'
+    description '
+      Uitgave 1.1 laat berichtstroom A en interactiepatroon P staan zoals ze zijn
+      en zet er een nieuwe stroom A2 naast, met een nieuw patroon Q en het
+      optionele veld X uit datamodelschemas 1.1. Applicatiedienst D wijzigt niet en draagt
+      beide modelversies.
+    '
+    order 42
+
+    autoLayout LeftRight 60 40
+
+    include
+      voorbeeld,
+      u10,
+      u10_ks,
+      u11,
+      u11_ks,
+      gegevensmodellen
+
+    // Eén leesregel draagt deze plaat: blauw stond er al, groen komt er in 1.1
+    // bij. Daarom krijgt elk element hier zijn kleur toegewezen en niet de kleur
+    // van zijn soort, en daarom draagt deze plaat geen legenda.
+    include b10_a with {
+      color sky
+    }
+    include b10_p with {
+      color sky
+    }
+    include b10_d with {
+      color sky
+    }
+    include im10 with {
+      color sky
+    }
+    include b11_a with {
+      color sky
+    }
+    include b11_p with {
+      color sky
+    }
+    include b11_d with {
+      color sky
+    }
+    include b11_a2 with {
+      color green
+    }
+    include b11_q with {
+      color green
+    }
+    include im11 with {
+      color green
+    }
+  }
+}

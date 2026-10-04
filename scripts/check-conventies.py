@@ -57,6 +57,12 @@ WERKPROCESKOP = re.compile(
 INLINE_CODE = re.compile(r"`[^`]*`")
 
 
+# Mappen die nooit worden doorzocht. `node_modules` draagt het gereedschap voor de
+# diagrammen en staat vol met markdown van derden; dat is niet onze inhoud en niet
+# onze conventie.
+OVERSLAAN = {".git", "node_modules", "dist", "__pycache__"}
+
+
 def zonder_inline_code(regel: str) -> str:
     """Wat tussen backticks staat is een letterlijke weergave, geen verwijzing.
 
@@ -98,7 +104,7 @@ def markdown_bestanden(paden: list[str], root: Path) -> list[Path]:
             elif p.suffix == ".md":
                 alles.append(p)
     # Symlinks overslaan: die leveren hetzelfde bestand nog een keer op.
-    return sorted({p for p in alles if ".git" not in p.parts and not p.is_symlink()})
+    return sorted({p for p in alles if not OVERSLAAN & set(p.parts) and not p.is_symlink()})
 
 
 def controleer(bestand: Path, root: Path) -> list[str]:

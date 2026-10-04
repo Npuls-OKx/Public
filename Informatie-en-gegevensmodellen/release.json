@@ -1,0 +1,32 @@
+{
+  "$comment": "Manifest van het releasepakket informatie- en gegevensmodellen. Zie scripts/README.md voor wat een manifest kan en Algemeen/release-management/Release-management-algemeen.md voor het releaseproces. De secties volgen de modelleerlagen: laag 3 is het logisch gegevensmodel, laag 4 het technische. De schema's staan niet als document in 'documenten': de sectie leest ze bij het bouwen in uit de map die 'schemas' noemt, zodat de bijlage nooit uit de pas loopt met de bron.",
+  "naam": "Informatie- en gegevensmodellen",
+  "bestandsnaam": "informatie-en-gegevensmodellen",
+  "versie": "0.1.0",
+  "omschrijving": "De vorm waarin onderwijsgegevens over een koppeling gaan: het logisch gegevensmodel, de JSON Schema's en de regels daarbij.",
+  "documenten": [
+    "inleiding.md",
+    {
+      "inhoudsopgave": true
+    },
+    {
+      "sectie": "Logisch gegevensmodel",
+      "inleiding": "logisch-gegevensmodel.md",
+      "documenten": [
+        "regels.md"
+      ]
+    },
+    {
+      "sectie": "Technisch gegevensmodel",
+      "schemas": "schemas",
+      "documenten": [
+        "voorbeeldpayloads.md",
+        "mapping.md"
+      ]
+    },
+    "gebruiksprofielen.md"
+  ],
+  "meeleveren": [
+    "schemas"
+  ]
+}

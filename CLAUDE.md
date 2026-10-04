@@ -12,6 +12,7 @@ Dat ene feit stuurt alles. De lezer van een document hier is een architect of on
 | [`.cursor/rules/`](.cursor/rules/) | De conventies: governance, structuur, documenten, verwijzingen, stijl |
 | [`Koppelvlakspecificaties/uitgangspunten.md`](Koppelvlakspecificaties/uitgangspunten.md) | U1 tot en met U10, de aannames onder alle specificaties |
 | [`.agents/skills/okx-public-artefact/`](.agents/skills/okx-public-artefact/) | Hoe je hier een document schrijft, en welke valkuilen erbij horen |
+| [`.agents/skills/okx-diagrammen/`](.agents/skills/okx-diagrammen/) | Hoe je hier een structuurdiagram maakt: uit het LikeC4-model, niet als losse tekening |
 
 Ga je serieus aan de slag, draai dan eerst `/prep-repo-context`.
 
@@ -29,9 +30,10 @@ Ga je serieus aan de slag, draai dan eerst `/prep-repo-context`.
 python3 scripts/check-links.py        # dode links, ontsnappingen buiten de repo, dode anchors
 python3 scripts/check-conventies.py   # issueverwijzingen, metadatakoppen, branchlinks, inleiding
 python3 scripts/json-tree.py --check <document>.md    # payload-documenten
+npm run diagrammen:controle           # LikeC4-model: syntax, semantiek en layout drift
 ```
 
-Alle drie geven exitcode 1 bij een probleem. Een melding wegpoetsen door de controle te versoepelen is geen oplossing; los op wat eruit komt of leg uit waarom het geen probleem is.
+Alle vier geven exitcode 1 bij een probleem. Een melding wegpoetsen door de controle te versoepelen is geen oplossing; los op wat eruit komt of leg uit waarom het geen probleem is.
 
 Wat geen script vangt: of de aanleiding echt een aanleiding is, of een diagram iets toevoegt boven de tekst, en of de scope werkelijk afsluit. Loop dat met de hand na met `/controleer-document`.
 

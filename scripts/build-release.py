@@ -19,10 +19,22 @@ eigen H1 vervalt, want de sectiekop zegt hetzelfde al), en elk document eronder 
 een subhoofdstuk. In de losse documenten verandert een sectie niets: die blijven per
 bestand staan, met de mapstructuur eromheen.
 
-Een sectie kan in plaats van `documenten` ook `schemas` dragen: de naam van een map met
-JSON-schema's. Elk schema wordt dan een subhoofdstuk met zijn volledige inhoud, ingelezen
-bij het bouwen. De schema's blijven zo hun eigen bron; een bijlage die met de hand was
-overgeschreven zou bij de eerste schemawijziging uit de pas gaan lopen.
+Een sectie kan naast of in plaats van `documenten` ook `schemas` dragen: de naam van een
+map met JSON-schema's. Elk schema wordt dan een subhoofdstuk met zijn volledige inhoud,
+ingelezen bij het bouwen. De schema's blijven zo hun eigen bron; een bijlage die met de
+hand was overgeschreven zou bij de eerste schemawijziging uit de pas gaan lopen. Dragen
+ze allebei, dan komen de schema's eerst en staan de documenten er als toelichting achter.
+
+Naast `documenten` kan een manifest `afhankelijkheden` dragen: andere releasepakketten
+in dit repository waarop dit pakket bouwt, elk op een vastgelegde versie:
+
+    "afhankelijkheden": [{"pakket": "../Informatie-en-gegevensmodellen", "versie": "0.1.0"}]
+
+Twee pakketten hebben een eigen ritme, dus een verwijzing van het ene naar het andere
+hoort te wijzen naar de versie waartegen dit pakket geschreven is, niet naar wat er
+vandaag op de branch staat. Verwijzingen die in zo'n pakket landen krijgen daarom de tag
+van die versie. Staat het andere pakket inmiddels op een hogere versie, dan faalt de
+bouw: dan is er iets veranderd waarvan nog niet is vastgesteld of het hier doorwerkt.
 
 `{"inhoudsopgave": true}` bepaalt waar de inhoudsopgave staat. Zonder dat item komt zij
 direct achter de titelpagina; ervoor kan dan bijvoorbeeld eerst een inleiding staan.
@@ -228,6 +240,34 @@ def schema_bijlage(pakket: pathlib.Path, item: dict) -> str:
     return "\n\n".join(delen)
 
 
+def gepinde_pakketten(pakket: pathlib.Path, manifest: dict, repo_url: str) -> list:
+    """Per afhankelijkheid de map en de tag van de versie waarop dit pakket bouwt.
+
+    De versie in het manifest wordt getoetst aan het manifest van het andere pakket. Zo
+    blijft een afhankelijkheid een uitspraak die iemand heeft gedaan: schuift het andere
+    pakket door, dan valt dat op bij de eerste bouw in plaats van bij de eerste afnemer
+    die een verwijzing volgt die iets anders bleek te zeggen.
+    """
+    uit = []
+    for afhankelijkheid in manifest.get("afhankelijkheden", []):
+        map_van_pakket = (pakket / afhankelijkheid["pakket"]).resolve()
+        ander_manifest = map_van_pakket / "release.json"
+        if not ander_manifest.exists():
+            raise SystemExit(
+                f"afhankelijkheid {afhankelijkheid['pakket']} is geen releasepakket: "
+                f"geen release.json in {map_van_pakket}")
+        ander = json.loads(ander_manifest.read_text(encoding="utf-8"))
+        if ander["versie"] != afhankelijkheid["versie"]:
+            raise SystemExit(
+                f"{manifest['naam']} bouwt op {ander['naam']} v{afhankelijkheid['versie']}, "
+                f"maar dat pakket staat op v{ander['versie']}. Stel vast of de wijziging "
+                f"hier doorwerkt en werk de versie in 'afhankelijkheden' bij.")
+        tag = f"{ander['bestandsnaam']}-v{ander['versie']}"
+        uit.append({"naam": ander["naam"], "versie": ander["versie"], "map": map_van_pakket,
+                    "tag": tag, "url": f"{repo_url}/tree/{tag}"})
+    return uit
+
+
 def bouw_anchorkaart(pakket: pathlib.Path, documenten: list) -> dict:
     """Per document: van oorspronkelijk anchor naar uniek anchor in het gebundelde document."""
     kaart = {}
@@ -304,12 +344,12 @@ def bouw_inhoudsopgave(pakket: pathlib.Path, documenten: list, kaart: dict,
         regels.append(f"- [{label(item['sectie'], anchor)}](#{anchor})")
         if item.get("inleiding"):
             regels_voor(item["inleiding"], 0, sla_titel_over=True)
-        for doc in item.get("documenten") or []:
-            regels_voor(doc, 1)
         if item.get("schemas"):
             for bestand in schemabestanden(pakket, item):
                 anchor = f"schema--{slug(bestand.stem)}"
                 regels.append(f"  - [{label(bestand.name, anchor)}](#{anchor})")
+        for doc in item.get("documenten") or []:
+            regels_voor(doc, 1)
     return "\n".join(regels)
 
 
@@ -339,7 +379,7 @@ def verwijsbaar(bestand: pathlib.Path) -> str:
 
 def herschrijf_links(inhoud: str, doc: str, pakket: pathlib.Path, documenten: list,
                      kaart: dict, gebundeld: bool, repo_url: str, ref: str,
-                     beeldbasis: pathlib.Path = None) -> str:
+                     beeldbasis: pathlib.Path = None, gepind: list = ()) -> str:
     """Herschrijft relatieve verwijzingen zodat ze in een docx werken."""
     hier = (pakket / doc).parent
 
@@ -374,6 +414,17 @@ def herschrijf_links(inhoud: str, doc: str, pakket: pathlib.Path, documenten: li
             return m.group(0)
 
         doelpad = (hier / pad).resolve()
+
+        # Een ander releasepakket waarop dit pakket bouwt. De verwijzing wijst naar de
+        # versie die het manifest noemt en niet naar de ref die nu gebouwd wordt: dat
+        # pakket loopt zijn eigen ritme, en een relatieve link zou stilzwijgend
+        # meebewegen met wat er later in landt.
+        pin = next((g for g in gepind
+                    if doelpad == g["map"] or g["map"] in doelpad.parents), None)
+        if pin is not None:
+            vanaf_root = doelpad.relative_to(pakket.resolve().parent).as_posix()
+            url = f"{repo_url}/blob/{pin['tag']}/{vanaf_root}".replace(" ", "%20")
+            return f"[{tekst}]({url}#{anchor})" if anchor else f"[{tekst}]({url})"
 
         # Een document dat meegaat in het pakket wordt herkend aan zijn opgeloste pad,
         # niet aan de vraag of het binnen de pakketmap ligt: het manifest mag met ../
@@ -865,6 +916,7 @@ def main(argv: list) -> int:
 
     manifest = json.loads(manifest_pad.read_text(encoding="utf-8"))
     versie = args.versie or manifest["versie"]
+    gepind = gepinde_pakketten(pakket, manifest, args.repo_url)
     documenten = manifest["documenten"]
     paden = paden_van(documenten)
     basisnaam = f"{manifest['bestandsnaam']}-v{versie}"
@@ -907,7 +959,7 @@ def main(argv: list) -> int:
 
             # Losse variant: verwijzingen naar GitHub, eigen anchors blijven.
             los = herschrijf_links(met_beelden, doc, pakket, paden, kaart,
-                                   False, args.repo_url, args.ref)
+                                   False, args.repo_url, args.ref, gepind=gepind)
             los_pad = werk / "los" / uitvoerpad(doc)
             los_pad.parent.mkdir(parents=True, exist_ok=True)
             los_pad.write_text(los, encoding="utf-8")
@@ -918,10 +970,10 @@ def main(argv: list) -> int:
             # want dit deel belandt als markdown in het repository.
             deel = herschrijf_links_in_mermaid(ruw, doc, pakket, paden, kaart,
                                                True, args.repo_url, args.ref,
-                                               beeldbasis=pakket.resolve())
+                                               beeldbasis=pakket.resolve(), gepind=gepind)
             deel = herschrijf_links(deel, doc, pakket, paden, kaart,
                                     True, args.repo_url, args.ref,
-                                    beeldbasis=pakket.resolve())
+                                    beeldbasis=pakket.resolve(), gepind=gepind)
             deel = geef_koppen_ids(deel, doc, kaart)
             return verlaag_koppen(deel, 2 if in_sectie else 1)
 
@@ -943,19 +995,21 @@ def main(argv: list) -> int:
             subdocumenten = item.get("documenten") or []
             if item.get("inleiding"):
                 kop += "\n\n" + zonder_titel(bouw_deel(item["inleiding"], False))
-            elif subdocumenten:
+            elif subdocumenten and not item.get("schemas"):
                 # Zonder inleiding is er niets om de kop gezelschap te houden en houdt
                 # hij een pagina voor zich alleen. Dan maar samen met het eerste document.
+                # Dragen de schema's de sectie, dan volgen die direct op de kop en is er
+                # niets op te lossen.
                 kop += "\n\n" + bouw_deel(subdocumenten[0], True)
                 subdocumenten = subdocumenten[1:]
             gebundelde_delen.append(kop)
+            if item.get("schemas"):
+                # Vóór de documenten van de sectie: de schema's zijn het onderwerp, wat
+                # eromheen staat licht ze toe. Als één deel, want elk schema een eigen
+                # pagina zou een bijlage van vijfentwintig halflege pagina's opleveren.
+                gebundelde_delen.append(schema_bijlage(pakket, item))
             for doc in subdocumenten:
                 gebundelde_delen.append(bouw_deel(doc, True))
-            if item.get("schemas"):
-                # Achter de documenten, want de inhoudsopgave zet ze daar ook. En als
-                # één deel: elk schema een eigen pagina zou een bijlage van
-                # vijfentwintig halflege pagina's opleveren.
-                gebundelde_delen.append(schema_bijlage(pakket, item))
 
         # Noemt het manifest geen plek, dan staat de inhoudsopgave achter de titelpagina.
         if inhoud_op is None:
@@ -975,6 +1029,9 @@ def main(argv: list) -> int:
         # laten lopen met de documenten waaruit het is opgebouwd.
         titel = (f"# {manifest['naam']}\n\n{manifest.get('omschrijving', '')}\n\n"
                  f"Versie {versie}\n")
+        if gepind:
+            bouwt_op = "; ".join(f"[{g['naam']} v{g['versie']}]({g['url']})" for g in gepind)
+            titel += f"\nBouwt op {bouwt_op}\n"
         bundel = (GEGENEREERD + "\n\n" + titel
                   + PAGINA_EINDE_MARKERING + PAGINA_EINDE_MARKERING.join(gebundelde_delen))
         bundel = naar_github_anchors(bundel)

@@ -1,0 +1,13 @@
+{
+  "name": "okx-public",
+  "private": true,
+  "description": "Gereedschap voor de diagrammen in dit repository. De documenten zelf zijn markdown; node is alleen nodig om de LikeC4-modellen te renderen.",
+  "devDependencies": {
+    "likec4": "^1.59.4"
+  },
+  "scripts": {
+    "diagrammen:controle": "likec4 validate Koppelvlakspecificaties/model",
+    "diagrammen:preview": "likec4 start Koppelvlakspecificaties/model",
+    "diagrammen:render": "bash scripts/likec4-render.sh Koppelvlakspecificaties/model Koppelvlakspecificaties/src/diagrammen"
+  }
+}
