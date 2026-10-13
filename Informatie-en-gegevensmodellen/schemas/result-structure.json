@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://okx.npuls.nl/schema/result-structure/alfa",
+  "title": "Result structure and exam plan",
+  "DutchName": "Resultaatstructuur en examenplan",
+  "$comment": "Alfa en indicatief. Deze vorm onderbouwt welke velden het koppelvlak nodig heeft en kan wijzigen zolang de payload niet is vastgesteld.",
+  "type": "object",
+  "required": ["educationSpecifications"],
+  "properties": {
+    "educationSpecifications": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "specificationType", "version", "parentSpecificationId", "name", "status", "resultModel"],
+        "properties": {
+          "id": { "type": "string", "format": "uuid", "DutchName": "id" },
+          "specificationType": { "enum": ["examenplanspecificatie", "resultaateenheidspecificatie", "toetsonderdeelspecificatie"], "DutchName": "specificatieType" },
+          "version": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$", "DutchName": "versie" },
+          "parentSpecificationId": { "type": ["string", "null"], "format": "uuid", "DutchName": "bovenliggendSpecificatieId" },
+          "name": { "type": "string", "DutchName": "naam" },
+          "description": { "type": "string", "DutchName": "omschrijving" },
+          "status": { "type": "string", "DutchName": "status" },
+          "validFrom": { "type": "string", "format": "date", "DutchName": "geldigVanaf" },
+          "validUntil": { "type": ["string", "null"], "format": "date", "DutchName": "geldigTot" },
+          "appliesTo": { "type": "string", "format": "uuid", "$comment": "de opleidingsprogrammaspecificatie waarvoor dit examenplan geldt", "DutchName": "geldtVoor" },
+          "assesses": { "type": "string", "format": "uuid", "$comment": "de specificatie die deze resultaateenheid beoordeelt", "DutchName": "beoordeelt" },
+          "learningOutcomeId": { "type": "string", "format": "uuid", "$comment": "verwijst naar de leeruitkomst in de onderwijsspecificatie-payload; dit is de sleutel waarop het onderwijsresultaat wordt behaald (ADR 0022)", "DutchName": "leeruitkomstId" },
+          "learningOutcome": { "$ref": "./learning-outcome-designation.json", "DutchName": "leeruitkomst" },
+          "nature": { "enum": ["summatief", "formatief"], "DutchName": "aard" },
+          "assessmentForm": { "type": "string", "$comment": "open lijst: proeveVanBekwaamheid, kennistoets, praktijkopdracht, portfolio, criteriumgesprek", "DutchName": "toetsvorm" },
+          "aggregation": { "enum": ["gewogenGemiddelde", "som", "allenVoldoende", "minimaalAantal"], "DutchName": "aggregatie" },
+          "weighting": { "type": "number", "$comment": "relatief binnen de ouder; 0 bij formatief", "DutchName": "weging" },
+          "mandatory": { "type": "boolean", "DutchName": "verplicht" },
+          "resultModel": { "$ref": "./result-model.json", "DutchName": "resultaatmodel" },
+          "ruleSetReferences": { "type": "array", "items": { "type": "string", "format": "uuid" }, "DutchName": "regelsetVerwijzingen" },
+          "manifest": {
+            "type": "array",
+            "items": { "$ref": "./manifest-item.json" },
+            "DutchName": "manifest"
+          }
+        }
+      },
+      "DutchName": "onderwijsspecificaties"
+    },
+    "ruleSets": {
+      "type": "array",
+      "items": { "$ref": "./rule-set.json" },
+      "DutchName": "regelsets"
+    }
+  }
+}
