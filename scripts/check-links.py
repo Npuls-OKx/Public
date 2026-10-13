@@ -98,10 +98,17 @@ def doorlopen_symlink(doel: Path, root: Path) -> Path | None:
     return None
 
 
+# Mappen die nooit worden doorzocht. `node_modules` draagt het gereedschap voor de
+# diagrammen en staat vol met markdown van derden; dat is niet onze inhoud en niet
+# onze conventie.
+OVERSLAAN = {".git", "node_modules", "dist", "__pycache__"}
+
+
 def markdown_bestanden(paden: list[str], root: Path) -> list[Path]:
     def uit_map(p: Path) -> list[Path]:
         # Symlinks overslaan: die leveren hetzelfde bestand nog een keer op.
-        return [q for q in p.rglob("*.md") if ".git" not in q.parts and not q.is_symlink()]
+        return [q for q in p.rglob("*.md")
+                if not OVERSLAAN & set(q.parts) and not q.is_symlink()]
 
     if not paden:
         return sorted(uit_map(root))

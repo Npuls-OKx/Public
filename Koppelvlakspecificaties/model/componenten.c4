@@ -1,0 +1,302 @@
+// De applicatiecomponenten uit de keten, met per component het koppelvlak: de
+// applicatiediensten die het claimt en de endpoints waarmee het die levert.
+//
+// De bron is Applicatiecomponenten/ voor de diensten per component en
+// Applicatiediensten/ voor de endpoints per dienst. Wijzigt daar iets, dan
+// wijzigt het hier mee; het model verzint niets.
+//
+// Een dienst is altijd een container. Levert hij geen eigen endpoint, dan draagt
+// hij een blok van de soort `gedrag` dat benoemt wat hij dan wél doet.
+
+model {
+
+  instelling = organisatie 'Instelling' {
+    description 'De koppelingen worden eerst binnen één instelling uitgewerkt (U10).'
+
+    // ─────────────────────────────────────────────────────────────────────
+    // Onderwijscatalogus
+    // ─────────────────────────────────────────────────────────────────────
+    oc = systeem 'Onderwijscatalogus' {
+      description 'Distributiepunt voor onderwijsspecificaties. Bezit ze (U3) en meldt elke wijziging (U4).'
+      technology 'OC'
+
+      kv_oc = koppelvlak 'Koppelvlak onderwijscatalogus' {
+
+        oc_spec_aanbieder = dienst 'onderwijsspecificatiestructuur-aanbieder' {
+          description 'Stelt de vastgestelde structuur beschikbaar en maakt bekend wanneer die verandert.'
+
+          oc_get_spec = endpoint 'GET /onderwijsspecificaties/{id}' {
+            description 'education-specification.json'
+          }
+          oc_get_delta = endpoint 'GET /onderwijsspecificaties/{id}/delta' {
+            description 'JSON Patch, RFC 6902'
+          }
+          oc_get_speclijst = endpoint 'GET /onderwijsspecificaties' {
+            description 'specification-reference.json'
+          }
+          oc_spec_melden = gedrag 'Maakt bekend dat een specificatie beschikbaar of gewijzigd is' {
+            description 'Vraagt geen endpoint van de aanbieder: waar de melding landt hangt af van hoe de koppeling is ingericht.'
+          }
+        }
+
+        oc_resultaat_aanbieder = dienst 'resultaatstructuur-aanbieder' {
+          description 'Toetsonderdelen, weging en aggregatie.'
+
+          oc_get_examenplan = endpoint 'GET /examenplanspecificaties/{id}' {
+            description 'result-structure.json'
+          }
+        }
+
+        oc_uitkomst_afnemer = dienst 'verwerkingsuitkomst-afnemer' {
+          description 'Neemt de uitkomst van een verwerking aan, onder de naam die de koppeling eraan geeft.'
+
+          oc_hook_verwerkingsstatus = endpoint 'POST verwerkingsstatus' {
+            description 'processing-status.json; van planning'
+          }
+          oc_hook_inrichtingsstatus = endpoint 'POST inrichtingsstatus' {
+            description 'draagt geen schema; van het LMS en het SIS'
+          }
+        }
+
+        oc_aanbod_afnemer = dienst 'planbaar-onderwijsaanbod-afnemer' {
+          description 'Haalt op bij de aanbieder en stelt zelf niets beschikbaar.'
+
+          oc_aanbod_ophalen = gedrag 'Haalt het opleidingsaanbod op bij de aanbieder' {
+            description 'Stelt zelf niets beschikbaar, dus geen eigen endpoint.'
+          }
+        }
+
+        oc_leermiddel_afnemer = dienst 'leermiddelkoppeling-afnemer' {
+          description 'Neemt de melding aan dat het leermanagementsysteem een leermiddelkoppeling heeft gelegd.'
+
+          oc_hook_leermiddel = endpoint 'POST leermiddelkoppeling-beschikbaar' {
+            description 'payloadschema nog niet uitgewerkt'
+          }
+        }
+
+        oc_abonnement_aanbieder = dienst 'afleverabonnement-aanbieder' {
+          description 'Legt vast waar en waarvoor een partij meldingen wil ontvangen.'
+
+          oc_post_abonnementen = endpoint 'POST /abonnementen' {
+            description 'subscription.json'
+          }
+        }
+
+        oc_abonnement_afnemer = dienst 'afleverabonnement-afnemer' {
+          description 'Registreert zich bij de aanbieder en stelt zelf niets beschikbaar.'
+
+          oc_abonnement_registreren = gedrag 'Registreert het afleveradres bij de aanbieder' {
+            description 'Stelt zelf niets beschikbaar, dus geen eigen endpoint.'
+          }
+        }
+      }
+    }
+
+    // ─────────────────────────────────────────────────────────────────────
+    // Planningssysteem
+    // ─────────────────────────────────────────────────────────────────────
+    p = systeem 'Planningssysteem' {
+      description 'Maakt planbaar opleidingsaanbod van een gepubliceerde specificatie. Bezit het onderwijsaanbod (U3).'
+      technology 'P'
+
+      kv_p = koppelvlak 'Koppelvlak planning en roostering' {
+        description 'Gedeeld met het roostersysteem; het rooster zelf blijft daar.'
+
+        p_spec_afnemer = dienst 'onderwijsspecificatiestructuur-afnemer' {
+          description 'Neemt de meldingen over specificaties aan en haalt op wanneer het hem uitkomt.'
+
+          p_hook_planbaar = endpoint 'POST specificatie-planbaar' {
+            description 'specification-reference.json'
+          }
+          p_hook_gewijzigd = endpoint 'POST specificatie-gewijzigd' {
+            description 'specification-changed.json'
+          }
+          p_hook_status = endpoint 'POST specificatie-status-gewijzigd' {
+            description 'specification-status-changed.json'
+          }
+        }
+
+        p_aanbod_aanbieder = dienst 'planbaar-onderwijsaanbod-aanbieder' {
+          description 'Stelt het opleidingsaanbod beschikbaar, op instantie en als lijst bij een specificatie.'
+
+          p_get_aanbod_id = endpoint 'GET /onderwijsaanbod/{id}' {
+            description 'education-offering.json'
+          }
+          p_get_aanbod = endpoint 'GET /onderwijsaanbod' {
+            description 'education-offering.json, als lijst'
+          }
+        }
+
+        p_uitkomst_aanbieder = dienst 'verwerkingsuitkomst-aanbieder' {
+          description 'Meldt de uitkomst; die wordt niet op een eigen endpoint aangeboden.'
+
+          p_uitkomst_melden = gedrag 'Meldt de uitkomst van het planproces' {
+            description 'Waar de melding landt is een inrichtingskeuze van de koppeling.'
+          }
+        }
+
+        p_abonnement_aanbieder = dienst 'afleverabonnement-aanbieder' {
+          description 'Legt vast waar en waarvoor een partij meldingen wil ontvangen.'
+
+          p_post_abonnementen = endpoint 'POST /abonnementen' {
+            description 'subscription.json'
+          }
+        }
+
+        p_abonnement_afnemer = dienst 'afleverabonnement-afnemer' {
+          description 'Registreert zich bij de aanbieder en stelt zelf niets beschikbaar.'
+
+          p_abonnement_registreren = gedrag 'Registreert het afleveradres bij de aanbieder' {
+            description 'Stelt zelf niets beschikbaar, dus geen eigen endpoint.'
+          }
+        }
+      }
+    }
+
+    // ─────────────────────────────────────────────────────────────────────
+    // Studentinformatiesysteem
+    // ─────────────────────────────────────────────────────────────────────
+    sis = systeem 'Studentinformatiesysteem' {
+      description 'Kernregistratie en studievoortgang. Bezit de verbintenissen, de voortgang en de resultaten (U3).'
+      technology 'SIS'
+
+      kv_sis = koppelvlak 'Koppelvlak studentinformatiesysteem' {
+        description 'Kernregistratie (KRS) en studievoortgang (SVS) maken er deel van uit.'
+
+        sis_spec_afnemer = dienst 'onderwijsspecificatiestructuur-afnemer' {
+          description 'Neemt de meldingen over specificaties aan en haalt op wanneer het hem uitkomt.'
+
+          sis_hook_beschikbaar = endpoint 'POST specificatie-en-resultaatstructuur-beschikbaar' {
+            description 'specification-reference.json'
+          }
+          sis_hook_gewijzigd = endpoint 'POST specificatie-gewijzigd' {
+            description 'specification-changed.json'
+          }
+          sis_hook_status = endpoint 'POST specificatie-status-gewijzigd' {
+            description 'specification-status-changed.json'
+          }
+        }
+
+        sis_resultaat_afnemer = dienst 'resultaatstructuur-afnemer' {
+          description 'Neemt de resultaatstructuur aan en richt daarmee het nominale template in.'
+
+          sis_hook_resultaat = endpoint 'POST resultaatstructuur-beschikbaar' {
+            description 'payloadschema nog niet uitgewerkt'
+          }
+          sis_hook_examenplan = endpoint 'POST examenplanspecificatie-gewijzigd' {
+            description 'specification-changed.json, met wijzigingsklasse'
+          }
+        }
+
+        sis_uitkomst_aanbieder = dienst 'verwerkingsuitkomst-aanbieder' {
+          description 'Meldt de uitkomst; die wordt niet op een eigen endpoint aangeboden.'
+
+          sis_uitkomst_melden = gedrag 'Meldt de uitkomst van de inrichting' {
+            description 'Waar de melding landt is een inrichtingskeuze van de koppeling.'
+          }
+        }
+      }
+    }
+
+    // ─────────────────────────────────────────────────────────────────────
+    // Leermanagementsysteem
+    // ─────────────────────────────────────────────────────────────────────
+    lms = systeem 'Leermanagementsysteem' {
+      description 'De leeromgeving waarin de student het onderwijs volgt. Bezit de leermiddelkoppeling (U3).'
+      technology 'LMS'
+
+      kv_lms = koppelvlak 'Koppelvlak leermanagementsysteem' {
+
+        lms_spec_afnemer = dienst 'onderwijsspecificatiestructuur-afnemer' {
+          description 'Neemt de meldingen over specificaties aan, inclusief de inhoudsvelden van de leeruitkomsten.'
+
+          lms_hook_beschikbaar = endpoint 'POST specificatie-beschikbaar' {
+            description 'specification-reference.json'
+          }
+          lms_hook_gewijzigd = endpoint 'POST specificatie-gewijzigd' {
+            description 'specification-changed.json'
+          }
+          lms_hook_status = endpoint 'POST specificatie-status-gewijzigd' {
+            description 'specification-status-changed.json'
+          }
+        }
+
+        lms_leermiddel_aanbieder = dienst 'leermiddelkoppeling-aanbieder' {
+          description 'Stelt de gelegde koppeling naar leermiddelgroepen beschikbaar.'
+
+          lms_get_leermiddel = endpoint 'GET /leermiddelkoppelingen/{id}' {
+            description 'payloadschema nog niet uitgewerkt'
+          }
+        }
+
+        lms_uitkomst_aanbieder = dienst 'verwerkingsuitkomst-aanbieder' {
+          description 'Meldt de uitkomst; die wordt niet op een eigen endpoint aangeboden.'
+
+          lms_uitkomst_melden = gedrag 'Meldt de uitkomst van de inrichting' {
+            description 'Waar de melding landt is een inrichtingskeuze van de koppeling.'
+          }
+        }
+      }
+    }
+
+    // ─────────────────────────────────────────────────────────────────────
+    // Componenten zonder eigen koppelvlak in dit pakket
+    // ─────────────────────────────────────────────────────────────────────
+    co = systeem 'Curriculum-ontwerptool' {
+      description 'Ontwerpt de onderwijsspecificatie die de catalogus vaststelt. Draagt in dit pakket nog geen dienst.'
+      technology 'CO'
+    }
+
+    rooster = systeem 'Roostersysteem' {
+      description 'Plaatst het geplande aanbod in tijd en ruimte. Kent in dit pakket geen eigen koppeling en draagt geen endpoints.'
+      technology 'R'
+    }
+
+    sks = systeem 'Studentkeuzesysteem' {
+      description 'Ondersteunt de student bij het kiezen. Draagt in dit pakket nog geen dienst.'
+      technology 'SKS'
+    }
+  }
+
+  // ───────────────────────────────────────────────────────────────────────
+  // Wie roept wat aan. De bron is de dienst of het gedrag dat de aanroep doet,
+  // het doel is het endpoint dat hem aanneemt.
+  // ───────────────────────────────────────────────────────────────────────
+
+  oc_spec_melden -[melding]-> p_hook_planbaar 'meldt: specificatie planbaar'
+  oc_spec_melden -[melding]-> p_hook_gewijzigd 'meldt: specificatie gewijzigd'
+  oc_spec_melden -[melding]-> p_hook_status 'meldt: status gewijzigd'
+  p_spec_afnemer -[aanroep]-> oc_get_spec 'haalt structuur op'
+  p_spec_afnemer -[aanroep]-> oc_get_delta 'haalt delta op'
+  p_spec_afnemer -[aanroep]-> oc_get_speclijst 'reconciliatie na gemist event'
+  p_uitkomst_melden -[melding]-> oc_hook_verwerkingsstatus 'meldt: uitkomst planproces'
+  oc_aanbod_ophalen -[aanroep]-> p_get_aanbod_id 'haalt opleidingsaanbod op'
+  oc_aanbod_ophalen -[aanroep]-> p_get_aanbod 'reconciliatie na gemiste status'
+  p_abonnement_registreren -[aanroep]-> oc_post_abonnementen 'registreert afleveradres'
+  oc_abonnement_registreren -[aanroep]-> p_post_abonnementen 'registreert afleveradres'
+
+  oc_spec_melden -[melding]-> sis_hook_beschikbaar 'meldt: specificatie en resultaatstructuur beschikbaar'
+  oc_spec_melden -[melding]-> sis_hook_examenplan 'meldt: examenplanspecificatie gewijzigd'
+  sis_spec_afnemer -[aanroep]-> oc_get_spec 'haalt structuur op'
+  sis_resultaat_afnemer -[aanroep]-> oc_get_examenplan 'haalt resultaatstructuur op'
+  sis_uitkomst_melden -[melding]-> oc_hook_inrichtingsstatus 'meldt: uitkomst inrichting'
+
+  oc_spec_melden -[melding]-> lms_hook_beschikbaar 'meldt: specificatie beschikbaar'
+  oc_spec_melden -[melding]-> lms_hook_gewijzigd 'meldt: specificatie gewijzigd'
+  lms_spec_afnemer -[aanroep]-> oc_get_spec 'haalt structuur op'
+  lms_spec_afnemer -[aanroep]-> oc_get_delta 'haalt delta op'
+  lms_uitkomst_melden -[melding]-> oc_hook_inrichtingsstatus 'meldt: uitkomst inrichting'
+  lms_leermiddel_aanbieder -[melding]-> oc_hook_leermiddel 'meldt: leermiddelkoppeling beschikbaar'
+  oc_leermiddel_afnemer -[aanroep]-> lms_get_leermiddel 'haalt leermiddelkoppeling op'
+
+  // Samenvattende relaties op componentniveau, voor het ketenbeeld.
+  instelling.co -> instelling.oc 'levert de ontworpen onderwijsspecificatie'
+  instelling.oc -> instelling.p 'meldt specificaties, haalt opleidingsaanbod op'
+  instelling.p -> instelling.oc 'haalt structuur op, meldt de uitkomst van het planproces'
+  instelling.oc -> instelling.sis 'meldt specificatie en resultaatstructuur'
+  instelling.sis -> instelling.oc 'haalt structuur en resultaatstructuur op, meldt de inrichting'
+  instelling.oc -> instelling.lms 'meldt specificaties, haalt de leermiddelkoppeling op'
+  instelling.lms -> instelling.oc 'haalt structuur op, meldt inrichting en leermiddelkoppeling'
+  instelling.p -> instelling.rooster 'meldt dat de planning beschikbaar is'
+  instelling.rooster -> instelling.oc 'meldt dat het rooster bekend is'
+}

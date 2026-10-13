@@ -1,0 +1,121 @@
+// Staalkaart: wat LikeC4 aan vormen, kleuren en lijnen te bieden heeft.
+//
+// Dit hoort niet bij het scenario. Het staat hier om te kunnen zien welke
+// bouwstenen er zijn voordat je er een kiest, en om vast te leggen wat de
+// documentatie niet noemt: de kleuren blue, sky en slate zijn wél geldig.
+
+specification {
+  element staal {
+    style {
+      textSize md
+      size sm
+      padding sm
+    }
+  }
+}
+
+model {
+  staalkaart = organisatie 'Staalkaart' {
+
+    vormen = koppelvlak 'Vormen: shape' {
+      v_rectangle = staal 'rectangle' { style { shape rectangle } }
+      v_component = staal 'component' { style { shape component } }
+      v_person = staal 'person' { style { shape person } }
+      v_browser = staal 'browser' { style { shape browser } }
+      v_mobile = staal 'mobile' { style { shape mobile } }
+      v_cylinder = staal 'cylinder' { style { shape cylinder } }
+      v_storage = staal 'storage' { style { shape storage } }
+      v_queue = staal 'queue' { style { shape queue } }
+      v_bucket = staal 'bucket' { style { shape bucket } }
+      v_document = staal 'document' { style { shape document } }
+    }
+
+    kleuren = koppelvlak 'Kleuren: color' {
+      k_primary = staal 'primary' { style { color primary } }
+      k_secondary = staal 'secondary' { style { color secondary } }
+      k_muted = staal 'muted' { style { color muted } }
+      k_blue = staal 'blue' { style { color blue } }
+      k_sky = staal 'sky' { style { color sky } }
+      k_indigo = staal 'indigo' { style { color indigo } }
+      k_slate = staal 'slate' { style { color slate } }
+      k_gray = staal 'gray' { style { color gray } }
+      k_green = staal 'green' { style { color green } }
+      k_amber = staal 'amber' { style { color amber } }
+      k_red = staal 'red' { style { color red } }
+    }
+
+    randen = koppelvlak 'Randen: border, bij opacity onder 100%' {
+      r_solid = staal 'solid' { style { border solid opacity 20% } }
+      r_dashed = staal 'dashed' { style { border dashed opacity 20% } }
+      r_dotted = staal 'dotted' { style { border dotted opacity 20% } }
+      r_none = staal 'none' { style { border none opacity 20% } }
+    }
+
+    maten = koppelvlak 'Maten: size en textSize' {
+      m_xs = staal 'xs' { style { size xs } }
+      m_sm = staal 'sm' { style { size sm } }
+      m_md = staal 'md' { style { size md } }
+      m_lg = staal 'lg' { style { size lg } }
+      m_xl = staal 'xl' { style { size xl } }
+    }
+
+    lijnen = organisatie 'Lijnen en pijlpunten' {
+      l1 = staal 'line solid'
+      l1b = staal 'doel'
+      l2 = staal 'line dashed (standaard)'
+      l2b = staal 'doel'
+      l3 = staal 'line dotted'
+      l3b = staal 'doel'
+      l4 = staal 'head diamond'
+      l4b = staal 'doel'
+      l5 = staal 'head crow, tail vee'
+      l5b = staal 'doel'
+      l6 = staal 'head none'
+      l6b = staal 'doel'
+    }
+  }
+
+  l1 -> l1b { style { line solid } }
+  l2 -> l2b { style { line dashed } }
+  l3 -> l3b { style { line dotted } }
+  l4 -> l4b { style { head diamond } }
+  l5 -> l5b { style { head crow tail vee } }
+  l6 -> l6b { style { head none } }
+}
+
+views {
+  view staalkaart_vormen of staalkaart.vormen {
+    title 'Staalkaart / Vormen'
+    order 20
+    description 'Alle tien de waarden van `shape`.'
+    autoLayout TopBottom 40 40
+    include staalkaart.vormen.**
+    exclude * -> *
+  }
+
+  view staalkaart_kleuren of staalkaart.kleuren {
+    title 'Staalkaart / Kleuren'
+    order 21
+    description 'Alle elf geldige waarden van `color`. De documentatie noemt er acht; blue, sky en slate ontbreken daar.'
+    autoLayout TopBottom 40 40
+    include staalkaart.kleuren.**
+    exclude * -> *
+  }
+
+  view staalkaart_randen_en_maten of staalkaart {
+    title 'Staalkaart / Randen en maten'
+    order 22
+    description 'De vier randstijlen, zichtbaar bij een doorzichtig vlak, en de vijf maten.'
+    autoLayout TopBottom 40 40
+    include staalkaart.randen, staalkaart.randen.**, staalkaart.maten, staalkaart.maten.**
+    exclude * -> *
+  }
+
+  view staalkaart_lijnen of staalkaart.lijnen {
+    title 'Staalkaart / Lijnen en pijlpunten'
+    order 23
+    description 'De drie lijnstijlen en een greep uit de pijlpunten. De volledige lijst voor head en tail: normal, onormal, diamond, odiamond, crow, vee, open, none.'
+    autoLayout LeftRight 60 40
+    include staalkaart.lijnen.**
+  }
+}

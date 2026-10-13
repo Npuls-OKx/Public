@@ -1,12 +1,12 @@
-# Mapping veldnamen: Engels (UK) naar Nederlands
+# Mapping veldnamen
 
-De veldnamen in de datamodelschema's ([`Datamodelschema's/`](Datamodelschema's/)) zijn vertaald van Nederlands naar Engels (UK). Dit document legt per model vast welke Engelse veldnaam bij welke oorspronkelijke Nederlandse naam hoort, zodat wie de modellen kent vanuit eerdere Nederlandstalige documentatie of werksessies de nieuwe velden kan terugvoeren op de bekende termen.
+De veldnamen in de [schema's](schemas/) zijn vertaald van Nederlands naar Engels (UK). Dit document legt per model vast welke Engelse veldnaam bij welke oorspronkelijke Nederlandse naam hoort, zodat wie de modellen kent vanuit eerdere Nederlandstalige documentatie of werksessies de nieuwe velden kan terugvoeren op de bekende termen.
 
 Elke tabel dekt de velden van één schema. Velden in geneste objecten — de items van een array-eigenschap — staan in een aparte tabel direct daaronder, met een verwijzing naar de eigenschap waar ze bij horen. Vertaald zijn alleen de veldnamen: de sleutels onder `properties` en `required`. Enumeratiewaarden (zoals status- en typewaarden), `$id`, bestandsnamen en de `title`- en `$comment`-velden van de schema's blijven ongewijzigd Nederlands.
 
 ## Abonnement — Subscription
 
-[`subscription.json`](Datamodelschema's/subscription.json)
+[`subscription.json`](schemas/subscription.json)
 
 | English (UK) | Nederlands |
 |---|---|
@@ -16,7 +16,7 @@ Elke tabel dekt de velden van één schema. Velden in geneste objecten — de it
 
 ## Adres — Address
 
-[`address.json`](Datamodelschema's/address.json)
+[`address.json`](schemas/address.json)
 
 | English (UK) | Nederlands |
 |---|---|
@@ -28,7 +28,7 @@ Elke tabel dekt de velden van één schema. Velden in geneste objecten — de it
 
 ## Bron — Source
 
-[`source.json`](Datamodelschema's/source.json)
+[`source.json`](schemas/source.json)
 
 | English (UK) | Nederlands |
 |---|---|
@@ -38,7 +38,7 @@ Elke tabel dekt de velden van één schema. Velden in geneste objecten — de it
 
 ## Code — Code
 
-[`code.json`](Datamodelschema's/code.json)
+[`code.json`](schemas/code.json)
 
 | English (UK) | Nederlands |
 |---|---|
@@ -47,7 +47,7 @@ Elke tabel dekt de velden van één schema. Velden in geneste objecten — de it
 
 ## Geolocatie — Geolocation
 
-[`geolocation.json`](Datamodelschema's/geolocation.json)
+[`geolocation.json`](schemas/geolocation.json)
 
 | English (UK) | Nederlands |
 |---|---|
@@ -56,7 +56,7 @@ Elke tabel dekt de velden van één schema. Velden in geneste objecten — de it
 
 ## Groep — Group
 
-[`group.json`](Datamodelschema's/group.json)
+[`group.json`](schemas/group.json)
 
 | English (UK) | Nederlands |
 |---|---|
@@ -66,7 +66,7 @@ Elke tabel dekt de velden van één schema. Velden in geneste objecten — de it
 
 ## Knelpunt — Bottleneck
 
-[`bottleneck.json`](Datamodelschema's/bottleneck.json)
+[`bottleneck.json`](schemas/bottleneck.json)
 
 | English (UK) | Nederlands |
 |---|---|
@@ -76,7 +76,7 @@ Elke tabel dekt de velden van één schema. Velden in geneste objecten — de it
 
 ## Leeruitkomst-aanduiding — Learning outcome designation
 
-[`learning-outcome-designation.json`](Datamodelschema's/learning-outcome-designation.json)
+[`learning-outcome-designation.json`](schemas/learning-outcome-designation.json)
 
 | English (UK) | Nederlands |
 |---|---|
@@ -85,7 +85,7 @@ Elke tabel dekt de velden van één schema. Velden in geneste objecten — de it
 
 ## Leeruitkomst — Learning outcome
 
-[`learning-outcome.json`](Datamodelschema's/learning-outcome.json)
+[`learning-outcome.json`](schemas/learning-outcome.json)
 
 | English (UK) | Nederlands |
 |---|---|
@@ -103,7 +103,7 @@ Elke tabel dekt de velden van één schema. Velden in geneste objecten — de it
 
 ## Locatie — Location
 
-[`location.json`](Datamodelschema's/location.json)
+[`location.json`](schemas/location.json)
 
 | English (UK) | Nederlands |
 |---|---|
@@ -120,7 +120,7 @@ Elke tabel dekt de velden van één schema. Velden in geneste objecten — de it
 
 ## Manifest-item — Manifest item
 
-[`manifest-item.json`](Datamodelschema's/manifest-item.json)
+[`manifest-item.json`](schemas/manifest-item.json)
 
 | English (UK) | Nederlands |
 |---|---|
@@ -130,7 +130,7 @@ Elke tabel dekt de velden van één schema. Velden in geneste objecten — de it
 
 ## Omvang — Volume
 
-[`volume.json`](Datamodelschema's/volume.json)
+[`volume.json`](schemas/volume.json)
 
 | English (UK) | Nederlands |
 |---|---|
@@ -139,7 +139,7 @@ Elke tabel dekt de velden van één schema. Velden in geneste objecten — de it
 
 ## Onderwijsaanbod — Education offering
 
-[`education-offering.json`](Datamodelschema's/education-offering.json)
+[`education-offering.json`](schemas/education-offering.json)
 
 | English (UK) | Nederlands |
 |---|---|
@@ -169,7 +169,7 @@ Velden per item in `offeringInstances`:
 
 ## Onderwijsspecificatie-delta — Education specification delta
 
-[`education-specification-delta.json`](Datamodelschema's/education-specification-delta.json)
+[`education-specification-delta.json`](schemas/education-specification-delta.json)
 
 | English (UK) | Nederlands |
 |---|---|
@@ -180,7 +180,7 @@ Velden per item in `offeringInstances`:
 
 ## Onderwijsspecificatie — Education specification
 
-[`education-specification.json`](Datamodelschema's/education-specification.json)
+[`education-specification.json`](schemas/education-specification.json)
 
 | English (UK) | Nederlands |
 |---|---|
@@ -219,7 +219,7 @@ Velden per item in `educationSpecifications`:
 
 ## OrganisatieEenheid — Organisation unit
 
-[`organisation-unit.json`](Datamodelschema's/organisation-unit.json)
+[`organisation-unit.json`](schemas/organisation-unit.json)
 
 | English (UK) | Nederlands |
 |---|---|
@@ -231,7 +231,7 @@ Velden per item in `educationSpecifications`:
 
 ## Periode — Period
 
-[`period.json`](Datamodelschema's/period.json)
+[`period.json`](schemas/period.json)
 
 | English (UK) | Nederlands |
 |---|---|
@@ -240,7 +240,7 @@ Velden per item in `educationSpecifications`:
 
 ## Regelset — Rule set
 
-[`rule-set.json`](Datamodelschema's/rule-set.json)
+[`rule-set.json`](schemas/rule-set.json)
 
 | English (UK) | Nederlands |
 |---|---|
@@ -253,7 +253,7 @@ Velden per item in `educationSpecifications`:
 
 ## Resultaatmodel — Result model
 
-[`result-model.json`](Datamodelschema's/result-model.json)
+[`result-model.json`](schemas/result-model.json)
 
 | English (UK) | Nederlands |
 |---|---|
@@ -263,7 +263,7 @@ Velden per item in `educationSpecifications`:
 
 ## Resultaatstructuur en examenplan — Result structure and exam plan
 
-[`result-structure.json`](Datamodelschema's/result-structure.json)
+[`result-structure.json`](schemas/result-structure.json)
 
 | English (UK) | Nederlands |
 |---|---|
@@ -298,7 +298,7 @@ Velden per item in `educationSpecifications`:
 
 ## Specificatie-gewijzigd — Specification changed
 
-[`specification-changed.json`](Datamodelschema's/specification-changed.json)
+[`specification-changed.json`](schemas/specification-changed.json)
 
 | English (UK) | Nederlands |
 |---|---|
@@ -309,7 +309,7 @@ Velden per item in `educationSpecifications`:
 
 ## Specificatie-referentie — Specification reference
 
-[`specification-reference.json`](Datamodelschema's/specification-reference.json)
+[`specification-reference.json`](schemas/specification-reference.json)
 
 | English (UK) | Nederlands |
 |---|---|
@@ -318,7 +318,7 @@ Velden per item in `educationSpecifications`:
 
 ## Specificatie-status-gewijzigd — Specification status changed
 
-[`specification-status-changed.json`](Datamodelschema's/specification-status-changed.json)
+[`specification-status-changed.json`](schemas/specification-status-changed.json)
 
 | English (UK) | Nederlands |
 |---|---|
@@ -328,7 +328,7 @@ Velden per item in `educationSpecifications`:
 
 ## Verwerkingsstatus — Processing status
 
-[`processing-status.json`](Datamodelschema's/processing-status.json)
+[`processing-status.json`](schemas/processing-status.json)
 
 | English (UK) | Nederlands |
 |---|---|

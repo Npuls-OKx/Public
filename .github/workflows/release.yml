@@ -1,10 +1,15 @@
 name: Releasepakket
 
-# Bouwt het releasepakket bij elke push naar een release branch en zet het klaar als
-# concept-release. Het proces staat in Algemeen/release-management/Release-management-algemeen.md:
-# dev merget naar release branch N, de Tester toetst de baseline, en pas daarna landt
-# het pakket in de release store. Deze workflow automatiseert het bouwen en klaarzetten;
-# het publiceren blijft een handeling van een mens, zodat de QA-stap niet wordt overgeslagen.
+# Bouwt elk releasepakket in dit repository bij elke push naar een release branch en zet
+# het klaar als concept-release. Het proces staat in
+# Algemeen/release-management/Release-management-algemeen.md: dev merget naar release
+# branch N, de Tester toetst de baseline, en pas daarna landt het pakket in de release
+# store. Deze workflow automatiseert het bouwen en klaarzetten; het publiceren blijft een
+# handeling van een mens, zodat de QA-stap niet wordt overgeslagen.
+#
+# Een pakket is een map met een release.json; de workflow zoekt ze zelf op. Een nieuw
+# pakket toevoegen vraagt dus geen wijziging hier. Elk pakket draagt een eigen versie en
+# een eigen tag, want elk pakket heeft een eigen ritme en eigen afnemers.
 #
 # De versie komt uit release.json in de pakketmap, niet uit de tag. Zo bepaalt de bron
 # welke versie hij draagt en is de tag het gevolg, niet de invoer.
@@ -16,9 +21,8 @@ on:
   workflow_dispatch:
     inputs:
       pakket:
-        description: Pakketmap (map met release.json)
+        description: Pakketmap (map met release.json); leeg is alle pakketten
         required: false
-        default: Koppelvlakspecificaties
 
 permissions:
   contents: write
@@ -28,11 +32,49 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  pakketten:
+    name: Pakketten opzoeken
+    runs-on: ubuntu-latest
+    outputs:
+      lijst: ${{ steps.zoeken.outputs.lijst }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Mappen met een release.json opzoeken
+        id: zoeken
+        env:
+          GEVRAAGD: ${{ github.event.inputs.pakket }}
+        run: |
+          set -euo pipefail
+          if [ -n "$GEVRAAGD" ]; then
+            if [ ! -f "${GEVRAAGD}/release.json" ]; then
+              echo "::error::geen release.json in ${GEVRAAGD}"
+              exit 1
+            fi
+            lijst=$(jq -cn --arg p "$GEVRAAGD" '[$p]')
+          else
+            lijst=$(find . -mindepth 2 -maxdepth 2 -name release.json -printf '%h\n' \
+              | sed 's|^\./||' | sort | jq -R . | jq -cs .)
+          fi
+          if [ "$lijst" = "[]" ]; then
+            echo "::error::geen enkel releasepakket gevonden"
+            exit 1
+          fi
+          echo "lijst=${lijst}" >> "$GITHUB_OUTPUT"
+          echo "te bouwen: ${lijst}"
+
   bouwen:
     name: Bouwen en klaarzetten
+    needs: pakketten
     runs-on: ubuntu-latest
+    strategy:
+      # Niet afbreken bij de eerste fout: de pakketten staan los van elkaar, dus een
+      # pakket dat wel bouwt hoort klaargezet te worden.
+      fail-fast: false
+      matrix:
+        pakket: ${{ fromJson(needs.pakketten.outputs.lijst) }}
     env:
-      PAKKET: ${{ github.event.inputs.pakket || 'Koppelvlakspecificaties' }}
+      PAKKET: ${{ matrix.pakket }}
     steps:
       - uses: actions/checkout@v4
 
@@ -52,10 +94,6 @@ jobs:
         run: |
           set -euo pipefail
           manifest="${PAKKET}/release.json"
-          if [ ! -f "$manifest" ]; then
-            echo "::error::geen release.json in ${PAKKET}"
-            exit 1
-          fi
           versie=$(jq -r '.versie' "$manifest")
           naam=$(jq -r '.naam' "$manifest")
           bestandsnaam=$(jq -r '.bestandsnaam' "$manifest")
@@ -66,6 +104,7 @@ jobs:
           {
             echo "versie=${versie}"
             echo "naam=${naam}"
+            echo "bestandsnaam=${bestandsnaam}"
             echo "tag=${bestandsnaam}-v${versie}"
           } >> "$GITHUB_OUTPUT"
 
@@ -100,7 +139,8 @@ jobs:
           TAG: ${{ steps.manifest.outputs.tag }}
         # --ref bepaalt waarheen de verwijzingen in de gebouwde documenten wijzen. Dat
         # moet de tag zijn en niet de branch: een uitgebracht document hoort naar de
-        # versie te wijzen waarbij het hoort.
+        # versie te wijzen waarbij het hoort. Verwijzingen naar een pakket waarop dit
+        # pakket bouwt krijgen de tag van dát pakket; die staat in het manifest.
         run: python3 scripts/build-release.py "$PAKKET" --uit dist --ref "$TAG"
 
       - name: Concept-release bijwerken
@@ -109,6 +149,7 @@ jobs:
           TAG: ${{ steps.manifest.outputs.tag }}
           NAAM: ${{ steps.manifest.outputs.naam }}
           VERSIE: ${{ steps.manifest.outputs.versie }}
+          BESTANDSNAAM: ${{ steps.manifest.outputs.bestandsnaam }}
         run: |
           set -euo pipefail
           titel="${NAAM} v${VERSIE}"
@@ -120,14 +161,14 @@ jobs:
           | Artefact | Inhoud |
           |---|---|
           | \`${TAG}.docx\` | Alle documenten als één document, met inhoudsopgave |
-          | \`${TAG}-documenten.zip\` | De documenten los, mapstructuur behouden, plus de datamodelschema's |
+          | \`${TAG}-documenten.zip\` | De documenten los, mapstructuur behouden, plus wat het manifest meelevert |
 
           **Verwijzen naar deze versie.** De tag is het vaste punt: elke verwijzing die
           hem draagt blijft wijzen naar de inhoud van deze release, ook nadat de
           branches verder zijn gelopen.
 
           - De bronnen bij deze versie: ${basis}/tree/${TAG}
-          - Het volledige document als markdown: ${basis}/blob/${TAG}/${PAKKET}/koppelvlakspecificatie.md
+          - Het volledige document als markdown: ${basis}/blob/${TAG}/${PAKKET}/${BESTANDSNAAM}.md
           - Naar een regel verwijzen: open het bestand op de tag, klik het regelnummer
             aan (met shift een reeks) en deel de URL; die draagt de tag en verschuift
             dus niet.

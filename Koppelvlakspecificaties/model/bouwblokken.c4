@@ -1,0 +1,155 @@
+// De specificatie als bouwwerk: waar de versienummers zitten en wat waarvan afhangt.
+//
+// De keten in keten.c4 beschrijft wie wat implementeert. Dit bestand beschrijft
+// waaruit de specificatie zelf is opgebouwd, want daar zit de modulariteit: een
+// berichtstroom draagt zijn eigen versie, zet applicatiediensten en
+// interactiepatronen in, en die diensten dragen endpoints die op een schema uit
+// het pakket informatie- en gegevensmodellen staan.
+//
+// Bron: Koppelingspecificaties/ voor de berichtstromen en hun versiekolom,
+// Applicatiediensten/ voor de endpoints, Informatie-en-gegevensmodellen/schemas/
+// voor de schema's.
+
+specification {
+  element koppeling {
+    notation 'Koppeling: de gestandaardiseerde informatiestroom tussen twee componenten'
+    style {
+      textSize lg
+      shape rectangle
+      color slate
+      opacity 15%
+      border dotted
+    }
+  }
+
+  element berichtstroom {
+    notation 'Berichtstroom: draagt een eigen versienummer'
+    style {
+      textSize md
+      shape rectangle
+      color indigo
+      size md
+      padding sm
+    }
+  }
+
+  element patroon {
+    notation 'Interactiepatroon: hergebruikt over koppelingen heen'
+    style {
+      textSize md
+      shape rectangle
+      color muted
+      size md
+      padding sm
+    }
+  }
+
+  element schema {
+    notation 'JSON Schema uit het pakket informatie- en gegevensmodellen'
+    style {
+      textSize md
+      shape document
+      color green
+      size md
+      padding sm
+    }
+  }
+}
+
+model {
+
+  spec = organisatie 'Releasepakket koppelvlakspecificatie' {
+
+    kop_oc_p = koppeling 'Onderwijscatalogus naar planning en roostering' {
+      bs_aanmaken = berichtstroom 'Opleidingsaanbod aanmaken' { technology 'versie 1.0' }
+      bs_herplannen = berichtstroom 'Opleidingsaanbod herplannen' { technology 'versie 1.0' }
+      bs_nietgelukt = berichtstroom 'Planning niet gelukt melden' { technology 'versie 1.0' }
+      bs_acceptatie = berichtstroom 'Acceptatietoets bij late wijziging' { technology 'versie 1.0' }
+      bs_status = berichtstroom 'Specificatiestatus gewijzigd melden' { technology 'versie 1.0' }
+      bs_reconciliatie = berichtstroom 'Reconciliatie na gemist event' { technology 'versie 1.0' }
+      bs_abonnement = berichtstroom 'Abonnement registreren' { technology 'versie 1.0' }
+    }
+
+    kop_oc_lms = koppeling 'Onderwijscatalogus naar leermanagementsysteem' {
+      bs_inrichten = berichtstroom 'Leeromgeving inrichten en leermiddelkoppeling melden' { technology 'versie 1.0' }
+      bs_bijwerken = berichtstroom 'Inrichting bijwerken na wijziging' { technology 'versie 1.0' }
+    }
+
+    patronen = koppeling 'Interactiepatronen' {
+      pat_event = patroon 'Event Notification'
+      pat_async = patroon 'Asynchronous Request-Reply'
+      pat_ecst = patroon 'Event-Carried State Transfer'
+      pat_reqrep = patroon 'Request-Reply'
+      pat_subscr = patroon 'Subscription registration'
+    }
+  }
+
+  modellen = organisatie 'Releasepakket informatie- en gegevensmodellen' {
+    sch_spec = schema 'education-specification.json'
+    sch_delta = schema 'education-specification-delta.json'
+    sch_ref = schema 'specification-reference.json'
+    sch_changed = schema 'specification-changed.json'
+    sch_statuschanged = schema 'specification-status-changed.json'
+    sch_status = schema 'processing-status.json'
+    sch_offering = schema 'education-offering.json'
+    sch_subscription = schema 'subscription.json'
+  }
+
+  // ── Welke berichtstroom welk patroon inzet ─────────────────────────────
+  bs_aanmaken -> pat_event
+  bs_aanmaken -> pat_async
+  bs_herplannen -> pat_event
+  bs_herplannen -> pat_async
+  bs_nietgelukt -> pat_async
+  bs_acceptatie -> pat_event
+  bs_acceptatie -> pat_async
+  bs_status -> pat_ecst
+  bs_reconciliatie -> pat_reqrep
+  bs_abonnement -> pat_subscr
+  bs_inrichten -> pat_event
+  bs_inrichten -> pat_async
+  bs_bijwerken -> pat_event
+  bs_bijwerken -> pat_async
+
+  // ── Welke berichtstroom welke applicatiedienst inzet ───────────────────
+  bs_aanmaken -> instelling.oc.kv_oc.oc_spec_aanbieder
+  bs_aanmaken -> instelling.p.kv_p.p_spec_afnemer
+  bs_aanmaken -> instelling.oc.kv_oc.oc_uitkomst_afnemer
+  bs_aanmaken -> instelling.p.kv_p.p_aanbod_aanbieder
+  bs_herplannen -> instelling.oc.kv_oc.oc_spec_aanbieder
+  bs_herplannen -> instelling.p.kv_p.p_spec_afnemer
+  bs_herplannen -> instelling.oc.kv_oc.oc_uitkomst_afnemer
+  bs_nietgelukt -> instelling.oc.kv_oc.oc_uitkomst_afnemer
+  bs_nietgelukt -> instelling.p.kv_p.p_aanbod_aanbieder
+  bs_acceptatie -> instelling.p.kv_p.p_spec_afnemer
+  bs_acceptatie -> instelling.oc.kv_oc.oc_uitkomst_afnemer
+  bs_status -> instelling.p.kv_p.p_spec_afnemer
+  bs_reconciliatie -> instelling.oc.kv_oc.oc_spec_aanbieder
+  bs_reconciliatie -> instelling.p.kv_p.p_aanbod_aanbieder
+  bs_abonnement -> instelling.oc.kv_oc.oc_abonnement_aanbieder
+  bs_abonnement -> instelling.p.kv_p.p_abonnement_aanbieder
+  bs_inrichten -> instelling.oc.kv_oc.oc_spec_aanbieder
+  bs_inrichten -> instelling.lms.kv_lms.lms_spec_afnemer
+  bs_inrichten -> instelling.oc.kv_oc.oc_uitkomst_afnemer
+  bs_inrichten -> instelling.oc.kv_oc.oc_leermiddel_afnemer
+  bs_inrichten -> instelling.lms.kv_lms.lms_leermiddel_aanbieder
+  bs_bijwerken -> instelling.oc.kv_oc.oc_spec_aanbieder
+  bs_bijwerken -> instelling.lms.kv_lms.lms_spec_afnemer
+  bs_bijwerken -> instelling.oc.kv_oc.oc_uitkomst_afnemer
+
+  // ── Welk endpoint op welk schema staat ─────────────────────────────────
+  instelling.oc.kv_oc.oc_spec_aanbieder.oc_get_spec -> sch_spec
+  instelling.oc.kv_oc.oc_spec_aanbieder.oc_get_delta -> sch_delta
+  instelling.oc.kv_oc.oc_spec_aanbieder.oc_get_speclijst -> sch_ref
+  instelling.oc.kv_oc.oc_uitkomst_afnemer.oc_hook_verwerkingsstatus -> sch_status
+  instelling.oc.kv_oc.oc_abonnement_aanbieder.oc_post_abonnementen -> sch_subscription
+  instelling.p.kv_p.p_spec_afnemer.p_hook_planbaar -> sch_ref
+  instelling.p.kv_p.p_spec_afnemer.p_hook_gewijzigd -> sch_changed
+  instelling.p.kv_p.p_spec_afnemer.p_hook_status -> sch_statuschanged
+  instelling.p.kv_p.p_aanbod_aanbieder.p_get_aanbod_id -> sch_offering
+  instelling.p.kv_p.p_aanbod_aanbieder.p_get_aanbod -> sch_offering
+  instelling.p.kv_p.p_abonnement_aanbieder.p_post_abonnementen -> sch_subscription
+  instelling.lms.kv_lms.lms_spec_afnemer.lms_hook_beschikbaar -> sch_ref
+  instelling.lms.kv_lms.lms_spec_afnemer.lms_hook_gewijzigd -> sch_changed
+  instelling.lms.kv_lms.lms_spec_afnemer.lms_hook_status -> sch_statuschanged
+}

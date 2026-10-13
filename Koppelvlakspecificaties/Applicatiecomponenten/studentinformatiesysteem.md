@@ -8,11 +8,20 @@ Het studentinformatiesysteem is hier de combinatie van het **kernregistratiesyst
 
 De view toont het koppelvlak van het studentinformatiesysteem op de informatiestromen-hoofdplaat v1.7. Kernregistratie (KRS) en studievoortgang (SVS) maken er deel van uit.
 
-## Endpoints
+![Applicatiediensten en endpoints van het koppelvlak](../src/diagrammen/referentie/koppelvlak-van-het-studentinformatiesysteem.png)
 
-Endpoints die SIS zelf implementeert. Authenticatie op elk endpoint: [auth-standaard](../auth-standaard.md). Een eigen REST-endpoint serveert SIS in deze koppeling niet: de inrichtingsstatus draagt de referentie naar de inrichting al in het event mee, en een pull-operatie daarop is niet gedefinieerd.
+Dezelfde optelsom van binnen: elke applicatiedienst die het studentinformatiesysteem claimt, met daaronder de endpoints waarmee het die levert. Een dienst die zelf niets aanbiedt draagt in plaats daarvan een blok dat benoemt wat hij dan doet. De plaat wordt gegenereerd uit [`model/componenten.c4`](../model/componenten.c4); die bron gaat met de release mee, zodat de inhoud machinaal te lezen is en niet alleen als plaat.
 
-| Endpoint/event | Methode | Parameters | Request | Response | Statuscodes | Interacties |
-|---|---|---|---|---|---|---|
-| `specificatie-en-resultaatstructuur-beschikbaar` | POST | — | Specificatie-id en versie, examenplan-id en versie (payloadschema nog niet uitgewerkt) | — | 200 | S1 |
-| `examenplanspecificatie-gewijzigd` | POST | — | [specification-changed.json](../Datamodelschema's/specification-changed.json) | — | 200 | S5 |
+## Applicatiediensten
+
+Dit component implementeert de volgende [applicatiediensten](../Applicatiediensten/README.md):
+
+- [onderwijsspecificatiestructuur-afnemer](../Applicatiediensten/onderwijsspecificatiestructuur-afnemer.md)
+- [resultaatstructuur-afnemer](../Applicatiediensten/resultaatstructuur-afnemer.md)
+- [verwerkingsuitkomst-aanbieder](../Applicatiediensten/verwerkingsuitkomst-aanbieder.md)
+
+## Koppelingen
+
+Het treedt op in deze koppelingen:
+
+- [Onderwijscatalogus naar studentinformatiesysteem](../Koppelingspecificaties/onderwijscatalogus-studentinformatiesysteem.md)
