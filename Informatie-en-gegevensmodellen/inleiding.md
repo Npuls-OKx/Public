@@ -13,6 +13,17 @@ Dit document legt vast wat onderwijsgegevens betekenen en in welke vorm ze over 
 | 3. Logisch gegevensmodel | Entiteiten, velden en relaties, techniekonafhankelijk | Dit document |
 | 4. Technisch gegevensmodel | De JSON Schema's waartegen een implementatie valideert | Dit document |
 
+**Status per laag.** De lagen dragen niet dezelfde rijpheid, en dat is aan het pakket niet te zien.
+
+| Laag | Status |
+|---|---|
+| 1. Begrippen | Een reviewronde met leveranciers en instellingen doorlopen; de opmerkingen daaruit staan als issue |
+| 2. Conceptueel informatiemodel | Dezelfde ronde doorlopen; de ontwerpkeuzes dragen status voorstel |
+| 3. Logisch gegevensmodel | Alfa en in uitwerking |
+| 4. Technisch gegevensmodel | Alfa en in uitwerking; de interne structuur van een regelset is nog niet getypeerd |
+
+**Waarom laag 3 en 4 nu al meekomen.** De documenten van laag 2 verwijzen naar het logisch gegevensmodel, naar de regels daarbij en naar de schema's. Een pakket waarin die verwijzingen doodlopen is niet te bouwen en voor een lezer niet te volgen. De vier lagen reizen daarom samen, ook waar de onderste twee nog bewegen. Het scheiden van wat vaststaat en wat nog in uitwerking is volgt zodra laag 3 en 4 een eigen ronde hebben gehad.
+
 De [koppelvlakspecificatie](../Koppelvlakspecificaties/inleiding.md) beschrijft welke applicatiediensten een systeem implementeert en welk berichtverkeer daaroverheen gaat; zij verwijst naar dit pakket op een vastgelegde versie voor de vorm van wat er in die berichten zit. Deze modellen zijn **alfa en indicatief** ([U1](../Koppelvlakspecificaties/uitgangspunten.md#u1-indicatief-en-onderbouwend-niet-voorschrijvend)) en volgen de payloadvorm uit [U7](../Koppelvlakspecificaties/uitgangspunten.md#u7-payload-plat-met-verwijzingen-en-de-sleutelconventie): plat, met verwijzingen tussen objecten in plaats van nesting, zodat een consument alleen ophaalt wat hij nodig heeft.
 
 **Doel.** Een bouwer moet hieruit kunnen afleiden wat een term betekent, welke objecten er zijn, hoe ze samenhangen, welke velden ze dragen, en wat er geldt bovenop wat het schema afdwingt. Geslaagd is het document wanneer twee partijen die er onafhankelijk tegenaan bouwen berichten uitwisselen die elkaar begrijpen.

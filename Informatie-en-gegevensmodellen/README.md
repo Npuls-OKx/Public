@@ -24,6 +24,8 @@ De indeling volgt de modelleerlagen van OKx, van betekenis naar techniek.
 
 Wat er in welke volgorde in het releasedocument komt staat in [release.json](release.json).
 
+Laag 1 en 2 hebben een reviewronde gehad, laag 3 en 4 nog niet. Die laatste twee staan hier wel, omdat de documenten van laag 2 ernaar verwijzen en een pakket met doodlopende verwijzingen niet bouwt. De status per laag staat in [inleiding.md](inleiding.md) en gaat daarmee mee in het gebouwde document.
+
 ## Herkomst van laag 1 en 2
 
 Het ArchiMate-model waaruit de platen en `informatiemodel.json` komen, `begrippen.json` en de generatoren staan in de [meta-repository](https://github.com/Npuls-OKx/meta); daar wordt gemodelleerd en gereviewd. De documenten van laag 1 en 2 hier zijn de release-variant: geschreven door `scripts/publiceer-informatiemodel.py` in meta, met de verwijzingen omgezet naar paden binnen dit repository en de resterende verwijzingen naar meta gepind op een commit. Wijzig ze niet met de hand; een wijziging begint in meta en komt via dat script terug.
