@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://okx.npuls.nl/schema/education-offering/alfa",
+  "title": "Education offering",
+  "DutchName": "Onderwijsaanbod",
+  "$comment": "Alfa en indicatief. Deze vorm onderbouwt welke velden het koppelvlak nodig heeft en kan wijzigen zolang de payload niet is vastgesteld.",
+  "type": "object",
+  "required": ["offeringInstances"],
+  "properties": {
+    "offeringInstances": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "offeringType", "version", "parentOfferingId", "specificationReference", "name", "status"],
+        "properties": {
+          "id": { "type": "string", "format": "uuid", "DutchName": "id" },
+          "offeringType": { "enum": ["opleidingsaanbod", "opleidingsprogramma-aanbod", "onderwijseenheid-aanbod", "leergelegenheid"], "DutchName": "aanbodType" },
+          "version": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$", "DutchName": "versie" },
+          "parentOfferingId": { "type": ["string", "null"], "format": "uuid", "DutchName": "bovenliggendAanbodId" },
+          "specificationReference": { "$ref": "./specification-reference.json", "DutchName": "specificatieVerwijzing" },
+          "name": { "type": "string", "DutchName": "naam" },
+          "status": { "enum": ["inPlanning", "gepland", "nietRealiseerbaar", "geannuleerd"], "DutchName": "status" },
+          "bottlenecks": {
+            "type": "array",
+            "items": { "$ref": "./bottleneck.json" },
+            "DutchName": "knelpunten"
+          },
+          "cohort": { "type": "string", "DutchName": "cohort" },
+          "period": { "$ref": "./period.json", "DutchName": "periode" },
+          "minStudentCount": { "type": "integer", "DutchName": "minAantalStudenten" },
+          "maxStudentCount": { "type": "integer", "DutchName": "maxAantalStudenten" },
+          "locationId": { "type": "string", "format": "uuid", "DutchName": "locatieId" },
+          "executingTeamId": { "type": "string", "format": "uuid", "DutchName": "uitvoerendTeamId" },
+          "groups": {
+            "type": "array",
+            "items": { "$ref": "./group.json" },
+            "DutchName": "groepen"
+          }
+        }
+      },
+      "DutchName": "aanbodInstanties"
+    },
+    "locations": {
+      "type": "array",
+      "items": { "$ref": "./location.json" },
+      "DutchName": "locaties"
+    },
+    "organisationUnits": {
+      "type": "array",
+      "items": { "$ref": "./organisation-unit.json" },
+      "DutchName": "organisatieEenheden"
+    }
+  }
+}

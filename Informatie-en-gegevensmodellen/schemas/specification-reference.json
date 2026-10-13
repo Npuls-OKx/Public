@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://okx.npuls.nl/schema/specification-reference/alfa",
+  "title": "Specification reference",
+  "DutchName": "Specificatie-referentie",
+  "$comment": "Alfa en indicatief. Deze vorm onderbouwt welke velden het koppelvlak nodig heeft en kan wijzigen zolang de payload niet is vastgesteld.",
+  "type": "object",
+  "required": ["specificationId", "version"],
+  "properties": {
+    "specificationId": { "type": "string", "format": "uuid", "DutchName": "specificatieId" },
+    "version": { "type": "string", "DutchName": "versie" }
+  }
+}

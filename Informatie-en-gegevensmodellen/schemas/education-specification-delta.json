@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://okx.npuls.nl/schema/education-specification-delta/alfa",
+  "title": "Education specification delta",
+  "DutchName": "Onderwijsspecificatie-delta",
+  "$comment": "Alfa en indicatief. JSON Patch (RFC 6902) tussen twee versies van de onderwijsspecificatiestructuur; RFC 6902 is de normatieve definitie van de operatievorm, dit schema legt vast dat de respons daaraan voldoet.",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "required": ["op", "path"],
+    "properties": {
+      "op": { "enum": ["add", "remove", "replace", "move", "copy", "test"], "DutchName": "op" },
+      "path": { "type": "string", "DutchName": "path" },
+      "from": { "type": "string", "DutchName": "from" },
+      "value": { "DutchName": "value" }
+    }
+  }
+}

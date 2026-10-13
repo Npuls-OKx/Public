@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://okx.npuls.nl/schema/learning-outcome/alfa",
+  "title": "Learning outcome",
+  "DutchName": "Leeruitkomst",
+  "$comment": "Alfa en indicatief. Deze vorm onderbouwt welke velden het koppelvlak nodig heeft en kan wijzigen zolang de payload niet is vastgesteld.",
+  "type": "object",
+  "required": ["id", "version", "name", "source", "parentLearningOutcomeId", "indicativeVolume"],
+  "properties": {
+    "id": { "type": "string", "format": "uuid", "DutchName": "id" },
+    "version": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$", "DutchName": "versie" },
+    "name": { "type": "string", "DutchName": "naam" },
+    "source": { "$ref": "./source.json", "DutchName": "bron" },
+    "parentLearningOutcomeId": { "type": ["string", "null"], "format": "uuid", "DutchName": "bovenliggendLeeruitkomstId" },
+    "indicativeVolume": {
+      "type": "array",
+      "items": { "$ref": "./volume.json" },
+      "DutchName": "indicatieveOmvang"
+    },
+    "nlqfLevel": { "type": "integer", "minimum": 1, "maximum": 8, "DutchName": "nlqfNiveau" },
+    "credentialDocument": { "type": "string", "$comment": "open lijst: diploma, mbo-certificaat, microcredential", "DutchName": "waardedocument" },
+    "description": { "type": "string", "DutchName": "omschrijving" },
+    "result": { "type": "string", "DutchName": "resultaat" },
+    "behaviour": { "type": "array", "items": { "type": "string" }, "DutchName": "gedrag" }
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://okx.npuls.nl/schema/manifest-item/alfa",
+  "title": "Manifest item",
+  "DutchName": "Manifest-item",
+  "$comment": "Alfa en indicatief. Deze vorm onderbouwt welke velden het koppelvlak nodig heeft en kan wijzigen zolang de payload niet is vastgesteld.",
+  "type": "object",
+  "required": ["specificationId", "version", "relation"],
+  "properties": {
+    "specificationId": { "type": "string", "format": "uuid", "DutchName": "specificatieId" },
+    "version": { "type": "string", "DutchName": "versie" },
+    "relation": { "enum": ["onderdeel", "variant", "referentie"], "DutchName": "relatie" }
+  }
+}
