@@ -57,16 +57,15 @@ De [koppelvlakspecificatie](../Koppelvlakspecificaties/inleiding.md) beschrijft 
   - [3.6 Begrippenfamilies](#36-begrippenfamilies)
   - [3.7 Notatie](#37-notatie)
   - [3.8 Ontwerpkeuzes](#38-ontwerpkeuzes)
-  - [3.9 Naar het logisch gegevensmodel](#39-naar-het-logisch-gegevensmodel)
-  - [3.10 Verwante documenten](#310-verwante-documenten)
-  - [3.11 Informatiemodel OKx naast OEAPI v6](#311-informatiemodel-okx-naast-oeapi-v6)
-    - [3.11.1 Context](#3111-context)
-    - [3.11.2 Inleiding](#3112-inleiding)
-    - [3.11.3 Doel](#3113-doel)
-    - [3.11.4 Scope](#3114-scope)
-    - [3.11.5 Notatie](#3115-notatie)
-    - [3.11.6 Dekking door OEAPI v6](#3116-dekking-door-oeapi-v6)
-    - [3.11.7 Verwante documenten](#3117-verwante-documenten)
+  - [3.9 Verwante documenten](#39-verwante-documenten)
+  - [3.10 Informatiemodel OKx naast OEAPI v6](#310-informatiemodel-okx-naast-oeapi-v6)
+    - [3.10.1 Context](#3101-context)
+    - [3.10.2 Inleiding](#3102-inleiding)
+    - [3.10.3 Doel](#3103-doel)
+    - [3.10.4 Scope](#3104-scope)
+    - [3.10.5 Notatie](#3105-notatie)
+    - [3.10.6 Dekking door OEAPI v6](#3106-dekking-door-oeapi-v6)
+    - [3.10.7 Verwante documenten](#3107-verwante-documenten)
 - [4 Logisch gegevensmodel](#4-logisch-gegevensmodel)
   - [4.1 Onderwijsspecificatie](#41-onderwijsspecificatie)
   - [4.2 Onderwijsaanbod](#42-onderwijsaanbod)
@@ -76,59 +75,59 @@ De [koppelvlakspecificatie](../Koppelvlakspecificaties/inleiding.md) beschrijft 
   - [4.6 Onderwijscatalogus naar leermanagementsysteem](#46-onderwijscatalogus-naar-leermanagementsysteem)
   - [4.7 Regels bij de schema's](#47-regels-bij-de-schemas)
 - [5 Technisch gegevensmodel](#5-technisch-gegevensmodel)
-  - [5.1 address.json](#51-addressjson)
-  - [5.2 bottleneck.json](#52-bottleneckjson)
-  - [5.3 code.json](#53-codejson)
-  - [5.4 education-offering.json](#54-education-offeringjson)
-  - [5.5 education-specification-delta.json](#55-education-specification-deltajson)
-  - [5.6 education-specification.json](#56-education-specificationjson)
-  - [5.7 geolocation.json](#57-geolocationjson)
-  - [5.8 group.json](#58-groupjson)
-  - [5.9 learning-outcome-designation.json](#59-learning-outcome-designationjson)
-  - [5.10 learning-outcome.json](#510-learning-outcomejson)
-  - [5.11 location.json](#511-locationjson)
-  - [5.12 manifest-item.json](#512-manifest-itemjson)
-  - [5.13 organisation-unit.json](#513-organisation-unitjson)
-  - [5.14 period.json](#514-periodjson)
-  - [5.15 processing-status.json](#515-processing-statusjson)
-  - [5.16 result-model.json](#516-result-modeljson)
-  - [5.17 result-structure.json](#517-result-structurejson)
-  - [5.18 rule-set.json](#518-rule-setjson)
-  - [5.19 source.json](#519-sourcejson)
-  - [5.20 specification-changed.json](#520-specification-changedjson)
-  - [5.21 specification-reference.json](#521-specification-referencejson)
-  - [5.22 specification-status-changed.json](#522-specification-status-changedjson)
-  - [5.23 subscription.json](#523-subscriptionjson)
-  - [5.24 volume.json](#524-volumejson)
-  - [5.25 Voorbeeldpayloads](#525-voorbeeldpayloads)
-    - [5.25.1 Voorbeeld onderwijsspecificatie](#5251-voorbeeld-onderwijsspecificatie)
-    - [5.25.2 Voorbeeld onderwijsaanbod](#5252-voorbeeld-onderwijsaanbod)
-    - [5.25.3 Voorbeeld resultaatstructuur en examenplan](#5253-voorbeeld-resultaatstructuur-en-examenplan)
-  - [5.26 Mapping veldnamen](#526-mapping-veldnamen)
-    - [5.26.1 Abonnement — Subscription](#5261-abonnement--subscription)
-    - [5.26.2 Adres — Address](#5262-adres--address)
-    - [5.26.3 Bron — Source](#5263-bron--source)
-    - [5.26.4 Code — Code](#5264-code--code)
-    - [5.26.5 Geolocatie — Geolocation](#5265-geolocatie--geolocation)
-    - [5.26.6 Groep — Group](#5266-groep--group)
-    - [5.26.7 Knelpunt — Bottleneck](#5267-knelpunt--bottleneck)
-    - [5.26.8 Leeruitkomst-aanduiding — Learning outcome designation](#5268-leeruitkomst-aanduiding--learning-outcome-designation)
-    - [5.26.9 Leeruitkomst — Learning outcome](#5269-leeruitkomst--learning-outcome)
-    - [5.26.10 Locatie — Location](#52610-locatie--location)
-    - [5.26.11 Manifest-item — Manifest item](#52611-manifest-item--manifest-item)
-    - [5.26.12 Omvang — Volume](#52612-omvang--volume)
-    - [5.26.13 Onderwijsaanbod — Education offering](#52613-onderwijsaanbod--education-offering)
-    - [5.26.14 Onderwijsspecificatie-delta — Education specification delta](#52614-onderwijsspecificatie-delta--education-specification-delta)
-    - [5.26.15 Onderwijsspecificatie — Education specification](#52615-onderwijsspecificatie--education-specification)
-    - [5.26.16 OrganisatieEenheid — Organisation unit](#52616-organisatieeenheid--organisation-unit)
-    - [5.26.17 Periode — Period](#52617-periode--period)
-    - [5.26.18 Regelset — Rule set](#52618-regelset--rule-set)
-    - [5.26.19 Resultaatmodel — Result model](#52619-resultaatmodel--result-model)
-    - [5.26.20 Resultaatstructuur en examenplan — Result structure and exam plan](#52620-resultaatstructuur-en-examenplan--result-structure-and-exam-plan)
-    - [5.26.21 Specificatie-gewijzigd — Specification changed](#52621-specificatie-gewijzigd--specification-changed)
-    - [5.26.22 Specificatie-referentie — Specification reference](#52622-specificatie-referentie--specification-reference)
-    - [5.26.23 Specificatie-status-gewijzigd — Specification status changed](#52623-specificatie-status-gewijzigd--specification-status-changed)
-    - [5.26.24 Verwerkingsstatus — Processing status](#52624-verwerkingsstatus--processing-status)
+  - [5.1 Voorbeeldpayloads](#51-voorbeeldpayloads)
+    - [5.1.1 Voorbeeld onderwijsspecificatie](#511-voorbeeld-onderwijsspecificatie)
+    - [5.1.2 Voorbeeld onderwijsaanbod](#512-voorbeeld-onderwijsaanbod)
+    - [5.1.3 Voorbeeld resultaatstructuur en examenplan](#513-voorbeeld-resultaatstructuur-en-examenplan)
+  - [5.2 Mapping veldnamen](#52-mapping-veldnamen)
+    - [5.2.1 Abonnement — Subscription](#521-abonnement--subscription)
+    - [5.2.2 Adres — Address](#522-adres--address)
+    - [5.2.3 Bron — Source](#523-bron--source)
+    - [5.2.4 Code — Code](#524-code--code)
+    - [5.2.5 Geolocatie — Geolocation](#525-geolocatie--geolocation)
+    - [5.2.6 Groep — Group](#526-groep--group)
+    - [5.2.7 Knelpunt — Bottleneck](#527-knelpunt--bottleneck)
+    - [5.2.8 Leeruitkomst-aanduiding — Learning outcome designation](#528-leeruitkomst-aanduiding--learning-outcome-designation)
+    - [5.2.9 Leeruitkomst — Learning outcome](#529-leeruitkomst--learning-outcome)
+    - [5.2.10 Locatie — Location](#5210-locatie--location)
+    - [5.2.11 Manifest-item — Manifest item](#5211-manifest-item--manifest-item)
+    - [5.2.12 Omvang — Volume](#5212-omvang--volume)
+    - [5.2.13 Onderwijsaanbod — Education offering](#5213-onderwijsaanbod--education-offering)
+    - [5.2.14 Onderwijsspecificatie-delta — Education specification delta](#5214-onderwijsspecificatie-delta--education-specification-delta)
+    - [5.2.15 Onderwijsspecificatie — Education specification](#5215-onderwijsspecificatie--education-specification)
+    - [5.2.16 OrganisatieEenheid — Organisation unit](#5216-organisatieeenheid--organisation-unit)
+    - [5.2.17 Periode — Period](#5217-periode--period)
+    - [5.2.18 Regelset — Rule set](#5218-regelset--rule-set)
+    - [5.2.19 Resultaatmodel — Result model](#5219-resultaatmodel--result-model)
+    - [5.2.20 Resultaatstructuur en examenplan — Result structure and exam plan](#5220-resultaatstructuur-en-examenplan--result-structure-and-exam-plan)
+    - [5.2.21 Specificatie-gewijzigd — Specification changed](#5221-specificatie-gewijzigd--specification-changed)
+    - [5.2.22 Specificatie-referentie — Specification reference](#5222-specificatie-referentie--specification-reference)
+    - [5.2.23 Specificatie-status-gewijzigd — Specification status changed](#5223-specificatie-status-gewijzigd--specification-status-changed)
+    - [5.2.24 Verwerkingsstatus — Processing status](#5224-verwerkingsstatus--processing-status)
+  - [5.3 address.json](#53-addressjson)
+  - [5.4 bottleneck.json](#54-bottleneckjson)
+  - [5.5 code.json](#55-codejson)
+  - [5.6 education-offering.json](#56-education-offeringjson)
+  - [5.7 education-specification-delta.json](#57-education-specification-deltajson)
+  - [5.8 education-specification.json](#58-education-specificationjson)
+  - [5.9 geolocation.json](#59-geolocationjson)
+  - [5.10 group.json](#510-groupjson)
+  - [5.11 learning-outcome-designation.json](#511-learning-outcome-designationjson)
+  - [5.12 learning-outcome.json](#512-learning-outcomejson)
+  - [5.13 location.json](#513-locationjson)
+  - [5.14 manifest-item.json](#514-manifest-itemjson)
+  - [5.15 organisation-unit.json](#515-organisation-unitjson)
+  - [5.16 period.json](#516-periodjson)
+  - [5.17 processing-status.json](#517-processing-statusjson)
+  - [5.18 result-model.json](#518-result-modeljson)
+  - [5.19 result-structure.json](#519-result-structurejson)
+  - [5.20 rule-set.json](#520-rule-setjson)
+  - [5.21 source.json](#521-sourcejson)
+  - [5.22 specification-changed.json](#522-specification-changedjson)
+  - [5.23 specification-reference.json](#523-specification-referencejson)
+  - [5.24 specification-status-changed.json](#524-specification-status-changedjson)
+  - [5.25 subscription.json](#525-subscriptionjson)
+  - [5.26 volume.json](#526-volumejson)
 - [6 Gebruiksprofielen](#6-gebruiksprofielen)
   - [6.1 Onderwijscatalogus naar planning en roostering](#61-onderwijscatalogus-naar-planning-en-roostering)
   - [6.2 Onderwijscatalogus naar studentinformatiesysteem](#62-onderwijscatalogus-naar-studentinformatiesysteem)
@@ -162,10 +161,10 @@ De kaders zijn geraadpleegd op 14 september 2026.
 
 | | |
 |---|---|
-| Begrippen en objecttypen | 73 |
+| Begrippen en objecttypen | 87 |
 | Met een definitie uit een referentiekader | 22 |
 | Met een definitie uit een OKx-document | 18 |
-| Zonder definitie | 33 |
+| Zonder definitie | 47 |
 
 ### 2.6 Begrippenfamilies
 
@@ -173,7 +172,7 @@ De begrippenfamilies delen de keten in; het zijn de kolommen op de plaat van het
 
 | Begrip | Definitie | Herkomst | Bron |
 |---|---|---|---|
-| `Kwalificatiekader mbo` | Het geheel van landelijk vastgestelde eisen waaraan een opleiding moet voldoen. Vastgesteld en beheerd buiten OKx | nieuw voor OKx | [informatiemodel.md](#36-begrippenfamilies) |
+| `Kwalificatiekader` | Het geheel van landelijk vastgestelde eisen waaraan een opleiding moet voldoen. Vastgesteld en beheerd buiten OKx | nieuw voor OKx | [informatiemodel.md](#36-begrippenfamilies) |
 | `Onderwijsaanbod` | Een specificatie die is ingepland: een periode, een capaciteit en waar van toepassing concrete plek, docent en tijd | verbijzondering van `onderwijsaanbod (koi)` (ROSA-KOI) | [informatiemodel.md](#36-begrippenfamilies) |
 | `Onderwijskundig kader instelling` | De invulling door de instelling van de beoogde leeruitkomsten uit het kwalificatiekader | nieuw voor OKx | [informatiemodel.md](#36-begrippenfamilies) |
 | `Onderwijsresultaat` | Vastgelegde en geformaliseerde beoordeling op basis van een of meer leerresultaten. | overgenomen uit ROSA-KOI | [onderwijsresultaat (koi)](https://rosa.wikixl.nl/index.php/Id-e5d21e5384c0482ba4a501571e69927a) |
@@ -195,12 +194,12 @@ Bij een verbijzondering gaat OKx verder dan het kader; de reden staat in de laat
 | `Student` | Buiten de kolommen | Een persoon die aan onderwijsactiviteiten deelneemt of dat wil gaan doen. Dit omvat ingeschreven studenten, potentiële studenten en alumni | overgenomen uit MORA | [Student](https://mora.mbodigitaal.nl/index.php/Id-c7c163ee-2fa5-5b58-bc08-f401d0350c3a) |  |
 | `Verzoek tot Aanbod / Intekening op specificatie` | Buiten de kolommen | Het `Verzoek tot Aanbod / Intekening op specificatie` is een verzoek om aanbod te maken voor een specificatie. Het heeft specificaties als input en leidt tot aanbod; aanmelden gebeurt daarna op dat aanbod en inschrijven is de verbintenis. | verbijzondering van `Leervraag` (MORA) | [informatiemodel.md](#38-ontwerpkeuzes) | MORA kent de leervraag als de vraag van de student wat hij wil leren. OKx verbijzondert die tot een uitwisselbaar verzoek op de specificatie dat leidt tot aanbod. De aanmelding op dat aanbod is op de plaat een eigen objecttype, overgenomen uit MORA. |
 | `Waarde document (diploma / certificaat)` | Buiten de kolommen | Het bewijsstuk van een eindoordeel over het voltooien van een opleiding, keuzedeel, deelkwalificatie of module door een onderwijsaanbieder. | overgenomen uit MORA | [Waarde document (diploma / certificaat)](https://mora.mbodigitaal.nl/index.php/Id-8647eba0-e31d-5bcf-c12a-4d477069943c) |  |
-| `Kerntaak` | Kwalificatiekader mbo | Een kerntaak is een substantieel deel van de beroepsuitoefening naar belang omvang (tijdsbeslag of frequentie) of beide. Een kerntaak bestaat uit een geheel van inhoudelijk met elkaar samenhangende werkprocessen kenmerkend voor de beroepsuitoefening. Een kwalificatiedossier heeft een beperkt aantal kerntaken. Alle kerntaken samen beschrijven de essentie van de beroepsuitoefening van de betreffende beroepengroep. | overgenomen uit MORA | [Kerntaak](https://mora.mbodigitaal.nl/index.php/Id-99ef9489-49b3-4a3b-7a89-08ae36a3255e) |  |
-| `Kwalificatie` | Kwalificatiekader mbo | De kwalificatie is de combinatie van het basis- en profieldeel uit het kwalificatiedossier. De kwalificatie omvat wat de beginnend beroepsbeoefenaar moet kennen en kunnen als hij gediplomeerd is en start op de arbeidsmarkt | overgenomen uit MORA | [Kwalificatie](https://mora.mbodigitaal.nl/index.php/Id-f54b73a9-9562-2b28-deca-724e992bbcdb) |  |
-| `Kwalificatie dossier` | Kwalificatiekader mbo | Het kwalificatiedossier beschrijft de eisen waaraan een student moet voldoen om zijn diploma te behalen. Elk dossier bevat een of meer kwalificaties en iedere kwalificatie leidt tot een diploma. Alle kwalificatiedossiers samen, aangevuld met de keuzedelen, vormen de kwalificatiestructuur. Een kwalificatiedossier bestaat uit een basisdeel en een of meer profieldelen. Het basisdeel bevat de generieke onderdelen Nederlandse taal, rekenen, loopbaan en burgerschap en Engels (uitsluitend voor niveau 4). Verder bevat het gemeenschappelijke elementen, die gelden voor alle kwalificaties in het dossier: kerntaken, werkprocessen, vakkennis, vaardigheden en houdingsaspecten. Het profieldeel beschrijft de specifieke onderdelen. Keuzedelen zijn een plus op de kwalificatie en maken de opleiding compleet. | overgenomen uit MORA | [Kwalificatie dossier](https://mora.mbodigitaal.nl/index.php/Id-3389d485-20a7-6e53-21df-d09eb49d4762) |  |
-| `Werkproces` | Kwalificatiekader mbo | Een werkproces is een afgebakend geheel van beroepshandelingen binnen een kerntaak. Het werkproces kent een begin en een eind heeft een resultaat en wordt als kenmerkend herkend in de beroepspraktijk. Een werkproces bestaat dus nooit uit één handeling of gedraging. Meerdere werkprocessen kunnen gelijktijdig lopen. Dat ze een begin en eind hebben wil niet per se zeggen dat ze na elkaar komen maar dat ze duidelijk te onderscheiden zijn van andere werkprocessen. | overgenomen uit MORA | [Werkproces](https://mora.mbodigitaal.nl/index.php/Id-9cf4d404-b06c-473f-57d9-3945af33cfa8) |  |
+| `Kerntaak` | Kwalificatiekader | Een kerntaak is een substantieel deel van de beroepsuitoefening naar belang omvang (tijdsbeslag of frequentie) of beide. Een kerntaak bestaat uit een geheel van inhoudelijk met elkaar samenhangende werkprocessen kenmerkend voor de beroepsuitoefening. Een kwalificatiedossier heeft een beperkt aantal kerntaken. Alle kerntaken samen beschrijven de essentie van de beroepsuitoefening van de betreffende beroepengroep. | overgenomen uit MORA | [Kerntaak](https://mora.mbodigitaal.nl/index.php/Id-99ef9489-49b3-4a3b-7a89-08ae36a3255e) |  |
+| `Kwalificatie` | Kwalificatiekader | De kwalificatie is de combinatie van het basis- en profieldeel uit het kwalificatiedossier. De kwalificatie omvat wat de beginnend beroepsbeoefenaar moet kennen en kunnen als hij gediplomeerd is en start op de arbeidsmarkt | overgenomen uit MORA | [Kwalificatie](https://mora.mbodigitaal.nl/index.php/Id-f54b73a9-9562-2b28-deca-724e992bbcdb) |  |
+| `Kwalificatie dossier` | Kwalificatiekader | Het kwalificatiedossier beschrijft de eisen waaraan een student moet voldoen om zijn diploma te behalen. Elk dossier bevat een of meer kwalificaties en iedere kwalificatie leidt tot een diploma. Alle kwalificatiedossiers samen, aangevuld met de keuzedelen, vormen de kwalificatiestructuur. Een kwalificatiedossier bestaat uit een basisdeel en een of meer profieldelen. Het basisdeel bevat de generieke onderdelen Nederlandse taal, rekenen, loopbaan en burgerschap en Engels (uitsluitend voor niveau 4). Verder bevat het gemeenschappelijke elementen, die gelden voor alle kwalificaties in het dossier: kerntaken, werkprocessen, vakkennis, vaardigheden en houdingsaspecten. Het profieldeel beschrijft de specifieke onderdelen. Keuzedelen zijn een plus op de kwalificatie en maken de opleiding compleet. | overgenomen uit MORA | [Kwalificatie dossier](https://mora.mbodigitaal.nl/index.php/Id-3389d485-20a7-6e53-21df-d09eb49d4762) |  |
+| `Werkproces` | Kwalificatiekader | Een werkproces is een afgebakend geheel van beroepshandelingen binnen een kerntaak. Het werkproces kent een begin en een eind heeft een resultaat en wordt als kenmerkend herkend in de beroepspraktijk. Een werkproces bestaat dus nooit uit één handeling of gedraging. Meerdere werkprocessen kunnen gelijktijdig lopen. Dat ze een begin en eind hebben wil niet per se zeggen dat ze na elkaar komen maar dat ze duidelijk te onderscheiden zijn van andere werkprocessen. | overgenomen uit MORA | [Werkproces](https://mora.mbodigitaal.nl/index.php/Id-9cf4d404-b06c-473f-57d9-3945af33cfa8) |  |
 | `Examengelegenheid` | Onderwijsaanbod | Het georganiseerde aanbod van een examenmoment: planning, locatie, surveillant-capaciteit en kandidaten, gekoppeld aan precies één `Examenspecificatie`. | afgeleid uit het vlakkenmodel, afgestemd op klus 53 | [leerroute-1-regulier.md](../Referentiemateriaal/kaderscenario's/leerroute-1-regulier.md#betrokken-informatie-bij-proces) | Het citaat noemt `Examenspecificatie`; in het informatiemodel heet dat objecttype `Examenonderdeelspecificatie`. |
-| `Opleidingaanbod` | Onderwijsaanbod | Een opleidingseenheid die door een onderwijsaanbieder aangeboden wordt in een bepaalde vorm, al dan niet op een bepaalde onderwijslocatie, waarop een onderwijsvolger zich kan inschrijven | overgenomen uit MORA | [Aangeboden opleiding](https://mora.mbodigitaal.nl/index.php/Id-e723f9e6-adfc-40a1-0527-ee1b75b380dc) |  |
+| `Opleiding aanbod` | Onderwijsaanbod | Een opleidingseenheid die door een onderwijsaanbieder aangeboden wordt in een bepaalde vorm, al dan niet op een bepaalde onderwijslocatie, waarop een onderwijsvolger zich kan inschrijven | overgenomen uit MORA | [Aangeboden opleiding](https://mora.mbodigitaal.nl/index.php/Id-e723f9e6-adfc-40a1-0527-ee1b75b380dc) |  |
 | `Opleidingsaanbod van Instelling` | Onderwijsaanbod | Het geheel van opleiding dat door de instelling wordt aangeboden | overgenomen uit MORA | [Opleidingen overzicht](https://mora.mbodigitaal.nl/index.php/Id-9a23241c-a60e-6623-e13a-d945a761ab17) |  |
 | `Toetsgelegenheid` | Onderwijsaanbod | Het georganiseerde aanbod van een toetsmoment: wanneer, waar en onder welke condities een toetsonderdeel wordt afgenomen, gekoppeld aan precies één `Toetsonderdeel-specificatie`. | afgeleid uit het vlakkenmodel, afgestemd op klus 53 | [leerroute-1-regulier.md](../Referentiemateriaal/kaderscenario's/leerroute-1-regulier.md#betrokken-informatie-bij-proces) | Het citaat schrijft `Toetsonderdeel-specificatie` met koppelteken, de oudere schrijfwijze van `Toetsonderdeel specificatie`. |
 | `Leeruitkomst` | Onderwijskundig kader instelling | Een leeruitkomst is de invulling door de instelling van wat het kwalificatiekader beoogt: wat een student moet kennen en kunnen, zo geformuleerd dat specificaties ernaar kunnen verwijzen en dat behaalde toets- en examenresultaten er het bewijs voor leveren. | afgeleid uit het vlakkenmodel, afgestemd op klus 53 | [informatiemodel.md](#38-ontwerpkeuzes) |  |
@@ -227,12 +226,13 @@ Deze objecttypen staan op de plaat maar hebben nog geen definitie. Waar een kade
 
 | Begrip | Objecttypen |
 |---|---|
-| Buiten de kolommen | `Persoon`, `Plaatsingsgroep` |
-| Onderwijsaanbod | `Keuzedeelaanbod`, `Leergelegenheid`, `Lesgelegenheid`, `Onderwijseenheid aanbod`, `Opleidingsprogramma aanbod` |
+| Buiten de kolommen | `Expertise of functieprofiel`, `Onderwijslocatie vlekkenplan`, `Organisatie-eenheid`, `Persoon`, `Plaatsingsgroep` |
+| Kwalificatiekader | `Eindkwalificatie`, `Landelijk Opleidingsprofiel`, `Werkveld of beroepenveld of deelnemer competentie` |
+| Onderwijsaanbod | `Keuzedeel aanbod`, `Leergelegenheid`, `Lesgelegenheid`, `Minor aanbod`, `Onderwijseenheid aanbod`, `Onderwijslocatie`, `Opleidingsprogramma aanbod` |
 | Onderwijskundig kader instelling | `Competenties / Skills`, `Inzicht`, `Kennis`, `Vaardigheid` |
-| Onderwijsresultaat | `Aanwezigheid`, `Examengelegenheid resultaat`, `Keuzedeel resultaat`, `Leergelegenheid resultaat`, `Lesgelegenheid resultaat`, `Onderwijseenheid resultaat`, `Opleiding aanbod resultaat`, `Opleidingsprogramma resultaat`, `Toetsgelegenheid resultaat` |
-| Onderwijsspecificatie | `Keuzedeel`, `Opleiding specificatie`, `Student keuze regelset` |
-| Onderwijsverbintenis | `Keuzedeel aanbod verbintenis`, `Leergelegenheid verbintenis`, `Lesgelegenheid verbintenis`, `Onderwijseenheid aanbod verbintenis`, `Opleiding aanbod  verbintenis`, `Opleidingsprogramma aanbod verbintenis` |
+| Onderwijsresultaat | `Aanwezigheid`, `Examengelegenheid resultaat`, `Keuzedeel resultaat`, `Leergelegenheid resultaat`, `Lesgelegenheid resultaat`, `Minor resultaat`, `Onderwijseenheid resultaat`, `Opleiding resultaat`, `Opleidingsprogramma resultaat`, `Toetsgelegenheid resultaat` |
+| Onderwijsspecificatie | `Keuzedeel`, `Minor`, `Minor ruimte`, `Onderwijslocatie type`, `Onderwijsvorm`, `Opleiding specificatie`, `Student keuze regelset` |
+| Onderwijsverbintenis | `Keuzedeel aanbod verbintenis`, `Leergelegenheid verbintenis`, `Lesgelegenheid verbintenis`, `Minor aanbod verbintenis`, `Onderwijseenheid aanbod verbintenis`, `Opleiding aanbod verbintenis`, `Opleidingsprogramma aanbod verbintenis` |
 | Resultaatstructuur | `Examenonderdeel weging`, `Persoonlijke ontwikkeling`, `Summatief Afrondingscriterium`, `Toetsonderdeel weging` |
 
 ### 2.9 Mapping naar de referentiekaders
@@ -241,7 +241,7 @@ Per kader een van drie uitkomsten: een tegenhanger met link, `geen tegenhanger g
 
 | Begrip of objecttype | ROSA-KOI | MORA | HORA | Reden bij verbijzondering |
 |---|---|---|---|---|
-| `Kwalificatiekader mbo` | geen tegenhanger gevonden | geen tegenhanger gevonden | nog niet onderzocht |  |
+| `Kwalificatiekader` | geen tegenhanger gevonden | geen tegenhanger gevonden | nog niet onderzocht |  |
 | `Onderwijsaanbod` | [`onderwijsaanbod (koi)`](https://rosa.wikixl.nl/index.php/Id-6d1ed39571de4ee5b1aefcf051991478) (verbijzondering) | geen tegenhanger gevonden | nog niet onderzocht | KOI vat ontwerp en uitvoering samen in een begrip. OKx splitst dat in de onderwijsspecificatie, het herbruikbare ontwerp, en het onderwijsaanbod, de ingeplande uitvoering. |
 | `Onderwijskundig kader instelling` | geen tegenhanger gevonden | geen tegenhanger gevonden | nog niet onderzocht |  |
 | `Onderwijsresultaat` | [`onderwijsresultaat (koi)`](https://rosa.wikixl.nl/index.php/Id-e5d21e5384c0482ba4a501571e69927a) | [`Summatief resultaat`](https://mora.mbodigitaal.nl/index.php/Id-beaf106a-f329-b3ed-e513-6814b1fd65fa) (verbijzondering) | nog niet onderzocht | MORA scheidt het summatieve en het formatieve resultaat. OKx gebruikt onderwijsresultaat als de overkoepelende term van KOI en houdt het onderscheid in de resultaatstructuur. |
@@ -251,23 +251,31 @@ Per kader een van drie uitkomsten: een tegenhanger met link, `geen tegenhanger g
 | `Aanmelding` | geen tegenhanger gevonden | [`Aanmelding`](https://mora.mbodigitaal.nl/index.php/Id-666a838e-d9bd-c5fd-ad85-545ec69f1566) | nog niet onderzocht |  |
 | `Cohort / periode` | geen tegenhanger gevonden | [`Cohort / periode`](https://mora.mbodigitaal.nl/index.php/Id-67cf6837-c59e-52aa-47e6-006c572259e1) | nog niet onderzocht |  |
 | `Examenplan` | geen tegenhanger gevonden | [`Examenplan`](https://mora.mbodigitaal.nl/index.php/Id-913bf380-1288-8a49-0bca-906d8b112e8f) | nog niet onderzocht |  |
+| `Expertise of functieprofiel` | nog niet onderzocht | nog niet onderzocht | nog niet onderzocht |  |
 | `Medewerker` | [`onderwijsmedewerker (koi)`](https://rosa.wikixl.nl/index.php/Id-5ea4d7d18cbc4f8eb3aea997a4d9b35d) | geen tegenhanger gevonden | nog niet onderzocht |  |
 | `OER` | geen tegenhanger gevonden | [`OER`](https://mora.mbodigitaal.nl/index.php/Id-9841b314-8781-36c9-8033-ce304c022d72) | nog niet onderzocht |  |
+| `Onderwijslocatie vlekkenplan` | nog niet onderzocht | nog niet onderzocht | nog niet onderzocht |  |
+| `Organisatie-eenheid` | nog niet onderzocht | nog niet onderzocht | nog niet onderzocht |  |
 | `Persoon` | geen tegenhanger gevonden | geen tegenhanger gevonden | nog niet onderzocht |  |
 | `Plaatsingsgroep` | geen tegenhanger gevonden | geen tegenhanger gevonden | nog niet onderzocht |  |
 | `Student` | [`onderwijsdeelnemer (koi)`](https://rosa.wikixl.nl/index.php/Id-ca1e8048bd094f02a348cf843fa07ae7) | [`Student`](https://mora.mbodigitaal.nl/index.php/Id-c7c163ee-2fa5-5b58-bc08-f401d0350c3a) | nog niet onderzocht |  |
 | `Verzoek tot Aanbod / Intekening op specificatie` | geen tegenhanger gevonden | [`Leervraag`](https://mora.mbodigitaal.nl/index.php/Id-306e945a-d2ff-000e-f950-f1acaa91a0bc) (verbijzondering) | nog niet onderzocht | MORA kent de leervraag als de vraag van de student wat hij wil leren. OKx verbijzondert die tot een uitwisselbaar verzoek op de specificatie dat leidt tot aanbod. De aanmelding op dat aanbod is op de plaat een eigen objecttype, overgenomen uit MORA. |
 | `Waarde document (diploma / certificaat)` | geen tegenhanger gevonden | [`Waarde document (diploma / certificaat)`](https://mora.mbodigitaal.nl/index.php/Id-8647eba0-e31d-5bcf-c12a-4d477069943c) | nog niet onderzocht |  |
+| `Eindkwalificatie` | nog niet onderzocht | nog niet onderzocht | nog niet onderzocht |  |
 | `Kerntaak` | geen tegenhanger gevonden | [`Kerntaak`](https://mora.mbodigitaal.nl/index.php/Id-99ef9489-49b3-4a3b-7a89-08ae36a3255e) | nog niet onderzocht |  |
 | `Kwalificatie` | geen tegenhanger gevonden | [`Kwalificatie`](https://mora.mbodigitaal.nl/index.php/Id-f54b73a9-9562-2b28-deca-724e992bbcdb) | nog niet onderzocht |  |
 | `Kwalificatie dossier` | geen tegenhanger gevonden | [`Kwalificatie dossier`](https://mora.mbodigitaal.nl/index.php/Id-3389d485-20a7-6e53-21df-d09eb49d4762) | nog niet onderzocht |  |
+| `Landelijk Opleidingsprofiel` | nog niet onderzocht | nog niet onderzocht | nog niet onderzocht |  |
 | `Werkproces` | geen tegenhanger gevonden | [`Werkproces`](https://mora.mbodigitaal.nl/index.php/Id-9cf4d404-b06c-473f-57d9-3945af33cfa8) | nog niet onderzocht |  |
+| `Werkveld of beroepenveld of deelnemer competentie` | nog niet onderzocht | nog niet onderzocht | nog niet onderzocht |  |
 | `Examengelegenheid` | geen tegenhanger gevonden | geen tegenhanger gevonden | nog niet onderzocht |  |
-| `Keuzedeelaanbod` | geen tegenhanger gevonden | geen tegenhanger gevonden | nog niet onderzocht |  |
+| `Keuzedeel aanbod` | geen tegenhanger gevonden | geen tegenhanger gevonden | nog niet onderzocht |  |
 | `Leergelegenheid` | geen tegenhanger gevonden | [`Leeractiviteit`](https://mora.mbodigitaal.nl/index.php/Id-b25709e2-388a-d36b-696b-b82fd908f076) (verbijzondering) | nog niet onderzocht | De ingeplande kant van de MORA-leeractiviteit, op het niveau van een groep lessen. |
 | `Lesgelegenheid` | geen tegenhanger gevonden | [`Leeractiviteit`](https://mora.mbodigitaal.nl/index.php/Id-b25709e2-388a-d36b-696b-b82fd908f076) (verbijzondering) | nog niet onderzocht | De ingeplande kant van de MORA-leeractiviteit, op het niveau van een enkele les. |
+| `Minor aanbod` | nog niet onderzocht | nog niet onderzocht | nog niet onderzocht |  |
 | `Onderwijseenheid aanbod` | geen tegenhanger gevonden | geen tegenhanger gevonden | nog niet onderzocht |  |
-| `Opleidingaanbod` | geen tegenhanger gevonden | [`Aangeboden opleiding`](https://mora.mbodigitaal.nl/index.php/Id-e723f9e6-adfc-40a1-0527-ee1b75b380dc) | nog niet onderzocht |  |
+| `Onderwijslocatie` | nog niet onderzocht | nog niet onderzocht | nog niet onderzocht |  |
+| `Opleiding aanbod` | geen tegenhanger gevonden | [`Aangeboden opleiding`](https://mora.mbodigitaal.nl/index.php/Id-e723f9e6-adfc-40a1-0527-ee1b75b380dc) | nog niet onderzocht |  |
 | `Opleidingsaanbod van Instelling` | geen tegenhanger gevonden | [`Opleidingen overzicht`](https://mora.mbodigitaal.nl/index.php/Id-9a23241c-a60e-6623-e13a-d945a761ab17) | nog niet onderzocht |  |
 | `Opleidingsprogramma aanbod` | geen tegenhanger gevonden | geen tegenhanger gevonden | nog niet onderzocht |  |
 | `Toetsgelegenheid` | geen tegenhanger gevonden | geen tegenhanger gevonden | nog niet onderzocht |  |
@@ -283,8 +291,9 @@ Per kader een van drie uitkomsten: een tegenhanger met link, `geen tegenhanger g
 | `Keuzedeel resultaat` | geen tegenhanger gevonden | geen tegenhanger gevonden | nog niet onderzocht |  |
 | `Leergelegenheid resultaat` | geen tegenhanger gevonden | geen tegenhanger gevonden | nog niet onderzocht |  |
 | `Lesgelegenheid resultaat` | geen tegenhanger gevonden | geen tegenhanger gevonden | nog niet onderzocht |  |
+| `Minor resultaat` | nog niet onderzocht | nog niet onderzocht | nog niet onderzocht |  |
 | `Onderwijseenheid resultaat` | geen tegenhanger gevonden | geen tegenhanger gevonden | nog niet onderzocht |  |
-| `Opleiding aanbod resultaat` | geen tegenhanger gevonden | geen tegenhanger gevonden | nog niet onderzocht |  |
+| `Opleiding resultaat` | geen tegenhanger gevonden | geen tegenhanger gevonden | nog niet onderzocht |  |
 | `Opleidingsprogramma resultaat` | geen tegenhanger gevonden | geen tegenhanger gevonden | nog niet onderzocht |  |
 | `Summatief resultaat` | geen tegenhanger gevonden | [`Summatief resultaat`](https://mora.mbodigitaal.nl/index.php/Id-beaf106a-f329-b3ed-e513-6814b1fd65fa) | nog niet onderzocht |  |
 | `Summatieve beoordeling` | geen tegenhanger gevonden | [`Summatieve beoordeling`](https://mora.mbodigitaal.nl/index.php/Id-0a14e5af-bf2e-2584-3320-095341367128) | nog niet onderzocht |  |
@@ -294,7 +303,11 @@ Per kader een van drie uitkomsten: een tegenhanger met link, `geen tegenhanger g
 | `Keuzedeelruimte` | geen tegenhanger gevonden | geen tegenhanger gevonden | nog niet onderzocht |  |
 | `Leeronderdeel specificatie` | geen tegenhanger gevonden | [`Leertaak`](https://mora.mbodigitaal.nl/index.php/Id-be2dc6b8-cf25-4bd4-2950-2a4c2e4f2ffa) (verbijzondering) | nog niet onderzocht | MORA beschrijft de leertaak als lesstof en opdrachten. OKx maakt daar een herbruikbare specificatie van, binnen de onderwijseenheid. |
 | `Les specificatie` | geen tegenhanger gevonden | geen tegenhanger gevonden | nog niet onderzocht |  |
+| `Minor` | nog niet onderzocht | nog niet onderzocht | nog niet onderzocht |  |
+| `Minor ruimte` | nog niet onderzocht | nog niet onderzocht | nog niet onderzocht |  |
 | `Onderwijseenheid specificatie` | [`onderwijseenheid (koi)`](https://rosa.wikixl.nl/index.php/Id-c74c161c6f1f4690933a31ce4d11f3b8) (verbijzondering) | [`Opleidings-onderdeel`](https://mora.mbodigitaal.nl/index.php/Id-17db36ca-368f-450e-cbfe-604b2fafee6e) (verbijzondering) | nog niet onderzocht | KOI beschrijft de onderwijseenheid als samenhangend geheel met een leerdoel. OKx specificeert die eenheid met leeruitkomsten, leeronderdelen en toetsonderdelen, los van de inplanning. |
+| `Onderwijslocatie type` | nog niet onderzocht | nog niet onderzocht | nog niet onderzocht |  |
+| `Onderwijsvorm` | nog niet onderzocht | nog niet onderzocht | nog niet onderzocht |  |
 | `Opleiding specificatie` | geen tegenhanger gevonden | [`Opleidings eenheid`](https://mora.mbodigitaal.nl/index.php/Id-422e89b9-f9e3-a3ae-56f7-25855f01d433) (verbijzondering) | nog niet onderzocht | MORA beschrijft de opleidingseenheid naar het waardedocument dat volgt. OKx gebruikt de specificatie als de instellingseigen beschrijving van die eenheid. |
 | `Opleidingsprogramma specificatie` | geen tegenhanger gevonden | [`Onderwijs programma`](https://mora.mbodigitaal.nl/index.php/Id-3a7bb8e1-5748-3381-24f6-43c98479fe35) (verbijzondering) | nog niet onderzocht | De specificatiekant van het MORA-begrip onderwijs programma. MORA beschrijft het programma inclusief de planbaarheid; OKx scheidt de specificatie van het aanbod. |
 | `Student keuze regelset` | geen tegenhanger gevonden | geen tegenhanger gevonden | nog niet onderzocht |  |
@@ -304,8 +317,9 @@ Per kader een van drie uitkomsten: een tegenhanger met link, `geen tegenhanger g
 | `Keuzedeel aanbod verbintenis` | geen tegenhanger gevonden | geen tegenhanger gevonden | nog niet onderzocht |  |
 | `Leergelegenheid verbintenis` | geen tegenhanger gevonden | geen tegenhanger gevonden | nog niet onderzocht |  |
 | `Lesgelegenheid verbintenis` | geen tegenhanger gevonden | geen tegenhanger gevonden | nog niet onderzocht |  |
+| `Minor aanbod verbintenis` | nog niet onderzocht | nog niet onderzocht | nog niet onderzocht |  |
 | `Onderwijseenheid aanbod verbintenis` | geen tegenhanger gevonden | geen tegenhanger gevonden | nog niet onderzocht |  |
-| `Opleiding aanbod  verbintenis` | geen tegenhanger gevonden | [`Plaatsing`](https://mora.mbodigitaal.nl/index.php/Id-871a4ac0-e5e2-242d-7204-976fdc5cd613) (verbijzondering) | nog niet onderzocht | MORA kent de plaatsing als de deelname van een student aan een opleiding, en de inschrijving als de overeenkomst met rechten en plichten. OKx legt de verbintenis vast op een concreet opleidingaanbod; de overeenkomst blijft bij het studentinformatiesysteem. |
+| `Opleiding aanbod verbintenis` | geen tegenhanger gevonden | [`Plaatsing`](https://mora.mbodigitaal.nl/index.php/Id-871a4ac0-e5e2-242d-7204-976fdc5cd613) (verbijzondering) | nog niet onderzocht | MORA kent de plaatsing als de deelname van een student aan een opleiding, en de inschrijving als de overeenkomst met rechten en plichten. OKx legt de verbintenis vast op een concreet opleidingaanbod; de overeenkomst blijft bij het studentinformatiesysteem. |
 | `Opleidingsprogramma aanbod verbintenis` | geen tegenhanger gevonden | geen tegenhanger gevonden | nog niet onderzocht |  |
 | `Toetsgelegenheid verbintenis` | geen tegenhanger gevonden | geen tegenhanger gevonden | nog niet onderzocht |  |
 | `Examenonderdeel weging` | geen tegenhanger gevonden | geen tegenhanger gevonden | nog niet onderzocht |  |
@@ -344,9 +358,9 @@ De omgekeerde dekking: objecten uit MORA en KOI die bij het zoeken naar tegenhan
 | [Informatiemodel OKx](#3-conceptueel-informatiemodel) | De objecttypen en hun samenhang; deze lijst geeft er de definities bij |
 | [Ankertabel kaderscenario leerroute 1](../Referentiemateriaal/kaderscenario's/leerroute-1-regulier.md#betrokken-informatie-bij-proces) | De families, de niveaus en de stadia |
 | [`begrippen.json`](begrippen.json) | Deze lijst machineleesbaar; dit document wordt eruit gegenereerd |
-| [`begrippen-extractie.json`](https://github.com/Npuls-OKx/meta/blob/8ebfacae438719291c17f6e9f3e264bf33c86e44/architecture/docs/specificatie/begrippen/begrippen-extractie.json) | Elke term tussen backquotes in de meta-repository en in dit repository, met vindplaatsen |
+| [`begrippen-extractie.json`](https://github.com/Npuls-OKx/meta/blob/025fd435/architecture/docs/specificatie/begrippen/begrippen-extractie.json) | Elke term tussen backquotes in de meta-repository en in dit repository, met vindplaatsen |
 | [`referentiekaders.json`](referentiekaders.json) | De letterlijk overgenomen definities uit MORA en KOI, met bron-URL en ophaaldatum |
-| [MORA-definitiemapping v0.4](https://github.com/Npuls-OKx/meta/tree/8ebfacae438719291c17f6e9f3e264bf33c86e44/architecture/docs/definitie_mapping_MORA_OEAPI_excel/) | Eerdere mapping van MORA-objecten op OEAPI, als werkblad; deze lijst vervangt hem niet en verwijst ernaar waar de keuzes verschillen |
+| [MORA-definitiemapping v0.4](https://github.com/Npuls-OKx/meta/tree/025fd435/architecture/docs/definitie_mapping_MORA_OEAPI_excel/) | Eerdere mapping van MORA-objecten op OEAPI, als werkblad; deze lijst vervangt hem niet en verwijst ernaar waar de keuzes verschillen |
 
 
 <!-- pagina-einde -->
@@ -373,12 +387,12 @@ De scope volgt de beschouwingsniveaus van het [Metamodel Informatie Modellering 
 |---|---|---|
 | Uitsnede | [1, model van begrippen](https://docs.geostandaarden.nl/mim/mim/#beschouwingsniveau-1-model-van-begrippen) | Het [begrippenkader](../Referentiemateriaal/kaderscenario's/leerroute-1-regulier.md#betrokken-informatie-bij-proces) en de [begrippenlijst](#2-begrippenlijst-okx). De plaat toont daarvan een uitsnede: de zeven begrippenfamilies als kolommen |
 | Dit document | [2, conceptueel informatiemodel](https://docs.geostandaarden.nl/mim/mim/#beschouwingsniveau-2-conceptueel-informatiemodel) | De objecttypen en hun relaties, binnen een instelling: de plaat. Attribuutsoorten en multipliciteit horen ook bij dit niveau en staan er nog niet; de plaat draagt één cardinaliteit (`Minimaal 1`) en het begrippenkader de normatieve cardinaliteiten |
-| Buiten scope | [3, logisch informatiemodel](https://docs.geostandaarden.nl/mim/mim/#beschouwingsniveau-3-logisch-informatie-of-gegevensmodel) | De entiteiten met hun velden en relaties per begrippenfamilie: het [logisch gegevensmodel](#4-logisch-gegevensmodel) in dit pakket; de [brug daarheen](#39-naar-het-logisch-gegevensmodel) staat in dit document |
-| Buiten scope | [4, technisch datamodel](https://docs.geostandaarden.nl/mim/mim/#beschouwingsniveau-4-fysiek-of-technisch-gegevens-of-datamodel) | De [JSON Schema's](schemas) en de endpoints in de koppelvlakspecificatie |
+| Buiten scope | [3, logisch informatiemodel](https://docs.geostandaarden.nl/mim/mim/#beschouwingsniveau-3-logisch-informatie-of-gegevensmodel) | De entiteiten met hun velden en relaties per begrippenfamilie, in een eigen gegevensmodeldocument |
+| Buiten scope | [4, technisch datamodel](https://docs.geostandaarden.nl/mim/mim/#beschouwingsniveau-4-fysiek-of-technisch-gegevens-of-datamodel) | De JSON Schema's en de endpoints in de koppelvlakspecificatie, in een eigen gegevensmodeldocument |
 
-Verder buiten scope: applicatiecomponenten, techniekkeuzes en federatie tussen instellingen. Welke component welk objecttype bezit staat in [uitgangspunt U3](../Koppelvlakspecificaties/uitgangspunten.md#u3-resource-eigenaarschap) van de koppelvlakspecificatie. Een conceptueel informatiemodel is volgens MIM onafhankelijk van standaarden voor gegevensuitwisseling; de verhouding tot de Open Education API (OEAPI) staat daarom in een [apart document](#311-informatiemodel-okx-naast-oeapi-v6).
+Verder buiten scope: applicatiecomponenten, techniekkeuzes en federatie tussen instellingen. Welke component welk objecttype bezit staat in [uitgangspunt U3](../Koppelvlakspecificaties/uitgangspunten.md#u3-resource-eigenaarschap) van de koppelvlakspecificatie. Een conceptueel informatiemodel is volgens MIM onafhankelijk van standaarden voor gegevensuitwisseling; de verhouding tot de Open Education API (OEAPI) staat daarom in een [apart document](#310-informatiemodel-okx-naast-oeapi-v6).
 
-![Informatiemodel OKx, versie v0.1 van 14 september 2026](img/informatiemodel.jpg)
+![Informatiemodel OKx, versie v0.2 van 14 oktober 2026](img/informatiemodel.jpg)
 
 ### 3.5 Lezers en detailniveau
 
@@ -395,7 +409,7 @@ Dit model volgt het begrippenkader op en wijzigt het op twee punten. De familie 
 
 | Begrip | Wat het is | Beantwoordt de vraag |
 |---|---|---|
-| Kwalificatiekader mbo | Het geheel van landelijk vastgestelde eisen waaraan een opleiding moet voldoen. Vastgesteld en beheerd buiten OKx | Wat is normatief geldig |
+| Kwalificatiekader | Het geheel van landelijk vastgestelde eisen waaraan een opleiding moet voldoen, voor het middelbaar en het hoger onderwijs. Vastgesteld en beheerd buiten OKx | Wat is normatief geldig |
 | Onderwijskundig kader instelling | De invulling door de instelling van de beoogde leeruitkomsten uit het kwalificatiekader | Wat moet de student kennen en kunnen |
 | Onderwijsspecificatie | Het herbruikbare ontwerp van een onderwijsonderdeel, los van wanneer het draait en wie eraan meedoet | Wat wordt georganiseerd |
 | Onderwijsaanbod | Een specificatie die is ingepland: een periode, een capaciteit en waar van toepassing concrete plek, docent en tijd | Wanneer, met hoeveel plekken, met wie |
@@ -403,11 +417,11 @@ Dit model volgt het begrippenkader op en wijzigt het op twee punten. De familie 
 | Onderwijsresultaat | Vastgelegde en geformaliseerde beoordeling op basis van een of meer leerresultaten | Wat is er behaald op een verbintenis |
 | Resultaatstructuur | De samenstelling en weging waarmee losse resultaten optellen tot een uitspraak over de beoogde leeruitkomsten, en daarmee over een kwalificatie of certificaat | Hoe telt dat op tot bewijs voor een leeruitkomst |
 
-Objecttypen buiten de kolommen raken de hele keten: `Persoon` met de rollen `Student` en `Medewerker`, `Plaatsingsgroep` en `Cohort / periode`, het `Verzoek tot Aanbod / Intekening op specificatie` als brug van specificatie naar aanbod (`Input voor`, `Leidt tot`), de `Aanmelding` op dat aanbod, en `Waarde document (diploma / certificaat)`. `Examenplan` en `OER` staan buiten scope.
+Objecttypen buiten de kolommen raken de hele keten, en staan er vaak omdat zij twee families verbinden: `Persoon` met de rollen `Student` en `Medewerker`, `Plaatsingsgroep` en `Cohort / periode`, het `Verzoek tot Aanbod / Intekening op specificatie` als brug van specificatie naar aanbod (`Input voor`, `Leidt tot`), de `Aanmelding` op dat aanbod, `Waarde document (diploma / certificaat)`, en aan de uitvoerende kant `Organisatie-eenheid`, `Expertise of functieprofiel` en `Onderwijslocatie vlekkenplan`. `Examenplan` en `OER` staan buiten scope.
 
 ### 3.7 Notatie
 
-**Kleur.** Geel is het OKx-referentiekader. Het sluit aan op de mbo-referentiearchitectuur (MORA) en, via het lopende initiatief klus 53 (Alignment MORA en HORA, MBO Digitaal), op de referentiearchitectuur van het hoger onderwijs (HORA). Grijs staat als erkend begrip in het model maar valt buiten de scope van OKx: de leslaag, het examenplan als document, en de onderwijskundige begrippen `Competenties / Skills`, `Kennis`, `Vaardigheid` en `Inzicht`. Blauw is OEAPI v6 en komt alleen voor op de [mapping](#311-informatiemodel-okx-naast-oeapi-v6).
+**Kleur.** Geel is het OKx-referentiekader. Het sluit aan op de mbo-referentiearchitectuur (MORA) en, via het lopende initiatief klus 53 (Alignment MORA en HORA, MBO Digitaal), op de referentiearchitectuur van het hoger onderwijs (HORA). Grijs staat als erkend begrip in het model maar valt buiten de scope van OKx: `Les specificatie`, `Leergelegenheid resultaat`, `Aanwezigheid`, het examenplan en de `OER` als document, en de onderwijskundige begrippen `Competenties / Skills`, `Kennis`, `Vaardigheid` en `Inzicht`. Blauw is OEAPI v6 en komt alleen voor op de [mapping](#310-informatiemodel-okx-naast-oeapi-v6).
 
 **Relatiesoorten**, in ArchiMate-notatie.
 
@@ -429,83 +443,59 @@ Elke keuze noemt zijn bron; staat er *voorstel*, dan is de keuze in dit model ge
 3. **Randvoorwaarde: uitwisseling tussen instellingen vraagt landelijk gestandaardiseerde leeruitkomsten.** Zonder een landelijk beheerde set blijft een leeruitkomst instellingseigen en is aanbod van verschillende instellingen niet te vergelijken. Dit model gaat van die set uit; de onderwijskundige vrijheid van de instelling zit in de specificaties waarmee zij de leeruitkomsten bereikt. Randvoorwaarde voor een latere fase; federatie valt buiten dit model.
 4. **Het niveau waarop iets gespecificeerd wordt ligt niet vast.** Een `Onderwijseenheid specificatie` kan op kerntaakniveau liggen of op een ander niveau dat de instelling kiest. De koppeling loopt via de leeruitkomst, en daarom is het niveau geen eigenschap van de objecttypen. Voorstel.
 5. **Een specificatie kan zelfstandig bestaan.** Specificaties onder de `Opleiding specificatie` kunnen onderdeel zijn van een bovenliggende specificatie, maar hoeven dat niet. Een `Opleidingsprogramma specificatie` zonder bovenliggende `Opleiding specificatie` is geldig. Voorstel.
-6. **De student kiest uit specificaties, de voorwaarde staat in behaalde leeruitkomsten.** De `Student keuze regelset` wijst naar de specificatietypen waaruit gekozen kan worden. Een voorwaarde vooraf in die regelset wordt uitgedrukt in behaalde leeruitkomsten en niet in doorlopen specificaties: deelname aan Ruimtelijk inzicht vereist dat de leeruitkomst van Wiskunde 1 behaald is, ongeacht via welke specificatie. Bron: [R7 in de keuze-requirements](https://github.com/Npuls-OKx/meta/blob/8ebfacae438719291c17f6e9f3e264bf33c86e44/architecture/docs/specificatie/student-keuze/keuze-requirements.md) en [ADR 0026](../Referentiemateriaal/adr/0026-leeruitkomst-als-verbindende-sleutel.md).
-7. **Resultaten hangen aan verbintenissen, niet rechtstreeks aan leeruitkomsten.** Een student toont aan dat hij een leeruitkomst heeft door toetsen en examens af te ronden; de resultaten daarvan ontstaan op de verbintenis, via specificatie, aanbod en verbintenis. De summatieve resultaatstructuur wijst naar de leeruitkomsten en zegt daarmee welke resultaten samen het bewijs voor een leeruitkomst vormen, ook voor een later leeruitkomstenregister, Edubadges of een eduwallet. De resultaatstructuur is daarmee de vertaaltabel tussen resultaten en leeruitkomsten: een studentinformatiesysteem registreert een kerntaakresultaat niet rechtstreeks op een leeruitkomst, maar op de verbintenis, en de structuur zegt voor welke leeruitkomst dat resultaat telt. Daarom heeft geen enkel resultaattype een eigen relatie met `Leeruitkomst`. Voorstel; verfijnt [ADR 0022](../Referentiemateriaal/adr/0022-resultaatbegrippen-conform-rosa-koi.md), dat "behaald op leeruitkomsten" zegt zonder de weg via de structuur te noemen.
-8. **De leslaag valt buiten de uitwisseling.** `Les specificatie`, `Lesgelegenheid`, `Lesgelegenheid verbintenis` en `Lesgelegenheid resultaat` staan in het model, zodat beschrijven tot op lesniveau later mogelijk blijft. Voorstel.
-9. **Een examenonderdeel is een specialisatie van een toetsonderdeel.** Beide delen dezelfde informatiestructuur; hun totstandkoming is gescheiden: een examenonderdeel wordt vastgesteld door de examencommissie, een toetsonderdeel volgt instellingsbeleid. De summatieve resultaatstructuur is samengesteld uit toetsonderdelen, zodat een instelling ook een formatief toetsonderdeel summatief kan laten meetellen. Wordt een toetsonderdeel op die manier opgenomen, dan volgt het vanaf dat moment de examenketen. Voorstel.
+6. **De student kiest uit specificaties, de voorwaarde staat in behaalde leeruitkomsten.** De `Student keuze regelset` wijst naar de specificatietypen waaruit gekozen kan worden. Een voorwaarde vooraf in die regelset wordt uitgedrukt in behaalde leeruitkomsten en niet in doorlopen specificaties: deelname aan Ruimtelijk inzicht vereist dat de leeruitkomst van Wiskunde 1 behaald is, ongeacht via welke specificatie. Bron: [R7 in de keuze-requirements](https://github.com/Npuls-OKx/meta/blob/025fd435/architecture/docs/specificatie/student-keuze/keuze-requirements.md) en [ADR 0026](../Referentiemateriaal/adr/0026-leeruitkomst-als-verbindende-sleutel.md).
+7. **Resultaten hangen aan verbintenissen, niet rechtstreeks aan leeruitkomsten.** Een student toont een leeruitkomst aan door toetsen en examens af te ronden; die resultaten ontstaan op de verbintenis, via specificatie, aanbod en verbintenis. De summatieve resultaatstructuur wijst naar de leeruitkomsten en zegt welke resultaten samen het bewijs vormen, ook voor een leeruitkomstenregister, Edubadges of een eduwallet. Daarom heeft geen enkel resultaattype een eigen relatie met `Leeruitkomst`. Een resultaat ontstaat op elk niveau waarop een verbintenis bestaat: opleiding, opleidingsprogramma, onderwijseenheid, leergelegenheid, lesgelegenheid, toetsgelegenheid en examengelegenheid. `Leergelegenheid resultaat` en `Aanwezigheid` staan buiten scope van OKx; zij bestaan in het model omdat de keten ze kent. Voorstel; verfijnt [ADR 0022](../Referentiemateriaal/adr/0022-resultaatbegrippen-conform-rosa-koi.md), dat "behaald op leeruitkomsten" zegt zonder de weg via de structuur te noemen.
+8. **De inhoud van een les valt buiten de uitwisseling, de les in het rooster niet.** `Les specificatie` blijft erbuiten: wat er in een les gebeurt is onderwijskundige vrijheid van de instelling. `Lesgelegenheid`, `Lesgelegenheid verbintenis` en `Lesgelegenheid resultaat` staan binnen scope, want de les in het rooster, de deelname eraan en het resultaat erop zijn logistiek en worden uitgewisseld. Voorstel.
+9. **Een examenonderdeel is een specialisatie van een toetsonderdeel, en formatief of summatief is een kenmerk van het resultaat.** Toetsonderdeel en examenonderdeel delen dezelfde informatiestructuur; hun totstandkoming verschilt: een examenonderdeel stelt de examencommissie vast, een toetsonderdeel volgt instellingsbeleid. De specificatie draagt in haar definitie of zij formatief of summatief is, en `Formatief resultaat` en `Summatief resultaat` hangen onder het toets- respectievelijk examenresultaat. Er zijn dus geen twee takken door het model. De summatieve resultaatstructuur is samengesteld uit toetsonderdelen, zodat een instelling een formatief toetsonderdeel summatief kan laten meetellen; vanaf dat moment volgt het de examenketen. De term examenonderdeel komt uit het mbo; het hoger onderwijs gebruikt haar anders, en het model legt daarom het onderscheid in de totstandkoming vast en niet in het woord. Voorstel.
 10. **OKx wisselt de summatieve resultaatstructuur uit, niet het examenplan.** De `Summatieve resultaat structuur` draagt de examenonderdelen met hun wegingen en het afrondingscriterium dat de zak-slaagregeling draagt. Zij is onderdeel van een examenplan en verwijst daarnaar; het examenplan zelf, het document dat de examencommissie vaststelt, valt buiten de uitwisseling, net als de `OER` (onderwijs- en examenregeling) die het examenplan bevat en de kwalificatie beschrijft. Bron: MORA onderscheidt OER, examenplan en summatieve resultaatstructuur op dezelfde manier.
-11. **Een leeruitkomst is een geformuleerde competentie.** `Leeruitkomst` specialiseert `Competenties / Skills`: het is dezelfde informatiestructuur, uitgedrukt op het niveau waarop de instelling formuleert. De onderliggende begrippen kennis, vaardigheid en inzicht staan in het model maar vallen buiten de uitwisseling. Voorstel.
-12. **Een keuzedeelruimte is een oningevuld keuzedeel.** Een keuzedeelruimte is een oningevuld keuzedeel: onderwijskundig vrijgemaakte ruimte van een bepaalde omvang waarin een student een keuzedeel kiest. `Keuzedeel` en `Keuzedeelruimte` zijn losse objecttypen die hetzelfde gat in het programma vullen; daarom specialiseren beide de `Opleidingsprogramma specificatie`. Voorstel.
+11. **Een leeruitkomst is een geformuleerde competentie, en draagt als enige een niveau.** `Leeruitkomst` specialiseert `Competenties / Skills`: dezelfde informatiestructuur, uitgedrukt op het niveau waarop de instelling formuleert. De onderliggende begrippen kennis, vaardigheid en inzicht staan in het model en vallen buiten de uitwisseling. Het niveau is NLQF, met EQF als Europese equivalent: mbo 1 tot 4 en hoger onderwijs 5 tot 8 op dezelfde lat. Kerntaak en werkproces zijn een vindplaats in het mbo-dossier en geen niveau. Een vaardigheid eronder draagt geen niveau; de [metadateringsmethodologie van CompetentNL](https://publications.tno.nl/publication/34645225/UfmHs0kr/competentNL-2025-metadatering.pdf) stelt dat het gevraagde niveau per context verschilt. Het objecttype dat die lat draagt staat nog niet in het model; een objecttype dat die lat draagt is in voorbereiding. Voorstel.
+12. **Keuzedeel en minor zijn bijzondere gevallen van een opleidingsprogramma, en een ruimte is de oningevulde variant ervan.** Een keuzedeelruimte is onderwijskundig vrijgemaakte ruimte van een bepaalde omvang waarin een student een keuzedeel kiest; een minorruimte doet hetzelfde voor het hoger onderwijs. `Keuzedeel`, `Keuzedeelruimte`, `Minor` en `Minor ruimte` specialiseren alle `Opleidingsprogramma specificatie`, en de minor loopt door over aanbod, verbintenis en resultaat. Het keuzedeel is landelijk vastgesteld en staat daarmee ook in het kwalificatiekader; het model draagt het als specificatie, met de landelijke code als verwijzing. Voorstel.
 13. **Intekenen, aanmelden en inschrijven zijn drie stappen.** Het `Verzoek tot Aanbod / Intekening op specificatie` is een verzoek om aanbod te maken voor een specificatie. Het heeft specificaties als input en leidt tot aanbod; aanmelden gebeurt daarna op dat aanbod en inschrijven is de verbintenis. De `Aanmelding` gaat `Op basis van` een aanbod, in elke fase waarin dat aanbod zich bevindt, loopt `middels` een verbintenis en `wordt` een `Inschrijving`: de overeenkomst tussen instelling en student, die bij het studentinformatiesysteem blijft. Bron: de afstemming van 14 september 2026 met een planner en een instelling; aanbod rijpt van intentie via grofmazig gepland naar geroosterd, en intekenen kan op de specificatie en op aanbod in elke fase. Of die fasering een toestand op het aanbod is of eigen objecttypen vraagt, is open.
 14. **Student en medewerker zijn rollen van een persoon.** `Student` en `Medewerker` specialiseren `Persoon`; een persoon kan beide tegelijk zijn. Toegang tot de objecttypen loopt via `Persoon`. Voorstel.
 15. **Een verbintenis loopt bij voorkeur via een groep.** `Plaatsingsgroep` maakt regulier onderwijs makkelijker te plannen en te roosteren en geldt voor elk verbintenistype. Het model sluit individuele verbintenissen niet uit. Voorstel.
-16. **Een specificatie draagt de wettelijke geldigheid, geen planning.** Een specificatie is los van wanneer het onderwijs draait, maar niet los van de tijd: het kwalificatiekader waarop zij is ontworpen bepaalt vanaf wanneer zij geldt, tot wanneer erop gediplomeerd of gecertificeerd mag worden en wanneer het aanbieden stopt, bijvoorbeeld omdat het crebo erachter verjaart. Die geldigheid ligt vast op de specificatie (`geldigVanaf`, `geldigTot` in het logisch gegevensmodel); wanneer een aanbod daadwerkelijk draait staat op het aanbod. Voorstel.
-17. **Het cohort bepaalt welke resultaatstructuur op een student van toepassing is.** `Cohort / periode` groepeert studenten die onder dezelfde onderwijs- en examenregeling vallen (MORA). Op de plaat groepeert het cohort studenten op de `Summatieve resultaat structuur` die op hen van toepassing is en wordt het uitgewerkt in de `OER`: een structuur geldt bijvoorbeeld voor wie in 2025 en 2026 is gestart en niet meer voor wie in 2027 start. Daarmee bepaalt het cohort ook wie samen onderwijs kan volgen, want wie onder een andere structuur valt moet andere dingen doen. Voorstel.
+16. **Een specificatie draagt de wettelijke geldigheid, geen planning.** Een specificatie is los van wanneer het onderwijs draait, maar niet los van de tijd: het kwalificatiekader waarop zij is ontworpen bepaalt vanaf wanneer zij geldt, tot wanneer erop gediplomeerd of gecertificeerd mag worden en wanneer het aanbieden stopt, bijvoorbeeld omdat het crebo erachter verjaart. Die geldigheid ligt vast op de specificatie; wanneer een aanbod daadwerkelijk draait staat op het aanbod. Voorstel.
+17. **Het cohort hangt aan de inschrijving en bepaalt welke resultaatstructuur van toepassing is.** `Cohort / periode` groepeert studenten die onder dezelfde onderwijs- en examenregeling vallen (MORA). Het hangt aan de `Inschrijving` en niet aan `Student`, want een persoon kan in meer dan een opleiding zitten en daarmee in meer dan een cohort: het cohort is een eigenschap van de deelname. Het cohort groepeert studenten op de `Summatieve resultaat structuur` die op hen van toepassing is en wordt uitgewerkt in de `OER`. Daarmee bepaalt het ook wie samen onderwijs kan volgen, want wie onder een andere structuur valt moet andere dingen doen. Voorstel.
+18. **Waar onderwijs plaatsvindt en wie het uitvoert zijn eigen objecttypen.** `Onderwijsvorm` legt per leeronderdeel vast hoe het onderwijs gegeven wordt; daaruit volgt `Onderwijslocatie type`, het soort ruimte dat die vorm vraagt. `Onderwijslocatie` hangt aan het aanbod, want pas bij het plannen ligt de plek vast. `Organisatie-eenheid` voert de onderwijsspecificatie uit. Of zij als keuzebepalende factor in een keuzeregelset mogen staan, en op welk moment in het planproces de locatie vastligt, is open. Voorstel.
 
-### 3.9 Naar het logisch gegevensmodel
-
-Het [logisch gegevensmodel](#4-logisch-gegevensmodel) (MIM-niveau 3) zet de objecttypen om in entiteiten met velden. Het is per koppeling gegroeid en gebruikt daardoor niet overal dezelfde namen als de plaat. Deze tabel legt per entiteit vast welk objecttype erachter zit; het informatiemodel is leidend, de naamgeving wordt bij een volgende versie van het logisch model gelijkgetrokken. Een entiteit die hier ontbreekt is nog niet gebrugd; een objecttype zonder entiteit is nog niet uitgewerkt tot velden.
-
-| Entiteit (niveau 3) | Objecttype (niveau 2) | Verhouding |
-|---|---|---|
-| `LEERUITKOMST` | `Leeruitkomst` | Gelijk |
-| `ONDERWIJSSPECIFICATIE` | De familie `Onderwijsspecificatie` | Eén entiteit met `specificatieType`; de plaat kent de subtypen als objecttypen. De waarden lopen niet één op één: `examenplanspecificatie` en `resultaateenheidspecificatie` horen op de plaat bij de resultaatstructuur, `Keuzedeel` deelt de waarde `opleidingsprogrammaspecificatie`, en `Examenonderdeelspecificatie` heeft nog geen waarde |
-| `OPLEIDINGSSPECIFICATIE` | `Opleiding specificatie` | Gelijk |
-| `OPLEIDINGSPROGRAMMASPECIFICATIE`, `OPLEIDINGSPROGRAMMASPECIFICATIE_LEERWEG`, `OPLEIDINGSPROGRAMMASPECIFICATIE_DOELGROEP` | `Opleidingsprogramma specificatie` | Het logisch model splitst via `programmaLaag` in leerweg en doelgroep; de plaat kent één objecttype. Open: attribuut of eigen objecttype |
-| `ONDERWIJSEENHEIDSPECIFICATIE` | `Onderwijseenheid specificatie` | Gelijk |
-| `LEERONDERDEELSPECIFICATIE` | `Leeronderdeel specificatie` | Gelijk |
-| `TOETSONDERDEELSPECIFICATIE` | `Toetsonderdeel specificatie` | Hetzelfde objecttype, op een andere plek: het logisch model hangt het toetsonderdeel onder de resultaateenheid (de examenplanboom), de plaat onder de onderwijseenheid. Open. `Examenonderdeelspecificatie` (ontwerpkeuze 9) heeft nog geen eigen entiteit |
-| `KEUZEDEELPROGRAMMASPECIFICATIE` | `Keuzedeel` | Gelijk in betekenis; naam verschilt |
-| `KEUZEDEELRUIMTESPECIFICATIE` | `Keuzedeelruimte` | Gelijk in betekenis (ontwerpkeuze 12); naam verschilt |
-| `REGELSET` | `Student keuze regelset` | Gelijk in betekenis voor de keuzeregels (ontwerpkeuze 6); naam verschilt. Het logisch model gebruikt `REGELSET` ook in de resultaatstructuur, voor welke resultaten meetellen; die tweede betekenis heeft op de plaat geen objecttype. Open |
-| `EXAMENPLANSPECIFICATIE` | `Examenplan` | Buiten scope op de plaat: OKx wisselt het examenplan niet uit (ontwerpkeuze 10). In het logisch model en in `result-structure.json` is het examenplan nog de wortel van de resultaatstructuur; de vervanging door de summatieve resultaatstructuur is in voorbereiding. Tot die tijd spreken laag 2 en laag 3 elkaar hier tegen |
-| `RESULTAATEENHEIDSPECIFICATIE` | `Summatieve resultaat structuur` met `Examenonderdeel weging` | Een knoop in de structuur die weegt; op de plaat zijn structuur en weging aparte objecttypen. `Summatief Afrondingscriterium` is in het logisch model geen entiteit maar de velden `aggregatie` en `resultaatmodel` |
-| `AANBODINSTANTIE` | De familie `Onderwijsaanbod` | Eén entiteit met `aanbodType`; de waarden dekken `Opleidingaanbod` tot `Leergelegenheid`. `Keuzedeelaanbod`, `Toetsgelegenheid`, `Examengelegenheid` en `Opleidingsaanbod van Instelling` hebben nog geen waarde; `Lesgelegenheid` valt buiten de uitwisseling (ontwerpkeuze 8) |
-| `GROEP` | `Plaatsingsgroep` | Dezelfde rol (ontwerpkeuze 15), niet dezelfde inhoud: het logisch model kent de groep als naam met capaciteit onder een aanbodinstantie, de plaat als verzameling personen met verbintenissen. Open |
-| `LOCATIE` | Geen objecttype | Op de plaat een kenmerk van het aanbod (plek), geen eigen objecttype. Nog niet besproken |
-| `ORGANISATIE_EENHEID` | Geen objecttype | Nog niet aan bod gekomen in de analyses |
-
-De families `Onderwijsverbintenis` en `Onderwijsresultaat`, de `Formatieve resultaat structuur` en de objecttypen buiten de kolommen hebben nog geen entiteit met velden (`Cohort / periode` is in het logisch model het veld `cohort` op de doelgroepspecificatie en de aanbodinstantie, `Aanmelding` en `Inschrijving` komen er niet in voor); het logisch model beschrijft ze alleen in de koppelingsbeelden (`ONDERWIJSRESULTAAT`, `TOETSONDERDEELRESULTAAT`, `ROOSTER`, `ONDERWIJSTEAM`). Ze volgen zodra de koppelingen die ze dragen worden uitgewerkt. Het `Kwalificatiekader mbo` is in het logisch model geen entiteit maar de bron van een leeruitkomst (`leeruitkomst.bron`); dat is een ontwerpbeslissing van laag 3, geen leemte.
-
-### 3.10 Verwante documenten
+### 3.9 Verwante documenten
 
 | Document | Verhouding |
 |---|---|
-| [Mapping naar OEAPI v6](#311-informatiemodel-okx-naast-oeapi-v6) | Dezelfde objecttypen met de Open Education API ernaast |
+| [Mapping naar OEAPI v6](#310-informatiemodel-okx-naast-oeapi-v6) | Dezelfde objecttypen met de Open Education API ernaast |
 | [Begrippenlijst OKx](#2-begrippenlijst-okx) | Geeft per begrip de definitie, de bron en de mapping naar MORA en het Kernmodel Onderwijsinformatie |
 | [Begrippenkader](../Referentiemateriaal/kaderscenario's/leerroute-1-regulier.md#betrokken-informatie-bij-proces) | Werkt de begrippen, hun subtypen en de normatieve cardinaliteiten verder uit |
-| [Logisch gegevensmodel](#4-logisch-gegevensmodel) | Werkt deze objecttypen uit tot entiteiten met velden; de brug staat hierboven |
+| Logisch gegevensmodel | Werkt deze objecttypen uit tot entiteiten met velden, op MIM-niveau 3; in uitwerking |
 | [Koppelvlakspecificaties](../Koppelvlakspecificaties/README.md) | Welke applicatiedienst welk objecttype over welk endpoint uitwisselt |
 | [`informatiemodel.json`](informatiemodel.json) | Dit model machineleesbaar, gegenereerd uit het ArchiMate-model in de meta-repository |
 
 
 <!-- pagina-einde -->
 
-### 3.11 Informatiemodel OKx naast OEAPI v6
+### 3.10 Informatiemodel OKx naast OEAPI v6
 
-#### 3.11.1 Context
+#### 3.10.1 Context
 
 OKx sluit voor de technische uitwerking zoveel mogelijk aan op de Open Education API (OEAPI), versie 6. Dat kan alleen waar de standaard de begrippen van OKx ook kan dragen.
 
-#### 3.11.2 Inleiding
+#### 3.10.2 Inleiding
 
 Dit document legt het [informatiemodel](#3-conceptueel-informatiemodel) naast OEAPI v6 en laat zien waar de standaard het model dekt, waar hij te grof dekt, en waar hij niet dekt.
 
-#### 3.11.3 Doel
+#### 3.10.3 Doel
 
 Per objecttype vaststellen of de standaard volstaat, aangepast moet worden, of bewust niet gevolgd wordt. De uitkomst bepaalt welke signaleringen richting de standaard gaan.
 
-#### 3.11.4 Scope
+#### 3.10.4 Scope
 
-De objecttypen van het informatiemodel, [MIM-niveau 2](https://docs.geostandaarden.nl/mim/mim/#beschouwingsniveau-2-conceptueel-informatiemodel), naast de objecten van OEAPI v6. OEAPI is een standaard voor gegevensuitwisseling: het logische model ervan is [niveau 3](https://docs.geostandaarden.nl/mim/mim/#beschouwingsniveau-3-logisch-informatie-of-gegevensmodel), de JSON-vorm en de endpoints zijn [niveau 4](https://docs.geostandaarden.nl/mim/mim/#beschouwingsniveau-4-fysiek-of-technisch-gegevens-of-datamodel). Dit document is de brug tussen niveau 2 en die twee. Attributen, datatypes en multipliciteit vallen hier buiten; die staan in het [logisch gegevensmodel en de schema's](#4-logisch-gegevensmodel) in dit pakket.
+De objecttypen van het informatiemodel, [MIM-niveau 2](https://docs.geostandaarden.nl/mim/mim/#beschouwingsniveau-2-conceptueel-informatiemodel), naast de objecten van OEAPI v6. OEAPI is een standaard voor gegevensuitwisseling: het logische model ervan is [niveau 3](https://docs.geostandaarden.nl/mim/mim/#beschouwingsniveau-3-logisch-informatie-of-gegevensmodel), de JSON-vorm en de endpoints zijn [niveau 4](https://docs.geostandaarden.nl/mim/mim/#beschouwingsniveau-4-fysiek-of-technisch-gegevens-of-datamodel). Dit document is de brug tussen niveau 2 en die twee. Attributen, datatypes en multipliciteit vallen hier buiten; die horen bij het logisch gegevensmodel en de schema's, in een eigen gegevensmodeldocument.
 
-![Informatiemodel OKx naast de mapping op OEAPI v6, versie v0.1 van 14 september 2026](img/informatiemodel-oeapi-mapping.jpg)
+![Informatiemodel OKx naast de mapping op OEAPI v6, versie v0.2 van 14 oktober 2026](img/informatiemodel-oeapi-mapping.jpg)
 
-#### 3.11.5 Notatie
+#### 3.10.5 Notatie
 
 De blauwe objecten zijn OEAPI v6 en staan als data-object in het model. Van de OKx-objecttypen zijn er 63 bedrijfsobject en 3 bedrijfsactor: `Persoon`, `Student` en `Medewerker`. Draagt één OEAPI-object meerdere OKx-objecttypen, dan staat het op de plaat bij elk van die objecttypen apart. De relatie is realisatie: het data-object is de vorm waarin een OKx-objecttype wordt uitgewisseld. Realisatie overbrugt lagen en komt daarom alleen hier voor. `Persoon` naar `Person` is de uitzondering, en dat volgt uit die typering: realisatie loopt naar een bedrijfsobject, niet naar een bedrijfsactor, dus daar is de relatie een associatie (association).
 
-#### 3.11.6 Dekking door OEAPI v6
+#### 3.10.6 Dekking door OEAPI v6
 
 **Een OEAPI-object draagt vaak meerdere OKx-objecttypen.** `Programme` draagt vier specificatietypen, `ProgrammeOffering` drie aanbodtypen en `Result` zeven objecttypen binnen scope in de kolom Onderwijsresultaat (acht met `Lesgelegenheid resultaat`, dat buiten scope valt). De vijf andere objecttypen in die kolom hebben geen equivalent: `Aanwezigheid`, en de vier objecttypen voor formatieve en summatieve resultaten en beoordelingen. Het onderscheid tussen die OKx-objecttypen ligt dan in een typeveld van OEAPI waar dat uitbreidbaar is (`programmeType` en `associationState` zijn uitbreidbare opsommingen met het voorvoegsel `x-`), en anders buiten de standaard, in het logisch gegevensmodel en de schema's van OKx. `Result` is in OEAPI geen eigen resource maar een deel van een association of een attempt; een resultaat wordt dus via de verbintenis ontsloten.
 
@@ -513,50 +503,58 @@ De blauwe objecten zijn OEAPI v6 en staan als data-object in het model. Van de O
 
 **De resultaatstructuur is nog niet op OEAPI gemapt.** OEAPI kent `weight` per resultaat, niet per specificatie; op het toetsonderdeel draagt het wel `passFrom` (cesuur), `resultValueType` (schaal), `attempts` en `parent` en `children` voor samengestelde toetsen, en op het resultaat `final` (vastgesteld door de examencommissie). Het afrondingscriterium over onderdelen heen bestaat er alleen als vrije tekst in `qualificationRequirements`. Wat ontbreekt is de weging per specificatie en de aggregatieregel; of de samenstelling van een summatieve structuur daarmee in OEAPI is uit te drukken is nog niet vastgesteld. OKx legt hem wel machineleesbaar vast, in [`result-structure.json`](schemas/result-structure.json).
 
-##### 3.11.6.1 Mapping per objecttype
+##### 3.10.6.1 Mapping per objecttype
 
 Uit `informatiemodel.json`: de 35 realisaties en de associatie van `Persoon` naar `Person` op de plaat. Het oordeel is voorlopig en telt alleen objecttypen binnen scope: *volstaat* waar een OEAPI-object precies één OKx-objecttype binnen scope draagt, *te grof* waar het er meer draagt. De leslaag staat op de plaat maar valt buiten de uitwisseling; die rijen tellen niet mee.
 
 | OKx-objecttype | Begrippenfamilie | OEAPI-object | Voorlopig oordeel |
 |---|---|---|---|
 | `Examengelegenheid` | Onderwijsaanbod | `TestComponentOffering` | te grof: draagt 2 OKx-objecttypen binnen scope, het onderscheid ligt buiten de standaard |
-| `Examengelegenheid resultaat` | Onderwijsresultaat | `Result` | te grof: draagt 7 OKx-objecttypen binnen scope, het onderscheid ligt buiten de standaard |
+| `Examengelegenheid resultaat` | Onderwijsresultaat | `Result` | te grof: draagt 8 OKx-objecttypen binnen scope, het onderscheid ligt buiten de standaard |
 | `Examengelegenheid verbintenis` | Onderwijsverbintenis | `TestComponentOfferingAssociation` | te grof: draagt 2 OKx-objecttypen binnen scope, het onderscheid ligt buiten de standaard |
 | `Examenonderdeelspecificatie` | Onderwijsspecificatie | `TestComponent` | te grof: draagt 2 OKx-objecttypen binnen scope, het onderscheid ligt buiten de standaard |
-| `Keuzedeel` | Onderwijsspecificatie | `Programme` | te grof: draagt 4 OKx-objecttypen binnen scope, het onderscheid ligt buiten de standaard |
-| `Keuzedeel aanbod verbintenis` | Onderwijsverbintenis | `ProgrammeOfferingAssociation` | te grof: draagt 3 OKx-objecttypen binnen scope, het onderscheid ligt buiten de standaard |
-| `Keuzedeel resultaat` | Onderwijsresultaat | `Result` | te grof: draagt 7 OKx-objecttypen binnen scope, het onderscheid ligt buiten de standaard |
-| `Keuzedeelaanbod` | Onderwijsaanbod | `ProgrammeOffering` | te grof: draagt 3 OKx-objecttypen binnen scope, het onderscheid ligt buiten de standaard |
-| `Keuzedeelruimte` | Onderwijsspecificatie | `Programme` | te grof: draagt 4 OKx-objecttypen binnen scope, het onderscheid ligt buiten de standaard |
-| `Leergelegenheid` | Onderwijsaanbod | `LearningComponentOffering` | volstaat |
-| `Leergelegenheid resultaat` | Onderwijsresultaat | `Result` | te grof: draagt 7 OKx-objecttypen binnen scope, het onderscheid ligt buiten de standaard |
-| `Leergelegenheid verbintenis` | Onderwijsverbintenis | `LearningComponentOfferingAssociation` | volstaat |
+| `Keuzedeel` | Onderwijsspecificatie | `Programme` | te grof: draagt 6 OKx-objecttypen binnen scope, het onderscheid ligt buiten de standaard |
+| `Keuzedeel aanbod` | Onderwijsaanbod | `ProgrammeOffering` | te grof: draagt 4 OKx-objecttypen binnen scope, het onderscheid ligt buiten de standaard |
+| `Keuzedeel aanbod verbintenis` | Onderwijsverbintenis | `ProgrammeOfferingAssociation` | te grof: draagt 4 OKx-objecttypen binnen scope, het onderscheid ligt buiten de standaard |
+| `Keuzedeel resultaat` | Onderwijsresultaat | `Result` | te grof: draagt 8 OKx-objecttypen binnen scope, het onderscheid ligt buiten de standaard |
+| `Keuzedeelruimte` | Onderwijsspecificatie | `Programme` | te grof: draagt 6 OKx-objecttypen binnen scope, het onderscheid ligt buiten de standaard |
+| `Leergelegenheid` | Onderwijsaanbod | `LearningComponentOffering` | te grof: draagt 2 OKx-objecttypen binnen scope, het onderscheid ligt buiten de standaard |
+| `Leergelegenheid resultaat` | Onderwijsresultaat | `Result` | buiten scope: de leslaag valt buiten de uitwisseling |
+| `Leergelegenheid verbintenis` | Onderwijsverbintenis | `LearningComponentOfferingAssociation` | te grof: draagt 2 OKx-objecttypen binnen scope, het onderscheid ligt buiten de standaard |
 | `Leeronderdeel specificatie` | Onderwijsspecificatie | `LearningComponent` | volstaat |
 | `Leeruitkomst` | Onderwijskundig kader instelling | `LearningOutcome` | volstaat |
 | `Les specificatie` | Onderwijsspecificatie | `LearningComponent` | buiten scope: de leslaag valt buiten de uitwisseling |
-| `Lesgelegenheid` | Onderwijsaanbod | `LearningComponentOffering` | buiten scope: de leslaag valt buiten de uitwisseling |
-| `Lesgelegenheid resultaat` | Onderwijsresultaat | `Result` | buiten scope: de leslaag valt buiten de uitwisseling |
-| `Lesgelegenheid verbintenis` | Onderwijsverbintenis | `LearningComponentOfferingAssociation` | buiten scope: de leslaag valt buiten de uitwisseling |
+| `Lesgelegenheid` | Onderwijsaanbod | `LearningComponentOffering` | te grof: draagt 2 OKx-objecttypen binnen scope, het onderscheid ligt buiten de standaard |
+| `Lesgelegenheid resultaat` | Onderwijsresultaat | `Result` | te grof: draagt 8 OKx-objecttypen binnen scope, het onderscheid ligt buiten de standaard |
+| `Lesgelegenheid verbintenis` | Onderwijsverbintenis | `LearningComponentOfferingAssociation` | te grof: draagt 2 OKx-objecttypen binnen scope, het onderscheid ligt buiten de standaard |
+| `Minor` | Onderwijsspecificatie | `Programme` | te grof: draagt 6 OKx-objecttypen binnen scope, het onderscheid ligt buiten de standaard |
+| `Minor aanbod` | Onderwijsaanbod | `ProgrammeOffering` | te grof: draagt 4 OKx-objecttypen binnen scope, het onderscheid ligt buiten de standaard |
+| `Minor aanbod verbintenis` | Onderwijsverbintenis | `ProgrammeOfferingAssociation` | te grof: draagt 4 OKx-objecttypen binnen scope, het onderscheid ligt buiten de standaard |
+| `Minor resultaat` | Onderwijsresultaat | `Result` | te grof: draagt 8 OKx-objecttypen binnen scope, het onderscheid ligt buiten de standaard |
+| `Minor ruimte` | Onderwijsspecificatie | `Programme` | te grof: draagt 6 OKx-objecttypen binnen scope, het onderscheid ligt buiten de standaard |
 | `Onderwijseenheid aanbod` | Onderwijsaanbod | `CourseOffering` | volstaat |
 | `Onderwijseenheid aanbod verbintenis` | Onderwijsverbintenis | `CourseOfferingAssociation` | volstaat |
-| `Onderwijseenheid resultaat` | Onderwijsresultaat | `Result` | te grof: draagt 7 OKx-objecttypen binnen scope, het onderscheid ligt buiten de standaard |
+| `Onderwijseenheid resultaat` | Onderwijsresultaat | `Result` | te grof: draagt 8 OKx-objecttypen binnen scope, het onderscheid ligt buiten de standaard |
 | `Onderwijseenheid specificatie` | Onderwijsspecificatie | `Course` | volstaat |
-| `Opleiding aanbod  verbintenis` | Onderwijsverbintenis | `ProgrammeOfferingAssociation` | te grof: draagt 3 OKx-objecttypen binnen scope, het onderscheid ligt buiten de standaard |
-| `Opleiding aanbod resultaat` | Onderwijsresultaat | `Result` | te grof: draagt 7 OKx-objecttypen binnen scope, het onderscheid ligt buiten de standaard |
-| `Opleiding specificatie` | Onderwijsspecificatie | `Programme` | te grof: draagt 4 OKx-objecttypen binnen scope, het onderscheid ligt buiten de standaard |
-| `Opleidingaanbod` | Onderwijsaanbod | `ProgrammeOffering` | te grof: draagt 3 OKx-objecttypen binnen scope, het onderscheid ligt buiten de standaard |
-| `Opleidingsprogramma aanbod` | Onderwijsaanbod | `ProgrammeOffering` | te grof: draagt 3 OKx-objecttypen binnen scope, het onderscheid ligt buiten de standaard |
-| `Opleidingsprogramma aanbod verbintenis` | Onderwijsverbintenis | `ProgrammeOfferingAssociation` | te grof: draagt 3 OKx-objecttypen binnen scope, het onderscheid ligt buiten de standaard |
-| `Opleidingsprogramma resultaat` | Onderwijsresultaat | `Result` | te grof: draagt 7 OKx-objecttypen binnen scope, het onderscheid ligt buiten de standaard |
-| `Opleidingsprogramma specificatie` | Onderwijsspecificatie | `Programme` | te grof: draagt 4 OKx-objecttypen binnen scope, het onderscheid ligt buiten de standaard |
+| `Onderwijslocatie` | Onderwijsaanbod | `Building` | volstaat |
+| `Onderwijslocatie` | Onderwijsaanbod | `Room` | volstaat |
+| `Onderwijslocatie type` | Onderwijsspecificatie | `roomType` | volstaat |
+| `Opleiding aanbod` | Onderwijsaanbod | `ProgrammeOffering` | te grof: draagt 4 OKx-objecttypen binnen scope, het onderscheid ligt buiten de standaard |
+| `Opleiding aanbod verbintenis` | Onderwijsverbintenis | `ProgrammeOfferingAssociation` | te grof: draagt 4 OKx-objecttypen binnen scope, het onderscheid ligt buiten de standaard |
+| `Opleiding resultaat` | Onderwijsresultaat | `Result` | te grof: draagt 8 OKx-objecttypen binnen scope, het onderscheid ligt buiten de standaard |
+| `Opleiding specificatie` | Onderwijsspecificatie | `Programme` | te grof: draagt 6 OKx-objecttypen binnen scope, het onderscheid ligt buiten de standaard |
+| `Opleidingsprogramma aanbod` | Onderwijsaanbod | `ProgrammeOffering` | te grof: draagt 4 OKx-objecttypen binnen scope, het onderscheid ligt buiten de standaard |
+| `Opleidingsprogramma aanbod verbintenis` | Onderwijsverbintenis | `ProgrammeOfferingAssociation` | te grof: draagt 4 OKx-objecttypen binnen scope, het onderscheid ligt buiten de standaard |
+| `Opleidingsprogramma resultaat` | Onderwijsresultaat | `Result` | te grof: draagt 8 OKx-objecttypen binnen scope, het onderscheid ligt buiten de standaard |
+| `Opleidingsprogramma specificatie` | Onderwijsspecificatie | `Programme` | te grof: draagt 6 OKx-objecttypen binnen scope, het onderscheid ligt buiten de standaard |
 | `Persoon` | buiten de kolommen | `Person` | volstaat |
 | `Plaatsingsgroep` | buiten de kolommen | `Group` | volstaat |
 | `Toetsgelegenheid` | Onderwijsaanbod | `TestComponentOffering` | te grof: draagt 2 OKx-objecttypen binnen scope, het onderscheid ligt buiten de standaard |
-| `Toetsgelegenheid resultaat` | Onderwijsresultaat | `Result` | te grof: draagt 7 OKx-objecttypen binnen scope, het onderscheid ligt buiten de standaard |
+| `Toetsgelegenheid resultaat` | Onderwijsresultaat | `Result` | te grof: draagt 8 OKx-objecttypen binnen scope, het onderscheid ligt buiten de standaard |
 | `Toetsgelegenheid verbintenis` | Onderwijsverbintenis | `TestComponentOfferingAssociation` | te grof: draagt 2 OKx-objecttypen binnen scope, het onderscheid ligt buiten de standaard |
 | `Toetsonderdeel specificatie` | Onderwijsspecificatie | `TestComponent` | te grof: draagt 2 OKx-objecttypen binnen scope, het onderscheid ligt buiten de standaard |
 
-##### 3.11.6.2 OKx-objecttypen zonder OEAPI-equivalent
+##### 3.10.6.2 OKx-objecttypen zonder OEAPI-equivalent
 
 Voor deze 24 objecttypen binnen scope is nog geen equivalent in OEAPI v6 geïdentificeerd. Per groep staat waarom, en wat het besluit vraagt: een signalering richting de standaard, of een bewuste afwijking.
 
@@ -572,7 +570,7 @@ Voor deze 24 objecttypen binnen scope is nog geen equivalent in OEAPI v6 geïden
 | Cohort | `Cohort / periode` | OEAPI kent `AcademicSession` (schooljaar, periode) als tijdvak; de groepering van studenten onder dezelfde onderwijs- en examenregeling is er niet als object | open |
 | Overig | `Opleidingsaanbod van Instelling`, `Waarde document (diploma / certificaat)`, `Persoonlijke ontwikkeling` | Geen object in OEAPI gevonden | open |
 
-##### 3.11.6.3 OEAPI-objecten zonder OKx-objecttype
+##### 3.10.6.3 OEAPI-objecten zonder OKx-objecttype
 
 De omgekeerde dekking: objecten die OEAPI v6 wel kent en die op de plaat geen objecttype hebben. Per object of het bewust buiten scope valt of nog niet is gemodelleerd.
 
@@ -583,7 +581,7 @@ De omgekeerde dekking: objecten die OEAPI v6 wel kent en die op de plaat geen ob
 | `Group` en `Membership` | Een groep met leden, rol en status | `Plaatsingsgroep` is op `Group` gemapt; het lidmaatschap als eigen object ontbreekt |
 | `TestComponentOfferingAssociationAttempt` | Een poging op een toetsonderdeel, met `attempt`, `opportunity`, `attendance` en een eigen `result` | Nog niet gemodelleerd: de plaat kent geen poging of herkansing als objecttype |
 
-#### 3.11.7 Verwante documenten
+#### 3.10.7 Verwante documenten
 
 | Document | Verhouding |
 |---|---|
@@ -948,647 +946,11 @@ Wat een JSON Schema niet kan uitdrukken, maar wel geldt. Zonder deze regels vali
 
 ## 5 Technisch gegevensmodel
 
-<!-- pagina-einde -->
-
-### 5.1 address.json
-
-```json
-{
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://okx.npuls.nl/schema/address/alfa",
-  "title": "Address",
-  "DutchName": "Adres",
-  "$comment": "Alfa en indicatief. Deze vorm onderbouwt welke velden het koppelvlak nodig heeft en kan wijzigen zolang de payload niet is vastgesteld.",
-  "type": "object",
-  "properties": {
-    "street": { "type": "string", "DutchName": "straat" },
-    "houseNumber": { "type": "string", "DutchName": "huisnummer" },
-    "postcode": { "type": "string", "DutchName": "postcode" },
-    "city": { "type": "string", "DutchName": "plaats" },
-    "country": { "type": "string", "DutchName": "land" }
-  }
-}
-```
-
-### 5.2 bottleneck.json
-
-```json
-{
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://okx.npuls.nl/schema/bottleneck/alfa",
-  "title": "Bottleneck",
-  "DutchName": "Knelpunt",
-  "$comment": "Alfa en indicatief. Deze vorm onderbouwt welke velden het koppelvlak nodig heeft en kan wijzigen zolang de payload niet is vastgesteld.",
-  "type": "object",
-  "required": [
-    "code",
-    "description"
-  ],
-  "properties": {
-    "code": {
-      "type": "string",
-      "DutchName": "code",
-      "enum": [
-        "capaciteitTekort",
-        "expertiseTekort",
-        "ruimteTekort",
-        "locatieConflict",
-        "volgordeConflict",
-        "regelConflict",
-        "groepsgrootteConflict",
-        "kalenderConflict"
-      ]
-    },
-    "description": {
-      "type": "string",
-      "DutchName": "omschrijving"
-    },
-    "involvedSpecificationIds": {
-      "type": "array",
-      "items": {
-        "type": "string"
-      },
-      "DutchName": "betrokkenSpecificatieIds"
-    }
-  }
-}
-```
-
-### 5.3 code.json
-
-```json
-{
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://okx.npuls.nl/schema/code/alfa",
-  "title": "Code",
-  "DutchName": "Code",
-  "$comment": "Alfa en indicatief. Externe identificatie, bijvoorbeeld een vestigingscode. Deze vorm onderbouwt welke velden het koppelvlak nodig heeft en kan wijzigen zolang de payload niet is vastgesteld.",
-  "type": "object",
-  "properties": {
-    "codeType": { "type": "string", "DutchName": "codeType" },
-    "code": { "type": "string", "DutchName": "code" }
-  }
-}
-```
-
-### 5.4 education-offering.json
-
-```json
-{
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://okx.npuls.nl/schema/education-offering/alfa",
-  "title": "Education offering",
-  "DutchName": "Onderwijsaanbod",
-  "$comment": "Alfa en indicatief. Deze vorm onderbouwt welke velden het koppelvlak nodig heeft en kan wijzigen zolang de payload niet is vastgesteld.",
-  "type": "object",
-  "required": ["offeringInstances"],
-  "properties": {
-    "offeringInstances": {
-      "type": "array",
-      "items": {
-        "type": "object",
-        "required": ["id", "offeringType", "version", "parentOfferingId", "specificationReference", "name", "status"],
-        "properties": {
-          "id": { "type": "string", "format": "uuid", "DutchName": "id" },
-          "offeringType": { "enum": ["opleidingsaanbod", "opleidingsprogramma-aanbod", "onderwijseenheid-aanbod", "leergelegenheid"], "DutchName": "aanbodType" },
-          "version": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$", "DutchName": "versie" },
-          "parentOfferingId": { "type": ["string", "null"], "format": "uuid", "DutchName": "bovenliggendAanbodId" },
-          "specificationReference": { "$ref": "./specification-reference.json", "DutchName": "specificatieVerwijzing" },
-          "name": { "type": "string", "DutchName": "naam" },
-          "status": { "enum": ["inPlanning", "gepland", "nietRealiseerbaar", "geannuleerd"], "DutchName": "status" },
-          "bottlenecks": {
-            "type": "array",
-            "items": { "$ref": "./bottleneck.json" },
-            "DutchName": "knelpunten"
-          },
-          "cohort": { "type": "string", "DutchName": "cohort" },
-          "period": { "$ref": "./period.json", "DutchName": "periode" },
-          "minStudentCount": { "type": "integer", "DutchName": "minAantalStudenten" },
-          "maxStudentCount": { "type": "integer", "DutchName": "maxAantalStudenten" },
-          "locationId": { "type": "string", "format": "uuid", "DutchName": "locatieId" },
-          "executingTeamId": { "type": "string", "format": "uuid", "DutchName": "uitvoerendTeamId" },
-          "groups": {
-            "type": "array",
-            "items": { "$ref": "./group.json" },
-            "DutchName": "groepen"
-          }
-        }
-      },
-      "DutchName": "aanbodInstanties"
-    },
-    "locations": {
-      "type": "array",
-      "items": { "$ref": "./location.json" },
-      "DutchName": "locaties"
-    },
-    "organisationUnits": {
-      "type": "array",
-      "items": { "$ref": "./organisation-unit.json" },
-      "DutchName": "organisatieEenheden"
-    }
-  }
-}
-```
-
-### 5.5 education-specification-delta.json
-
-```json
-{
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://okx.npuls.nl/schema/education-specification-delta/alfa",
-  "title": "Education specification delta",
-  "DutchName": "Onderwijsspecificatie-delta",
-  "$comment": "Alfa en indicatief. JSON Patch (RFC 6902) tussen twee versies van de onderwijsspecificatiestructuur; RFC 6902 is de normatieve definitie van de operatievorm, dit schema legt vast dat de respons daaraan voldoet.",
-  "type": "array",
-  "items": {
-    "type": "object",
-    "required": ["op", "path"],
-    "properties": {
-      "op": { "enum": ["add", "remove", "replace", "move", "copy", "test"], "DutchName": "op" },
-      "path": { "type": "string", "DutchName": "path" },
-      "from": { "type": "string", "DutchName": "from" },
-      "value": { "DutchName": "value" }
-    }
-  }
-}
-```
-
-### 5.6 education-specification.json
-
-```json
-{
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://okx.npuls.nl/schema/education-specification/alfa",
-  "title": "Education specification",
-  "DutchName": "Onderwijsspecificatie",
-  "$comment": "Alfa en indicatief. Deze vorm onderbouwt welke velden het koppelvlak nodig heeft en kan wijzigen zolang de payload niet is vastgesteld.",
-  "type": "object",
-  "required": ["educationSpecifications"],
-  "$comment_required": "Alleen onderwijsspecificaties is altijd aanwezig. Of leeruitkomsten en regelsets meekomen bepaalt het gebruiksprofiel van de koppeling; binnen onderwijscatalogus naar planning en roostering blijven leeruitkomsten weg ([ADR 0023](../../Referentiemateriaal/adr/0023-leeruitkomsten-als-opaque-sleutels-in-koppeling-oc-p-en-r.md)).",
-  "properties": {
-    "learningOutcomes": {
-      "type": "array",
-      "items": { "$ref": "./learning-outcome.json" },
-      "DutchName": "leeruitkomsten"
-    },
-    "educationSpecifications": {
-      "type": "array",
-      "items": {
-        "type": "object",
-        "required": ["id", "specificationType", "version", "parentSpecificationId", "name", "studyLoad"],
-        "properties": {
-          "id": { "type": "string", "format": "uuid", "DutchName": "id" },
-          "specificationType": { "enum": ["opleidingsspecificatie", "opleidingsprogrammaspecificatie", "onderwijseenheidspecificatie", "leeronderdeelspecificatie", "keuzedeelruimtespecificatie", "toetsonderdeelspecificatie", "examenplanspecificatie", "resultaateenheidspecificatie"], "DutchName": "specificatieType" },
-          "version": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$", "DutchName": "versie" },
-          "parentSpecificationId": { "type": ["string", "null"], "format": "uuid", "DutchName": "bovenliggendSpecificatieId" },
-          "learningOutcomeId": { "type": "string", "format": "uuid", "DutchName": "leeruitkomstId" },
-          "name": { "type": "string", "DutchName": "naam" },
-          "description": { "type": "string", "DutchName": "omschrijving" },
-          "status": { "enum": ["concept", "vastgesteld", "gepubliceerd", "gedeactiveerd", "vervallen", "gearchiveerd"], "DutchName": "status" },
-          "studyLoad": { "$ref": "./volume.json", "DutchName": "studielast" },
-          "curriculumType": { "enum": ["nominaal", "hybride", "flexibel"], "DutchName": "curriculumtype" },
-          "programmeType": { "type": "string", "$comment": "open lijst: diplomaprogramma, keuzedeelprogramma, certificaatprogramma", "DutchName": "programmatype" },
-          "programmeLayer": { "enum": ["leerweg", "doelgroep"], "DutchName": "programmaLaag" },
-          "learningPathway": { "enum": ["BOL", "BBL"], "DutchName": "leerweg" },
-          "targetGroup": { "type": "string", "$comment": "open lijst: regulier, zijinstromer, hybride, organisatiespecifiek", "DutchName": "doelgroep" },
-          "electiveUnitClass": { "type": "string", "$comment": "open lijst: algemeen-verbredend, beroepsspecifiek-verdiepend", "DutchName": "keuzedeelKlasse" },
-          "organisation": { "$ref": "./organisation-unit.json", "$comment": "de organisatie waarvoor deze variant geldt, bijvoorbeeld een leerbedrijf", "DutchName": "organisatie" },
-          "cohort": { "type": "string", "DutchName": "cohort" },
-          "startDate": { "type": "string", "format": "date", "DutchName": "startdatum" },
-          "validFrom": { "type": "string", "format": "date", "DutchName": "geldigVanaf" },
-          "validUntil": { "type": ["string", "null"], "format": "date", "DutchName": "geldigTot" },
-          "timeDistribution": { "type": "string", "$comment": "open lijst: BOT (begeleide onderwijstijd), OOT (overige onderwijstijd), BPV", "DutchName": "tijdsverdeling" },
-          "explanation": { "type": "string", "DutchName": "toelichting" },
-          "ruleSetReferences": { "type": "array", "items": { "type": "string", "format": "uuid" }, "DutchName": "regelsetVerwijzingen" },
-          "manifest": {
-            "type": "array",
-            "items": { "$ref": "./manifest-item.json" },
-            "DutchName": "manifest"
-          }
-        }
-      },
-      "DutchName": "onderwijsspecificaties"
-    },
-    "ruleSets": {
-      "type": "array",
-      "items": { "$ref": "./rule-set.json" },
-      "DutchName": "regelsets"
-    }
-  }
-}
-```
-
-### 5.7 geolocation.json
-
-```json
-{
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://okx.npuls.nl/schema/geolocation/alfa",
-  "title": "Geolocation",
-  "DutchName": "Geolocatie",
-  "$comment": "Alfa en indicatief. Deze vorm onderbouwt welke velden het koppelvlak nodig heeft en kan wijzigen zolang de payload niet is vastgesteld.",
-  "type": "object",
-  "properties": {
-    "latitude": { "type": "number", "DutchName": "breedtegraad" },
-    "longitude": { "type": "number", "DutchName": "lengtegraad" }
-  }
-}
-```
-
-### 5.8 group.json
-
-```json
-{
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://okx.npuls.nl/schema/group/alfa",
-  "title": "Group",
-  "DutchName": "Groep",
-  "$comment": "Alfa en indicatief. Deze vorm onderbouwt welke velden het koppelvlak nodig heeft en kan wijzigen zolang de payload niet is vastgesteld.",
-  "type": "object",
-  "required": ["id", "name"],
-  "properties": {
-    "id": { "type": "string", "format": "uuid", "DutchName": "id" },
-    "name": { "type": "string", "DutchName": "naam" },
-    "capacity": { "type": "integer", "DutchName": "capaciteit" }
-  }
-}
-```
-
-### 5.9 learning-outcome-designation.json
-
-```json
-{
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://okx.npuls.nl/schema/learning-outcome-designation/alfa",
-  "title": "Learning outcome designation",
-  "DutchName": "Leeruitkomst-aanduiding",
-  "$comment": "Alfa en indicatief. Leesbare aanduiding naast de sleutel (leeruitkomstId); type en code komen uit het kwalificatiekader. Deze vorm onderbouwt welke velden het koppelvlak nodig heeft en kan wijzigen zolang de payload niet is vastgesteld.",
-  "type": "object",
-  "required": ["type", "code"],
-  "properties": {
-    "type": { "type": "string", "DutchName": "type" },
-    "code": { "type": "string", "DutchName": "code" }
-  }
-}
-```
-
-### 5.10 learning-outcome.json
-
-```json
-{
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://okx.npuls.nl/schema/learning-outcome/alfa",
-  "title": "Learning outcome",
-  "DutchName": "Leeruitkomst",
-  "$comment": "Alfa en indicatief. Deze vorm onderbouwt welke velden het koppelvlak nodig heeft en kan wijzigen zolang de payload niet is vastgesteld.",
-  "type": "object",
-  "required": ["id", "version", "name", "source", "parentLearningOutcomeId", "indicativeVolume"],
-  "properties": {
-    "id": { "type": "string", "format": "uuid", "DutchName": "id" },
-    "version": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$", "DutchName": "versie" },
-    "name": { "type": "string", "DutchName": "naam" },
-    "source": { "$ref": "./source.json", "DutchName": "bron" },
-    "parentLearningOutcomeId": { "type": ["string", "null"], "format": "uuid", "DutchName": "bovenliggendLeeruitkomstId" },
-    "indicativeVolume": {
-      "type": "array",
-      "items": { "$ref": "./volume.json" },
-      "DutchName": "indicatieveOmvang"
-    },
-    "nlqfLevel": { "type": "integer", "minimum": 1, "maximum": 8, "DutchName": "nlqfNiveau" },
-    "credentialDocument": { "type": "string", "$comment": "open lijst: diploma, mbo-certificaat, microcredential", "DutchName": "waardedocument" },
-    "description": { "type": "string", "DutchName": "omschrijving" },
-    "result": { "type": "string", "DutchName": "resultaat" },
-    "behaviour": { "type": "array", "items": { "type": "string" }, "DutchName": "gedrag" }
-  }
-}
-```
-
-### 5.11 location.json
-
-```json
-{
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://okx.npuls.nl/schema/location/alfa",
-  "title": "Location",
-  "DutchName": "Locatie",
-  "$comment": "Alfa en indicatief. Deze vorm onderbouwt welke velden het koppelvlak nodig heeft en kan wijzigen zolang de payload niet is vastgesteld.",
-  "type": "object",
-  "required": ["id", "locationType", "name"],
-  "properties": {
-    "id": { "type": "string", "format": "uuid", "DutchName": "id" },
-    "locationType": { "enum": ["campus", "vestiging", "gebouw", "ruimte", "balie", "adres", "geopunt", "virtueel"], "DutchName": "locatieType" },
-    "name": { "type": "string", "DutchName": "naam" },
-    "partOfLocationId": { "type": ["string", "null"], "format": "uuid", "DutchName": "valtBinnenLocatieId" },
-    "address": { "$ref": "./address.json", "DutchName": "adres" },
-    "geolocation": { "$ref": "./geolocation.json", "DutchName": "geolocatie" },
-    "floor": { "type": "string", "DutchName": "verdieping" },
-    "wing": { "type": "string", "DutchName": "vleugel" },
-    "url": { "type": "string", "DutchName": "url" },
-    "codes": {
-      "type": "array",
-      "items": { "$ref": "./code.json" },
-      "DutchName": "codes"
-    }
-  }
-}
-```
-
-### 5.12 manifest-item.json
-
-```json
-{
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://okx.npuls.nl/schema/manifest-item/alfa",
-  "title": "Manifest item",
-  "DutchName": "Manifest-item",
-  "$comment": "Alfa en indicatief. Deze vorm onderbouwt welke velden het koppelvlak nodig heeft en kan wijzigen zolang de payload niet is vastgesteld.",
-  "type": "object",
-  "required": ["specificationId", "version", "relation"],
-  "properties": {
-    "specificationId": { "type": "string", "format": "uuid", "DutchName": "specificatieId" },
-    "version": { "type": "string", "DutchName": "versie" },
-    "relation": { "enum": ["onderdeel", "variant", "referentie"], "DutchName": "relatie" }
-  }
-}
-```
-
-### 5.13 organisation-unit.json
-
-```json
-{
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://okx.npuls.nl/schema/organisation-unit/alfa",
-  "title": "Organisation unit",
-  "DutchName": "OrganisatieEenheid",
-  "$comment": "Alfa en indicatief. Deze vorm onderbouwt welke velden het koppelvlak nodig heeft en kan wijzigen zolang de payload niet is vastgesteld.",
-  "type": "object",
-  "required": ["id", "unitType", "name"],
-  "properties": {
-    "id": { "type": "string", "format": "uuid", "DutchName": "id" },
-    "unitType": { "type": "string", "$comment": "open lijst: instelling, sector, college, afdeling, onderwijsteam", "DutchName": "eenheidType" },
-    "name": { "type": "string", "DutchName": "naam" },
-    "parentUnitId": { "type": ["string", "null"], "format": "uuid", "DutchName": "bovenliggendeEenheidId" },
-    "professionalIds": { "type": "array", "items": { "type": "string", "format": "uuid" }, "DutchName": "professionalIds" }
-  }
-}
-```
-
-### 5.14 period.json
-
-```json
-{
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://okx.npuls.nl/schema/period/alfa",
-  "title": "Period",
-  "DutchName": "Periode",
-  "$comment": "Alfa en indicatief. Deze vorm onderbouwt welke velden het koppelvlak nodig heeft en kan wijzigen zolang de payload niet is vastgesteld.",
-  "type": "object",
-  "properties": {
-    "start": { "type": "string", "format": "date", "DutchName": "start" },
-    "end": { "type": "string", "format": "date", "DutchName": "eind" }
-  }
-}
-```
-
-### 5.15 processing-status.json
-
-```json
-{
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://okx.npuls.nl/schema/processing-status/alfa",
-  "title": "Processing status",
-  "DutchName": "Verwerkingsstatus",
-  "$comment": "Alfa en indicatief. Deze vorm onderbouwt welke velden het koppelvlak nodig heeft en kan wijzigen zolang de payload niet is vastgesteld.",
-  "type": "object",
-  "required": ["status", "specificationReference"],
-  "properties": {
-    "status": { "enum": ["ontvangen", "gestart", "afgekeurd", "gelukt", "nietGelukt"], "DutchName": "status" },
-    "programmeOfferingId": { "type": ["string", "null"], "format": "uuid", "DutchName": "opleidingsaanbodId" },
-    "specificationReference": { "$ref": "./specification-reference.json", "DutchName": "specificatieVerwijzing" }
-  }
-}
-```
-
-### 5.16 result-model.json
-
-```json
-{
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://okx.npuls.nl/schema/result-model/alfa",
-  "title": "Result model",
-  "DutchName": "Resultaatmodel",
-  "$comment": "Alfa en indicatief. Deze vorm onderbouwt welke velden het koppelvlak nodig heeft en kan wijzigen zolang de payload niet is vastgesteld.",
-  "type": "object",
-  "properties": {
-    "scale": { "type": "string", "$comment": "open lijst: cijfer-1-10, voldoende-onvoldoende, punten", "DutchName": "schaal" },
-    "passMark": { "type": "number", "DutchName": "cesuur" },
-    "decimalPlaces": { "type": "integer", "DutchName": "decimalen" }
-  }
-}
-```
-
-### 5.17 result-structure.json
-
-```json
-{
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://okx.npuls.nl/schema/result-structure/alfa",
-  "title": "Result structure and exam plan",
-  "DutchName": "Resultaatstructuur en examenplan",
-  "$comment": "Alfa en indicatief. Deze vorm onderbouwt welke velden het koppelvlak nodig heeft en kan wijzigen zolang de payload niet is vastgesteld.",
-  "type": "object",
-  "required": ["educationSpecifications"],
-  "properties": {
-    "educationSpecifications": {
-      "type": "array",
-      "items": {
-        "type": "object",
-        "required": ["id", "specificationType", "version", "parentSpecificationId", "name", "status", "resultModel"],
-        "properties": {
-          "id": { "type": "string", "format": "uuid", "DutchName": "id" },
-          "specificationType": { "enum": ["examenplanspecificatie", "resultaateenheidspecificatie", "toetsonderdeelspecificatie"], "DutchName": "specificatieType" },
-          "version": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$", "DutchName": "versie" },
-          "parentSpecificationId": { "type": ["string", "null"], "format": "uuid", "DutchName": "bovenliggendSpecificatieId" },
-          "name": { "type": "string", "DutchName": "naam" },
-          "description": { "type": "string", "DutchName": "omschrijving" },
-          "status": { "type": "string", "DutchName": "status" },
-          "validFrom": { "type": "string", "format": "date", "DutchName": "geldigVanaf" },
-          "validUntil": { "type": ["string", "null"], "format": "date", "DutchName": "geldigTot" },
-          "appliesTo": { "type": "string", "format": "uuid", "$comment": "de opleidingsprogrammaspecificatie waarvoor dit examenplan geldt", "DutchName": "geldtVoor" },
-          "assesses": { "type": "string", "format": "uuid", "$comment": "de specificatie die deze resultaateenheid beoordeelt", "DutchName": "beoordeelt" },
-          "learningOutcomeId": { "type": "string", "format": "uuid", "$comment": "verwijst naar de leeruitkomst in de onderwijsspecificatie-payload; dit is de sleutel waarop het onderwijsresultaat wordt behaald (ADR 0022)", "DutchName": "leeruitkomstId" },
-          "learningOutcome": { "$ref": "./learning-outcome-designation.json", "DutchName": "leeruitkomst" },
-          "nature": { "enum": ["summatief", "formatief"], "DutchName": "aard" },
-          "assessmentForm": { "type": "string", "$comment": "open lijst: proeveVanBekwaamheid, kennistoets, praktijkopdracht, portfolio, criteriumgesprek", "DutchName": "toetsvorm" },
-          "aggregation": { "enum": ["gewogenGemiddelde", "som", "allenVoldoende", "minimaalAantal"], "DutchName": "aggregatie" },
-          "weighting": { "type": "number", "$comment": "relatief binnen de ouder; 0 bij formatief", "DutchName": "weging" },
-          "mandatory": { "type": "boolean", "DutchName": "verplicht" },
-          "resultModel": { "$ref": "./result-model.json", "DutchName": "resultaatmodel" },
-          "ruleSetReferences": { "type": "array", "items": { "type": "string", "format": "uuid" }, "DutchName": "regelsetVerwijzingen" },
-          "manifest": {
-            "type": "array",
-            "items": { "$ref": "./manifest-item.json" },
-            "DutchName": "manifest"
-          }
-        }
-      },
-      "DutchName": "onderwijsspecificaties"
-    },
-    "ruleSets": {
-      "type": "array",
-      "items": { "$ref": "./rule-set.json" },
-      "DutchName": "regelsets"
-    }
-  }
-}
-```
-
-### 5.18 rule-set.json
-
-```json
-{
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://okx.npuls.nl/schema/rule-set/alfa",
-  "title": "Rule set",
-  "DutchName": "Regelset",
-  "$comment": "Alfa en indicatief. Deze vorm onderbouwt welke velden het koppelvlak nodig heeft en kan wijzigen zolang de payload niet is vastgesteld.",
-  "type": "object",
-  "required": ["id", "version", "name", "appliesTo", "rules"],
-  "properties": {
-    "id": { "type": "string", "format": "uuid", "DutchName": "id" },
-    "version": { "type": "string", "DutchName": "versie" },
-    "name": { "type": "string", "DutchName": "naam" },
-    "description": { "type": "string", "DutchName": "omschrijving" },
-    "appliesTo": { "type": "string", "format": "uuid", "DutchName": "vanToepassingOp" },
-    "rules": { "type": "array", "items": { "type": "object" }, "DutchName": "regels" }
-  }
-}
-```
-
-### 5.19 source.json
-
-```json
-{
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://okx.npuls.nl/schema/source/alfa",
-  "title": "Source",
-  "DutchName": "Bron",
-  "$comment": "Alfa en indicatief. Deze vorm onderbouwt welke velden het koppelvlak nodig heeft en kan wijzigen zolang de payload niet is vastgesteld.",
-  "type": "object",
-  "required": ["standard", "type", "code"],
-  "properties": {
-    "standard": { "type": "string", "$comment": "open lijst; nu sbb-kwalificatiekader, later bijvoorbeeld competentnl", "DutchName": "standaard" },
-    "type": { "enum": ["kwalificatiedossier", "kwalificatie", "kerntaak", "werkproces", "keuzedeel"], "DutchName": "type" },
-    "code": { "type": "string", "DutchName": "code" }
-  }
-}
-```
-
-### 5.20 specification-changed.json
-
-```json
-{
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://okx.npuls.nl/schema/specification-changed/alfa",
-  "title": "Specification changed",
-  "DutchName": "Specificatie-gewijzigd",
-  "$comment": "Alfa en indicatief. Deze vorm onderbouwt welke velden het koppelvlak nodig heeft en kan wijzigen zolang de payload niet is vastgesteld. Wijzigingsklasse volgt de classificatie in de lifecycle-uitwerking, §4.",
-  "type": "object",
-  "required": ["objectId", "oldVersion", "newVersion", "changeClass"],
-  "properties": {
-    "objectId": { "type": "string", "format": "uuid", "DutchName": "objectId" },
-    "oldVersion": { "type": "string", "DutchName": "oudeVersie" },
-    "newVersion": { "type": "string", "DutchName": "nieuweVersie" },
-    "changeClass": { "enum": ["fundamenteel", "examenplan", "onderdeel", "niet-brekend", "na-planning-of-roostering"], "DutchName": "wijzigingsklasse" }
-  }
-}
-```
-
-### 5.21 specification-reference.json
-
-```json
-{
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://okx.npuls.nl/schema/specification-reference/alfa",
-  "title": "Specification reference",
-  "DutchName": "Specificatie-referentie",
-  "$comment": "Alfa en indicatief. Deze vorm onderbouwt welke velden het koppelvlak nodig heeft en kan wijzigen zolang de payload niet is vastgesteld.",
-  "type": "object",
-  "required": ["specificationId", "version"],
-  "properties": {
-    "specificationId": { "type": "string", "format": "uuid", "DutchName": "specificatieId" },
-    "version": { "type": "string", "DutchName": "versie" }
-  }
-}
-```
-
-### 5.22 specification-status-changed.json
-
-```json
-{
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://okx.npuls.nl/schema/specification-status-changed/alfa",
-  "title": "Specification status changed",
-  "DutchName": "Specificatie-status-gewijzigd",
-  "$comment": "Alfa en indicatief. Deze vorm onderbouwt welke velden het koppelvlak nodig heeft en kan wijzigen zolang de payload niet is vastgesteld. Status-lifecycle volgt de lifecycle-uitwerking, §3.",
-  "type": "object",
-  "required": ["objectId", "oldStatus", "newStatus"],
-  "properties": {
-    "objectId": { "type": "string", "format": "uuid", "DutchName": "objectId" },
-    "oldStatus": { "enum": ["concept", "vastgesteld", "gepubliceerd", "gedeactiveerd", "gearchiveerd", "vervallen"], "DutchName": "oudeStatus" },
-    "newStatus": { "enum": ["concept", "vastgesteld", "gepubliceerd", "gedeactiveerd", "gearchiveerd", "vervallen"], "DutchName": "nieuweStatus" }
-  }
-}
-```
-
-### 5.23 subscription.json
-
-```json
-{
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://okx.npuls.nl/schema/subscription/alfa",
-  "title": "Subscription",
-  "DutchName": "Abonnement",
-  "$comment": "Alfa en indicatief. Deze vorm onderbouwt welke velden het koppelvlak nodig heeft en kan wijzigen zolang de payload niet is vastgesteld. `id` is afwezig in het verzoek en door de server toegekend in de respons.",
-  "type": "object",
-  "required": ["callbackUrl", "events"],
-  "properties": {
-    "id": { "type": "string", "format": "uuid", "DutchName": "id" },
-    "callbackUrl": { "type": "string", "format": "uri", "DutchName": "callbackUrl" },
-    "events": {
-      "type": "array",
-      "items": { "enum": ["specificatie-planbaar", "specificatie-gewijzigd", "specificatie-status-gewijzigd", "verwerkingsstatus"] },
-      "DutchName": "events"
-    }
-  }
-}
-```
-
-### 5.24 volume.json
-
-```json
-{
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://okx.npuls.nl/schema/volume/alfa",
-  "title": "Volume",
-  "DutchName": "Omvang",
-  "$comment": "Alfa en indicatief. Deze vorm onderbouwt welke velden het koppelvlak nodig heeft en kan wijzigen zolang de payload niet is vastgesteld.",
-  "type": "object",
-  "required": ["value", "unit"],
-  "properties": {
-    "value": { "type": "number", "DutchName": "waarde" },
-    "unit": { "enum": ["SBU", "EC"], "DutchName": "eenheid" }
-  }
-}
-```
-
-<!-- pagina-einde -->
-
-### 5.25 Voorbeeldpayloads
+### 5.1 Voorbeeldpayloads
 
 De waarden in deze voorbeelden zijn **indicatief**: ze illustreren de vorm en de samenhang, niet de inhoud van een bestaande opleiding.
 
-#### 5.25.1 Voorbeeld onderwijsspecificatie
+#### 5.1.1 Voorbeeld onderwijsspecificatie
 
 Leerroute 1, waarden indicatief. De `studielast` telt bottom-up op binnen onderdeel-van: de kerntaken 2000 plus 1200 plus 880 is 4080, plus de keuzeruimte van 720 komt op 4800 onder Regulier BOL. Programma-varianten tellen niet op. De inhoud hangt hier onder één doelgroep (Regulier BOL); de andere varianten zijn leeg gelaten. De voorwaarde vooraf van Wiskunde 1 voor Ruimtelijk inzicht komt uit de uitwerking van de keuzedeel-regels.
 
@@ -2537,9 +1899,9 @@ De leeruitkomstboom volgt de opbouw van het kwalificatiekader: dossier, kwalific
 
 De bottom-up-optelling sluit alleen **binnen** de kwalificatiekader-tak. Op kwalificatieniveau staat 4800 SBU terwijl de drie kerntaken optellen tot 4080; het verschil is de keuzedeelruimte van 720 SBU, die per ontwerp geen eigen leeruitkomst heeft omdat pas bij de keuze duidelijk wordt welke leeruitkomsten erin vallen.
 
-#### 5.25.2 Voorbeeld onderwijsaanbod
+#### 5.1.2 Voorbeeld onderwijsaanbod
 
-Leerroute 1. De `specificatieVerwijzing`-uuid's komen uit de [voorbeeld onderwijsspecificatie](#5251-voorbeeld-onderwijsspecificatie).
+Leerroute 1. De `specificatieVerwijzing`-uuid's komen uit de [voorbeeld onderwijsspecificatie](#511-voorbeeld-onderwijsspecificatie).
 
 ```json
 {
@@ -2690,7 +2052,7 @@ Loopt de planning vast, dan bestaat de instantie wel maar draagt die status en k
 }
 ```
 
-#### 5.25.3 Voorbeeld resultaatstructuur en examenplan
+#### 5.1.3 Voorbeeld resultaatstructuur en examenplan
 
 ```json
 {
@@ -2888,13 +2250,13 @@ De resultaateenheid Keuzedelen heeft geen toetsonderdelen onder zich: welke keuz
 
 <!-- pagina-einde -->
 
-### 5.26 Mapping veldnamen
+### 5.2 Mapping veldnamen
 
 De veldnamen in de [schema's](schemas) zijn vertaald van Nederlands naar Engels (UK). Dit document legt per model vast welke Engelse veldnaam bij welke oorspronkelijke Nederlandse naam hoort, zodat wie de modellen kent vanuit eerdere Nederlandstalige documentatie of werksessies de nieuwe velden kan terugvoeren op de bekende termen.
 
 Elke tabel dekt de velden van één schema. Velden in geneste objecten — de items van een array-eigenschap — staan in een aparte tabel direct daaronder, met een verwijzing naar de eigenschap waar ze bij horen. Vertaald zijn alleen de veldnamen: de sleutels onder `properties` en `required`. Enumeratiewaarden (zoals status- en typewaarden), `$id`, bestandsnamen en de `title`- en `$comment`-velden van de schema's blijven ongewijzigd Nederlands.
 
-#### 5.26.1 Abonnement — Subscription
+#### 5.2.1 Abonnement — Subscription
 
 [`subscription.json`](schemas/subscription.json)
 
@@ -2904,7 +2266,7 @@ Elke tabel dekt de velden van één schema. Velden in geneste objecten — de it
 | callbackUrl | callbackUrl |
 | events | events |
 
-#### 5.26.2 Adres — Address
+#### 5.2.2 Adres — Address
 
 [`address.json`](schemas/address.json)
 
@@ -2916,7 +2278,7 @@ Elke tabel dekt de velden van één schema. Velden in geneste objecten — de it
 | city | plaats |
 | country | land |
 
-#### 5.26.3 Bron — Source
+#### 5.2.3 Bron — Source
 
 [`source.json`](schemas/source.json)
 
@@ -2926,7 +2288,7 @@ Elke tabel dekt de velden van één schema. Velden in geneste objecten — de it
 | type | type |
 | code | code |
 
-#### 5.26.4 Code — Code
+#### 5.2.4 Code — Code
 
 [`code.json`](schemas/code.json)
 
@@ -2935,7 +2297,7 @@ Elke tabel dekt de velden van één schema. Velden in geneste objecten — de it
 | codeType | codeType |
 | code | code |
 
-#### 5.26.5 Geolocatie — Geolocation
+#### 5.2.5 Geolocatie — Geolocation
 
 [`geolocation.json`](schemas/geolocation.json)
 
@@ -2944,7 +2306,7 @@ Elke tabel dekt de velden van één schema. Velden in geneste objecten — de it
 | latitude | breedtegraad |
 | longitude | lengtegraad |
 
-#### 5.26.6 Groep — Group
+#### 5.2.6 Groep — Group
 
 [`group.json`](schemas/group.json)
 
@@ -2954,7 +2316,7 @@ Elke tabel dekt de velden van één schema. Velden in geneste objecten — de it
 | name | naam |
 | capacity | capaciteit |
 
-#### 5.26.7 Knelpunt — Bottleneck
+#### 5.2.7 Knelpunt — Bottleneck
 
 [`bottleneck.json`](schemas/bottleneck.json)
 
@@ -2964,7 +2326,7 @@ Elke tabel dekt de velden van één schema. Velden in geneste objecten — de it
 | description | omschrijving |
 | involvedSpecificationIds | betrokkenSpecificatieIds |
 
-#### 5.26.8 Leeruitkomst-aanduiding — Learning outcome designation
+#### 5.2.8 Leeruitkomst-aanduiding — Learning outcome designation
 
 [`learning-outcome-designation.json`](schemas/learning-outcome-designation.json)
 
@@ -2973,7 +2335,7 @@ Elke tabel dekt de velden van één schema. Velden in geneste objecten — de it
 | type | type |
 | code | code |
 
-#### 5.26.9 Leeruitkomst — Learning outcome
+#### 5.2.9 Leeruitkomst — Learning outcome
 
 [`learning-outcome.json`](schemas/learning-outcome.json)
 
@@ -2991,7 +2353,7 @@ Elke tabel dekt de velden van één schema. Velden in geneste objecten — de it
 | result | resultaat |
 | behaviour | gedrag |
 
-#### 5.26.10 Locatie — Location
+#### 5.2.10 Locatie — Location
 
 [`location.json`](schemas/location.json)
 
@@ -3008,7 +2370,7 @@ Elke tabel dekt de velden van één schema. Velden in geneste objecten — de it
 | url | url |
 | codes | codes |
 
-#### 5.26.11 Manifest-item — Manifest item
+#### 5.2.11 Manifest-item — Manifest item
 
 [`manifest-item.json`](schemas/manifest-item.json)
 
@@ -3018,7 +2380,7 @@ Elke tabel dekt de velden van één schema. Velden in geneste objecten — de it
 | version | versie |
 | relation | relatie |
 
-#### 5.26.12 Omvang — Volume
+#### 5.2.12 Omvang — Volume
 
 [`volume.json`](schemas/volume.json)
 
@@ -3027,7 +2389,7 @@ Elke tabel dekt de velden van één schema. Velden in geneste objecten — de it
 | value | waarde |
 | unit | eenheid |
 
-#### 5.26.13 Onderwijsaanbod — Education offering
+#### 5.2.13 Onderwijsaanbod — Education offering
 
 [`education-offering.json`](schemas/education-offering.json)
 
@@ -3057,7 +2419,7 @@ Velden per item in `offeringInstances`:
 | executingTeamId | uitvoerendTeamId |
 | groups | groepen |
 
-#### 5.26.14 Onderwijsspecificatie-delta — Education specification delta
+#### 5.2.14 Onderwijsspecificatie-delta — Education specification delta
 
 [`education-specification-delta.json`](schemas/education-specification-delta.json)
 
@@ -3068,7 +2430,7 @@ Velden per item in `offeringInstances`:
 | from | from |
 | value | value |
 
-#### 5.26.15 Onderwijsspecificatie — Education specification
+#### 5.2.15 Onderwijsspecificatie — Education specification
 
 [`education-specification.json`](schemas/education-specification.json)
 
@@ -3107,7 +2469,7 @@ Velden per item in `educationSpecifications`:
 | ruleSetReferences | regelsetVerwijzingen |
 | manifest | manifest |
 
-#### 5.26.16 OrganisatieEenheid — Organisation unit
+#### 5.2.16 OrganisatieEenheid — Organisation unit
 
 [`organisation-unit.json`](schemas/organisation-unit.json)
 
@@ -3119,7 +2481,7 @@ Velden per item in `educationSpecifications`:
 | parentUnitId | bovenliggendeEenheidId |
 | professionalIds | professionalIds |
 
-#### 5.26.17 Periode — Period
+#### 5.2.17 Periode — Period
 
 [`period.json`](schemas/period.json)
 
@@ -3128,7 +2490,7 @@ Velden per item in `educationSpecifications`:
 | start | start |
 | end | eind |
 
-#### 5.26.18 Regelset — Rule set
+#### 5.2.18 Regelset — Rule set
 
 [`rule-set.json`](schemas/rule-set.json)
 
@@ -3141,7 +2503,7 @@ Velden per item in `educationSpecifications`:
 | appliesTo | vanToepassingOp |
 | rules | regels |
 
-#### 5.26.19 Resultaatmodel — Result model
+#### 5.2.19 Resultaatmodel — Result model
 
 [`result-model.json`](schemas/result-model.json)
 
@@ -3151,7 +2513,7 @@ Velden per item in `educationSpecifications`:
 | passMark | cesuur |
 | decimalPlaces | decimalen |
 
-#### 5.26.20 Resultaatstructuur en examenplan — Result structure and exam plan
+#### 5.2.20 Resultaatstructuur en examenplan — Result structure and exam plan
 
 [`result-structure.json`](schemas/result-structure.json)
 
@@ -3186,7 +2548,7 @@ Velden per item in `educationSpecifications`:
 | ruleSetReferences | regelsetVerwijzingen |
 | manifest | manifest |
 
-#### 5.26.21 Specificatie-gewijzigd — Specification changed
+#### 5.2.21 Specificatie-gewijzigd — Specification changed
 
 [`specification-changed.json`](schemas/specification-changed.json)
 
@@ -3197,7 +2559,7 @@ Velden per item in `educationSpecifications`:
 | newVersion | nieuweVersie |
 | changeClass | wijzigingsklasse |
 
-#### 5.26.22 Specificatie-referentie — Specification reference
+#### 5.2.22 Specificatie-referentie — Specification reference
 
 [`specification-reference.json`](schemas/specification-reference.json)
 
@@ -3206,7 +2568,7 @@ Velden per item in `educationSpecifications`:
 | specificationId | specificatieId |
 | version | versie |
 
-#### 5.26.23 Specificatie-status-gewijzigd — Specification status changed
+#### 5.2.23 Specificatie-status-gewijzigd — Specification status changed
 
 [`specification-status-changed.json`](schemas/specification-status-changed.json)
 
@@ -3216,7 +2578,7 @@ Velden per item in `educationSpecifications`:
 | oldStatus | oudeStatus |
 | newStatus | nieuweStatus |
 
-#### 5.26.24 Verwerkingsstatus — Processing status
+#### 5.2.24 Verwerkingsstatus — Processing status
 
 [`processing-status.json`](schemas/processing-status.json)
 
@@ -3226,6 +2588,640 @@ Velden per item in `educationSpecifications`:
 | programmeOfferingId | opleidingsaanbodId |
 | specificationReference | specificatieVerwijzing |
 
+
+<!-- pagina-einde -->
+
+### 5.3 address.json
+
+```json
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://okx.npuls.nl/schema/address/alfa",
+  "title": "Address",
+  "DutchName": "Adres",
+  "$comment": "Alfa en indicatief. Deze vorm onderbouwt welke velden het koppelvlak nodig heeft en kan wijzigen zolang de payload niet is vastgesteld.",
+  "type": "object",
+  "properties": {
+    "street": { "type": "string", "DutchName": "straat" },
+    "houseNumber": { "type": "string", "DutchName": "huisnummer" },
+    "postcode": { "type": "string", "DutchName": "postcode" },
+    "city": { "type": "string", "DutchName": "plaats" },
+    "country": { "type": "string", "DutchName": "land" }
+  }
+}
+```
+
+### 5.4 bottleneck.json
+
+```json
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://okx.npuls.nl/schema/bottleneck/alfa",
+  "title": "Bottleneck",
+  "DutchName": "Knelpunt",
+  "$comment": "Alfa en indicatief. Deze vorm onderbouwt welke velden het koppelvlak nodig heeft en kan wijzigen zolang de payload niet is vastgesteld.",
+  "type": "object",
+  "required": [
+    "code",
+    "description"
+  ],
+  "properties": {
+    "code": {
+      "type": "string",
+      "DutchName": "code",
+      "enum": [
+        "capaciteitTekort",
+        "expertiseTekort",
+        "ruimteTekort",
+        "locatieConflict",
+        "volgordeConflict",
+        "regelConflict",
+        "groepsgrootteConflict",
+        "kalenderConflict"
+      ]
+    },
+    "description": {
+      "type": "string",
+      "DutchName": "omschrijving"
+    },
+    "involvedSpecificationIds": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "DutchName": "betrokkenSpecificatieIds"
+    }
+  }
+}
+```
+
+### 5.5 code.json
+
+```json
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://okx.npuls.nl/schema/code/alfa",
+  "title": "Code",
+  "DutchName": "Code",
+  "$comment": "Alfa en indicatief. Externe identificatie, bijvoorbeeld een vestigingscode. Deze vorm onderbouwt welke velden het koppelvlak nodig heeft en kan wijzigen zolang de payload niet is vastgesteld.",
+  "type": "object",
+  "properties": {
+    "codeType": { "type": "string", "DutchName": "codeType" },
+    "code": { "type": "string", "DutchName": "code" }
+  }
+}
+```
+
+### 5.6 education-offering.json
+
+```json
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://okx.npuls.nl/schema/education-offering/alfa",
+  "title": "Education offering",
+  "DutchName": "Onderwijsaanbod",
+  "$comment": "Alfa en indicatief. Deze vorm onderbouwt welke velden het koppelvlak nodig heeft en kan wijzigen zolang de payload niet is vastgesteld.",
+  "type": "object",
+  "required": ["offeringInstances"],
+  "properties": {
+    "offeringInstances": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "offeringType", "version", "parentOfferingId", "specificationReference", "name", "status"],
+        "properties": {
+          "id": { "type": "string", "format": "uuid", "DutchName": "id" },
+          "offeringType": { "enum": ["opleidingsaanbod", "opleidingsprogramma-aanbod", "onderwijseenheid-aanbod", "leergelegenheid"], "DutchName": "aanbodType" },
+          "version": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$", "DutchName": "versie" },
+          "parentOfferingId": { "type": ["string", "null"], "format": "uuid", "DutchName": "bovenliggendAanbodId" },
+          "specificationReference": { "$ref": "./specification-reference.json", "DutchName": "specificatieVerwijzing" },
+          "name": { "type": "string", "DutchName": "naam" },
+          "status": { "enum": ["inPlanning", "gepland", "nietRealiseerbaar", "geannuleerd"], "DutchName": "status" },
+          "bottlenecks": {
+            "type": "array",
+            "items": { "$ref": "./bottleneck.json" },
+            "DutchName": "knelpunten"
+          },
+          "cohort": { "type": "string", "DutchName": "cohort" },
+          "period": { "$ref": "./period.json", "DutchName": "periode" },
+          "minStudentCount": { "type": "integer", "DutchName": "minAantalStudenten" },
+          "maxStudentCount": { "type": "integer", "DutchName": "maxAantalStudenten" },
+          "locationId": { "type": "string", "format": "uuid", "DutchName": "locatieId" },
+          "executingTeamId": { "type": "string", "format": "uuid", "DutchName": "uitvoerendTeamId" },
+          "groups": {
+            "type": "array",
+            "items": { "$ref": "./group.json" },
+            "DutchName": "groepen"
+          }
+        }
+      },
+      "DutchName": "aanbodInstanties"
+    },
+    "locations": {
+      "type": "array",
+      "items": { "$ref": "./location.json" },
+      "DutchName": "locaties"
+    },
+    "organisationUnits": {
+      "type": "array",
+      "items": { "$ref": "./organisation-unit.json" },
+      "DutchName": "organisatieEenheden"
+    }
+  }
+}
+```
+
+### 5.7 education-specification-delta.json
+
+```json
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://okx.npuls.nl/schema/education-specification-delta/alfa",
+  "title": "Education specification delta",
+  "DutchName": "Onderwijsspecificatie-delta",
+  "$comment": "Alfa en indicatief. JSON Patch (RFC 6902) tussen twee versies van de onderwijsspecificatiestructuur; RFC 6902 is de normatieve definitie van de operatievorm, dit schema legt vast dat de respons daaraan voldoet.",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "required": ["op", "path"],
+    "properties": {
+      "op": { "enum": ["add", "remove", "replace", "move", "copy", "test"], "DutchName": "op" },
+      "path": { "type": "string", "DutchName": "path" },
+      "from": { "type": "string", "DutchName": "from" },
+      "value": { "DutchName": "value" }
+    }
+  }
+}
+```
+
+### 5.8 education-specification.json
+
+```json
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://okx.npuls.nl/schema/education-specification/alfa",
+  "title": "Education specification",
+  "DutchName": "Onderwijsspecificatie",
+  "$comment": "Alfa en indicatief. Deze vorm onderbouwt welke velden het koppelvlak nodig heeft en kan wijzigen zolang de payload niet is vastgesteld.",
+  "type": "object",
+  "required": ["educationSpecifications"],
+  "$comment_required": "Alleen onderwijsspecificaties is altijd aanwezig. Of leeruitkomsten en regelsets meekomen bepaalt het gebruiksprofiel van de koppeling; binnen onderwijscatalogus naar planning en roostering blijven leeruitkomsten weg ([ADR 0023](../../Referentiemateriaal/adr/0023-leeruitkomsten-als-opaque-sleutels-in-koppeling-oc-p-en-r.md)).",
+  "properties": {
+    "learningOutcomes": {
+      "type": "array",
+      "items": { "$ref": "./learning-outcome.json" },
+      "DutchName": "leeruitkomsten"
+    },
+    "educationSpecifications": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "specificationType", "version", "parentSpecificationId", "name", "studyLoad"],
+        "properties": {
+          "id": { "type": "string", "format": "uuid", "DutchName": "id" },
+          "specificationType": { "enum": ["opleidingsspecificatie", "opleidingsprogrammaspecificatie", "onderwijseenheidspecificatie", "leeronderdeelspecificatie", "keuzedeelruimtespecificatie", "toetsonderdeelspecificatie", "examenplanspecificatie", "resultaateenheidspecificatie"], "DutchName": "specificatieType" },
+          "version": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$", "DutchName": "versie" },
+          "parentSpecificationId": { "type": ["string", "null"], "format": "uuid", "DutchName": "bovenliggendSpecificatieId" },
+          "learningOutcomeId": { "type": "string", "format": "uuid", "DutchName": "leeruitkomstId" },
+          "name": { "type": "string", "DutchName": "naam" },
+          "description": { "type": "string", "DutchName": "omschrijving" },
+          "status": { "enum": ["concept", "vastgesteld", "gepubliceerd", "gedeactiveerd", "vervallen", "gearchiveerd"], "DutchName": "status" },
+          "studyLoad": { "$ref": "./volume.json", "DutchName": "studielast" },
+          "curriculumType": { "enum": ["nominaal", "hybride", "flexibel"], "DutchName": "curriculumtype" },
+          "programmeType": { "type": "string", "$comment": "open lijst: diplomaprogramma, keuzedeelprogramma, certificaatprogramma", "DutchName": "programmatype" },
+          "programmeLayer": { "enum": ["leerweg", "doelgroep"], "DutchName": "programmaLaag" },
+          "learningPathway": { "enum": ["BOL", "BBL"], "DutchName": "leerweg" },
+          "targetGroup": { "type": "string", "$comment": "open lijst: regulier, zijinstromer, hybride, organisatiespecifiek", "DutchName": "doelgroep" },
+          "electiveUnitClass": { "type": "string", "$comment": "open lijst: algemeen-verbredend, beroepsspecifiek-verdiepend", "DutchName": "keuzedeelKlasse" },
+          "organisation": { "$ref": "./organisation-unit.json", "$comment": "de organisatie waarvoor deze variant geldt, bijvoorbeeld een leerbedrijf", "DutchName": "organisatie" },
+          "cohort": { "type": "string", "DutchName": "cohort" },
+          "startDate": { "type": "string", "format": "date", "DutchName": "startdatum" },
+          "validFrom": { "type": "string", "format": "date", "DutchName": "geldigVanaf" },
+          "validUntil": { "type": ["string", "null"], "format": "date", "DutchName": "geldigTot" },
+          "timeDistribution": { "type": "string", "$comment": "open lijst: BOT (begeleide onderwijstijd), OOT (overige onderwijstijd), BPV", "DutchName": "tijdsverdeling" },
+          "explanation": { "type": "string", "DutchName": "toelichting" },
+          "ruleSetReferences": { "type": "array", "items": { "type": "string", "format": "uuid" }, "DutchName": "regelsetVerwijzingen" },
+          "manifest": {
+            "type": "array",
+            "items": { "$ref": "./manifest-item.json" },
+            "DutchName": "manifest"
+          }
+        }
+      },
+      "DutchName": "onderwijsspecificaties"
+    },
+    "ruleSets": {
+      "type": "array",
+      "items": { "$ref": "./rule-set.json" },
+      "DutchName": "regelsets"
+    }
+  }
+}
+```
+
+### 5.9 geolocation.json
+
+```json
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://okx.npuls.nl/schema/geolocation/alfa",
+  "title": "Geolocation",
+  "DutchName": "Geolocatie",
+  "$comment": "Alfa en indicatief. Deze vorm onderbouwt welke velden het koppelvlak nodig heeft en kan wijzigen zolang de payload niet is vastgesteld.",
+  "type": "object",
+  "properties": {
+    "latitude": { "type": "number", "DutchName": "breedtegraad" },
+    "longitude": { "type": "number", "DutchName": "lengtegraad" }
+  }
+}
+```
+
+### 5.10 group.json
+
+```json
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://okx.npuls.nl/schema/group/alfa",
+  "title": "Group",
+  "DutchName": "Groep",
+  "$comment": "Alfa en indicatief. Deze vorm onderbouwt welke velden het koppelvlak nodig heeft en kan wijzigen zolang de payload niet is vastgesteld.",
+  "type": "object",
+  "required": ["id", "name"],
+  "properties": {
+    "id": { "type": "string", "format": "uuid", "DutchName": "id" },
+    "name": { "type": "string", "DutchName": "naam" },
+    "capacity": { "type": "integer", "DutchName": "capaciteit" }
+  }
+}
+```
+
+### 5.11 learning-outcome-designation.json
+
+```json
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://okx.npuls.nl/schema/learning-outcome-designation/alfa",
+  "title": "Learning outcome designation",
+  "DutchName": "Leeruitkomst-aanduiding",
+  "$comment": "Alfa en indicatief. Leesbare aanduiding naast de sleutel (leeruitkomstId); type en code komen uit het kwalificatiekader. Deze vorm onderbouwt welke velden het koppelvlak nodig heeft en kan wijzigen zolang de payload niet is vastgesteld.",
+  "type": "object",
+  "required": ["type", "code"],
+  "properties": {
+    "type": { "type": "string", "DutchName": "type" },
+    "code": { "type": "string", "DutchName": "code" }
+  }
+}
+```
+
+### 5.12 learning-outcome.json
+
+```json
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://okx.npuls.nl/schema/learning-outcome/alfa",
+  "title": "Learning outcome",
+  "DutchName": "Leeruitkomst",
+  "$comment": "Alfa en indicatief. Deze vorm onderbouwt welke velden het koppelvlak nodig heeft en kan wijzigen zolang de payload niet is vastgesteld.",
+  "type": "object",
+  "required": ["id", "version", "name", "source", "parentLearningOutcomeId", "indicativeVolume"],
+  "properties": {
+    "id": { "type": "string", "format": "uuid", "DutchName": "id" },
+    "version": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$", "DutchName": "versie" },
+    "name": { "type": "string", "DutchName": "naam" },
+    "source": { "$ref": "./source.json", "DutchName": "bron" },
+    "parentLearningOutcomeId": { "type": ["string", "null"], "format": "uuid", "DutchName": "bovenliggendLeeruitkomstId" },
+    "indicativeVolume": {
+      "type": "array",
+      "items": { "$ref": "./volume.json" },
+      "DutchName": "indicatieveOmvang"
+    },
+    "nlqfLevel": { "type": "integer", "minimum": 1, "maximum": 8, "DutchName": "nlqfNiveau" },
+    "credentialDocument": { "type": "string", "$comment": "open lijst: diploma, mbo-certificaat, microcredential", "DutchName": "waardedocument" },
+    "description": { "type": "string", "DutchName": "omschrijving" },
+    "result": { "type": "string", "DutchName": "resultaat" },
+    "behaviour": { "type": "array", "items": { "type": "string" }, "DutchName": "gedrag" }
+  }
+}
+```
+
+### 5.13 location.json
+
+```json
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://okx.npuls.nl/schema/location/alfa",
+  "title": "Location",
+  "DutchName": "Locatie",
+  "$comment": "Alfa en indicatief. Deze vorm onderbouwt welke velden het koppelvlak nodig heeft en kan wijzigen zolang de payload niet is vastgesteld.",
+  "type": "object",
+  "required": ["id", "locationType", "name"],
+  "properties": {
+    "id": { "type": "string", "format": "uuid", "DutchName": "id" },
+    "locationType": { "enum": ["campus", "vestiging", "gebouw", "ruimte", "balie", "adres", "geopunt", "virtueel"], "DutchName": "locatieType" },
+    "name": { "type": "string", "DutchName": "naam" },
+    "partOfLocationId": { "type": ["string", "null"], "format": "uuid", "DutchName": "valtBinnenLocatieId" },
+    "address": { "$ref": "./address.json", "DutchName": "adres" },
+    "geolocation": { "$ref": "./geolocation.json", "DutchName": "geolocatie" },
+    "floor": { "type": "string", "DutchName": "verdieping" },
+    "wing": { "type": "string", "DutchName": "vleugel" },
+    "url": { "type": "string", "DutchName": "url" },
+    "codes": {
+      "type": "array",
+      "items": { "$ref": "./code.json" },
+      "DutchName": "codes"
+    }
+  }
+}
+```
+
+### 5.14 manifest-item.json
+
+```json
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://okx.npuls.nl/schema/manifest-item/alfa",
+  "title": "Manifest item",
+  "DutchName": "Manifest-item",
+  "$comment": "Alfa en indicatief. Deze vorm onderbouwt welke velden het koppelvlak nodig heeft en kan wijzigen zolang de payload niet is vastgesteld.",
+  "type": "object",
+  "required": ["specificationId", "version", "relation"],
+  "properties": {
+    "specificationId": { "type": "string", "format": "uuid", "DutchName": "specificatieId" },
+    "version": { "type": "string", "DutchName": "versie" },
+    "relation": { "enum": ["onderdeel", "variant", "referentie"], "DutchName": "relatie" }
+  }
+}
+```
+
+### 5.15 organisation-unit.json
+
+```json
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://okx.npuls.nl/schema/organisation-unit/alfa",
+  "title": "Organisation unit",
+  "DutchName": "OrganisatieEenheid",
+  "$comment": "Alfa en indicatief. Deze vorm onderbouwt welke velden het koppelvlak nodig heeft en kan wijzigen zolang de payload niet is vastgesteld.",
+  "type": "object",
+  "required": ["id", "unitType", "name"],
+  "properties": {
+    "id": { "type": "string", "format": "uuid", "DutchName": "id" },
+    "unitType": { "type": "string", "$comment": "open lijst: instelling, sector, college, afdeling, onderwijsteam", "DutchName": "eenheidType" },
+    "name": { "type": "string", "DutchName": "naam" },
+    "parentUnitId": { "type": ["string", "null"], "format": "uuid", "DutchName": "bovenliggendeEenheidId" },
+    "professionalIds": { "type": "array", "items": { "type": "string", "format": "uuid" }, "DutchName": "professionalIds" }
+  }
+}
+```
+
+### 5.16 period.json
+
+```json
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://okx.npuls.nl/schema/period/alfa",
+  "title": "Period",
+  "DutchName": "Periode",
+  "$comment": "Alfa en indicatief. Deze vorm onderbouwt welke velden het koppelvlak nodig heeft en kan wijzigen zolang de payload niet is vastgesteld.",
+  "type": "object",
+  "properties": {
+    "start": { "type": "string", "format": "date", "DutchName": "start" },
+    "end": { "type": "string", "format": "date", "DutchName": "eind" }
+  }
+}
+```
+
+### 5.17 processing-status.json
+
+```json
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://okx.npuls.nl/schema/processing-status/alfa",
+  "title": "Processing status",
+  "DutchName": "Verwerkingsstatus",
+  "$comment": "Alfa en indicatief. Deze vorm onderbouwt welke velden het koppelvlak nodig heeft en kan wijzigen zolang de payload niet is vastgesteld.",
+  "type": "object",
+  "required": ["status", "specificationReference"],
+  "properties": {
+    "status": { "enum": ["ontvangen", "gestart", "afgekeurd", "gelukt", "nietGelukt"], "DutchName": "status" },
+    "programmeOfferingId": { "type": ["string", "null"], "format": "uuid", "DutchName": "opleidingsaanbodId" },
+    "specificationReference": { "$ref": "./specification-reference.json", "DutchName": "specificatieVerwijzing" }
+  }
+}
+```
+
+### 5.18 result-model.json
+
+```json
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://okx.npuls.nl/schema/result-model/alfa",
+  "title": "Result model",
+  "DutchName": "Resultaatmodel",
+  "$comment": "Alfa en indicatief. Deze vorm onderbouwt welke velden het koppelvlak nodig heeft en kan wijzigen zolang de payload niet is vastgesteld.",
+  "type": "object",
+  "properties": {
+    "scale": { "type": "string", "$comment": "open lijst: cijfer-1-10, voldoende-onvoldoende, punten", "DutchName": "schaal" },
+    "passMark": { "type": "number", "DutchName": "cesuur" },
+    "decimalPlaces": { "type": "integer", "DutchName": "decimalen" }
+  }
+}
+```
+
+### 5.19 result-structure.json
+
+```json
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://okx.npuls.nl/schema/result-structure/alfa",
+  "title": "Result structure and exam plan",
+  "DutchName": "Resultaatstructuur en examenplan",
+  "$comment": "Alfa en indicatief. Deze vorm onderbouwt welke velden het koppelvlak nodig heeft en kan wijzigen zolang de payload niet is vastgesteld.",
+  "type": "object",
+  "required": ["educationSpecifications"],
+  "properties": {
+    "educationSpecifications": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "specificationType", "version", "parentSpecificationId", "name", "status", "resultModel"],
+        "properties": {
+          "id": { "type": "string", "format": "uuid", "DutchName": "id" },
+          "specificationType": { "enum": ["examenplanspecificatie", "resultaateenheidspecificatie", "toetsonderdeelspecificatie"], "DutchName": "specificatieType" },
+          "version": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$", "DutchName": "versie" },
+          "parentSpecificationId": { "type": ["string", "null"], "format": "uuid", "DutchName": "bovenliggendSpecificatieId" },
+          "name": { "type": "string", "DutchName": "naam" },
+          "description": { "type": "string", "DutchName": "omschrijving" },
+          "status": { "type": "string", "DutchName": "status" },
+          "validFrom": { "type": "string", "format": "date", "DutchName": "geldigVanaf" },
+          "validUntil": { "type": ["string", "null"], "format": "date", "DutchName": "geldigTot" },
+          "appliesTo": { "type": "string", "format": "uuid", "$comment": "de opleidingsprogrammaspecificatie waarvoor dit examenplan geldt", "DutchName": "geldtVoor" },
+          "assesses": { "type": "string", "format": "uuid", "$comment": "de specificatie die deze resultaateenheid beoordeelt", "DutchName": "beoordeelt" },
+          "learningOutcomeId": { "type": "string", "format": "uuid", "$comment": "verwijst naar de leeruitkomst in de onderwijsspecificatie-payload; dit is de sleutel waarop het onderwijsresultaat wordt behaald (ADR 0022)", "DutchName": "leeruitkomstId" },
+          "learningOutcome": { "$ref": "./learning-outcome-designation.json", "DutchName": "leeruitkomst" },
+          "nature": { "enum": ["summatief", "formatief"], "DutchName": "aard" },
+          "assessmentForm": { "type": "string", "$comment": "open lijst: proeveVanBekwaamheid, kennistoets, praktijkopdracht, portfolio, criteriumgesprek", "DutchName": "toetsvorm" },
+          "aggregation": { "enum": ["gewogenGemiddelde", "som", "allenVoldoende", "minimaalAantal"], "DutchName": "aggregatie" },
+          "weighting": { "type": "number", "$comment": "relatief binnen de ouder; 0 bij formatief", "DutchName": "weging" },
+          "mandatory": { "type": "boolean", "DutchName": "verplicht" },
+          "resultModel": { "$ref": "./result-model.json", "DutchName": "resultaatmodel" },
+          "ruleSetReferences": { "type": "array", "items": { "type": "string", "format": "uuid" }, "DutchName": "regelsetVerwijzingen" },
+          "manifest": {
+            "type": "array",
+            "items": { "$ref": "./manifest-item.json" },
+            "DutchName": "manifest"
+          }
+        }
+      },
+      "DutchName": "onderwijsspecificaties"
+    },
+    "ruleSets": {
+      "type": "array",
+      "items": { "$ref": "./rule-set.json" },
+      "DutchName": "regelsets"
+    }
+  }
+}
+```
+
+### 5.20 rule-set.json
+
+```json
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://okx.npuls.nl/schema/rule-set/alfa",
+  "title": "Rule set",
+  "DutchName": "Regelset",
+  "$comment": "Alfa en indicatief. Deze vorm onderbouwt welke velden het koppelvlak nodig heeft en kan wijzigen zolang de payload niet is vastgesteld.",
+  "type": "object",
+  "required": ["id", "version", "name", "appliesTo", "rules"],
+  "properties": {
+    "id": { "type": "string", "format": "uuid", "DutchName": "id" },
+    "version": { "type": "string", "DutchName": "versie" },
+    "name": { "type": "string", "DutchName": "naam" },
+    "description": { "type": "string", "DutchName": "omschrijving" },
+    "appliesTo": { "type": "string", "format": "uuid", "DutchName": "vanToepassingOp" },
+    "rules": { "type": "array", "items": { "type": "object" }, "DutchName": "regels" }
+  }
+}
+```
+
+### 5.21 source.json
+
+```json
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://okx.npuls.nl/schema/source/alfa",
+  "title": "Source",
+  "DutchName": "Bron",
+  "$comment": "Alfa en indicatief. Deze vorm onderbouwt welke velden het koppelvlak nodig heeft en kan wijzigen zolang de payload niet is vastgesteld.",
+  "type": "object",
+  "required": ["standard", "type", "code"],
+  "properties": {
+    "standard": { "type": "string", "$comment": "open lijst; nu sbb-kwalificatiekader, later bijvoorbeeld competentnl", "DutchName": "standaard" },
+    "type": { "enum": ["kwalificatiedossier", "kwalificatie", "kerntaak", "werkproces", "keuzedeel"], "DutchName": "type" },
+    "code": { "type": "string", "DutchName": "code" }
+  }
+}
+```
+
+### 5.22 specification-changed.json
+
+```json
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://okx.npuls.nl/schema/specification-changed/alfa",
+  "title": "Specification changed",
+  "DutchName": "Specificatie-gewijzigd",
+  "$comment": "Alfa en indicatief. Deze vorm onderbouwt welke velden het koppelvlak nodig heeft en kan wijzigen zolang de payload niet is vastgesteld. Wijzigingsklasse volgt de classificatie in de lifecycle-uitwerking, §4.",
+  "type": "object",
+  "required": ["objectId", "oldVersion", "newVersion", "changeClass"],
+  "properties": {
+    "objectId": { "type": "string", "format": "uuid", "DutchName": "objectId" },
+    "oldVersion": { "type": "string", "DutchName": "oudeVersie" },
+    "newVersion": { "type": "string", "DutchName": "nieuweVersie" },
+    "changeClass": { "enum": ["fundamenteel", "examenplan", "onderdeel", "niet-brekend", "na-planning-of-roostering"], "DutchName": "wijzigingsklasse" }
+  }
+}
+```
+
+### 5.23 specification-reference.json
+
+```json
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://okx.npuls.nl/schema/specification-reference/alfa",
+  "title": "Specification reference",
+  "DutchName": "Specificatie-referentie",
+  "$comment": "Alfa en indicatief. Deze vorm onderbouwt welke velden het koppelvlak nodig heeft en kan wijzigen zolang de payload niet is vastgesteld.",
+  "type": "object",
+  "required": ["specificationId", "version"],
+  "properties": {
+    "specificationId": { "type": "string", "format": "uuid", "DutchName": "specificatieId" },
+    "version": { "type": "string", "DutchName": "versie" }
+  }
+}
+```
+
+### 5.24 specification-status-changed.json
+
+```json
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://okx.npuls.nl/schema/specification-status-changed/alfa",
+  "title": "Specification status changed",
+  "DutchName": "Specificatie-status-gewijzigd",
+  "$comment": "Alfa en indicatief. Deze vorm onderbouwt welke velden het koppelvlak nodig heeft en kan wijzigen zolang de payload niet is vastgesteld. Status-lifecycle volgt de lifecycle-uitwerking, §3.",
+  "type": "object",
+  "required": ["objectId", "oldStatus", "newStatus"],
+  "properties": {
+    "objectId": { "type": "string", "format": "uuid", "DutchName": "objectId" },
+    "oldStatus": { "enum": ["concept", "vastgesteld", "gepubliceerd", "gedeactiveerd", "gearchiveerd", "vervallen"], "DutchName": "oudeStatus" },
+    "newStatus": { "enum": ["concept", "vastgesteld", "gepubliceerd", "gedeactiveerd", "gearchiveerd", "vervallen"], "DutchName": "nieuweStatus" }
+  }
+}
+```
+
+### 5.25 subscription.json
+
+```json
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://okx.npuls.nl/schema/subscription/alfa",
+  "title": "Subscription",
+  "DutchName": "Abonnement",
+  "$comment": "Alfa en indicatief. Deze vorm onderbouwt welke velden het koppelvlak nodig heeft en kan wijzigen zolang de payload niet is vastgesteld. `id` is afwezig in het verzoek en door de server toegekend in de respons.",
+  "type": "object",
+  "required": ["callbackUrl", "events"],
+  "properties": {
+    "id": { "type": "string", "format": "uuid", "DutchName": "id" },
+    "callbackUrl": { "type": "string", "format": "uri", "DutchName": "callbackUrl" },
+    "events": {
+      "type": "array",
+      "items": { "enum": ["specificatie-planbaar", "specificatie-gewijzigd", "specificatie-status-gewijzigd", "verwerkingsstatus"] },
+      "DutchName": "events"
+    }
+  }
+}
+```
+
+### 5.26 volume.json
+
+```json
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://okx.npuls.nl/schema/volume/alfa",
+  "title": "Volume",
+  "DutchName": "Omvang",
+  "$comment": "Alfa en indicatief. Deze vorm onderbouwt welke velden het koppelvlak nodig heeft en kan wijzigen zolang de payload niet is vastgesteld.",
+  "type": "object",
+  "required": ["value", "unit"],
+  "properties": {
+    "value": { "type": "number", "DutchName": "waarde" },
+    "unit": { "enum": ["SBU", "EC"], "DutchName": "eenheid" }
+  }
+}
+```
 
 <!-- pagina-einde -->
 
