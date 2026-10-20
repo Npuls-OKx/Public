@@ -221,6 +221,6 @@ De omgekeerde dekking: objecten uit MORA en KOI die bij het zoeken naar tegenhan
 | [Informatiemodel OKx](informatiemodel.md) | De objecttypen en hun samenhang; deze lijst geeft er de definities bij |
 | [Ankertabel kaderscenario leerroute 1](../Referentiemateriaal/kaderscenario's/leerroute-1-regulier.md#betrokken-informatie-bij-proces) | De families, de niveaus en de stadia |
 | [`begrippen.json`](begrippen.json) | Deze lijst machineleesbaar; dit document wordt eruit gegenereerd |
-| [`begrippen-extractie.json`](https://github.com/Npuls-OKx/meta/blob/025fd435/architecture/docs/specificatie/begrippen/begrippen-extractie.json) | Elke term tussen backquotes in de meta-repository en in dit repository, met vindplaatsen |
+| [`begrippen-extractie.json`](https://github.com/Npuls-OKx/meta/blob/bdf5e07e77622d4117f2025e700fde4ed3d3664f/architecture/docs/specificatie/begrippen/begrippen-extractie.json) | Elke term tussen backquotes in de meta-repository en in dit repository, met vindplaatsen |
 | [`referentiekaders.json`](referentiekaders.json) | De letterlijk overgenomen definities uit MORA en KOI, met bron-URL en ophaaldatum |
-| [MORA-definitiemapping v0.4](https://github.com/Npuls-OKx/meta/tree/025fd435/architecture/docs/definitie_mapping_MORA_OEAPI_excel/) | Eerdere mapping van MORA-objecten op OEAPI, als werkblad; deze lijst vervangt hem niet en verwijst ernaar waar de keuzes verschillen |
+| [MORA-definitiemapping v0.4](https://github.com/Npuls-OKx/meta/tree/bdf5e07e77622d4117f2025e700fde4ed3d3664f/architecture/docs/definitie_mapping_MORA_OEAPI_excel/) | Eerdere mapping van MORA-objecten op OEAPI, als werkblad; deze lijst vervangt hem niet en verwijst ernaar waar de keuzes verschillen |
