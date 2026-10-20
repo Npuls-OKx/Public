@@ -1,6 +1,6 @@
 ---
 name: okx-public-artefact
-description: Gebruik deze skill bij het schrijven, wijzigen of reviewen van een document in de OKx Public-repository. Bevat de conventies voor gereleasde artefacten (geen issueverwijzingen, zelfdragende inleiding, gepinde verwijzingen naar meta) en de valkuilen die daarbij horen. Trigger op koppelingspecificatie, payload-specificatie, kaderscenario, ankertabel, referentiemateriaal, of overhevelen uit meta.
+description: Gebruik deze skill bij het schrijven, wijzigen of reviewen van een document in de OKx Public-repository. Bevat de conventies voor gereleasde artefacten (geen issueverwijzingen, zelfdragende inleiding, gepinde verwijzingen naar meta) en de valkuilen die daarbij horen. Trigger op koppeling, koppelvlakdienst, kaderscenario, ankertabel, referentiemateriaal, of overhevelen uit meta.
 ---
 
 # Een artefact in OKx Public
@@ -35,9 +35,9 @@ Deze zijn allemaal een keer misgegaan.
 
 ## De taal van het domein
 
-Gebruik de begrippen uit de [ankertabel](../../../Referentiemateriaal/kaderscenario's/leerroute-1-regulier.md#betrokken-informatie-bij-proces), niet eigen termen: kader, beoogde leeruitkomst, specificatie, aanbod, verbintenis, resultaat. De leeruitkomst is de sleutel die de kolommen doorkruist; specificaties verankeren erop en resultaten worden erop behaald.
+Gebruik de begrippen uit de [begrippenlijst](../../../Informatie-en-gegevensmodellen/begrippen.md) en de zeven begrippenfamilies van het [informatiemodel](../../../Informatie-en-gegevensmodellen/informatiemodel.md#begrippenfamilies), niet eigen termen: kwalificatiekader, onderwijskundig kader instelling, onderwijsspecificatie, onderwijsaanbod, onderwijsverbintenis, onderwijsresultaat, resultaatstructuur. De [ankertabel](../../../Referentiemateriaal/kaderscenario's/leerroute-1-regulier.md#betrokken-informatie-bij-proces) in het kaderscenario is de voorloper daarvan. De leeruitkomst is de sleutel die de kolommen doorkruist: specificaties en de resultaatstructuur verwijzen ernaar; resultaten ontstaan op de verbintenis en vormen via de resultaatstructuur het bewijs voor een leeruitkomst. Een objecttype dat op de plaat staat schrijf je zoals de begrippenlijst het schrijft, voluit en tussen backquotes.
 
-Een **koppeling** is de informatiestroom tussen twee referentiecomponenten. Een **koppelvlak** is de verzameling koppelingen die één component raken. Componenten benoem je als referentiecomponent, niet als product: OKx beschrijft wat een component doet en hoe het zich in de keten gedraagt, niet welke leverancier het invult.
+Een **koppeling** is één of meer endpoint-interacties met één doel, tussen één aanbieder en zijn afnemers, afgeleid van een applicatiedienst uit de domeinarchitectuur. Een **koppelvlak** is de verzameling koppelingen die één component raken ([U2](../../../Koppelvlakspecificaties/uitgangspunten.md#u2-koppeling-versus-koppelvlak)). Componenten benoem je als referentiecomponent, niet als product: OKx beschrijft wat een component doet en hoe het zich in de keten gedraagt, niet welke leverancier het invult.
 
 ## Voor je iets voorstelt
 
