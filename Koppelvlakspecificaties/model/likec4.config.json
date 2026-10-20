@@ -1,0 +1,115 @@
+{
+  "$schema": "https://likec4.dev/schemas/config.json",
+  "name": "koppelvlakspecificatie",
+  "title": "OKx koppelvlakspecificatie",
+  "styles": {
+    "theme": {
+      "colors": {
+        "archi-applicatie": {
+          "elements": {
+            "fill": "#B5FFFF",
+            "stroke": "#5FA9AB",
+            "hiContrast": "#000000",
+            "loContrast": "#000000"
+          },
+          "relationships": {
+            "line": "#3A3A3A",
+            "label": "#000000",
+            "labelBg": "rgba(255, 255, 255, 0.9)"
+          }
+        },
+        "archi-component": {
+          "elements": {
+            "fill": "#80FFFF",
+            "stroke": "#3FA6A8",
+            "hiContrast": "#000000",
+            "loContrast": "#000000"
+          },
+          "relationships": {
+            "line": "#3A3A3A",
+            "label": "#000000",
+            "labelBg": "rgba(255, 255, 255, 0.9)"
+          }
+        },
+        "archi-business": {
+          "elements": {
+            "fill": "#FFFFB5",
+            "stroke": "#B3B35F",
+            "hiContrast": "#000000",
+            "loContrast": "#000000"
+          },
+          "relationships": {
+            "line": "#3A3A3A",
+            "label": "#000000",
+            "labelBg": "rgba(255, 255, 255, 0.9)"
+          }
+        },
+        "archi-motivatie": {
+          "elements": {
+            "fill": "#CCCCFF",
+            "stroke": "#7F7FBF",
+            "hiContrast": "#000000",
+            "loContrast": "#000000"
+          },
+          "relationships": {
+            "line": "#3A3A3A",
+            "label": "#000000",
+            "labelBg": "rgba(255, 255, 255, 0.9)"
+          }
+        },
+        "archi-implementatie": {
+          "elements": {
+            "fill": "#FFE0E0",
+            "stroke": "#C08F8F",
+            "hiContrast": "#000000",
+            "loContrast": "#000000"
+          },
+          "relationships": {
+            "line": "#3A3A3A",
+            "label": "#000000",
+            "labelBg": "rgba(255, 255, 255, 0.9)"
+          }
+        },
+        "archi-grouping": {
+          "elements": {
+            "fill": "#D2D7D7",
+            "stroke": "#8A9090",
+            "hiContrast": "#000000",
+            "loContrast": "#000000"
+          },
+          "relationships": {
+            "line": "#3A3A3A",
+            "label": "#000000",
+            "labelBg": "rgba(255, 255, 255, 0.9)"
+          }
+        },
+        "gray": {
+          "elements": {
+            "fill": "#6E6E6E",
+            "stroke": "#4A4A4A",
+            "hiContrast": "#FFFFFF",
+            "loContrast": "#E6E6E6"
+          },
+          "relationships": {
+            "line": "#3A3A3A",
+            "label": "#000000",
+            "labelBg": "rgba(255, 255, 255, 0.9)"
+          }
+        },
+        "markering": {
+          "elements": {
+            "fill": "#FFD966",
+            "stroke": "#B8901C",
+            "hiContrast": "#000000",
+            "loContrast": "#000000"
+          },
+          "relationships": {
+            "line": "#3A3A3A",
+            "label": "#000000",
+            "labelBg": "rgba(255, 255, 255, 0.9)"
+          }
+        }
+      }
+    }
+  }
+}

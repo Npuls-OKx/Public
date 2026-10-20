@@ -11,14 +11,14 @@ Schrijf Nederlands, simpel en consistent, ASCII waar het kan.
 - **Geen vulwoorden.** "Kort", "conceptueel", "een eerste", "eenvoudige" voegen niets toe in een kopje of zin. Schrap ze.
 - **Eén drager per informatie-eenheid.** Een diagram, een tabel en een alinea die alle drie hetzelfde zeggen is redundantie. Kies er één; laat de andere staan alleen als die iets toevoegt wat de eerste niet toont.
 - **Een kopje dekt de lading.** Een sectie "Context" geeft context, geen opsomming van bronnen. Een inleiding leidt in, en is geen lijst losse feiten.
-- **Afkortingen voluit bij eerste gebruik**, daarna mag de korte vorm. Geldt ook voor mapnamen: leg in een README uit waar een afkorting als `adr/` voor staat. Bij veel afkortingen: een legenda. Koppelingsmappen onder `Koppelingspecificaties/` heten voluit (`onderwijscatalogus-planning-en-roostering/`, niet `oc-p-en-r/`): de naam zelf hoeft dan geen legenda meer.
+- **Afkortingen voluit bij eerste gebruik**, daarna mag de korte vorm. Geldt ook voor mapnamen: leg in een README uit waar een afkorting als `adr/` voor staat. Bij veel afkortingen: een legenda. Koppelingen onder `Koppelingen/` heten voluit naar hun doel (`opleidingsaanbod-aanmaken.md`, niet `oc-p-aanmaken.md`): de naam zelf hoeft dan geen legenda meer.
 - **Bouw de verhaallijn niet op een nummer.** Niet "conform het besluit uit de sessie van juli" maar de inhoud zelf, met een link naar het besluit.
 
 ## Show don't tell
 
-Liever een diagram, een schema, een payload of een tabel dan een lange lap tekst. Voeg een mermaid-diagram toe wanneer dat iets toont wat de tekst niet toont; laat het weg wanneer het de tekst herhaalt.
+Liever een diagram, een schema, een payload of een tabel dan een lange lap tekst. Voeg een diagram toe wanneer dat iets toont wat de tekst niet toont; laat het weg wanneer het de tekst herhaalt.
 
-Diagrammen in **mermaid**, zodat ze diffbaar zijn en meebewegen met een tekstwijziging. Een plaatje dat alleen als afbeelding bestaat, veroudert stil.
+Diagrammen komen uit het **LikeC4-model** ([diagrammen.mdc](diagrammen.mdc)), zodat ze diffbaar zijn en meebewegen met het model. Een plaatje dat alleen als afbeelding bestaat, veroudert stil.
 
 ## Machine-interpreteerbaar waar het kan
 

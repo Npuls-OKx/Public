@@ -6,7 +6,7 @@
   "$comment": "Alfa en indicatief. Deze vorm onderbouwt welke velden het koppelvlak nodig heeft en kan wijzigen zolang de payload niet is vastgesteld.",
   "type": "object",
   "required": ["educationSpecifications"],
-  "$comment_required": "Alleen onderwijsspecificaties is altijd aanwezig. Of leeruitkomsten en regelsets meekomen bepaalt het gebruiksprofiel van de koppeling; binnen onderwijscatalogus naar planning en roostering blijven leeruitkomsten weg ([ADR 0023](../../Referentiemateriaal/adr/0023-leeruitkomsten-als-opaque-sleutels-in-koppeling-oc-p-en-r.md)).",
+  "$comment_required": "Alleen onderwijsspecificaties is altijd aanwezig. Of leeruitkomsten en regelsets meekomen bepaalt het gebruiksprofiel van de koppeling; in de koppeling Onderwijsspecificatie ophalen laat het planningssysteem de leeruitkomsten liggen ([gebruiksprofielen](../gebruiksprofielen.md), [ADR 0026](../../Referentiemateriaal/adr/0026-leeruitkomst-als-verbindende-sleutel.md)).",
   "properties": {
     "learningOutcomes": {
       "type": "array",

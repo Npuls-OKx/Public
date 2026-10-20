@@ -1,4 +1,4 @@
-// De views. Eén ketenbeeld en per component met een koppelvlak een eigen plaat.
+// De views: per component met een koppelvlak een eigen plaat.
 //
 // De koppelvlakplaten dragen geen relaties: ze tonen wat een component aanbiedt,
 // niet wie het aanroept. Dat betekent dat graphviz er geen bruikbare plaatsing
@@ -6,39 +6,10 @@
 
 views {
 
-  view index {
-    title 'Referentie / De keten op hoofdlijnen'
-    description '
-      De applicatiecomponenten en wat er tussen ze beweegt. De catalogus bezit de
-      onderwijsspecificaties en meldt elke wijziging; de afnemers halen op wanneer
-      het hun uitkomt (U3, U4).
-    '
-    order 1
-
-    autoLayout TopBottom 40 40
-
-    include
-      instelling,
-      instelling.co,
-      instelling.oc,
-      instelling.p,
-      instelling.rooster,
-      instelling.sis,
-      instelling.lms,
-      instelling.sks
-
-    exclude instelling.oc.** -> instelling.p.**
-    exclude instelling.p.** -> instelling.oc.**
-    exclude instelling.oc.** -> instelling.sis.**
-    exclude instelling.sis.** -> instelling.oc.**
-    exclude instelling.oc.** -> instelling.lms.**
-    exclude instelling.lms.** -> instelling.oc.**
-  }
-
   view koppelvlak_oc {
     title 'Referentie / Koppelvlak van de onderwijscatalogus'
     description '
-      De applicatiediensten die de catalogus claimt, met onder elke dienst de
+      De koppelvlakdiensten die de catalogus implementeert, met onder elke dienst de
       endpoints waarmee zij die levert.
     '
     order 2
@@ -47,6 +18,8 @@ views {
 
     include instelling.oc, instelling.oc.**
     exclude * -> *
+    exclude element.tag = #v1
+    exclude element.kind = applicatiedienst
   }
 
   view koppelvlak_p {
@@ -62,6 +35,8 @@ views {
 
     include instelling.p, instelling.p.**
     exclude * -> *
+    exclude element.tag = #v1
+    exclude element.kind = applicatiedienst
   }
 
   view koppelvlak_sis {
@@ -76,6 +51,8 @@ views {
 
     include instelling.sis, instelling.sis.**
     exclude * -> *
+    exclude element.tag = #v1
+    exclude element.kind = applicatiedienst
   }
 
   view koppelvlak_lms {
@@ -90,5 +67,80 @@ views {
 
     include instelling.lms, instelling.lms.**
     exclude * -> *
+    exclude element.tag = #v1
+    exclude element.kind = applicatiedienst
+  }
+
+  // Een koppeling ligt tussen één aanbieder en zijn afnemers; het koppelvlak van een
+  // component is de optelsom van de koppelingen die het raken (U2). Hier voor het
+  // leermanagementsysteem: drie koppelingen als aanbieder, vier als afnemer. Met
+  // de tag #hoofdplaat legt scripts/likec4-hoofdplaat.py de plaat neer, zoals bij
+  // de hoofdplaatviews: het component onderaan, de koppelingen op een rij erboven.
+  view koppelvlak_versus_koppeling {
+    #hoofdplaat
+    title 'Uitgangspunten / Koppelvlak versus koppeling'
+    description '
+      Het koppelvlak van het leermanagementsysteem is de optelsom van de zeven
+      koppelingen die het raken; elke koppeling noemt de rol die het daarin heeft.
+    '
+
+    autoLayout TopBottom 60 40
+
+    include instelling.lms with {
+      description ''
+      color markering
+      size xl
+    }
+    include spec.koppelingen.k_onderwijsspecificatie_ophalen with {
+      description 'Rol: afnemer'
+      color markering
+    }
+    include spec.koppelingen.k_specificatiestatus_volgen with {
+      description 'Rol: afnemer'
+      color markering
+    }
+    include spec.koppelingen.k_opleidingsprogrammaverbintenis_ontsluiten with {
+      description 'Rol: afnemer'
+      color markering
+    }
+    include spec.koppelingen.k_verbintenis_en_planninggroep_doorgeven with {
+      description 'Rol: afnemer'
+      color markering
+    }
+    include spec.koppelingen.k_leeromgeving_inrichten with {
+      description 'Rol: aanbieder'
+      color markering
+    }
+    include spec.koppelingen.k_leeromgeving_bijwerken with {
+      description 'Rol: aanbieder'
+      color markering
+    }
+    include spec.koppelingen.k_toetsresultaat_doorgeven with {
+      description 'Rol: aanbieder'
+      color markering
+    }
+    exclude spec, spec.koppelingen, instelling
+    exclude * -> *
+    include spec.koppelingen.k_onderwijsspecificatie_ophalen -> instelling.lms where tag is #hoofdplaat with {
+      title ''
+    }
+    include spec.koppelingen.k_specificatiestatus_volgen -> instelling.lms where tag is #hoofdplaat with {
+      title ''
+    }
+    include spec.koppelingen.k_opleidingsprogrammaverbintenis_ontsluiten -> instelling.lms where tag is #hoofdplaat with {
+      title ''
+    }
+    include spec.koppelingen.k_verbintenis_en_planninggroep_doorgeven -> instelling.lms where tag is #hoofdplaat with {
+      title ''
+    }
+    include spec.koppelingen.k_leeromgeving_inrichten -> instelling.lms where tag is #hoofdplaat with {
+      title ''
+    }
+    include spec.koppelingen.k_leeromgeving_bijwerken -> instelling.lms where tag is #hoofdplaat with {
+      title ''
+    }
+    include spec.koppelingen.k_toetsresultaat_doorgeven -> instelling.lms where tag is #hoofdplaat with {
+      title ''
+    }
   }
 }

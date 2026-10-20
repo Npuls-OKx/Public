@@ -8,29 +8,7 @@ De consument kan niet in dezelfde aanroep antwoorden. Zijn verwerking duurt te l
 
 ## Verloop
 
-```mermaid
-sequenceDiagram
-    autonumber
-    participant Bezitter
-    participant Consument
-
-    Note over Bezitter,Consument: Voorafgegaan door een melding, doorgaans Event Notification
-    alt Aangeleverde structuur is valide
-        Consument-)Bezitter: Status: ontvangen, verwerking gestart
-        Note over Consument: Verwerking, asynchroon
-        alt Verwerking gelukt
-            Consument-)Bezitter: Status: gelukt, met referentie naar het aangemaakte
-            opt de bezitter wil het aangemaakte inzien
-                Bezitter->>Consument: Opvraag op die referentie
-                Consument-->>Bezitter: De aangemaakte instantie
-            end
-        else Verwerking niet gelukt
-            Consument-)Bezitter: Status: niet gelukt, met referentie en de reden
-        end
-    else Aangeleverde structuur is niet valide
-        Consument-)Bezitter: Status: afgekeurd, met foutmodel
-    end
-```
+![Asynchronous Request-Reply: volgorde van de interacties](../src/diagrammen/interactiepatronen/asynchronous-request-reply.png)
 
 | Bericht | Richting | Synchroniciteit | Draagt | Draagt niet |
 |---|---|---|---|---|
@@ -51,6 +29,10 @@ OKx duwt de status terug als event. Het alternatief uit AIP-151, de verwerking a
 
 | Koppeling | Wat teruggemeld wordt | Referentie naar |
 |---|---|---|
-| [Onderwijscatalogus naar planning en roostering](../Koppelingspecificaties/onderwijscatalogus-planning-en-roostering.md) | Verwerkingsstatus van het planproces | Het opleidingsaanbod |
-| [Onderwijscatalogus naar studentinformatiesysteem](../Koppelingspecificaties/onderwijscatalogus-studentinformatiesysteem.md) | Inrichtingsstatus | De inrichting |
-| [Onderwijscatalogus naar leermanagementsysteem](../Koppelingspecificaties/onderwijscatalogus-leermanagementsysteem.md) | Inrichtingsstatus | De inrichting |
+| [Opleidingsaanbod aanmaken](../Koppelingen/opleidingsaanbod-aanmaken.md) | Uitkomst van het planproces | Het opleidingsaanbod |
+| [Opleidingsaanbod herplannen](../Koppelingen/opleidingsaanbod-herplannen.md) | Uitkomst van het herplanproces | Het opleidingsaanbod |
+| [Late wijziging toetsen](../Koppelingen/late-wijziging-toetsen.md) | Uitkomst van de acceptatietoets | — |
+| [Leeromgeving inrichten](../Koppelingen/leeromgeving-inrichten.md) | Uitkomst van de inrichting | De inrichting |
+| [Leeromgeving bijwerken](../Koppelingen/leeromgeving-bijwerken.md) | Uitkomst van het bijwerken | — |
+| [Nominaal template inrichten](../Koppelingen/nominaal-template-inrichten.md) | Uitkomst van de inrichting | De inrichting |
+| [Examenplanwijziging toetsen](../Koppelingen/examenplanwijziging-toetsen.md) | Uitkomst van de acceptatietoets | — |

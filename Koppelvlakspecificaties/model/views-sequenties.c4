@@ -1,0 +1,267 @@
+// De sequentiediagrammen: per berichtstroom, per interactiepatroon en voor de
+// auth-standaard één dynamische view met de sequence-layout.
+//
+// Een melding is gestippeld, een aanroep doorgetrokken en een antwoord
+// gestreept. Een stap van een component naar zichzelf staat voor wat dat
+// component intern doet.
+
+views {
+
+  dynamic view seq_onderwijsspecificatie_ophalen_1 {
+    title "Koppelingen / Specificatie beschikbaar melden"
+    variant sequence
+    instelling.oc -> instelling.oc "onderwijsspecificatie krijgt status gepubliceerd"
+    instelling.oc -> rollen.afnemer "[specificatie-beschikbaar] Event: specificatie beschikbaar (id + versie)" { line dotted }
+    rollen.afnemer -> instelling.oc "[GET /onderwijsspecificaties/{id}] onderwijsspecificatiestructuur (id, versie)" { line solid }
+    instelling.oc -> rollen.afnemer "Momentopname (manifest legt versies vast)"
+  }
+
+  dynamic view seq_onderwijsspecificatie_ophalen_2 {
+    title "Koppelingen / Specificatiewijziging melden"
+    variant sequence
+    instelling.oc -> instelling.oc "Nieuwe versie van een gepubliceerde specificatie"
+    instelling.oc -> rollen.afnemer "[specificatie-gewijzigd] Event: specificatie gewijzigd (object-id, oude versie, nieuwe versie, wijzigingsklasse)" { line dotted }
+    alt {
+      when "de afnemer haalt de delta op" {
+        rollen.afnemer -> instelling.oc "[GET /onderwijsspecificaties/{id}/delta] delta tussen versies (JSON Patch, RFC 6902)" { line solid }
+        instelling.oc -> rollen.afnemer "Delta tussen oude en nieuwe versie"
+      }
+      when "de afnemer haalt de volledige structuur op" {
+        rollen.afnemer -> instelling.oc "[GET /onderwijsspecificaties/{id}] onderwijsspecificatiestructuur (id, nieuwe versie)" { line solid }
+        instelling.oc -> rollen.afnemer "Momentopname (nieuwe versie)"
+      }
+    }
+  }
+
+  dynamic view seq_specificatiestatus_volgen_1 {
+    title "Koppelingen / Specificatiestatus gewijzigd melden"
+    variant sequence
+    instelling.oc -> instelling.oc "Specificatie krijgt een nieuwe status, los van de versie (bv. gepubliceerd naar gedeactiveerd)"
+    instelling.oc -> rollen.afnemer "[specificatie-status-gewijzigd] Event: specificatiestatus gewijzigd (object-id, oude status, nieuwe status)" { line dotted }
+    rollen.afnemer -> rollen.afnemer "Wat de afnemer met de statuswijziging doet is applicatiefunctionaliteit, buiten deze specificatie"
+  }
+
+  dynamic view seq_resultaatstructuur_ophalen_1 {
+    title "Koppelingen / Resultaatstructuur beschikbaar melden"
+    variant sequence
+    instelling.oc -> instelling.oc "examenplanspecificatie gepubliceerd"
+    instelling.oc -> instelling.sis "[resultaatstructuur-beschikbaar] Event: resultaatstructuur beschikbaar (examenplan-id + versie)" { line dotted }
+    instelling.sis -> instelling.oc "[GET /examenplanspecificaties/{id}] resultaatstructuur (examenplan-id, versie)" { line solid }
+    instelling.oc -> instelling.sis "Resultaatstructuur (weging, aggregatie, toetsonderdelen)"
+  }
+
+  dynamic view seq_resultaatstructuur_ophalen_2 {
+    title "Koppelingen / Examenplanwijziging melden"
+    variant sequence
+    instelling.oc -> instelling.sis "[examenplanspecificatie-gewijzigd] Event: examenplanspecificatie gewijzigd (id, wijzigingsklasse)" { line dotted }
+    instelling.sis -> instelling.sis "Of de wijziging wordt geaccepteerd, staat in de koppeling Examenplanwijziging toetsen"
+  }
+
+  dynamic view seq_opleidingsaanbod_aanmaken_1 {
+    title "Koppelingen / Planuitkomst melden"
+    variant sequence
+    alt {
+      when "Structuur valide" {
+        instelling.p -> instelling.oc "[verwerkingsuitkomst] Status: ontvangen, planproces gestart (asynchroon)" { line dotted }
+        instelling.p -> instelling.p "Grofmazige planning, van specificatie naar opleidingsaanbod, binnen de regels (voorwaarden vooraf, locatie, periode)"
+        alt {
+          when "Planning gelukt" {
+            instelling.p -> instelling.oc "[verwerkingsuitkomst] Status gelukt, met referentie naar opleidingsaanbod (uuid)" { line dotted }
+            opt "de onderwijscatalogus wil het aanbod inzien" {
+              instelling.oc -> instelling.p "[GET /onderwijsaanbod/{id}] opleidingsaanbod (uuid)" { line solid }
+              instelling.p -> instelling.oc "opleidingsaanbod-instantie"
+            }
+          }
+          when "Planning niet gelukt" {
+            instelling.p -> instelling.oc "[verwerkingsuitkomst] Status niet gelukt, met referentie naar opleidingsaanbod (instantie draagt status en reden)" { line dotted }
+          }
+        }
+      }
+      when "Structuur niet valide" {
+        instelling.p -> instelling.oc "[verwerkingsuitkomst] Status afgekeurd (validatiefout, met foutmodel)" { line dotted }
+      }
+    }
+  }
+
+  dynamic view seq_opleidingsaanbod_aanmaken_2 {
+    title "Koppelingen / Planning niet gelukt melden"
+    variant sequence
+    instelling.p -> instelling.p "Planproces vindt geen geldige planning (bv. capaciteit of expertise ontoereikend)"
+    instelling.p -> instelling.oc "[verwerkingsuitkomst] Status niet gelukt, met referentie naar opleidingsaanbod" { line dotted }
+    instelling.p -> rollen.planner "Signaal niet realiseerbaar, met knelpunten"
+    opt "de onderwijscatalogus wil de reden inzien" {
+      instelling.oc -> instelling.p "[GET /onderwijsaanbod/{id}] opleidingsaanbod (uuid)" { line solid }
+      instelling.p -> instelling.oc "opleidingsaanbod-instantie met status en knelpunten"
+    }
+    instelling.oc -> instelling.oc "Specificatie blijft gepubliceerd, geen planbaar aanbod voor dit cohort"
+    instelling.oc -> instelling.oc "Vervolg is ketenafstemming buiten deze koppeling, specificatie aanpassen (curriculum-ontwerptool), capaciteit uitbreiden of cohort uitstellen"
+  }
+
+  dynamic view seq_opleidingsaanbod_herplannen_1 {
+    title "Koppelingen / Herplanuitkomst melden"
+    variant sequence
+    instelling.p -> instelling.oc "[verwerkingsuitkomst] Status: ontvangen, herplanproces gestart" { line dotted }
+    instelling.p -> instelling.p "Herplannen (asynchroon)"
+    instelling.p -> instelling.oc "[verwerkingsuitkomst] Status voltooid of mislukt, met referentie naar opleidingsaanbod" { line dotted }
+  }
+
+  dynamic view seq_late_wijziging_toetsen_1 {
+    title "Koppelingen / Acceptatietoets bij late wijziging"
+    variant sequence
+    instelling.p -> instelling.p "Toets aan acceptatieregels, wijziging na planning alleen bij uitzondering"
+    alt {
+      when "Niet-brekend, geen planimpact" {
+        instelling.p -> instelling.p "Werk versieverwijzing in het manifest bij, planning blijft staan" { line solid }
+        instelling.p -> instelling.oc "[verwerkingsuitkomst] Status: versieverwijzing bijgewerkt, geen herplanning" { line dotted }
+      }
+      when "Brekend of planimpact" {
+        instelling.p -> instelling.oc "[verwerkingsuitkomst] Status: wijziging niet verwerkt, ketenafstemming vereist" { line dotted }
+        instelling.oc -> instelling.oc "Besluit buiten deze koppeling (memo van Niels), uitzonderlijk accepteren en herplannen, of terugdraaien"
+      }
+    }
+  }
+
+  dynamic view seq_leeromgeving_inrichten_1 {
+    title "Koppelingen / Leeromgeving inrichten en leermiddelkoppeling melden"
+    variant sequence
+    instelling.lms -> instelling.oc "[verwerkingsuitkomst] Status: ontvangen, inrichting gestart (asynchroon)" { line dotted }
+    instelling.lms -> instelling.lms "Leeromgeving inrichten op leeronderdeelniveau, leermiddel(groep)en koppelen aan specificaties"
+    instelling.lms -> instelling.oc "[verwerkingsuitkomst] Status ingericht, met referentie naar inrichting (uuid)" { line dotted }
+    instelling.lms -> instelling.oc "[leermiddelkoppeling-beschikbaar] Event: leermiddelkoppeling beschikbaar (referentie, specificatie-id + versie)" { line dotted }
+    opt "de onderwijscatalogus toont leermiddelen bij het aanbod" {
+      instelling.oc -> instelling.lms "[GET /leermiddelkoppelingen/{id}] leermiddelkoppeling (uuid)" { line solid }
+      instelling.lms -> instelling.oc "Leermiddelkoppeling (leermiddelgroepen per specificatie)"
+    }
+  }
+
+  dynamic view seq_leeromgeving_bijwerken_1 {
+    title "Koppelingen / Inrichting bijwerken na wijziging"
+    variant sequence
+    instelling.lms -> instelling.lms "Wat het leermanagementsysteem met de wijziging doet is applicatiefunctionaliteit, buiten deze specificatie"
+    instelling.lms -> instelling.oc "[verwerkingsuitkomst] Status: inrichting bijgewerkt, of afstemming nodig" { line dotted }
+  }
+
+  dynamic view seq_nominaal_template_inrichten_1 {
+    title "Koppelingen / Nominaal template en resultaatstructuur inrichten"
+    variant sequence
+    instelling.sis -> instelling.oc "[verwerkingsuitkomst] Status: ontvangen, inrichting gestart (asynchroon)" { line dotted }
+    instelling.sis -> instelling.sis "Inrichten nominaal template (leerroute, keuzeruimte) en resultaatstructuur (mapping toetsonderdeelresultaten naar leeruitkomsten)"
+    alt {
+      when "Inrichting gelukt" {
+        instelling.sis -> instelling.oc "[verwerkingsuitkomst] Status ingericht, met referentie naar inrichting (uuid)" { line dotted }
+      }
+      when "Inrichting niet gelukt" {
+        instelling.sis -> instelling.oc "[verwerkingsuitkomst] Status niet ingericht (validatie- of inrichtingsfout)" { line dotted }
+      }
+    }
+  }
+
+  dynamic view seq_examenplanwijziging_toetsen_1 {
+    title "Koppelingen / Acceptatietoets bij wijziging examenplan"
+    variant sequence
+    instelling.sis -> instelling.sis "Toets aan acceptatieregels, lopende verbintenissen mogen niet ongecontroleerd geraakt worden"
+    alt {
+      when "Geen lopende verbintenissen geraakt" {
+        instelling.sis -> instelling.sis "Werk versieverwijzing bij, nieuwe instroom volgt nieuwe versie" { line solid }
+        instelling.sis -> instelling.oc "[verwerkingsuitkomst] Status: verwerkt, oude versie blijft voor lopende verbintenissen" { line dotted }
+      }
+      when "Lopende verbintenissen geraakt" {
+        instelling.sis -> instelling.oc "[verwerkingsuitkomst] Status: niet verwerkt, expliciete impactanalyse en besluit vereist" { line dotted }
+        instelling.oc -> instelling.oc "Besluit buiten deze koppeling, gelijktijdig actieve versies per cohort (regels bij de schema's)"
+      }
+    }
+  }
+
+  dynamic view seq_afleverabonnement_registreren_1 {
+    title "Koppelingen / Abonnement registreren"
+    variant sequence
+    rollen.afnemer -> rollen.aanbieder "[POST /abonnementen] abonnement (callbackUrl, de meldingen die de afnemer wil ontvangen)" { line solid }
+    rollen.aanbieder -> rollen.afnemer "Abonnement-id"
+    rollen.afnemer -> rollen.afnemer "Herregistratie op dezelfde callback-URL + event-type overschrijft, geen dubbele aflevering (idempotent)"
+  }
+
+  dynamic view seq_reconciliatie_1 {
+    title "Koppelingen / Reconciliatie na gemist event"
+    variant sequence
+    alt {
+      when "het planningssysteem heeft een event gemist" {
+        instelling.p -> instelling.oc "[GET /onderwijsspecificaties] onderwijsspecificaties (gewijzigdSinds, status=gepubliceerd)" { line solid }
+        instelling.oc -> instelling.p "Lijst specificatie-id's met laatste versie"
+      }
+      when "de onderwijscatalogus heeft een verwerkingsuitkomst gemist" {
+        instelling.oc -> instelling.p "[GET /onderwijsaanbod] onderwijsaanbod (specificatieId, versie optioneel)" { line solid }
+        instelling.p -> instelling.oc "aanbodInstanties die deze specificatie instantieert"
+      }
+    }
+  }
+
+  dynamic view seq_pat_event_notification {
+    title "Interactiepatronen / Event Notification"
+    variant sequence
+    rollen.bezitter -> rollen.bezitter "De resource wijzigt"
+    rollen.bezitter -> rollen.consument "Event: resource-id en versie" { line dotted }
+    rollen.consument -> rollen.consument "Moment van ophalen bepaalt de consument"
+    rollen.consument -> rollen.bezitter "Opvraag op id en versie" { line solid }
+    rollen.bezitter -> rollen.consument "De resource, of de delta tussen twee versies"
+  }
+
+  dynamic view seq_pat_ecst {
+    title "Interactiepatronen / Event-Carried State Transfer"
+    variant sequence
+    rollen.bezitter -> rollen.bezitter "De status van de resource wijzigt, de resource zelf niet"
+    rollen.bezitter -> rollen.consument "Event: object-id, oude status, nieuwe status" { line dotted }
+    rollen.consument -> rollen.consument "Werkt zijn afgeleide status bij, zonder opvraag"
+  }
+
+  dynamic view seq_pat_async_request_reply {
+    title "Interactiepatronen / Asynchronous Request-Reply"
+    variant sequence
+    rollen.bezitter -> rollen.bezitter "Voorafgegaan door een melding, doorgaans Event Notification"
+    alt {
+      when "Aangeleverde structuur is valide" {
+        rollen.consument -> rollen.bezitter "Status: ontvangen, verwerking gestart" { line dotted }
+        rollen.consument -> rollen.consument "Verwerking, asynchroon"
+        alt {
+          when "Verwerking gelukt" {
+            rollen.consument -> rollen.bezitter "Status: gelukt, met referentie naar het aangemaakte" { line dotted }
+            opt "de bezitter wil het aangemaakte inzien" {
+              rollen.bezitter -> rollen.consument "Opvraag op die referentie" { line solid }
+              rollen.consument -> rollen.bezitter "De aangemaakte instantie"
+            }
+          }
+          when "Verwerking niet gelukt" {
+            rollen.consument -> rollen.bezitter "Status: niet gelukt, met referentie en de reden" { line dotted }
+          }
+        }
+      }
+      when "Aangeleverde structuur is niet valide" {
+        rollen.consument -> rollen.bezitter "Status: afgekeurd, met foutmodel" { line dotted }
+      }
+    }
+  }
+
+  dynamic view seq_pat_request_reply {
+    title "Interactiepatronen / Request-Reply"
+    variant sequence
+    rollen.consument -> rollen.bezitter "Opvraag op id, of op lijst met filter" { line solid }
+    rollen.bezitter -> rollen.consument "De resource, of de verzameling die aan het filter voldoet"
+  }
+
+  dynamic view seq_pat_subscription_registration {
+    title "Interactiepatronen / Subscription registration"
+    variant sequence
+    rollen.abonnee -> rollen.bron "Registratie: afleveradres en de soorten events" { line solid }
+    rollen.bron -> rollen.abonnee "Bevestiging met abonnement-id"
+    rollen.bron -> rollen.bron "Vanaf hier levert de bron events af op dat adres"
+  }
+
+  dynamic view seq_auth_token {
+    title "Beveiliging / Token ophalen en een endpoint aanroepen"
+    variant sequence
+    rollen.consument -> rollen.consument "client_id + client_secret vooraf uitgewisseld (onboarding)"
+    rollen.consument -> rollen.token_endpoint "POST /token (grant_type=client_credentials, client_id, client_secret)" { line solid }
+    rollen.token_endpoint -> rollen.consument "access_token (Bearer, met vervaltijd)"
+    rollen.consument -> rollen.endpoint "GET/POST, Authorization: Bearer <token>" { line solid }
+    rollen.endpoint -> rollen.consument "response"
+  }
+}

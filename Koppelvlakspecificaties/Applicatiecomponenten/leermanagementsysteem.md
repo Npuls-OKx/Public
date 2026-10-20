@@ -1,6 +1,6 @@
 # Leermanagementsysteem (LMS)
 
-Het leermanagementsysteem is de online leeromgeving waarin de student het onderwijs volgt. Het neemt de onderwijsspecificatiestructuur van de catalogus over, inclusief de inhoudsvelden van de leeruitkomsten die het aan de student toont, en richt daarmee de leeromgeving in. Het bezit de leermiddelkoppeling, de koppeling tussen leermiddelgroepen en specificatie ([U3](../uitgangspunten.md#u3-resource-eigenaarschap)), en meldt die terug aan de catalogus. Kiesbaarheid is niet zijn domein: regelsets gaan over deze koppeling niet mee.
+Het leermanagementsysteem is de online leeromgeving waarin de student het onderwijs volgt. Het neemt de onderwijsspecificatiestructuur van de catalogus over, inclusief de inhoudsvelden van de leeruitkomsten die het aan de student toont, en richt daarmee de leeromgeving in. Het bezit de leermiddelkoppeling, de koppeling tussen leermiddelgroepen en specificatie ([U3](../uitgangspunten.md#u3-resource-eigenaarschap)), en meldt die terug aan de catalogus. Kiesbaarheid is niet zijn domein: in [Onderwijsspecificatie ophalen](../Koppelingen/onderwijsspecificatie-ophalen.md) laat het de regelsets liggen ([gebruiksprofielen](../../Informatie-en-gegevensmodellen/gebruiksprofielen.md)).
 
 ## Koppelvlak
 
@@ -8,20 +8,29 @@ Het leermanagementsysteem is de online leeromgeving waarin de student het onderw
 
 De view toont het koppelvlak van het leermanagementsysteem: de optelsom van zijn koppelingen op de informatiestromen-hoofdplaat v1.7.
 
-![Applicatiediensten en endpoints van het koppelvlak](../src/diagrammen/referentie/koppelvlak-van-het-leermanagementsysteem.png)
+![Koppelvlakdiensten en endpoints van het koppelvlak](../src/diagrammen/referentie/koppelvlak-van-het-leermanagementsysteem.png)
 
-Dezelfde optelsom van binnen: elke applicatiedienst die het leermanagementsysteem claimt, met daaronder de endpoints waarmee het die levert. Een dienst die zelf niets aanbiedt draagt in plaats daarvan een blok dat benoemt wat hij dan doet. De plaat wordt gegenereerd uit [`model/componenten.c4`](../model/componenten.c4); die bron gaat met de release mee, zodat de inhoud machinaal te lezen is en niet alleen als plaat.
+Dezelfde optelsom van binnen: elke koppelvlakdienst die het leermanagementsysteem implementeert, met daaronder de endpoints waarmee het die levert. Een dienst die zelf niets aanbiedt draagt in plaats daarvan een blok dat benoemt wat hij dan doet. De plaat wordt gegenereerd uit [`model/componenten.c4`](../model/componenten.c4); die bron gaat met de release mee, zodat de inhoud machinaal te lezen is en niet alleen als plaat.
 
-## Applicatiediensten
+## Koppelvlakdiensten
 
-Dit component implementeert de volgende [applicatiediensten](../Applicatiediensten/README.md):
+Dit component implementeert de volgende [koppelvlakdiensten](../Koppelvlakdiensten/README.md):
 
-- [onderwijsspecificatiestructuur-afnemer](../Applicatiediensten/onderwijsspecificatiestructuur-afnemer.md)
-- [leermiddelkoppeling-aanbieder](../Applicatiediensten/leermiddelkoppeling-aanbieder.md)
-- [verwerkingsuitkomst-aanbieder](../Applicatiediensten/verwerkingsuitkomst-aanbieder.md)
+- [afleverabonnement-aanbieder](../Koppelvlakdiensten/afleverabonnement-aanbieder.md)
+- [afleverabonnement-afnemer](../Koppelvlakdiensten/afleverabonnement-afnemer.md)
+- [leermiddelkoppeling-aanbieder](../Koppelvlakdiensten/leermiddelkoppeling-aanbieder.md)
+- [onderwijsspecificatiestructuur-afnemer](../Koppelvlakdiensten/onderwijsspecificatiestructuur-afnemer.md)
+- [verbintenistoestand-afnemer](../Koppelvlakdiensten/verbintenistoestand-afnemer.md)
+- [verwerkingsuitkomst-aanbieder](../Koppelvlakdiensten/verwerkingsuitkomst-aanbieder.md)
 
 ## Koppelingen
 
-Het treedt op in deze koppelingen:
-
-- [Onderwijscatalogus naar leermanagementsysteem](../Koppelingspecificaties/onderwijscatalogus-leermanagementsysteem.md)
+| Koppeling | Rol |
+|---|---|
+| [Onderwijsspecificatie ophalen](../Koppelingen/onderwijsspecificatie-ophalen.md) | Afnemer |
+| [Specificatiestatus volgen](../Koppelingen/specificatiestatus-volgen.md) | Afnemer |
+| [Opleidingsprogrammaverbintenis ontsluiten](../Koppelingen/opleidingsprogrammaverbintenis-ontsluiten.md) | Afnemer |
+| [Verbintenis en planninggroep doorgeven](../Koppelingen/verbintenis-en-planninggroep-doorgeven.md) | Afnemer |
+| [Leeromgeving inrichten](../Koppelingen/leeromgeving-inrichten.md) | Aanbieder |
+| [Leeromgeving bijwerken](../Koppelingen/leeromgeving-bijwerken.md) | Aanbieder |
+| [Toetsresultaat doorgeven](../Koppelingen/toetsresultaat-doorgeven.md) | Aanbieder |

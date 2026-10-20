@@ -1,0 +1,328 @@
+// De koppelingen: per koppeling één doel, één aanbieder en één OEAPI-profiel.
+//
+// Elke koppeling draagt haar berichtstromen; een stroom zet interactiepatronen
+// en koppelvlakdiensten in. Een koppeling zonder versie heeft nog stromen zonder
+// endpoints.
+//
+// Diensten die nog geen element in componenten.c4 hebben, krijgen hier ook geen
+// relatie.
+//
+// Bron: Koppelingen/ voor de koppelingen en hun stromen, Koppelvlakdiensten/
+// voor de diensten.
+
+model {
+
+  extend spec {
+  koppelingen = organisatie 'Koppelingen' {
+
+    k_onderwijsspecificatie_ophalen = koppeling 'Onderwijsspecificatie ophalen' {
+      description 'Een afnemer haalt de vastgestelde structuur van een gepubliceerde onderwijsspecificatie op, volledig of als delta, nadat de onderwijscatalogus heeft gemeld dat zij beschikbaar of gewijzigd is.'
+      technology 'versie 1.0'
+      s1 = berichtstroom 'Specificatie beschikbaar melden'
+      s2 = berichtstroom 'Specificatiewijziging melden'
+    }
+
+    k_specificatiestatus_volgen = koppeling 'Specificatiestatus volgen' {
+      description 'Een afnemer werkt zijn afgeleide status bij wanneer een specificatie van status wisselt zonder nieuwe versie, zoals van `gepubliceerd` naar `gedeactiveerd`.'
+      technology 'versie 1.0'
+      s1 = berichtstroom 'Specificatiestatus gewijzigd melden'
+    }
+
+    k_resultaatstructuur_ophalen = koppeling 'Resultaatstructuur ophalen' {
+      description 'Het studentinformatiesysteem haalt de resultaatstructuur van een gepubliceerde examenplanspecificatie op, en volgt een wijziging daarvan, nadat de onderwijscatalogus die heeft gemeld.'
+      technology 'versie 1.0'
+      s1 = berichtstroom 'Resultaatstructuur beschikbaar melden'
+      s2 = berichtstroom 'Examenplanwijziging melden'
+    }
+
+    k_specificatie_aanpassen_op_verzoek = koppeling 'Specificatie aanpassen op verzoek' {
+      description 'Het planningssysteem vraagt een aanpassing aan van een specificatie die niet planbaar blijkt, en krijgt de uitkomst van dat verzoek terug.'
+      s1 = berichtstroom 'Aanpassing aanvragen'
+    }
+
+    k_keuzeaanbod_ontsluiten = koppeling 'Keuzeaanbod ontsluiten' {
+      description 'Het studentkeuzesysteem kent het onderwijsprogramma-aanbod waaruit een student kan kiezen, met de regelsets die de keuzeruimte begrenzen.'
+      s1 = berichtstroom 'Keuzeregelset melden'
+    }
+
+    k_inschrijfbaar_aanbod_ontsluiten = koppeling 'Inschrijfbaar aanbod ontsluiten' {
+      description 'Het kernregistratiesysteem en de externe aanmeldkanalen kennen het opleidingsprogramma-aanbod waarvoor een student zich kan aanmelden en inschrijven.'
+      s1 = berichtstroom 'Inschrijfbaar aanbod melden'
+    }
+
+    k_specificatie_ter_vaststelling_aanbieden = koppeling 'Specificatie ter vaststelling aanbieden' {
+      description 'Een in de curriculum-ontwerptool uitgewerkte meerjarige nominale route wordt in de onderwijscatalogus vastgesteld als onderwijsspecificatie, en de curriculum-ontwerptool krijgt de bevestiging of de afkeuring terug.'
+      s1 = berichtstroom 'Specificatie aanleveren'
+    }
+
+    k_opleidingsaanbod_aanmaken = koppeling 'Opleidingsaanbod aanmaken' {
+      description 'Het planningssysteem maakt van een gepubliceerde opleidingsprogramma- of onderwijseenheidspecificatie planbaar opleidingsaanbod, en meldt de uitkomst met een referentie naar dat aanbod terug aan de onderwijscatalogus.'
+      technology 'versie 1.0'
+      s1 = berichtstroom 'Planuitkomst melden'
+      s2 = berichtstroom 'Planning niet gelukt melden'
+    }
+
+    k_opleidingsaanbod_herplannen = koppeling 'Opleidingsaanbod herplannen' {
+      description 'Het planningssysteem laat lopend opleidingsaanbod volgen op een nieuwe specificatieversie en meldt de uitkomst terug aan de onderwijscatalogus.'
+      technology 'versie 1.0'
+      s1 = berichtstroom 'Herplanuitkomst melden'
+    }
+
+    k_late_wijziging_toetsen = koppeling 'Late wijziging toetsen' {
+      description 'Een specificatiewijziging na een afgeronde planning komt alleen in de planning terecht als het planningssysteem haar accepteert; de uitkomst gaat terug naar de onderwijscatalogus.'
+      technology 'versie 1.0'
+      s1 = berichtstroom 'Acceptatietoets bij late wijziging'
+    }
+
+    k_planningselementen_ontsluiten = koppeling 'Planningselementen ontsluiten' {
+      description 'De onderwijscatalogus kent de planningselementen die het planningssysteem hanteert, zodat specificaties daarbinnen blijven.'
+      s1 = berichtstroom 'Planningselementen melden'
+    }
+
+    k_geplande_leergelegenheden_ontsluiten = koppeling 'Geplande leergelegenheden ontsluiten' {
+      description 'Het studentkeuzesysteem kent de geplande leergelegenheden met hun capaciteit, zodat een student daaruit kan kiezen.'
+      s1 = berichtstroom 'Geplande leergelegenheden melden'
+    }
+
+    k_planninggroepen_ontsluiten = koppeling 'Planninggroepen ontsluiten' {
+      description 'Het roostersysteem kent de planninggroepen bij de leergelegenheden die het roostert.'
+      s1 = berichtstroom 'Planninggroepen melden'
+    }
+
+    k_plaatsingsgroepen_ontsluiten = koppeling 'Plaatsingsgroepen ontsluiten' {
+      description 'Het planningssysteem kent de plaatsingsgroepen met hun studenten, zodat het plant op de werkelijke groepen.'
+      s1 = berichtstroom 'Plaatsingsgroepen melden'
+    }
+
+    k_opleidingsprogrammaverbintenis_ontsluiten = koppeling 'Opleidingsprogrammaverbintenis ontsluiten' {
+      description 'Het studentkeuzesysteem en het leermanagementsysteem kennen de student, zijn opleidingsprogrammaverbintenis en de groepen die daarbij horen.'
+      s1 = berichtstroom 'Verbintenistoestand melden'
+    }
+
+    k_animo_doorgeven = koppeling 'Animo doorgeven' {
+      description 'Het planningssysteem kent de belangstelling van studenten voor opleidingsprogramma\'s en opleidingseenheden die nog niet gepland zijn.'
+      s1 = berichtstroom 'Animo melden'
+    }
+
+    k_plaatsing_op_lesgelegenheid_aanvragen = koppeling 'Plaatsing op lesgelegenheid aanvragen' {
+      description 'Een student wordt op een geroosterde lesgelegenheid geplaatst; het studentkeuzesysteem krijgt de verbintenis met de planninggroep terug.'
+      s1 = berichtstroom 'Plaatsing aanvragen'
+    }
+
+    k_keuzeverbintenis_vastleggen = koppeling 'Keuzeverbintenis vastleggen' {
+      description 'Het kernregistratiesysteem legt de opleidingsprogrammaverbintenis vast die uit een definitieve keuze volgt, van het type keuzedeel of credential.'
+      s1 = berichtstroom 'Definitieve keuze melden'
+    }
+
+    k_onderwijseenheidverbintenis_doorgeven = koppeling 'Onderwijseenheidverbintenis doorgeven' {
+      description 'Het studentvolgsysteem kent de opleidingsprogramma- en onderwijseenheidverbintenissen waarop het voortgang en resultaat bijhoudt.'
+      s1 = berichtstroom 'Definitieve keuze melden'
+    }
+
+    k_verbintenis_en_planninggroep_doorgeven = koppeling 'Verbintenis en planninggroep doorgeven' {
+      description 'Het leermanagementsysteem geeft een student toegang tot de gekozen opleidingseenheden, in de juiste planninggroep.'
+      s1 = berichtstroom 'Definitieve keuze melden'
+    }
+
+    k_leergelegenheden_roosteren = koppeling 'Leergelegenheden roosteren' {
+      description 'Het roostersysteem plaatst de geplande leergelegenheden in tijd en ruimte en meldt het rooster terug aan het planningssysteem.'
+      s1 = berichtstroom 'Roosteren aanvragen'
+    }
+
+    k_geroosterde_leergelegenheden_ontsluiten = koppeling 'Geroosterde leergelegenheden ontsluiten' {
+      description 'Het studentkeuzesysteem kent de geroosterde leergelegenheden met hun details en capaciteit, zodat een student op lesgelegenheid kan kiezen.'
+      s1 = berichtstroom 'Geroosterde leergelegenheden melden'
+    }
+
+    k_planninggroepen_met_studenten_ontsluiten = koppeling 'Planninggroepen met studenten ontsluiten' {
+      description 'Het kernregistratiesysteem kent de planninggroepen met de studenten die erin zijn geplaatst.'
+      s1 = berichtstroom 'Planninggroepen met studenten melden'
+    }
+
+    k_leeromgeving_inrichten = koppeling 'Leeromgeving inrichten' {
+      description 'Het leermanagementsysteem richt de leeromgeving in op een gepubliceerde specificatie en meldt de uitkomst en de gelegde leermiddelkoppeling terug aan de onderwijscatalogus.'
+      technology 'versie 1.0'
+      s1 = berichtstroom 'Leeromgeving inrichten en leermiddelkoppeling melden'
+    }
+
+    k_leeromgeving_bijwerken = koppeling 'Leeromgeving bijwerken' {
+      description 'Het leermanagementsysteem laat een bestaande inrichting volgen op een nieuwe specificatieversie en meldt de uitkomst terug aan de onderwijscatalogus.'
+      technology 'versie 1.0'
+      s1 = berichtstroom 'Inrichting bijwerken na wijziging'
+    }
+
+    k_toetsresultaat_doorgeven = koppeling 'Toetsresultaat doorgeven' {
+      description 'Het studentvolgsysteem ontvangt het resultaat dat een student op een toetsgelegenheid behaalde, zodat het voortgang en behaalde leeruitkomsten kan bijhouden.'
+      s1 = berichtstroom 'Toetsresultaat melden'
+    }
+
+    k_nominaal_template_inrichten = koppeling 'Nominaal template inrichten' {
+      description 'Het studentinformatiesysteem richt met een gepubliceerde specificatie en resultaatstructuur het nominale template in, en meldt de uitkomst terug aan de onderwijscatalogus.'
+      technology 'versie 1.0'
+      s1 = berichtstroom 'Nominaal template en resultaatstructuur inrichten'
+    }
+
+    k_examenplanwijziging_toetsen = koppeling 'Examenplanwijziging toetsen' {
+      description 'Een examenplanwijziging raakt lopende verbintenissen alleen als het studentinformatiesysteem haar accepteert; de uitkomst gaat terug naar de onderwijscatalogus.'
+      technology 'versie 1.0'
+      s1 = berichtstroom 'Acceptatietoets bij wijziging examenplan'
+    }
+
+    k_afleverabonnement_registreren = koppeling 'Afleverabonnement registreren' {
+      description 'Een afnemer legt bij de aanbieder van een koppeling vast op welk adres hij welke meldingen wil ontvangen, voordat die worden afgeleverd.'
+      technology 'versie 1.0'
+      s1 = berichtstroom 'Abonnement registreren'
+    }
+
+    k_reconciliatie = koppeling 'Reconciliatie' {
+      description 'Een afnemer herstelt informatie die hem door een gemiste of onverwerkbare melding is ontgaan, met een gewone opvraag bij de aanbieder van die melding.'
+      technology 'versie 1.0'
+      s1 = berichtstroom 'Reconciliatie na gemist event'
+    }
+  }
+  }
+
+  // ── Welke berichtstroom welk patroon en welke koppelvlakdienst inzet ──
+  spec.koppelingen.k_onderwijsspecificatie_ophalen.s1 -> spec.patronen.pat_event
+  spec.koppelingen.k_onderwijsspecificatie_ophalen.s1 -> instelling.oc.kv_oc.oc_spec_aanbieder
+  spec.koppelingen.k_onderwijsspecificatie_ophalen.s1 -> instelling.p.kv_p.p_spec_afnemer
+  spec.koppelingen.k_onderwijsspecificatie_ophalen.s1 -> instelling.sis.kv_sis.sis_spec_afnemer
+  spec.koppelingen.k_onderwijsspecificatie_ophalen.s1 -> instelling.lms.kv_lms.lms_spec_afnemer
+  spec.koppelingen.k_onderwijsspecificatie_ophalen.s2 -> spec.patronen.pat_event
+  spec.koppelingen.k_onderwijsspecificatie_ophalen.s2 -> instelling.oc.kv_oc.oc_spec_aanbieder
+  spec.koppelingen.k_onderwijsspecificatie_ophalen.s2 -> instelling.p.kv_p.p_spec_afnemer
+  spec.koppelingen.k_onderwijsspecificatie_ophalen.s2 -> instelling.sis.kv_sis.sis_spec_afnemer
+  spec.koppelingen.k_onderwijsspecificatie_ophalen.s2 -> instelling.lms.kv_lms.lms_spec_afnemer
+  spec.koppelingen.k_specificatiestatus_volgen.s1 -> spec.patronen.pat_ecst
+  spec.koppelingen.k_specificatiestatus_volgen.s1 -> instelling.p.kv_p.p_spec_afnemer
+  spec.koppelingen.k_specificatiestatus_volgen.s1 -> instelling.lms.kv_lms.lms_spec_afnemer
+  spec.koppelingen.k_resultaatstructuur_ophalen.s1 -> spec.patronen.pat_event
+  spec.koppelingen.k_resultaatstructuur_ophalen.s1 -> instelling.oc.kv_oc.oc_resultaat_aanbieder
+  spec.koppelingen.k_resultaatstructuur_ophalen.s1 -> instelling.sis.kv_sis.sis_resultaat_afnemer
+  spec.koppelingen.k_resultaatstructuur_ophalen.s2 -> spec.patronen.pat_event
+  spec.koppelingen.k_resultaatstructuur_ophalen.s2 -> instelling.sis.kv_sis.sis_resultaat_afnemer
+  spec.koppelingen.k_specificatie_aanpassen_op_verzoek.s1 -> spec.patronen.pat_async
+  spec.koppelingen.k_keuzeaanbod_ontsluiten.s1 -> spec.patronen.pat_event
+  spec.koppelingen.k_inschrijfbaar_aanbod_ontsluiten.s1 -> spec.patronen.pat_event
+  spec.koppelingen.k_specificatie_ter_vaststelling_aanbieden.s1 -> spec.patronen.pat_async
+  spec.koppelingen.k_opleidingsaanbod_aanmaken.s1 -> spec.patronen.pat_async
+  spec.koppelingen.k_opleidingsaanbod_aanmaken.s1 -> instelling.p.kv_p.p_uitkomst_aanbieder
+  spec.koppelingen.k_opleidingsaanbod_aanmaken.s1 -> instelling.oc.kv_oc.oc_uitkomst_afnemer
+  spec.koppelingen.k_opleidingsaanbod_aanmaken.s1 -> instelling.p.kv_p.p_aanbod_aanbieder
+  spec.koppelingen.k_opleidingsaanbod_aanmaken.s1 -> instelling.oc.kv_oc.oc_aanbod_afnemer
+  spec.koppelingen.k_opleidingsaanbod_aanmaken.s2 -> spec.patronen.pat_async
+  spec.koppelingen.k_opleidingsaanbod_aanmaken.s2 -> instelling.oc.kv_oc.oc_uitkomst_afnemer
+  spec.koppelingen.k_opleidingsaanbod_aanmaken.s2 -> instelling.p.kv_p.p_aanbod_aanbieder
+  spec.koppelingen.k_opleidingsaanbod_herplannen.s1 -> spec.patronen.pat_async
+  spec.koppelingen.k_opleidingsaanbod_herplannen.s1 -> instelling.p.kv_p.p_uitkomst_aanbieder
+  spec.koppelingen.k_opleidingsaanbod_herplannen.s1 -> instelling.oc.kv_oc.oc_uitkomst_afnemer
+  spec.koppelingen.k_late_wijziging_toetsen.s1 -> spec.patronen.pat_async
+  spec.koppelingen.k_late_wijziging_toetsen.s1 -> instelling.p.kv_p.p_uitkomst_aanbieder
+  spec.koppelingen.k_late_wijziging_toetsen.s1 -> instelling.oc.kv_oc.oc_uitkomst_afnemer
+  spec.koppelingen.k_planningselementen_ontsluiten.s1 -> spec.patronen.pat_event
+  spec.koppelingen.k_geplande_leergelegenheden_ontsluiten.s1 -> spec.patronen.pat_event
+  spec.koppelingen.k_geplande_leergelegenheden_ontsluiten.s1 -> instelling.p.kv_p.p_aanbod_aanbieder
+  spec.koppelingen.k_planninggroepen_ontsluiten.s1 -> spec.patronen.pat_event
+  spec.koppelingen.k_plaatsingsgroepen_ontsluiten.s1 -> spec.patronen.pat_event
+  spec.koppelingen.k_opleidingsprogrammaverbintenis_ontsluiten.s1 -> spec.patronen.pat_ecst
+  spec.koppelingen.k_animo_doorgeven.s1 -> spec.patronen.pat_event
+  spec.koppelingen.k_plaatsing_op_lesgelegenheid_aanvragen.s1 -> spec.patronen.pat_async
+  spec.koppelingen.k_keuzeverbintenis_vastleggen.s1 -> spec.patronen.pat_event
+  spec.koppelingen.k_onderwijseenheidverbintenis_doorgeven.s1 -> spec.patronen.pat_event
+  spec.koppelingen.k_verbintenis_en_planninggroep_doorgeven.s1 -> spec.patronen.pat_event
+  spec.koppelingen.k_leergelegenheden_roosteren.s1 -> spec.patronen.pat_async
+  spec.koppelingen.k_geroosterde_leergelegenheden_ontsluiten.s1 -> spec.patronen.pat_event
+  spec.koppelingen.k_planninggroepen_met_studenten_ontsluiten.s1 -> spec.patronen.pat_event
+  spec.koppelingen.k_leeromgeving_inrichten.s1 -> spec.patronen.pat_async
+  spec.koppelingen.k_leeromgeving_inrichten.s1 -> spec.patronen.pat_event
+  spec.koppelingen.k_leeromgeving_inrichten.s1 -> instelling.lms.kv_lms.lms_uitkomst_aanbieder
+  spec.koppelingen.k_leeromgeving_inrichten.s1 -> instelling.oc.kv_oc.oc_uitkomst_afnemer
+  spec.koppelingen.k_leeromgeving_inrichten.s1 -> instelling.lms.kv_lms.lms_leermiddel_aanbieder
+  spec.koppelingen.k_leeromgeving_inrichten.s1 -> instelling.oc.kv_oc.oc_leermiddel_afnemer
+  spec.koppelingen.k_leeromgeving_bijwerken.s1 -> spec.patronen.pat_async
+  spec.koppelingen.k_leeromgeving_bijwerken.s1 -> instelling.lms.kv_lms.lms_uitkomst_aanbieder
+  spec.koppelingen.k_leeromgeving_bijwerken.s1 -> instelling.oc.kv_oc.oc_uitkomst_afnemer
+  spec.koppelingen.k_toetsresultaat_doorgeven.s1 -> spec.patronen.pat_event
+  spec.koppelingen.k_nominaal_template_inrichten.s1 -> spec.patronen.pat_async
+  spec.koppelingen.k_nominaal_template_inrichten.s1 -> instelling.sis.kv_sis.sis_uitkomst_aanbieder
+  spec.koppelingen.k_nominaal_template_inrichten.s1 -> instelling.oc.kv_oc.oc_uitkomst_afnemer
+  spec.koppelingen.k_examenplanwijziging_toetsen.s1 -> spec.patronen.pat_async
+  spec.koppelingen.k_examenplanwijziging_toetsen.s1 -> instelling.sis.kv_sis.sis_uitkomst_aanbieder
+  spec.koppelingen.k_examenplanwijziging_toetsen.s1 -> instelling.oc.kv_oc.oc_uitkomst_afnemer
+  spec.koppelingen.k_afleverabonnement_registreren.s1 -> spec.patronen.pat_subscr
+  spec.koppelingen.k_afleverabonnement_registreren.s1 -> instelling.oc.kv_oc.oc_abonnement_aanbieder
+  spec.koppelingen.k_afleverabonnement_registreren.s1 -> instelling.p.kv_p.p_abonnement_aanbieder
+  spec.koppelingen.k_afleverabonnement_registreren.s1 -> instelling.oc.kv_oc.oc_abonnement_afnemer
+  spec.koppelingen.k_afleverabonnement_registreren.s1 -> instelling.p.kv_p.p_abonnement_afnemer
+  spec.koppelingen.k_reconciliatie.s1 -> spec.patronen.pat_reqrep
+  spec.koppelingen.k_reconciliatie.s1 -> instelling.oc.kv_oc.oc_spec_aanbieder
+  spec.koppelingen.k_reconciliatie.s1 -> instelling.p.kv_p.p_aanbod_aanbieder
+
+  // ── Welke koppeling welke andere vereist ───────────────────────────────
+  spec.koppelingen.k_onderwijsspecificatie_ophalen -> spec.koppelingen.k_afleverabonnement_registreren 'vereist'
+  spec.koppelingen.k_onderwijsspecificatie_ophalen -> spec.koppelingen.k_reconciliatie 'vereist'
+  spec.koppelingen.k_specificatiestatus_volgen -> spec.koppelingen.k_afleverabonnement_registreren 'vereist'
+  spec.koppelingen.k_specificatiestatus_volgen -> spec.koppelingen.k_reconciliatie 'vereist'
+  spec.koppelingen.k_resultaatstructuur_ophalen -> spec.koppelingen.k_afleverabonnement_registreren 'vereist'
+  spec.koppelingen.k_resultaatstructuur_ophalen -> spec.koppelingen.k_reconciliatie 'vereist'
+  spec.koppelingen.k_specificatie_aanpassen_op_verzoek -> spec.koppelingen.k_afleverabonnement_registreren 'vereist'
+  spec.koppelingen.k_specificatie_aanpassen_op_verzoek -> spec.koppelingen.k_reconciliatie 'vereist'
+  spec.koppelingen.k_keuzeaanbod_ontsluiten -> spec.koppelingen.k_onderwijsspecificatie_ophalen 'vereist'
+  spec.koppelingen.k_keuzeaanbod_ontsluiten -> spec.koppelingen.k_afleverabonnement_registreren 'vereist'
+  spec.koppelingen.k_keuzeaanbod_ontsluiten -> spec.koppelingen.k_reconciliatie 'vereist'
+  spec.koppelingen.k_inschrijfbaar_aanbod_ontsluiten -> spec.koppelingen.k_afleverabonnement_registreren 'vereist'
+  spec.koppelingen.k_inschrijfbaar_aanbod_ontsluiten -> spec.koppelingen.k_reconciliatie 'vereist'
+  spec.koppelingen.k_specificatie_ter_vaststelling_aanbieden -> spec.koppelingen.k_afleverabonnement_registreren 'vereist'
+  spec.koppelingen.k_specificatie_ter_vaststelling_aanbieden -> spec.koppelingen.k_reconciliatie 'vereist'
+  spec.koppelingen.k_opleidingsaanbod_aanmaken -> spec.koppelingen.k_onderwijsspecificatie_ophalen 'vereist'
+  spec.koppelingen.k_opleidingsaanbod_aanmaken -> spec.koppelingen.k_afleverabonnement_registreren 'vereist'
+  spec.koppelingen.k_opleidingsaanbod_aanmaken -> spec.koppelingen.k_reconciliatie 'vereist'
+  spec.koppelingen.k_opleidingsaanbod_herplannen -> spec.koppelingen.k_onderwijsspecificatie_ophalen 'vereist'
+  spec.koppelingen.k_opleidingsaanbod_herplannen -> spec.koppelingen.k_afleverabonnement_registreren 'vereist'
+  spec.koppelingen.k_opleidingsaanbod_herplannen -> spec.koppelingen.k_reconciliatie 'vereist'
+  spec.koppelingen.k_late_wijziging_toetsen -> spec.koppelingen.k_onderwijsspecificatie_ophalen 'vereist'
+  spec.koppelingen.k_late_wijziging_toetsen -> spec.koppelingen.k_afleverabonnement_registreren 'vereist'
+  spec.koppelingen.k_late_wijziging_toetsen -> spec.koppelingen.k_reconciliatie 'vereist'
+  spec.koppelingen.k_planningselementen_ontsluiten -> spec.koppelingen.k_afleverabonnement_registreren 'vereist'
+  spec.koppelingen.k_planningselementen_ontsluiten -> spec.koppelingen.k_reconciliatie 'vereist'
+  spec.koppelingen.k_geplande_leergelegenheden_ontsluiten -> spec.koppelingen.k_afleverabonnement_registreren 'vereist'
+  spec.koppelingen.k_geplande_leergelegenheden_ontsluiten -> spec.koppelingen.k_reconciliatie 'vereist'
+  spec.koppelingen.k_planninggroepen_ontsluiten -> spec.koppelingen.k_afleverabonnement_registreren 'vereist'
+  spec.koppelingen.k_planninggroepen_ontsluiten -> spec.koppelingen.k_reconciliatie 'vereist'
+  spec.koppelingen.k_plaatsingsgroepen_ontsluiten -> spec.koppelingen.k_afleverabonnement_registreren 'vereist'
+  spec.koppelingen.k_plaatsingsgroepen_ontsluiten -> spec.koppelingen.k_reconciliatie 'vereist'
+  spec.koppelingen.k_opleidingsprogrammaverbintenis_ontsluiten -> spec.koppelingen.k_afleverabonnement_registreren 'vereist'
+  spec.koppelingen.k_opleidingsprogrammaverbintenis_ontsluiten -> spec.koppelingen.k_reconciliatie 'vereist'
+  spec.koppelingen.k_animo_doorgeven -> spec.koppelingen.k_afleverabonnement_registreren 'vereist'
+  spec.koppelingen.k_animo_doorgeven -> spec.koppelingen.k_reconciliatie 'vereist'
+  spec.koppelingen.k_plaatsing_op_lesgelegenheid_aanvragen -> spec.koppelingen.k_afleverabonnement_registreren 'vereist'
+  spec.koppelingen.k_plaatsing_op_lesgelegenheid_aanvragen -> spec.koppelingen.k_reconciliatie 'vereist'
+  spec.koppelingen.k_keuzeverbintenis_vastleggen -> spec.koppelingen.k_afleverabonnement_registreren 'vereist'
+  spec.koppelingen.k_keuzeverbintenis_vastleggen -> spec.koppelingen.k_reconciliatie 'vereist'
+  spec.koppelingen.k_onderwijseenheidverbintenis_doorgeven -> spec.koppelingen.k_afleverabonnement_registreren 'vereist'
+  spec.koppelingen.k_onderwijseenheidverbintenis_doorgeven -> spec.koppelingen.k_reconciliatie 'vereist'
+  spec.koppelingen.k_verbintenis_en_planninggroep_doorgeven -> spec.koppelingen.k_afleverabonnement_registreren 'vereist'
+  spec.koppelingen.k_verbintenis_en_planninggroep_doorgeven -> spec.koppelingen.k_reconciliatie 'vereist'
+  spec.koppelingen.k_leergelegenheden_roosteren -> spec.koppelingen.k_planninggroepen_ontsluiten 'vereist'
+  spec.koppelingen.k_leergelegenheden_roosteren -> spec.koppelingen.k_afleverabonnement_registreren 'vereist'
+  spec.koppelingen.k_leergelegenheden_roosteren -> spec.koppelingen.k_reconciliatie 'vereist'
+  spec.koppelingen.k_geroosterde_leergelegenheden_ontsluiten -> spec.koppelingen.k_afleverabonnement_registreren 'vereist'
+  spec.koppelingen.k_geroosterde_leergelegenheden_ontsluiten -> spec.koppelingen.k_reconciliatie 'vereist'
+  spec.koppelingen.k_planninggroepen_met_studenten_ontsluiten -> spec.koppelingen.k_afleverabonnement_registreren 'vereist'
+  spec.koppelingen.k_planninggroepen_met_studenten_ontsluiten -> spec.koppelingen.k_reconciliatie 'vereist'
+  spec.koppelingen.k_leeromgeving_inrichten -> spec.koppelingen.k_onderwijsspecificatie_ophalen 'vereist'
+  spec.koppelingen.k_leeromgeving_inrichten -> spec.koppelingen.k_afleverabonnement_registreren 'vereist'
+  spec.koppelingen.k_leeromgeving_inrichten -> spec.koppelingen.k_reconciliatie 'vereist'
+  spec.koppelingen.k_leeromgeving_bijwerken -> spec.koppelingen.k_onderwijsspecificatie_ophalen 'vereist'
+  spec.koppelingen.k_leeromgeving_bijwerken -> spec.koppelingen.k_afleverabonnement_registreren 'vereist'
+  spec.koppelingen.k_leeromgeving_bijwerken -> spec.koppelingen.k_reconciliatie 'vereist'
+  spec.koppelingen.k_toetsresultaat_doorgeven -> spec.koppelingen.k_afleverabonnement_registreren 'vereist'
+  spec.koppelingen.k_toetsresultaat_doorgeven -> spec.koppelingen.k_reconciliatie 'vereist'
+  spec.koppelingen.k_nominaal_template_inrichten -> spec.koppelingen.k_onderwijsspecificatie_ophalen 'vereist'
+  spec.koppelingen.k_nominaal_template_inrichten -> spec.koppelingen.k_resultaatstructuur_ophalen 'vereist'
+  spec.koppelingen.k_nominaal_template_inrichten -> spec.koppelingen.k_afleverabonnement_registreren 'vereist'
+  spec.koppelingen.k_nominaal_template_inrichten -> spec.koppelingen.k_reconciliatie 'vereist'
+  spec.koppelingen.k_examenplanwijziging_toetsen -> spec.koppelingen.k_resultaatstructuur_ophalen 'vereist'
+  spec.koppelingen.k_examenplanwijziging_toetsen -> spec.koppelingen.k_afleverabonnement_registreren 'vereist'
+  spec.koppelingen.k_examenplanwijziging_toetsen -> spec.koppelingen.k_reconciliatie 'vereist'
+}

@@ -13,10 +13,10 @@
 ## Type wijziging
 
 - [ ] **Patch** — correctie zonder semantische wijziging (typefix, verduidelijking, gerepareerde link of voorbeeld)
-- [ ] **Minor** — nieuwe, niet-breaking mogelijkheid (nieuw optioneel veld, nieuw scenario, nieuwe koppeling)
+- [ ] **Minor** — nieuwe, niet-breaking mogelijkheid (nieuw optioneel veld, nieuw scenario, nieuwe koppeling of nieuwe major van een koppeling naast de vorige)
 - [ ] **Major** — breaking: bestaande implementaties of interpretaties worden ongeldig
 
-Bij twijfel tussen minor en major is het major. De zwaarste wijziging bepaalt de bump.
+Bij twijfel tussen minor en major is het major. De zwaarste wijziging bepaalt de bump. In de koppelvlakspecificatie krijgt elke gewijzigde koppeling daarnaast haar eigen versie, en is een major van het pakket er alleen bij de uitzonderingen uit release management §4.4.
 
 ## Controles
 

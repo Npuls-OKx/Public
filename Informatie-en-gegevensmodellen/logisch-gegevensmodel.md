@@ -241,9 +241,9 @@ erDiagram
     }
 ```
 
-## Onderwijscatalogus naar planning en roostering
+## Specificatie en opleidingsaanbod
 
-De begrippen uit het semantisch kader en hun relaties, in de context van dit proces. Links de wereld van OC (specificeren), rechts die van P (instantiëren); de koppeling verbindt ze via de verwijzing "instantieert".
+De begrippen uit het semantisch kader en hun relaties, in de context van dit proces. Links de wereld van OC (specificeren), rechts die van P (instantiëren); de koppelingen [Onderwijsspecificatie ophalen](../Koppelvlakspecificaties/Koppelingen/onderwijsspecificatie-ophalen.md) en [Opleidingsaanbod aanmaken](../Koppelvlakspecificaties/Koppelingen/opleidingsaanbod-aanmaken.md) verbinden ze via de verwijzing "instantieert".
 
 ```mermaid
 erDiagram
@@ -258,7 +258,7 @@ erDiagram
     ROOSTER }o--|| ONDERWIJSAANBOD : "plaatst in de tijd (context)"
 ```
 
-## Onderwijscatalogus naar studentinformatiesysteem
+## Specificatie en resultaat
 
 Conform het ROSA Kernmodel Onderwijsinformatie (KOI) en [ADR 0022](../Referentiemateriaal/adr/0022-resultaatbegrippen-conform-rosa-koi.md): een onderwijsresultaat wordt behaald op leeruitkomsten, en meerdere toetsonderdeelresultaten leiden gewogen tot dat onderwijsresultaat. De verbintenis hoort bij het aanbod (ankertabel), niet bij de specificatie, en staat daarom niet in dit kernmodel.
 
@@ -282,7 +282,7 @@ erDiagram
     ONDERWIJSRESULTAAT }o--|| INDIVIDUEEL_EXAMENPLAN : "telt mee in"
 ```
 
-## Onderwijscatalogus naar leermanagementsysteem
+## Specificatie en leeromgeving
 
 ```mermaid
 erDiagram

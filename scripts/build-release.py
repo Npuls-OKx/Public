@@ -41,16 +41,16 @@ direct achter de titelpagina; ervoor kan dan bijvoorbeeld eerst een inleiding st
 
 Wat dit script oplost dat pandoc alleen niet doet:
 
-- **Mermaid.** De specificaties dragen tientallen mermaid-diagrammen. Pandoc kent
+- **Mermaid.** Een deel van de documenten draagt mermaid-diagrammen. Pandoc kent
   mermaid niet en zou de codeblokken als letterlijke tekst afdrukken. Elk blok wordt
   daarom vooraf met mermaid-cli naar een PNG gerenderd en vervangen door een
   afbeeldingsverwijzing.
 - **Verwijzingen.** De documenten verwijzen naar elkaar met relatieve paden
-  (`../Koppelingspecificaties/...md#anchor`). In een docx bestaat dat pad niet. Voor
+  (`../Koppelingen/...md#anchor`). In een docx bestaat dat pad niet. Voor
   het gebundelde document worden die verwijzingen interne verwijzingen; voor de losse
   documenten en voor alles buiten het pakket (Referentiemateriaal) worden het
   GitHub-URL's, want die blijven altijd werken.
-- **Botsende anchors.** Meerdere documenten dragen een kop "3. Interactieoverzicht".
+- **Botsende anchors.** Elke koppeling draagt een kop "Stories".
   In een gebundeld document levert dat dubbele id's op en landt een verwijzing in het
   verkeerde hoofdstuk. Elke kop krijgt daarom een id met het document als voorvoegsel.
 
@@ -405,7 +405,7 @@ def herschrijf_links(inhoud: str, doc: str, pakket: pathlib.Path, documenten: li
             return f"![{tekst}]({verwijsbaar(bestand)})"
 
         # Verwijzing binnen hetzelfde document. Een anchor dat geen kop is reist als
-        # HTML mee (<a id="..."> in een tabelrij, zoals bij de functionele eisen) en
+        # HTML mee (<a id="..."> in een tabelrij, zoals in de requirementsboom) en
         # blijft dus staan zoals hij is.
         if not pad:
             if gebundeld:

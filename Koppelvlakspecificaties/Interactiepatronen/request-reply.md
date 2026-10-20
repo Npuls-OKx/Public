@@ -8,15 +8,7 @@ Er is geen aanleiding van de andere kant, of de aanleiding is er wel geweest maa
 
 ## Verloop
 
-```mermaid
-sequenceDiagram
-    autonumber
-    participant Consument
-    participant Bezitter
-
-    Consument->>Bezitter: Opvraag op id, of op lijst met filter
-    Bezitter-->>Consument: De resource, of de verzameling die aan het filter voldoet
-```
+![Request-Reply: volgorde van de interacties](../src/diagrammen/interactiepatronen/request-reply.png)
 
 | Bericht | Richting | Synchroniciteit | Draagt | Draagt niet |
 |---|---|---|---|---|
@@ -35,5 +27,5 @@ Een lijstantwoord draagt verwijzingen, geen inhoud: id's met hun laatste versie,
 
 | Koppeling | Waarvoor |
 |---|---|
-| [Onderwijscatalogus naar planning en roostering](../Koppelingspecificaties/onderwijscatalogus-planning-en-roostering.md) | Gepubliceerde specificaties of aanbod-instanties opnieuw opvragen na een gemist event |
-| [Onderwijscatalogus naar studentinformatiesysteem](../Koppelingspecificaties/onderwijscatalogus-studentinformatiesysteem.md) | Resultaatstructuur ophalen bij inrichting |
+| [Reconciliatie](../Koppelingen/reconciliatie.md) | Gepubliceerde specificaties of aanbod-instanties opnieuw opvragen na een gemist event |
+| [Resultaatstructuur ophalen](../Koppelingen/resultaatstructuur-ophalen.md) | Resultaatstructuur ophalen bij inrichting |

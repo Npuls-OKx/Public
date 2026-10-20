@@ -10,7 +10,7 @@ De Npuls-leerroutes zijn primair vanuit studentperspectief beschreven. Voor het 
 
 ## Waarvoor dit document dient
 
-Het geldt als onderbouwing van alle koppelingspecificaties in [`Koppelvlakspecificaties/`](../../Koppelvlakspecificaties/). Waar een koppelingspecificatie zegt *dat* de onderwijscatalogus een specificatie aan planning levert, zegt dit document *waarom* dat moment bestaat en wat eraan voorafgaat. Het beantwoordt:
+Het geldt als onderbouwing van alle koppelingen in [`Koppelvlakspecificaties/`](../../Koppelvlakspecificaties/). Waar een koppeling zegt *dat* de onderwijscatalogus een specificatie aan planning levert, zegt dit document *waarom* dat moment bestaat en wat eraan voorafgaat. Het beantwoordt:
 
 - Wat betekent "regulier studeren" vanuit de **student**, en waar zitten zijn keuzemomenten?
 - Wat betekent het vanuit de **instelling**: wie ontwerpt, plant, roostert, begeleidt, toetst en diplomeerd, en in welke volgorde?

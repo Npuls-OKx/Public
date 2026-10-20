@@ -4,26 +4,9 @@ De gelaagde breakdown van de OKx-requirements: van de opdracht (Leren zonder Dre
 
 ## Visualisatie requirementsboom
 
-De plaat toont de opdracht (Leren zonder Drempels), de OKx-projectdoelen en de epics; onder elke epic hangen features en daaronder stories, als twee gestippelde verzamelknopen. De uitwerking per rij staat in de tabellen, uitgelegd in de leeswijzer hieronder. GitHub rendert mermaid zonder klikbare knopen, dus de leeswijzer is de klikroute.
+De plaat toont de opdracht (Leren zonder Drempels), de OKx-projectdoelen en de epics; onder elke epic hangen features en daaronder stories, als twee gestippelde verzamelknopen. De uitwerking per rij staat in de tabellen, uitgelegd in de leeswijzer hieronder. De plaat heeft geen klikbare knopen, dus de leeswijzer is de klikroute.
 
-```mermaid
-flowchart LR
-  LZD["Leren zonder Drempels"] --> DL1 & DL2 & DL3
-  subgraph doelen["OKx-projectdoelen"]
-    DL1["doel-0001 gezamenlijke taal"]
-    DL2["doel-0002 gegevensuitwisseling en mobiliteit"]
-    DL3["doel-0003 keuze en personalisering"]
-  end
-  DL1 --> EP1["epic-0001 Gezamenlijke taal en standaard"]
-  DL2 --> EP2["epic-0002 Onderwijsaanbod specificeren en ontsluiten"]
-  DL2 --> EP3["epic-0003 Aanbod plannen en roosteren"]
-  DL2 --> EP4["epic-0004 Betrouwbare en vervangbare koppelingen"]
-  DL2 --> EP5["epic-0005 Standaard beproeven en adopteren"]
-  DL3 --> EP6["epic-0006 Student kiest onderwijsspecificaties"]
-  DL3 --> EP7["epic-0007 Keuze en verbintenis vastleggen"]
-  DL3 --> EP8["epic-0008 Voortgang en resultaat op leeruitkomsten"]
-  EP1 & EP2 & EP3 & EP4 & EP5 & EP6 & EP7 & EP8 -.-> FT["features - per epic, zie de tabel"] -.-> ST["stories - per feature, zie de tabel"]
-```
+![Van opdracht naar story: Leren zonder Drempels, de projectdoelen en de epics, met features en stories daaronder](../../Koppelvlakspecificaties/src/diagrammen/requirementsboom/van-opdracht-naar-story.png)
 
 ## Requirementsleeswijzer
 
@@ -47,22 +30,13 @@ Elke rij draagt een id om naar te verwijzen (doel-0001, epic-0001, feature-0001,
 ### Stories ([stories.md](stories.md))
 
 - **Wat**: één toetsbare wens van één actor, in één zin ("Als ... wil ik ... zodat ..."). Vooral voor de technische werkgroep en leveranciers.
-- **Rij**: Feature-cel = de ouder · Functionele eisen = de brug naar de techniek ("geen" = nog geen eis) · Bron.
+- **Rij**: Feature-cel = de ouder · Bron · Ingevuld door = de brug naar de techniek: de berichtstroom die de story realiseert ("geen" = nog geen stroom).
 
 ## Aansluiting op de techniek
 
-```mermaid
-flowchart LR
-  subgraph boom["Requirementsboom (deze map)"]
-    OPD["opdracht"] --> DOEL["doel"] --> EPIC["epic"] --> FEAT["feature"] --> STORY["story"]
-  end
-  subgraph kvs["Koppelvlakspecificaties (deze repository)"]
-    BS["berichtstroom"] --> AD["applicatiedienst"] --> EP["endpoint"]
-  end
-  STORY --> FE
-```
+![Aansluiting op de techniek: een story wordt ingevuld door een berichtstroom in een koppeling, die koppelvlakdiensten en endpoints inzet](../../Koppelvlakspecificaties/src/diagrammen/requirementsboom/aansluiting-op-de-techniek.png)
 
-Per koppeling beschrijft een [koppelingspecificatie](../../Koppelvlakspecificaties/Koppelingspecificaties) welke berichtstromen erover lopen. De kolom Ingevuld door van een story wijst de stroom aan die haar realiseert; die stroom noemt de story terug. Een stroom zet [applicatiediensten](../../Koppelvlakspecificaties/Applicatiediensten) in, en elke dienst legt zijn verplichtingen en endpoints vast. Wie een featureset wil ondersteunen, claimt de bijbehorende diensten.
+Een [koppeling](../../Koppelvlakspecificaties/Koppelingen/README.md) beschrijft welke berichtstromen erover lopen. De kolom Ingevuld door van een story wijst de stroom aan die haar realiseert; die stroom noemt de story terug. Een stroom zet [koppelvlakdiensten](../../Koppelvlakspecificaties/Koppelvlakdiensten/README.md) in, en elke dienst legt zijn verplichtingen en endpoints vast. Wie een featureset wil ondersteunen, implementeert de koppelingen waarvan de stromen de stories invullen, elk op een versie en in een rol.
 
 ## Bijdragen
 

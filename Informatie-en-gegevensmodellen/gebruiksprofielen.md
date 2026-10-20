@@ -1,31 +1,15 @@
 # Gebruiksprofielen
 
-Alle koppelingen delen dezelfde onderwijsspecificatie-payload; per koppeling verschilt welke onderdelen meegaan. Dat verschil staat hier, niet in het schema: het schema legt de vorm vast, het profiel wat een koppeling ervan gebruikt.
+Elke afnemer van de koppeling [Onderwijsspecificatie ophalen](../Koppelvlakspecificaties/Koppelingen/onderwijsspecificatie-ophalen.md) haalt dezelfde onderwijsspecificatie-payload op; per afnemer verschilt welke onderdelen hij gebruikt. Dat verschil staat hier, niet in het schema: het schema legt de vorm vast, het profiel wat een afnemer ervan gebruikt.
 
-## Onderwijscatalogus naar planning en roostering
+| Onderdeel | Planningssysteem | Studentinformatiesysteem (SVS) | Leermanagementsysteem |
+|---|---|---|---|
+| `onderwijsspecificaties` | Volledig, inclusief manifest | Volledig, inclusief manifest (nominaal template) | Volledig tot en met `leeronderdeelspecificatie` |
+| `regelsets` | Volledig; `voorwaardeVooraf` bevat leeruitkomst-ids uitsluitend als **verbindende sleutels** voor volgordebepaling: planning gebruikt ze zonder de inhoud te kennen ([ADR 0026](../Referentiemateriaal/adr/0026-leeruitkomst-als-verbindende-sleutel.md)) | Volledig (kiesbaarheid keuzedeelruimte, voorwaarden in behaalde leeruitkomsten) | **Niet nodig.** Kiesbaarheid is het domein van SKS en SIS |
+| `leeruitkomsten` | **Niet nodig.** Planning heeft de betekenis, aggregatie en inhoud van leeruitkomsten niet nodig ([ADR 0026](../Referentiemateriaal/adr/0026-leeruitkomst-als-verbindende-sleutel.md)) | **Volledig**, inclusief aggregatie (`bovenliggendLeeruitkomstId`), `waardedocument` en `indicatieveOmvang`: de sleutel tussen specificatie, resultaatstructuur en onderwijsresultaat ([ADR 0022](../Referentiemateriaal/adr/0022-resultaatbegrippen-conform-rosa-koi.md)) | **Met inhoudsvelden** (`omschrijving`, `resultaat`, `gedrag`): dat is precies wat het LMS uitwerkt en aan de student exposet |
 
-| Onderdeel | Gebruik in onderwijscatalogus naar planning en roostering |
-|---|---|
-| `onderwijsspecificaties` | Volledig, inclusief manifest |
-| `regelsets` | Volledig; `voorwaardeVooraf` bevat leeruitkomst-ids uitsluitend als **verbindende sleutels** voor volgordebepaling: planning gebruikt ze zonder de inhoud te kennen ([ADR 0026](../Referentiemateriaal/adr/0026-leeruitkomst-als-verbindende-sleutel.md)) |
-| `leeruitkomsten` | **Niet meegeleverd.** Planning heeft de betekenis, aggregatie en inhoud van leeruitkomsten niet nodig ([ADR 0026](../Referentiemateriaal/adr/0026-leeruitkomst-als-verbindende-sleutel.md)) |
+Wat een afnemer niet nodig heeft, laat hij liggen. De koppeling verbiedt de aanbieder niet om het mee te leveren, want alle afnemers halen op hetzelfde endpoint op ([ontwerpregels](../Koppelvlakspecificaties/Koppelingen/README.md#ontwerpregels)). Een parameter waarmee een afnemer onderdelen uitsluit, is bij [onderwijsspecificatiestructuur-aanbieder](../Koppelvlakspecificaties/Koppelvlakdiensten/onderwijsspecificatiestructuur-aanbieder.md) nog niet vastgelegd.
 
-## Onderwijscatalogus naar studentinformatiesysteem
+De resultaatstructuur haalt het studentinformatiesysteem op in de koppeling [Resultaatstructuur ophalen](../Koppelvlakspecificaties/Koppelingen/resultaatstructuur-ophalen.md), met [result-structure.json](schemas/result-structure.json) als payload.
 
-| Onderdeel | Gebruik in onderwijscatalogus naar studentinformatiesysteem |
-|---|---|
-| `onderwijsspecificaties` | Volledig, inclusief manifest (nominaal template) |
-| `leeruitkomsten` | **Volledig**, inclusief aggregatie (`bovenliggendLeeruitkomstId`), `waardedocument` en `indicatieveOmvang`: de sleutel tussen specificatie, resultaatstructuur en onderwijsresultaat ([ADR 0022](../Referentiemateriaal/adr/0022-resultaatbegrippen-conform-rosa-koi.md)) |
-| `regelsets` | Volledig (kiesbaarheid keuzedeelruimte, voorwaarden in behaalde leeruitkomsten) |
-
-Voor het ophalen van de resultaatstructuur geldt daarnaast [result-structure.json](schemas/result-structure.json) als aparte payload.
-
-## Onderwijscatalogus naar leermanagementsysteem
-
-| Onderdeel | Gebruik in onderwijscatalogus naar leermanagementsysteem |
-|---|---|
-| `onderwijsspecificaties` | Volledig tot en met `leeronderdeelspecificatie` |
-| `leeruitkomsten` | **Met inhoudsvelden** (`omschrijving`, `resultaat`, `gedrag`): dat is precies wat het LMS uitwerkt en aan de student exposet |
-| `regelsets` | Niet meegeleverd (kiesbaarheid is het domein van SKS en SIS) |
-
-De leermiddelkoppeling-payload is nog niet uitgewerkt. Verwachte kern: `id`, `versie`, en per specificatie de leermiddelgroepen met een `specificatieVerwijzing` (id en versie).
+De payload van de leermiddelkoppeling in [Leeromgeving inrichten](../Koppelvlakspecificaties/Koppelingen/leeromgeving-inrichten.md) is nog niet uitgewerkt. Verwachte kern: `id`, `versie`, en per specificatie de leermiddelgroepen met een `specificatieVerwijzing` (id en versie).

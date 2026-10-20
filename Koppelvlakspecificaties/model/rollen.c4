@@ -1,0 +1,18 @@
+// De rollen in de sequentiediagrammen die geen component uit de keten zijn:
+// de generieke aanbieder en afnemer van de ondersteunende koppelingen, de
+// rollen uit de interactiepatronen en de partijen uit de auth-standaard.
+
+model {
+
+  rollen = organisatie 'Rollen in de sequentiediagrammen' {
+    aanbieder = rolsysteem 'Aanbieder'
+    afnemer = rolsysteem 'Afnemer'
+    bezitter = rolsysteem 'Bezitter'
+    consument = rolsysteem 'Consument'
+    abonnee = rolsysteem 'Abonnee'
+    bron = rolsysteem 'Bron'
+    token_endpoint = rolsysteem 'Token-endpoint (bij de leverancier)'
+    endpoint = rolsysteem 'Endpoint (bij de leverancier)'
+    planner = rol 'Planner'
+  }
+}

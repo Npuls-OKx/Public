@@ -34,7 +34,7 @@ De volgende dingen vangt geen script. Loop ze langs en meld per punt of het klop
 
 **De README van de bovenliggende map** noemt dit document, als het nieuw is.
 
-**Afbeeldingen** staan in de `img/` naast het document, en er staan er geen ongebruikte.
+**Afbeeldingen** staan in de `img/` naast het document, of komen als plaat uit het LikeC4-model, en er staan er geen ongebruikte.
 
 ## Melden
 

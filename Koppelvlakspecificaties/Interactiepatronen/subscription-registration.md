@@ -8,16 +8,7 @@ Voorwaarde onder elk push-patroon. Zolang de bezitter geen afleveradres kent, ka
 
 ## Verloop
 
-```mermaid
-sequenceDiagram
-    autonumber
-    participant Abonnee
-    participant Bron
-
-    Abonnee->>Bron: Registratie: afleveradres en de soorten events
-    Bron-->>Abonnee: Bevestiging met abonnement-id
-    Note over Bron,Abonnee: Vanaf hier levert de bron events af op dat adres
-```
+![Subscription registration: volgorde van de interacties](../src/diagrammen/interactiepatronen/subscription-registration.png)
 
 | Bericht | Richting | Synchroniciteit | Draagt | Draagt niet |
 |---|---|---|---|---|
@@ -36,4 +27,4 @@ WebSub voegt twee dingen toe die OKx nu niet vastlegt: een verificatiehandshake 
 
 | Koppeling | Waarvoor |
 |---|---|
-| [Onderwijscatalogus naar planning en roostering](../Koppelingspecificaties/onderwijscatalogus-planning-en-roostering.md) | Afleveradres vastleggen voor de meldingen die beide partijen van elkaar ontvangen |
+| [Afleverabonnement registreren](../Koppelingen/afleverabonnement-registreren.md) | Afleveradres vastleggen voor de meldingen die een afnemer van een aanbieder ontvangt |

@@ -51,10 +51,6 @@ model {
           #v2
           description 'koppelvlakspecificatie: twee endpoints hernoemd, dus major'
         }
-        kvs_v3 = pakket 'v3.0.0' {
-          #v3
-          description 'koppelvlakspecificatie: de volgende major, die het venster vult'
-        }
       }
       pkg_igm = pakket 'informatie-en-gegevensmodellen' {
         description 'De vorm waarin onderwijsgegevens over een koppeling gaan.'
@@ -103,15 +99,27 @@ model {
   lev_p -> instelling.p 'bouwt en beheert'
   lev_lms -> instelling.lms 'bouwt en beheert'
 
-  kvs_v1 -> instelling.oc 'geïmplementeerd'
-  kvs_v1 -> instelling.p 'geïmplementeerd'
-  kvs_v1 -> instelling.lms 'geïmplementeerd'
+  // Een uitgave beschrijft de versies van de koppelingen; een systeem implementeert
+  // die koppelingen, elk op een versie en in een rol.
+  kvs_v1 -> instelling.oc 'koppelingen op 1.0'
+  kvs_v1 -> instelling.p 'koppelingen op 1.0'
+  kvs_v1 -> instelling.lms 'koppelingen op 1.0'
 
-  kvs_v2 -> instelling.oc 'geïmplementeerd naast v1'
-  kvs_v2 -> instelling.p 'geïmplementeerd, v1 afgebouwd'
-  kvs_v2 -> instelling.lms 'nog niet geïmplementeerd: blijft op latest-1'
+  kvs_v2 -> instelling.oc 'zes koppelingen op 2.0, naast 1.0'
+  kvs_v2 -> instelling.p 'zijn koppelingen op 2.0, 1.0 afgebouwd'
+  kvs_v2 -> instelling.lms 'nog niet: Leeromgeving inrichten en bijwerken blijven op 1.0'
 
-  kvs_v3 -> instelling.oc 'zou hier landen'
+  // De versies van één koppeling, voor de situatie waarin een derde major komt
+  // terwijl de oudste nog draait
+  lo_versies = organisatie 'Koppeling Leeromgeving inrichten' {
+    description 'De gepubliceerde versies van één koppeling.'
+    lo_10 = koppeling 'Versie 1.0'
+    lo_20 = koppeling 'Versie 2.0'
+    lo_30 = koppeling 'Versie 3.0'
+  }
+  lo_10 -> instelling.lms 'draait hier nog'
+  lo_20 -> instelling.oc 'draait hier'
+  lo_30 -> instelling.oc 'zou hier moeten landen'
 
   // Wat elke sprong van de betrokken partijen vraagt. De patch vraagt niets en
   // heeft daarom geen enkele relatie naar een systeem; dat is precies het punt.

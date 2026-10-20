@@ -1,7 +1,7 @@
 // Situaties waarin de componenten niet op dezelfde versie zitten.
 //
-// Deze views voegen niets aan het model toe: ze hergebruiken de systemen en de
-// pakketversies en geven ze per view een eigen omschrijving en kleur met `with`.
+// Deze views hergebruiken de systemen en de versies van de koppelingen, en geven
+// ze per view een eigen omschrijving en kleur met `with`.
 // Zo staat een toestand in de view en niet in het model, want het model beschrijft
 // de keten en niet één moment daarin.
 
@@ -36,28 +36,28 @@ views {
 
     include instelling
     include instelling.oc with {
-      description 'Draagt v1 én v2, voor onbepaalde tijd'
+      description 'Bedient 1.0 én 2.0, voor onbepaalde tijd'
       color amber
     }
     include instelling.p with {
-      description 'Volledig op v2, oude endpoint verwijderd'
+      description 'Volledig op 2.0, oude endpoint verwijderd'
       color green
     }
     include instelling.lms with {
-      description 'Blijft op v1: de hernoeming levert deze leverancier niets op'
+      description 'Blijft op 1.0: de hernoeming levert deze leverancier niets op'
       color red
     }
     include instelling.oc -> instelling.p with {
-      title 'meldt op specificatie-beschikbaar (v2)'
+      title 'meldt op specificatie-beschikbaar (2.0)'
       color green
     }
-    include instelling.oc -> instelling.lms with {
-      title 'meldt op inrichtingsstatus (v1), zonder einddatum'
+    include instelling.lms -> instelling.oc with {
+      title 'meldt op inrichtingsstatus (1.0), zonder einddatum'
       color red
     }
 
     exclude instelling.p -> instelling.oc
-    exclude instelling.lms -> instelling.oc
+    exclude instelling.oc -> instelling.lms
     exclude instelling.oc.** -> instelling.p.**
     exclude instelling.p.** -> instelling.oc.**
     exclude instelling.oc.** -> instelling.lms.**
@@ -77,15 +77,15 @@ views {
 
     include instelling
     include instelling.oc with {
-      description 'Nog op v1: het nieuwe endpoint bestaat hier niet'
+      description 'Nog op 1.0: het nieuwe endpoint bestaat hier niet'
       color red
     }
     include instelling.p with {
-      description 'Klaar voor v2, kan niet over'
+      description 'Klaar voor 2.0, kan niet over'
       color amber
     }
     include instelling.lms with {
-      description 'Klaar voor v2, kan niet over'
+      description 'Klaar voor 2.0, kan niet over'
       color amber
     }
     include instelling.p -> instelling.oc with {
@@ -109,53 +109,34 @@ views {
     title 'Situaties / Een tweede major tijdens het venster'
     order 16
     description '
-      Met latest en latest-1 dragen v3 en v2 de ondersteuning. Zolang er nog een
-      koppeling op v1 draait, valt die buiten het venster en moet iemand kiezen.
+      Per koppeling zijn hoogstens twee majors tegelijk actief. Komt 3.0 terwijl
+      het leermanagementsysteem nog op 1.0 draait, dan moet iemand kiezen.
     '
 
     autoLayout TopBottom 40 40
 
-    include
-      okx.store.pkg_kvs.kvs_v3,
-      instelling,
-      instelling.oc,
-      instelling.p,
-      instelling.lms
-    include okx.store.pkg_kvs.kvs_v1 with {
-      description 'Valt buiten het venster zodra v3 verschijnt'
+    include lo_versies, instelling, instelling.oc, instelling.lms
+    include lo_versies.lo_10 with {
+      description 'Valt af zodra 3.0 verschijnt'
       color red
     }
-    include okx.store.pkg_kvs.kvs_v2 with {
-      description 'latest-1: ondersteund'
+    include lo_versies.lo_20 with {
+      description 'Actief'
       color green
     }
-    include okx.store.pkg_kvs.kvs_v3 with {
-      description 'latest: ondersteund'
+    include lo_versies.lo_30 with {
+      description 'Actief zodra gepubliceerd'
       color green
     }
-    include okx.store.pkg_kvs.kvs_v1 -> instelling.lms with {
-      title 'draait hier nog, en wordt niet meer ondersteund'
+    include lo_versies.lo_10 -> instelling.lms with {
+      title 'draait hier nog'
       color red
     }
-    include okx.store.pkg_kvs.kvs_v2 -> instelling.oc with {
-      title 'draait hier'
-    }
-    include okx.store.pkg_kvs.kvs_v2 -> instelling.p with {
-      title 'draait hier'
-    }
-    include okx.store.pkg_kvs.kvs_v3 -> instelling.oc with {
-      title 'zou hier moeten landen'
-    }
+    include lo_versies.lo_20 -> instelling.oc
+    include lo_versies.lo_30 -> instelling.oc
 
-    exclude okx.store.pkg_kvs.kvs_v1 -> instelling.oc
-    exclude okx.store.pkg_kvs.kvs_v1 -> instelling.p
-    exclude okx.store.pkg_kvs.kvs_v2 -> instelling.lms
-    exclude instelling.oc -> instelling.p
-    exclude instelling.p -> instelling.oc
     exclude instelling.oc -> instelling.lms
     exclude instelling.lms -> instelling.oc
-    exclude instelling.oc.** -> instelling.p.**
-    exclude instelling.p.** -> instelling.oc.**
     exclude instelling.oc.** -> instelling.lms.**
     exclude instelling.lms.** -> instelling.oc.**
   }

@@ -11,7 +11,7 @@
     "callbackUrl": { "type": "string", "format": "uri", "DutchName": "callbackUrl" },
     "events": {
       "type": "array",
-      "items": { "enum": ["specificatie-planbaar", "specificatie-gewijzigd", "specificatie-status-gewijzigd", "verwerkingsstatus"] },
+      "items": { "enum": ["specificatie-beschikbaar", "specificatie-gewijzigd", "specificatie-status-gewijzigd", "resultaatstructuur-beschikbaar", "examenplanspecificatie-gewijzigd", "leermiddelkoppeling-beschikbaar", "verwerkingsuitkomst"] },
       "DutchName": "events"
     }
   }

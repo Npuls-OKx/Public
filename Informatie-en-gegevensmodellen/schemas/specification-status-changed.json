@@ -3,7 +3,7 @@
   "$id": "https://okx.npuls.nl/schema/specification-status-changed/alfa",
   "title": "Specification status changed",
   "DutchName": "Specificatie-status-gewijzigd",
-  "$comment": "Alfa en indicatief. Deze vorm onderbouwt welke velden het koppelvlak nodig heeft en kan wijzigen zolang de payload niet is vastgesteld. Status-lifecycle volgt de lifecycle-uitwerking, §3.",
+  "$comment": "Alfa en indicatief. Deze vorm onderbouwt welke velden het koppelvlak nodig heeft en kan wijzigen zolang de payload niet is vastgesteld. De statussen volgen regels.md, onder Deactiveren, niet verwijderen.",
   "type": "object",
   "required": ["objectId", "oldStatus", "newStatus"],
   "properties": {

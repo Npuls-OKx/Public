@@ -32,19 +32,24 @@ heeft vastgesteld of dat hier doorwerkt.
 
 ```
 Koppelvlakspecificaties/
-├── README.md                    instap: keten, afkortingen, leesvolgorde
-├── uitgangspunten.md            U1 t/m U10, gelden voor alles hieronder
+├── README.md                    instap: wat er staat en waar
+├── inleiding.md                 de inleiding van het releasedocument
+├── uitgangspunten.md            U1 t/m U11, gelden voor alles hieronder
 ├── auth-standaard.md            authenticatiemechanisme, geldt voor elk endpoint
-├── templates/                   om een nieuwe specificatie te schrijven
-├── Koppelingspecificaties/
-│   ├── gedeeld/                 payloads die meerdere koppelingen delen
-│   └── <koppeling>/             per informatiestroom een eigen map
-└── Referentiesystemen/         per systeem de optelsom van zijn koppelingen (het koppelvlak)
+├── release-management.md        versiebeheer van dit pakket: de versie zit op de koppeling
+├── versiebeheer-in-de-praktijk.md  één versiesprong doorgerekend
+├── Applicatiecomponenten/       per component het koppelvlak: de optelsom van zijn koppelingen
+├── Koppelingen/                 per koppeling één document: één doel, één aanbieder, één OEAPI-profiel
+├── Koppelvlakdiensten/          per dienst de verplichtingen en endpoints
+├── Interactiepatronen/          de patronen, in rollen in plaats van systeemnamen
+├── model/                       het LikeC4-model, bron van de diagrammen
+├── src/diagrammen/              de gerenderde platen, per categorie
+└── release.json                 manifest: wat er in welke volgorde in de release komt
 ```
 
-Een **koppeling** is de gestandaardiseerde informatiestroom tussen twee referentiecomponenten. Een **koppelvlak** is de verzameling koppelingen die één component raken. De koppelvlakspecificatie is dus de optelsom van de koppelingen, en daarom zitten de koppelingspecificaties ín het koppelvlakspecificatie-pakket.
+Een **koppeling** is één of meer endpoint-interacties met één doel, tussen een aanbieder en een afnemer, afgeleid van een applicatiedienst uit de domeinarchitectuur. Een **koppelvlak** is de verzameling koppelingen die één component raken. De koppelvlakspecificatie is dus de optelsom van de koppelingen, en daarom zitten de koppelingen ín het koppelvlakspecificatie-pakket.
 
-Gedeelde payloads staan **eenmaal centraal** in `gedeeld/`. Een koppelingspecificatie legt in een **gebruiksprofiel** vast welke objecten en velden zij daarvan afneemt. Kopieer nooit een payload naar een koppelingmap omdat je er net iets anders mee wilt.
+Payloads staan **eenmaal centraal**, als JSON Schema in de [informatie- en gegevensmodellen](../../Informatie-en-gegevensmodellen/README.md). Per afnemer legt een **gebruiksprofiel** daar vast welke onderdelen hij gebruikt. Kopieer nooit een payload naar een koppeling omdat je er net iets anders mee wilt.
 
 ## Binnen het referentiemateriaal
 
@@ -60,6 +65,6 @@ Referentiemateriaal/
 
 ## Vaste gewoonten
 
-- **Templates staan bij hun onderwerp**, niet in een aparte werkwijze-map. Wie een koppelingspecificatie schrijft, vindt het template naast de uitgangspunten en de bestaande specificaties waar hij zich toch aan spiegelt.
+- **Een nieuwe koppeling spiegel je aan een bestaande.** Er is geen template; de koppelingen in `Koppelingen/` hebben allemaal dezelfde opbouw, en [`/nieuwe-specificatie`](../commands/nieuwe-specificatie.md) noemt wat er verder bij hoort.
 - **Elke map heeft een README** die zegt wat erin staat en in welke volgorde je het leest. Maak je een nieuw document, werk dan de index van de bovenliggende README bij.
-- **Afbeeldingen staan in een `img/` naast het document** dat ze gebruikt, niet in een centrale beeldmap. Verhuist het document, dan verhuizen de afbeeldingen mee.
+- **Afbeeldingen staan in een `img/` naast het document** dat ze gebruikt, niet in een centrale beeldmap. Verhuist het document, dan verhuizen de afbeeldingen mee. Uitzondering: de platen van de koppelvlakspecificatie komen uit het LikeC4-model en staan in `Koppelvlakspecificaties/src/diagrammen/<categorie>/` ([diagrammen](diagrammen.mdc)).

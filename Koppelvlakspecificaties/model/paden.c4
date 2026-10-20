@@ -2,7 +2,8 @@
 //
 // De reikwijdte van een wijziging hangt af van waar in het bouwwerk zij zit.
 // Deze views tonen per vertrekpunt het deel van het bouwwerk dat meebeweegt;
-// het vertrekpunt is rood, wat het raakt amber.
+// het vertrekpunt is rood, wat het raakt amber. Ze zijn getekend op de negen
+// koppelingen uit het versiescenario.
 
 views {
 
@@ -10,35 +11,36 @@ views {
     title 'Bouwblokken / Waar de versienummers zitten'
     order 30
     description '
-      Twee releasepakketten dragen een versie, en daarbinnen draagt elke
-      berichtstroom er zelf ook een. Daartussen zitten lagen die geen eigen
-      nummer hebben maar wel meebewegen: de koppeling, de applicatiedienst en
-      het endpoint.
+      Twee releasepakketten dragen een versie, en daarbinnen draagt elke koppeling
+      er zelf ook een. Daaronder zitten lagen die geen eigen nummer hebben maar wel
+      meebewegen: de berichtstroom, de koppelvlakdienst en het endpoint.
     '
 
     autoLayout LeftRight 60 40
 
     // Alleen de lagen die in de keten van versienummers zitten. De instelling,
     // het component en het koppelvlak staan er bewust niet bij: die zeggen wie
-    // de dienst claimt, niet waar een versie zit.
+    // de dienst implementeert, niet waar een versie zit.
     include
-      spec,
-      spec.kop_oc_lms,
-      spec.kop_oc_lms.bs_bijwerken,
+      spec.koppelingen,
+      spec.koppelingen.k_onderwijsspecificatie_ophalen.s2,
       instelling.oc,
       instelling.oc.kv_oc.oc_spec_aanbieder,
       instelling.oc.kv_oc.oc_spec_aanbieder.oc_get_delta,
-      modellen,
       modellen.sch_delta
+    include spec with { title 'Releasepakket koppelvlakspecificatie v1.0.0' }
+    include spec.koppelingen.k_onderwijsspecificatie_ophalen with { title 'Onderwijsspecificatie ophalen, versie 1.0' }
+    include modellen with { title 'Releasepakket informatie- en gegevensmodellen v1.0.0' }
+    exclude * -> * where tag is #hoofdplaat
   }
 
   view pad_vanuit_schema {
     title 'Bouwblokken / Vertrekpunt een schema'
     order 31
     description '
-      Een schema staat onder meerdere endpoints, die onder meerdere
-      applicatiediensten hangen, die door meerdere berichtstromen worden
-      ingezet. Van alle vertrekpunten waaiert dit het breedst uit.
+      Een schema staat onder endpoints van meerdere componenten. Rechtstreeks
+      raakt het hier één stroom in één koppeling, maar vijf andere koppelingen
+      vereisen die koppeling en bewegen via die afhankelijkheid mee.
     '
 
     autoLayout TopBottom 40 40
@@ -50,43 +52,49 @@ views {
     }
     include
       instelling, instelling.p, instelling.p.kv_p, instelling.lms, instelling.lms.kv_lms,
-      spec, spec.kop_oc_p, spec.kop_oc_lms
+      spec, spec.koppelingen
     include instelling.p.kv_p.p_spec_afnemer with { color amber }
     include instelling.p.kv_p.p_spec_afnemer.p_hook_gewijzigd with { color amber }
     include instelling.lms.kv_lms.lms_spec_afnemer with { color amber }
     include instelling.lms.kv_lms.lms_spec_afnemer.lms_hook_gewijzigd with { color amber }
-    include spec.kop_oc_p.bs_aanmaken with { color amber }
-    include spec.kop_oc_p.bs_herplannen with { color amber }
-    include spec.kop_oc_p.bs_acceptatie with { color amber }
-    include spec.kop_oc_p.bs_status with { color amber }
-    include spec.kop_oc_lms.bs_inrichten with { color amber }
-    include spec.kop_oc_lms.bs_bijwerken with { color amber }
+    include spec.koppelingen.k_onderwijsspecificatie_ophalen with { color amber }
+    include spec.koppelingen.k_onderwijsspecificatie_ophalen.s2 with { color amber }
+    include spec.koppelingen.k_opleidingsaanbod_aanmaken with { color amber }
+    include spec.koppelingen.k_opleidingsaanbod_herplannen with { color amber }
+    include spec.koppelingen.k_late_wijziging_toetsen with { color amber }
+    include spec.koppelingen.k_leeromgeving_inrichten with { color amber }
+    include spec.koppelingen.k_leeromgeving_bijwerken with { color amber }
+    exclude * -> * where tag is #hoofdplaat
   }
 
   view pad_vanuit_dienst {
-    title 'Bouwblokken / Vertrekpunt een applicatiedienst'
+    title 'Bouwblokken / Vertrekpunt een koppelvlakdienst'
     order 32
     description '
-      Een hernoemd endpoint raakt elke berichtstroom die de dienst inzet, en
-      daarmee beide koppelingen. Dit is de wijziging die in §4 is doorgerekend,
-      nu gezien vanuit het bouwwerk in plaats van vanuit het pakket.
+      De twee endpoints van verwerkingsuitkomst-afnemer uit de basisversie worden
+      er één. Dat raakt elke stroom die de dienst inzet: zes stromen in vijf
+      koppelingen. Dit is de wijziging die in het versiescenario is doorgerekend.
     '
 
     autoLayout TopBottom 40 40
 
-    include instelling, instelling.oc, instelling.oc.kv_oc, spec, spec.kop_oc_p, spec.kop_oc_lms
+    include instelling, instelling.oc, instelling.oc.kv_oc, spec, spec.koppelingen
     include instelling.oc.kv_oc.oc_uitkomst_afnemer with {
       description 'twee endpoints worden er één'
       color red
     }
     include instelling.oc.kv_oc.oc_uitkomst_afnemer.oc_hook_verwerkingsstatus with { color red }
     include instelling.oc.kv_oc.oc_uitkomst_afnemer.oc_hook_inrichtingsstatus with { color red }
-    include spec.kop_oc_p.bs_aanmaken with { color amber }
-    include spec.kop_oc_p.bs_herplannen with { color amber }
-    include spec.kop_oc_p.bs_nietgelukt with { color amber }
-    include spec.kop_oc_p.bs_acceptatie with { color amber }
-    include spec.kop_oc_lms.bs_inrichten with { color amber }
-    include spec.kop_oc_lms.bs_bijwerken with { color amber }
+    include
+      spec.koppelingen.k_opleidingsaanbod_aanmaken, spec.koppelingen.k_opleidingsaanbod_herplannen, spec.koppelingen.k_late_wijziging_toetsen,
+      spec.koppelingen.k_leeromgeving_inrichten, spec.koppelingen.k_leeromgeving_bijwerken
+    include spec.koppelingen.k_opleidingsaanbod_aanmaken.s1 with { color amber }
+    include spec.koppelingen.k_opleidingsaanbod_aanmaken.s2 with { color amber }
+    include spec.koppelingen.k_opleidingsaanbod_herplannen.s1 with { color amber }
+    include spec.koppelingen.k_late_wijziging_toetsen.s1 with { color amber }
+    include spec.koppelingen.k_leeromgeving_inrichten.s1 with { color amber }
+    include spec.koppelingen.k_leeromgeving_bijwerken.s1 with { color amber }
+    exclude * -> * where tag is #hoofdplaat
   }
 
   view pad_vanuit_berichtstroom {
@@ -95,39 +103,58 @@ views {
     description '
       Een extra stap in één berichtstroom raakt alleen die stroom en zijn eigen
       koppeling. De diensten en de endpoints blijven ongemoeid, en de andere
-      stromen in dezelfde koppeling ook. Dit is de kleinste reikwijdte die er is.
+      koppelingen ook. Dit is de kleinste reikwijdte die er is.
     '
 
     autoLayout TopBottom 40 40
 
-    include spec, spec.kop_oc_p, spec.kop_oc_p.*, spec.kop_oc_lms, spec.kop_oc_lms.*
-    include spec.kop_oc_p.bs_acceptatie with {
-      description 'krijgt een stap erbij: versie 1.1'
+    include spec, spec.koppelingen
+    include
+      spec.koppelingen.k_onderwijsspecificatie_ophalen, spec.koppelingen.k_onderwijsspecificatie_ophalen.*,
+      spec.koppelingen.k_specificatiestatus_volgen, spec.koppelingen.k_specificatiestatus_volgen.*,
+      spec.koppelingen.k_opleidingsaanbod_aanmaken, spec.koppelingen.k_opleidingsaanbod_aanmaken.*,
+      spec.koppelingen.k_opleidingsaanbod_herplannen, spec.koppelingen.k_opleidingsaanbod_herplannen.*,
+      spec.koppelingen.k_late_wijziging_toetsen, spec.koppelingen.k_late_wijziging_toetsen.*,
+      spec.koppelingen.k_leeromgeving_inrichten, spec.koppelingen.k_leeromgeving_inrichten.*,
+      spec.koppelingen.k_leeromgeving_bijwerken, spec.koppelingen.k_leeromgeving_bijwerken.*,
+      spec.koppelingen.k_afleverabonnement_registreren, spec.koppelingen.k_afleverabonnement_registreren.*,
+      spec.koppelingen.k_reconciliatie, spec.koppelingen.k_reconciliatie.*
+    include spec.koppelingen.k_late_wijziging_toetsen.s1 with {
+      description 'krijgt een stap erbij'
       color red
     }
-    exclude spec.patronen
+    exclude * -> *
   }
 
   view pad_vanuit_patroon {
     title 'Bouwblokken / Vertrekpunt een interactiepatroon'
     order 34
     description '
-      Een patroon wordt over koppelingen heen hergebruikt. Event Notification
-      zit onder vijf van de negen berichtstromen, dus een wijziging daar raakt
-      beide koppelingen zonder dat er één endpoint verandert.
+      Een patroon wordt over koppelingen heen hergebruikt. Event Notification zit
+      onder drie van de elf berichtstromen, in twee koppelingen, dus een wijziging
+      daar raakt die zonder dat er één endpoint verandert.
     '
 
     autoLayout TopBottom 40 40
 
-    include spec, spec.kop_oc_p, spec.kop_oc_lms, spec.patronen, spec.patronen.*
+    include spec, spec.koppelingen, spec.patronen, spec.patronen.*
+    include
+      spec.koppelingen.k_onderwijsspecificatie_ophalen,
+      spec.koppelingen.k_specificatiestatus_volgen,
+      spec.koppelingen.k_opleidingsaanbod_aanmaken,
+      spec.koppelingen.k_opleidingsaanbod_herplannen,
+      spec.koppelingen.k_late_wijziging_toetsen,
+      spec.koppelingen.k_leeromgeving_inrichten,
+      spec.koppelingen.k_leeromgeving_bijwerken,
+      spec.koppelingen.k_afleverabonnement_registreren,
+      spec.koppelingen.k_reconciliatie
     include spec.patronen.pat_event with {
       description 'wijzigt'
       color red
     }
-    include spec.kop_oc_p.bs_aanmaken with { color amber }
-    include spec.kop_oc_p.bs_herplannen with { color amber }
-    include spec.kop_oc_p.bs_acceptatie with { color amber }
-    include spec.kop_oc_lms.bs_inrichten with { color amber }
-    include spec.kop_oc_lms.bs_bijwerken with { color amber }
+    include spec.koppelingen.k_onderwijsspecificatie_ophalen.s1 with { color amber }
+    include spec.koppelingen.k_onderwijsspecificatie_ophalen.s2 with { color amber }
+    include spec.koppelingen.k_leeromgeving_inrichten.s1 with { color amber }
+    exclude spec.koppelingen.* -> spec.koppelingen.*
   }
 }

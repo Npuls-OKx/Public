@@ -1,0 +1,772 @@
+// Per koppeling haar plek op de hoofdplaat: tussen welke componenten zij ligt,
+// en van welke applicatiedienst zij is afgeleid. De koppeling en die dienst
+// dragen de kleur markering; de legenda zegt wat kleur en lijnen betekenen.
+// De plaatsing en de lijnen komen bij het renderen
+// uit scripts/likec4-hoofdplaat.py, zodat de plaat in elke view gelijk ligt;
+// de autoLayout geldt alleen in de LikeC4-weergave zelf.
+
+views {
+
+  view hp_onderwijsspecificatie_ophalen {
+    title 'Hoofdplaat / Onderwijsspecificatie ophalen'
+    description 'Waar de koppeling Onderwijsspecificatie ophalen op de hoofdplaat ligt, en van welke applicatiedienst zij is afgeleid.'
+
+    autoLayout TopBottom 50 50
+
+    include instelling, instelling.co, instelling.oc, instelling.p, instelling.rooster, instelling.sks, instelling.sis, instelling.lms
+    include instelling.co.ad_nominale_route_meerjaar, instelling.oc.ad_onderwijsspecificatie_uitwerking, instelling.p.ad_capaciteitsplanning, instelling.p.ad_jaarplanning, instelling.p.ad_nominale_route_schooljaar, instelling.p.ad_periode_planning, instelling.sis.ad_inschrijving, instelling.sks.ad_keuze_opleidingseenheid, instelling.sks.ad_keuze_leergelegenheid, instelling.sks.ad_keuze_lesgelegenheid, instelling.sks.ad_accorderen, instelling.sks.ad_keuze_aanvraag_beheer, instelling.sks.ad_verwerken_definitieve_keuzes
+    include legenda, legenda.*
+    include instelling.rooster with {
+      description ''
+    }
+    include instelling.lms with {
+      description ''
+    }
+    include spec.koppelingen.k_onderwijsspecificatie_ophalen with {
+      color markering
+      description ''
+    }
+    include instelling.oc.ad_onderwijsspecificatie_uitwerking with {
+      color markering
+    }
+    exclude spec
+    exclude * -> *
+    include spec.koppelingen.k_onderwijsspecificatie_ophalen -> instelling.** where tag is #hoofdplaat
+    include legenda.koppeling -> legenda.*
+  }
+
+  view hp_specificatiestatus_volgen {
+    title 'Hoofdplaat / Specificatiestatus volgen'
+    description 'Waar de koppeling Specificatiestatus volgen op de hoofdplaat ligt, en van welke applicatiedienst zij is afgeleid.'
+
+    autoLayout TopBottom 50 50
+
+    include instelling, instelling.co, instelling.oc, instelling.p, instelling.rooster, instelling.sks, instelling.sis, instelling.lms
+    include instelling.co.ad_nominale_route_meerjaar, instelling.oc.ad_onderwijsspecificatie_uitwerking, instelling.p.ad_capaciteitsplanning, instelling.p.ad_jaarplanning, instelling.p.ad_nominale_route_schooljaar, instelling.p.ad_periode_planning, instelling.sis.ad_inschrijving, instelling.sks.ad_keuze_opleidingseenheid, instelling.sks.ad_keuze_leergelegenheid, instelling.sks.ad_keuze_lesgelegenheid, instelling.sks.ad_accorderen, instelling.sks.ad_keuze_aanvraag_beheer, instelling.sks.ad_verwerken_definitieve_keuzes
+    include legenda, legenda.*
+    include instelling.rooster with {
+      description ''
+    }
+    include instelling.lms with {
+      description ''
+    }
+    include spec.koppelingen.k_specificatiestatus_volgen with {
+      color markering
+      description ''
+    }
+    include instelling.oc.ad_onderwijsspecificatie_uitwerking with {
+      color markering
+    }
+    exclude spec
+    exclude * -> *
+    include spec.koppelingen.k_specificatiestatus_volgen -> instelling.** where tag is #hoofdplaat
+    include legenda.koppeling -> legenda.*
+  }
+
+  view hp_resultaatstructuur_ophalen {
+    title 'Hoofdplaat / Resultaatstructuur ophalen'
+    description 'Waar de koppeling Resultaatstructuur ophalen op de hoofdplaat ligt, en van welke applicatiedienst zij is afgeleid.'
+
+    autoLayout TopBottom 50 50
+
+    include instelling, instelling.co, instelling.oc, instelling.p, instelling.rooster, instelling.sks, instelling.sis, instelling.lms
+    include instelling.co.ad_nominale_route_meerjaar, instelling.oc.ad_onderwijsspecificatie_uitwerking, instelling.p.ad_capaciteitsplanning, instelling.p.ad_jaarplanning, instelling.p.ad_nominale_route_schooljaar, instelling.p.ad_periode_planning, instelling.sis.ad_inschrijving, instelling.sks.ad_keuze_opleidingseenheid, instelling.sks.ad_keuze_leergelegenheid, instelling.sks.ad_keuze_lesgelegenheid, instelling.sks.ad_accorderen, instelling.sks.ad_keuze_aanvraag_beheer, instelling.sks.ad_verwerken_definitieve_keuzes
+    include legenda, legenda.*
+    include instelling.rooster with {
+      description ''
+    }
+    include instelling.lms with {
+      description ''
+    }
+    include spec.koppelingen.k_resultaatstructuur_ophalen with {
+      color markering
+      description ''
+    }
+    include instelling.oc.ad_onderwijsspecificatie_uitwerking with {
+      color markering
+    }
+    exclude spec
+    exclude * -> *
+    include spec.koppelingen.k_resultaatstructuur_ophalen -> instelling.** where tag is #hoofdplaat
+    include legenda.koppeling -> legenda.*
+  }
+
+  view hp_specificatie_aanpassen_op_verzoek {
+    title 'Hoofdplaat / Specificatie aanpassen op verzoek'
+    description 'Waar de koppeling Specificatie aanpassen op verzoek op de hoofdplaat ligt, en van welke applicatiedienst zij is afgeleid.'
+
+    autoLayout TopBottom 50 50
+
+    include instelling, instelling.co, instelling.oc, instelling.p, instelling.rooster, instelling.sks, instelling.sis, instelling.lms
+    include instelling.co.ad_nominale_route_meerjaar, instelling.oc.ad_onderwijsspecificatie_uitwerking, instelling.p.ad_capaciteitsplanning, instelling.p.ad_jaarplanning, instelling.p.ad_nominale_route_schooljaar, instelling.p.ad_periode_planning, instelling.sis.ad_inschrijving, instelling.sks.ad_keuze_opleidingseenheid, instelling.sks.ad_keuze_leergelegenheid, instelling.sks.ad_keuze_lesgelegenheid, instelling.sks.ad_accorderen, instelling.sks.ad_keuze_aanvraag_beheer, instelling.sks.ad_verwerken_definitieve_keuzes
+    include legenda, legenda.*
+    include instelling.rooster with {
+      description ''
+    }
+    include instelling.lms with {
+      description ''
+    }
+    include spec.koppelingen.k_specificatie_aanpassen_op_verzoek with {
+      color markering
+      description ''
+    }
+    include instelling.oc.ad_onderwijsspecificatie_uitwerking with {
+      color markering
+    }
+    exclude spec
+    exclude * -> *
+    include spec.koppelingen.k_specificatie_aanpassen_op_verzoek -> instelling.** where tag is #hoofdplaat
+    include legenda.koppeling -> legenda.*
+  }
+
+  view hp_keuzeaanbod_ontsluiten {
+    title 'Hoofdplaat / Keuzeaanbod ontsluiten'
+    description 'Waar de koppeling Keuzeaanbod ontsluiten op de hoofdplaat ligt, en van welke applicatiedienst zij is afgeleid.'
+
+    autoLayout TopBottom 50 50
+
+    include instelling, instelling.co, instelling.oc, instelling.p, instelling.rooster, instelling.sks, instelling.sis, instelling.lms
+    include instelling.co.ad_nominale_route_meerjaar, instelling.oc.ad_onderwijsspecificatie_uitwerking, instelling.p.ad_capaciteitsplanning, instelling.p.ad_jaarplanning, instelling.p.ad_nominale_route_schooljaar, instelling.p.ad_periode_planning, instelling.sis.ad_inschrijving, instelling.sks.ad_keuze_opleidingseenheid, instelling.sks.ad_keuze_leergelegenheid, instelling.sks.ad_keuze_lesgelegenheid, instelling.sks.ad_accorderen, instelling.sks.ad_keuze_aanvraag_beheer, instelling.sks.ad_verwerken_definitieve_keuzes
+    include legenda, legenda.*
+    include instelling.rooster with {
+      description ''
+    }
+    include instelling.lms with {
+      description ''
+    }
+    include spec.koppelingen.k_keuzeaanbod_ontsluiten with {
+      color markering
+      description ''
+    }
+    include instelling.oc.ad_onderwijsspecificatie_uitwerking with {
+      color markering
+    }
+    exclude spec
+    exclude * -> *
+    include spec.koppelingen.k_keuzeaanbod_ontsluiten -> instelling.** where tag is #hoofdplaat
+    include legenda.koppeling -> legenda.*
+  }
+
+  view hp_inschrijfbaar_aanbod_ontsluiten {
+    title 'Hoofdplaat / Inschrijfbaar aanbod ontsluiten'
+    description 'Waar de koppeling Inschrijfbaar aanbod ontsluiten op de hoofdplaat ligt, en van welke applicatiedienst zij is afgeleid.'
+
+    autoLayout TopBottom 50 50
+
+    include instelling, instelling.co, instelling.oc, instelling.p, instelling.rooster, instelling.sks, instelling.sis, instelling.lms
+    include instelling.co.ad_nominale_route_meerjaar, instelling.oc.ad_onderwijsspecificatie_uitwerking, instelling.p.ad_capaciteitsplanning, instelling.p.ad_jaarplanning, instelling.p.ad_nominale_route_schooljaar, instelling.p.ad_periode_planning, instelling.sis.ad_inschrijving, instelling.sks.ad_keuze_opleidingseenheid, instelling.sks.ad_keuze_leergelegenheid, instelling.sks.ad_keuze_lesgelegenheid, instelling.sks.ad_accorderen, instelling.sks.ad_keuze_aanvraag_beheer, instelling.sks.ad_verwerken_definitieve_keuzes
+    include extern, extern.eduhub, extern.cambo
+    include legenda, legenda.*
+    include instelling.rooster with {
+      description ''
+    }
+    include instelling.lms with {
+      description ''
+    }
+    include spec.koppelingen.k_inschrijfbaar_aanbod_ontsluiten with {
+      color markering
+      description ''
+    }
+    include instelling.oc.ad_onderwijsspecificatie_uitwerking with {
+      color markering
+    }
+    exclude spec
+    exclude * -> *
+    include spec.koppelingen.k_inschrijfbaar_aanbod_ontsluiten -> instelling.** where tag is #hoofdplaat
+    include spec.koppelingen.k_inschrijfbaar_aanbod_ontsluiten -> extern.** where tag is #hoofdplaat
+    include legenda.koppeling -> legenda.*
+  }
+
+  view hp_specificatie_ter_vaststelling_aanbieden {
+    title 'Hoofdplaat / Specificatie ter vaststelling aanbieden'
+    description 'Waar de koppeling Specificatie ter vaststelling aanbieden op de hoofdplaat ligt, en van welke applicatiedienst zij is afgeleid.'
+
+    autoLayout TopBottom 50 50
+
+    include instelling, instelling.co, instelling.oc, instelling.p, instelling.rooster, instelling.sks, instelling.sis, instelling.lms
+    include instelling.co.ad_nominale_route_meerjaar, instelling.oc.ad_onderwijsspecificatie_uitwerking, instelling.p.ad_capaciteitsplanning, instelling.p.ad_jaarplanning, instelling.p.ad_nominale_route_schooljaar, instelling.p.ad_periode_planning, instelling.sis.ad_inschrijving, instelling.sks.ad_keuze_opleidingseenheid, instelling.sks.ad_keuze_leergelegenheid, instelling.sks.ad_keuze_lesgelegenheid, instelling.sks.ad_accorderen, instelling.sks.ad_keuze_aanvraag_beheer, instelling.sks.ad_verwerken_definitieve_keuzes
+    include legenda, legenda.*
+    include instelling.rooster with {
+      description ''
+    }
+    include instelling.lms with {
+      description ''
+    }
+    include spec.koppelingen.k_specificatie_ter_vaststelling_aanbieden with {
+      color markering
+      description ''
+    }
+    include instelling.co.ad_nominale_route_meerjaar with {
+      color markering
+    }
+    exclude spec
+    exclude * -> *
+    include spec.koppelingen.k_specificatie_ter_vaststelling_aanbieden -> instelling.** where tag is #hoofdplaat
+    include legenda.koppeling -> legenda.*
+  }
+
+  view hp_opleidingsaanbod_aanmaken {
+    title 'Hoofdplaat / Opleidingsaanbod aanmaken'
+    description 'Waar de koppeling Opleidingsaanbod aanmaken op de hoofdplaat ligt, en van welke applicatiedienst zij is afgeleid.'
+
+    autoLayout TopBottom 50 50
+
+    include instelling, instelling.co, instelling.oc, instelling.p, instelling.rooster, instelling.sks, instelling.sis, instelling.lms
+    include instelling.co.ad_nominale_route_meerjaar, instelling.oc.ad_onderwijsspecificatie_uitwerking, instelling.p.ad_capaciteitsplanning, instelling.p.ad_jaarplanning, instelling.p.ad_nominale_route_schooljaar, instelling.p.ad_periode_planning, instelling.sis.ad_inschrijving, instelling.sks.ad_keuze_opleidingseenheid, instelling.sks.ad_keuze_leergelegenheid, instelling.sks.ad_keuze_lesgelegenheid, instelling.sks.ad_accorderen, instelling.sks.ad_keuze_aanvraag_beheer, instelling.sks.ad_verwerken_definitieve_keuzes
+    include legenda, legenda.*
+    include instelling.rooster with {
+      description ''
+    }
+    include instelling.lms with {
+      description ''
+    }
+    include spec.koppelingen.k_opleidingsaanbod_aanmaken with {
+      color markering
+      description ''
+    }
+    include instelling.p.ad_capaciteitsplanning with {
+      color markering
+    }
+    exclude spec
+    exclude * -> *
+    include spec.koppelingen.k_opleidingsaanbod_aanmaken -> instelling.** where tag is #hoofdplaat
+    include legenda.koppeling -> legenda.*
+  }
+
+  view hp_opleidingsaanbod_herplannen {
+    title 'Hoofdplaat / Opleidingsaanbod herplannen'
+    description 'Waar de koppeling Opleidingsaanbod herplannen op de hoofdplaat ligt, en van welke applicatiedienst zij is afgeleid.'
+
+    autoLayout TopBottom 50 50
+
+    include instelling, instelling.co, instelling.oc, instelling.p, instelling.rooster, instelling.sks, instelling.sis, instelling.lms
+    include instelling.co.ad_nominale_route_meerjaar, instelling.oc.ad_onderwijsspecificatie_uitwerking, instelling.p.ad_capaciteitsplanning, instelling.p.ad_jaarplanning, instelling.p.ad_nominale_route_schooljaar, instelling.p.ad_periode_planning, instelling.sis.ad_inschrijving, instelling.sks.ad_keuze_opleidingseenheid, instelling.sks.ad_keuze_leergelegenheid, instelling.sks.ad_keuze_lesgelegenheid, instelling.sks.ad_accorderen, instelling.sks.ad_keuze_aanvraag_beheer, instelling.sks.ad_verwerken_definitieve_keuzes
+    include legenda, legenda.*
+    include instelling.rooster with {
+      description ''
+    }
+    include instelling.lms with {
+      description ''
+    }
+    include spec.koppelingen.k_opleidingsaanbod_herplannen with {
+      color markering
+      description ''
+    }
+    include instelling.p.ad_capaciteitsplanning with {
+      color markering
+    }
+    exclude spec
+    exclude * -> *
+    include spec.koppelingen.k_opleidingsaanbod_herplannen -> instelling.** where tag is #hoofdplaat
+    include legenda.koppeling -> legenda.*
+  }
+
+  view hp_late_wijziging_toetsen {
+    title 'Hoofdplaat / Late wijziging toetsen'
+    description 'Waar de koppeling Late wijziging toetsen op de hoofdplaat ligt, en van welke applicatiedienst zij is afgeleid.'
+
+    autoLayout TopBottom 50 50
+
+    include instelling, instelling.co, instelling.oc, instelling.p, instelling.rooster, instelling.sks, instelling.sis, instelling.lms
+    include instelling.co.ad_nominale_route_meerjaar, instelling.oc.ad_onderwijsspecificatie_uitwerking, instelling.p.ad_capaciteitsplanning, instelling.p.ad_jaarplanning, instelling.p.ad_nominale_route_schooljaar, instelling.p.ad_periode_planning, instelling.sis.ad_inschrijving, instelling.sks.ad_keuze_opleidingseenheid, instelling.sks.ad_keuze_leergelegenheid, instelling.sks.ad_keuze_lesgelegenheid, instelling.sks.ad_accorderen, instelling.sks.ad_keuze_aanvraag_beheer, instelling.sks.ad_verwerken_definitieve_keuzes
+    include legenda, legenda.*
+    include instelling.rooster with {
+      description ''
+    }
+    include instelling.lms with {
+      description ''
+    }
+    include spec.koppelingen.k_late_wijziging_toetsen with {
+      color markering
+      description ''
+    }
+    include instelling.p.ad_capaciteitsplanning with {
+      color markering
+    }
+    exclude spec
+    exclude * -> *
+    include spec.koppelingen.k_late_wijziging_toetsen -> instelling.** where tag is #hoofdplaat
+    include legenda.koppeling -> legenda.*
+  }
+
+  view hp_planningselementen_ontsluiten {
+    title 'Hoofdplaat / Planningselementen ontsluiten'
+    description 'Waar de koppeling Planningselementen ontsluiten op de hoofdplaat ligt, en van welke applicatiedienst zij is afgeleid.'
+
+    autoLayout TopBottom 50 50
+
+    include instelling, instelling.co, instelling.oc, instelling.p, instelling.rooster, instelling.sks, instelling.sis, instelling.lms
+    include instelling.co.ad_nominale_route_meerjaar, instelling.oc.ad_onderwijsspecificatie_uitwerking, instelling.p.ad_capaciteitsplanning, instelling.p.ad_jaarplanning, instelling.p.ad_nominale_route_schooljaar, instelling.p.ad_periode_planning, instelling.sis.ad_inschrijving, instelling.sks.ad_keuze_opleidingseenheid, instelling.sks.ad_keuze_leergelegenheid, instelling.sks.ad_keuze_lesgelegenheid, instelling.sks.ad_accorderen, instelling.sks.ad_keuze_aanvraag_beheer, instelling.sks.ad_verwerken_definitieve_keuzes
+    include legenda, legenda.*
+    include instelling.rooster with {
+      description ''
+    }
+    include instelling.lms with {
+      description ''
+    }
+    include spec.koppelingen.k_planningselementen_ontsluiten with {
+      color markering
+      description ''
+    }
+    include instelling.p.ad_capaciteitsplanning with {
+      color markering
+    }
+    exclude spec
+    exclude * -> *
+    include spec.koppelingen.k_planningselementen_ontsluiten -> instelling.** where tag is #hoofdplaat
+    include legenda.koppeling -> legenda.*
+  }
+
+  view hp_geplande_leergelegenheden_ontsluiten {
+    title 'Hoofdplaat / Geplande leergelegenheden ontsluiten'
+    description 'Waar de koppeling Geplande leergelegenheden ontsluiten op de hoofdplaat ligt, en van welke applicatiedienst zij is afgeleid.'
+
+    autoLayout TopBottom 50 50
+
+    include instelling, instelling.co, instelling.oc, instelling.p, instelling.rooster, instelling.sks, instelling.sis, instelling.lms
+    include instelling.co.ad_nominale_route_meerjaar, instelling.oc.ad_onderwijsspecificatie_uitwerking, instelling.p.ad_capaciteitsplanning, instelling.p.ad_jaarplanning, instelling.p.ad_nominale_route_schooljaar, instelling.p.ad_periode_planning, instelling.sis.ad_inschrijving, instelling.sks.ad_keuze_opleidingseenheid, instelling.sks.ad_keuze_leergelegenheid, instelling.sks.ad_keuze_lesgelegenheid, instelling.sks.ad_accorderen, instelling.sks.ad_keuze_aanvraag_beheer, instelling.sks.ad_verwerken_definitieve_keuzes
+    include legenda, legenda.*
+    include instelling.rooster with {
+      description ''
+    }
+    include instelling.lms with {
+      description ''
+    }
+    include spec.koppelingen.k_geplande_leergelegenheden_ontsluiten with {
+      color markering
+      description ''
+    }
+    include instelling.p.ad_periode_planning with {
+      color markering
+    }
+    exclude spec
+    exclude * -> *
+    include spec.koppelingen.k_geplande_leergelegenheden_ontsluiten -> instelling.** where tag is #hoofdplaat
+    include legenda.koppeling -> legenda.*
+  }
+
+  view hp_planninggroepen_ontsluiten {
+    title 'Hoofdplaat / Planninggroepen ontsluiten'
+    description 'Waar de koppeling Planninggroepen ontsluiten op de hoofdplaat ligt, en van welke applicatiedienst zij is afgeleid.'
+
+    autoLayout TopBottom 50 50
+
+    include instelling, instelling.co, instelling.oc, instelling.p, instelling.rooster, instelling.sks, instelling.sis, instelling.lms
+    include instelling.co.ad_nominale_route_meerjaar, instelling.oc.ad_onderwijsspecificatie_uitwerking, instelling.p.ad_capaciteitsplanning, instelling.p.ad_jaarplanning, instelling.p.ad_nominale_route_schooljaar, instelling.p.ad_periode_planning, instelling.sis.ad_inschrijving, instelling.sks.ad_keuze_opleidingseenheid, instelling.sks.ad_keuze_leergelegenheid, instelling.sks.ad_keuze_lesgelegenheid, instelling.sks.ad_accorderen, instelling.sks.ad_keuze_aanvraag_beheer, instelling.sks.ad_verwerken_definitieve_keuzes
+    include legenda, legenda.*
+    include instelling.rooster with {
+      description ''
+    }
+    include instelling.lms with {
+      description ''
+    }
+    include spec.koppelingen.k_planninggroepen_ontsluiten with {
+      color markering
+      description ''
+    }
+    include instelling.p.ad_periode_planning with {
+      color markering
+    }
+    exclude spec
+    exclude * -> *
+    include spec.koppelingen.k_planninggroepen_ontsluiten -> instelling.** where tag is #hoofdplaat
+    include legenda.koppeling -> legenda.*
+  }
+
+  view hp_plaatsingsgroepen_ontsluiten {
+    title 'Hoofdplaat / Plaatsingsgroepen ontsluiten'
+    description 'Waar de koppeling Plaatsingsgroepen ontsluiten op de hoofdplaat ligt, en van welke applicatiedienst zij is afgeleid.'
+
+    autoLayout TopBottom 50 50
+
+    include instelling, instelling.co, instelling.oc, instelling.p, instelling.rooster, instelling.sks, instelling.sis, instelling.lms
+    include instelling.co.ad_nominale_route_meerjaar, instelling.oc.ad_onderwijsspecificatie_uitwerking, instelling.p.ad_capaciteitsplanning, instelling.p.ad_jaarplanning, instelling.p.ad_nominale_route_schooljaar, instelling.p.ad_periode_planning, instelling.sis.ad_inschrijving, instelling.sks.ad_keuze_opleidingseenheid, instelling.sks.ad_keuze_leergelegenheid, instelling.sks.ad_keuze_lesgelegenheid, instelling.sks.ad_accorderen, instelling.sks.ad_keuze_aanvraag_beheer, instelling.sks.ad_verwerken_definitieve_keuzes
+    include legenda, legenda.*
+    include instelling.rooster with {
+      description ''
+    }
+    include instelling.lms with {
+      description ''
+    }
+    include spec.koppelingen.k_plaatsingsgroepen_ontsluiten with {
+      color markering
+      description ''
+    }
+    include instelling.sis.ad_inschrijving with {
+      color markering
+    }
+    exclude spec
+    exclude * -> *
+    include spec.koppelingen.k_plaatsingsgroepen_ontsluiten -> instelling.** where tag is #hoofdplaat
+    include legenda.koppeling -> legenda.*
+  }
+
+  view hp_opleidingsprogrammaverbintenis_ontsluiten {
+    title 'Hoofdplaat / Opleidingsprogrammaverbintenis ontsluiten'
+    description 'Waar de koppeling Opleidingsprogrammaverbintenis ontsluiten op de hoofdplaat ligt, en van welke applicatiedienst zij is afgeleid.'
+
+    autoLayout TopBottom 50 50
+
+    include instelling, instelling.co, instelling.oc, instelling.p, instelling.rooster, instelling.sks, instelling.sis, instelling.lms
+    include instelling.co.ad_nominale_route_meerjaar, instelling.oc.ad_onderwijsspecificatie_uitwerking, instelling.p.ad_capaciteitsplanning, instelling.p.ad_jaarplanning, instelling.p.ad_nominale_route_schooljaar, instelling.p.ad_periode_planning, instelling.sis.ad_inschrijving, instelling.sks.ad_keuze_opleidingseenheid, instelling.sks.ad_keuze_leergelegenheid, instelling.sks.ad_keuze_lesgelegenheid, instelling.sks.ad_accorderen, instelling.sks.ad_keuze_aanvraag_beheer, instelling.sks.ad_verwerken_definitieve_keuzes
+    include legenda, legenda.*
+    include instelling.rooster with {
+      description ''
+    }
+    include instelling.lms with {
+      description ''
+    }
+    include spec.koppelingen.k_opleidingsprogrammaverbintenis_ontsluiten with {
+      color markering
+      description ''
+    }
+    include instelling.sis.ad_inschrijving with {
+      color markering
+    }
+    exclude spec
+    exclude * -> *
+    include spec.koppelingen.k_opleidingsprogrammaverbintenis_ontsluiten -> instelling.** where tag is #hoofdplaat
+    include legenda.koppeling -> legenda.*
+  }
+
+  view hp_animo_doorgeven {
+    title 'Hoofdplaat / Animo doorgeven'
+    description 'Waar de koppeling Animo doorgeven op de hoofdplaat ligt, en van welke applicatiedienst zij is afgeleid.'
+
+    autoLayout TopBottom 50 50
+
+    include instelling, instelling.co, instelling.oc, instelling.p, instelling.rooster, instelling.sks, instelling.sis, instelling.lms
+    include instelling.co.ad_nominale_route_meerjaar, instelling.oc.ad_onderwijsspecificatie_uitwerking, instelling.p.ad_capaciteitsplanning, instelling.p.ad_jaarplanning, instelling.p.ad_nominale_route_schooljaar, instelling.p.ad_periode_planning, instelling.sis.ad_inschrijving, instelling.sks.ad_keuze_opleidingseenheid, instelling.sks.ad_keuze_leergelegenheid, instelling.sks.ad_keuze_lesgelegenheid, instelling.sks.ad_accorderen, instelling.sks.ad_keuze_aanvraag_beheer, instelling.sks.ad_verwerken_definitieve_keuzes
+    include legenda, legenda.*
+    include instelling.rooster with {
+      description ''
+    }
+    include instelling.lms with {
+      description ''
+    }
+    include spec.koppelingen.k_animo_doorgeven with {
+      color markering
+      description ''
+    }
+    include instelling.sks.ad_keuze_aanvraag_beheer with {
+      color markering
+    }
+    exclude spec
+    exclude * -> *
+    include spec.koppelingen.k_animo_doorgeven -> instelling.** where tag is #hoofdplaat
+    include legenda.koppeling -> legenda.*
+  }
+
+  view hp_plaatsing_op_lesgelegenheid_aanvragen {
+    title 'Hoofdplaat / Plaatsing op lesgelegenheid aanvragen'
+    description 'Waar de koppeling Plaatsing op lesgelegenheid aanvragen op de hoofdplaat ligt, en van welke applicatiedienst zij is afgeleid.'
+
+    autoLayout TopBottom 50 50
+
+    include instelling, instelling.co, instelling.oc, instelling.p, instelling.rooster, instelling.sks, instelling.sis, instelling.lms
+    include instelling.co.ad_nominale_route_meerjaar, instelling.oc.ad_onderwijsspecificatie_uitwerking, instelling.p.ad_capaciteitsplanning, instelling.p.ad_jaarplanning, instelling.p.ad_nominale_route_schooljaar, instelling.p.ad_periode_planning, instelling.sis.ad_inschrijving, instelling.sks.ad_keuze_opleidingseenheid, instelling.sks.ad_keuze_leergelegenheid, instelling.sks.ad_keuze_lesgelegenheid, instelling.sks.ad_accorderen, instelling.sks.ad_keuze_aanvraag_beheer, instelling.sks.ad_verwerken_definitieve_keuzes
+    include legenda, legenda.*
+    include instelling.rooster with {
+      description ''
+    }
+    include instelling.lms with {
+      description ''
+    }
+    include spec.koppelingen.k_plaatsing_op_lesgelegenheid_aanvragen with {
+      color markering
+      description ''
+    }
+    include instelling.sks.ad_verwerken_definitieve_keuzes with {
+      color markering
+    }
+    exclude spec
+    exclude * -> *
+    include spec.koppelingen.k_plaatsing_op_lesgelegenheid_aanvragen -> instelling.** where tag is #hoofdplaat
+    include legenda.koppeling -> legenda.*
+  }
+
+  view hp_keuzeverbintenis_vastleggen {
+    title 'Hoofdplaat / Keuzeverbintenis vastleggen'
+    description 'Waar de koppeling Keuzeverbintenis vastleggen op de hoofdplaat ligt, en van welke applicatiedienst zij is afgeleid.'
+
+    autoLayout TopBottom 50 50
+
+    include instelling, instelling.co, instelling.oc, instelling.p, instelling.rooster, instelling.sks, instelling.sis, instelling.lms
+    include instelling.co.ad_nominale_route_meerjaar, instelling.oc.ad_onderwijsspecificatie_uitwerking, instelling.p.ad_capaciteitsplanning, instelling.p.ad_jaarplanning, instelling.p.ad_nominale_route_schooljaar, instelling.p.ad_periode_planning, instelling.sis.ad_inschrijving, instelling.sks.ad_keuze_opleidingseenheid, instelling.sks.ad_keuze_leergelegenheid, instelling.sks.ad_keuze_lesgelegenheid, instelling.sks.ad_accorderen, instelling.sks.ad_keuze_aanvraag_beheer, instelling.sks.ad_verwerken_definitieve_keuzes
+    include legenda, legenda.*
+    include instelling.rooster with {
+      description ''
+    }
+    include instelling.lms with {
+      description ''
+    }
+    include spec.koppelingen.k_keuzeverbintenis_vastleggen with {
+      color markering
+      description ''
+    }
+    include instelling.sks.ad_verwerken_definitieve_keuzes with {
+      color markering
+    }
+    exclude spec
+    exclude * -> *
+    include spec.koppelingen.k_keuzeverbintenis_vastleggen -> instelling.** where tag is #hoofdplaat
+    include legenda.koppeling -> legenda.*
+  }
+
+  view hp_onderwijseenheidverbintenis_doorgeven {
+    title 'Hoofdplaat / Onderwijseenheidverbintenis doorgeven'
+    description 'Waar de koppeling Onderwijseenheidverbintenis doorgeven op de hoofdplaat ligt, en van welke applicatiedienst zij is afgeleid.'
+
+    autoLayout TopBottom 50 50
+
+    include instelling, instelling.co, instelling.oc, instelling.p, instelling.rooster, instelling.sks, instelling.sis, instelling.lms
+    include instelling.co.ad_nominale_route_meerjaar, instelling.oc.ad_onderwijsspecificatie_uitwerking, instelling.p.ad_capaciteitsplanning, instelling.p.ad_jaarplanning, instelling.p.ad_nominale_route_schooljaar, instelling.p.ad_periode_planning, instelling.sis.ad_inschrijving, instelling.sks.ad_keuze_opleidingseenheid, instelling.sks.ad_keuze_leergelegenheid, instelling.sks.ad_keuze_lesgelegenheid, instelling.sks.ad_accorderen, instelling.sks.ad_keuze_aanvraag_beheer, instelling.sks.ad_verwerken_definitieve_keuzes
+    include legenda, legenda.*
+    include instelling.rooster with {
+      description ''
+    }
+    include instelling.lms with {
+      description ''
+    }
+    include spec.koppelingen.k_onderwijseenheidverbintenis_doorgeven with {
+      color markering
+      description ''
+    }
+    include instelling.sks.ad_verwerken_definitieve_keuzes with {
+      color markering
+    }
+    exclude spec
+    exclude * -> *
+    include spec.koppelingen.k_onderwijseenheidverbintenis_doorgeven -> instelling.** where tag is #hoofdplaat
+    include legenda.koppeling -> legenda.*
+  }
+
+  view hp_verbintenis_en_planninggroep_doorgeven {
+    title 'Hoofdplaat / Verbintenis en planninggroep doorgeven'
+    description 'Waar de koppeling Verbintenis en planninggroep doorgeven op de hoofdplaat ligt, en van welke applicatiedienst zij is afgeleid.'
+
+    autoLayout TopBottom 50 50
+
+    include instelling, instelling.co, instelling.oc, instelling.p, instelling.rooster, instelling.sks, instelling.sis, instelling.lms
+    include instelling.co.ad_nominale_route_meerjaar, instelling.oc.ad_onderwijsspecificatie_uitwerking, instelling.p.ad_capaciteitsplanning, instelling.p.ad_jaarplanning, instelling.p.ad_nominale_route_schooljaar, instelling.p.ad_periode_planning, instelling.sis.ad_inschrijving, instelling.sks.ad_keuze_opleidingseenheid, instelling.sks.ad_keuze_leergelegenheid, instelling.sks.ad_keuze_lesgelegenheid, instelling.sks.ad_accorderen, instelling.sks.ad_keuze_aanvraag_beheer, instelling.sks.ad_verwerken_definitieve_keuzes
+    include legenda, legenda.*
+    include instelling.rooster with {
+      description ''
+    }
+    include instelling.lms with {
+      description ''
+    }
+    include spec.koppelingen.k_verbintenis_en_planninggroep_doorgeven with {
+      color markering
+      description ''
+    }
+    include instelling.sks.ad_verwerken_definitieve_keuzes with {
+      color markering
+    }
+    exclude spec
+    exclude * -> *
+    include spec.koppelingen.k_verbintenis_en_planninggroep_doorgeven -> instelling.** where tag is #hoofdplaat
+    include legenda.koppeling -> legenda.*
+  }
+
+  view hp_leergelegenheden_roosteren {
+    title 'Hoofdplaat / Leergelegenheden roosteren'
+    description 'Waar de koppeling Leergelegenheden roosteren op de hoofdplaat ligt. Zij is van geen applicatiedienst afgeleid: het component dat haar aanbiedt, heeft er op de hoofdplaat geen.'
+
+    autoLayout TopBottom 50 50
+
+    include instelling, instelling.co, instelling.oc, instelling.p, instelling.rooster, instelling.sks, instelling.sis, instelling.lms
+    include instelling.co.ad_nominale_route_meerjaar, instelling.oc.ad_onderwijsspecificatie_uitwerking, instelling.p.ad_capaciteitsplanning, instelling.p.ad_jaarplanning, instelling.p.ad_nominale_route_schooljaar, instelling.p.ad_periode_planning, instelling.sis.ad_inschrijving, instelling.sks.ad_keuze_opleidingseenheid, instelling.sks.ad_keuze_leergelegenheid, instelling.sks.ad_keuze_lesgelegenheid, instelling.sks.ad_accorderen, instelling.sks.ad_keuze_aanvraag_beheer, instelling.sks.ad_verwerken_definitieve_keuzes
+    include legenda, legenda.*
+    include instelling.rooster with {
+      description ''
+    }
+    include instelling.lms with {
+      description ''
+    }
+    include spec.koppelingen.k_leergelegenheden_roosteren with {
+      color markering
+      description ''
+    }
+    exclude spec
+    exclude * -> *
+    include spec.koppelingen.k_leergelegenheden_roosteren -> instelling.** where tag is #hoofdplaat
+    include legenda.koppeling -> legenda.*
+  }
+
+  view hp_geroosterde_leergelegenheden_ontsluiten {
+    title 'Hoofdplaat / Geroosterde leergelegenheden ontsluiten'
+    description 'Waar de koppeling Geroosterde leergelegenheden ontsluiten op de hoofdplaat ligt. Zij is van geen applicatiedienst afgeleid: het component dat haar aanbiedt, heeft er op de hoofdplaat geen.'
+
+    autoLayout TopBottom 50 50
+
+    include instelling, instelling.co, instelling.oc, instelling.p, instelling.rooster, instelling.sks, instelling.sis, instelling.lms
+    include instelling.co.ad_nominale_route_meerjaar, instelling.oc.ad_onderwijsspecificatie_uitwerking, instelling.p.ad_capaciteitsplanning, instelling.p.ad_jaarplanning, instelling.p.ad_nominale_route_schooljaar, instelling.p.ad_periode_planning, instelling.sis.ad_inschrijving, instelling.sks.ad_keuze_opleidingseenheid, instelling.sks.ad_keuze_leergelegenheid, instelling.sks.ad_keuze_lesgelegenheid, instelling.sks.ad_accorderen, instelling.sks.ad_keuze_aanvraag_beheer, instelling.sks.ad_verwerken_definitieve_keuzes
+    include legenda, legenda.*
+    include instelling.rooster with {
+      description ''
+    }
+    include instelling.lms with {
+      description ''
+    }
+    include spec.koppelingen.k_geroosterde_leergelegenheden_ontsluiten with {
+      color markering
+      description ''
+    }
+    exclude spec
+    exclude * -> *
+    include spec.koppelingen.k_geroosterde_leergelegenheden_ontsluiten -> instelling.** where tag is #hoofdplaat
+    include legenda.koppeling -> legenda.*
+  }
+
+  view hp_planninggroepen_met_studenten_ontsluiten {
+    title 'Hoofdplaat / Planninggroepen met studenten ontsluiten'
+    description 'Waar de koppeling Planninggroepen met studenten ontsluiten op de hoofdplaat ligt. Zij is van geen applicatiedienst afgeleid: het component dat haar aanbiedt, heeft er op de hoofdplaat geen.'
+
+    autoLayout TopBottom 50 50
+
+    include instelling, instelling.co, instelling.oc, instelling.p, instelling.rooster, instelling.sks, instelling.sis, instelling.lms
+    include instelling.co.ad_nominale_route_meerjaar, instelling.oc.ad_onderwijsspecificatie_uitwerking, instelling.p.ad_capaciteitsplanning, instelling.p.ad_jaarplanning, instelling.p.ad_nominale_route_schooljaar, instelling.p.ad_periode_planning, instelling.sis.ad_inschrijving, instelling.sks.ad_keuze_opleidingseenheid, instelling.sks.ad_keuze_leergelegenheid, instelling.sks.ad_keuze_lesgelegenheid, instelling.sks.ad_accorderen, instelling.sks.ad_keuze_aanvraag_beheer, instelling.sks.ad_verwerken_definitieve_keuzes
+    include legenda, legenda.*
+    include instelling.rooster with {
+      description ''
+    }
+    include instelling.lms with {
+      description ''
+    }
+    include spec.koppelingen.k_planninggroepen_met_studenten_ontsluiten with {
+      color markering
+      description ''
+    }
+    exclude spec
+    exclude * -> *
+    include spec.koppelingen.k_planninggroepen_met_studenten_ontsluiten -> instelling.** where tag is #hoofdplaat
+    include legenda.koppeling -> legenda.*
+  }
+
+  view hp_leeromgeving_inrichten {
+    title 'Hoofdplaat / Leeromgeving inrichten'
+    description 'Waar de koppeling Leeromgeving inrichten op de hoofdplaat ligt. Zij is van geen applicatiedienst afgeleid: het component dat haar aanbiedt, heeft er op de hoofdplaat geen.'
+
+    autoLayout TopBottom 50 50
+
+    include instelling, instelling.co, instelling.oc, instelling.p, instelling.rooster, instelling.sks, instelling.sis, instelling.lms
+    include instelling.co.ad_nominale_route_meerjaar, instelling.oc.ad_onderwijsspecificatie_uitwerking, instelling.p.ad_capaciteitsplanning, instelling.p.ad_jaarplanning, instelling.p.ad_nominale_route_schooljaar, instelling.p.ad_periode_planning, instelling.sis.ad_inschrijving, instelling.sks.ad_keuze_opleidingseenheid, instelling.sks.ad_keuze_leergelegenheid, instelling.sks.ad_keuze_lesgelegenheid, instelling.sks.ad_accorderen, instelling.sks.ad_keuze_aanvraag_beheer, instelling.sks.ad_verwerken_definitieve_keuzes
+    include legenda, legenda.*
+    include instelling.rooster with {
+      description ''
+    }
+    include instelling.lms with {
+      description ''
+    }
+    include spec.koppelingen.k_leeromgeving_inrichten with {
+      color markering
+      description ''
+    }
+    exclude spec
+    exclude * -> *
+    include spec.koppelingen.k_leeromgeving_inrichten -> instelling.** where tag is #hoofdplaat
+    include legenda.koppeling -> legenda.*
+  }
+
+  view hp_leeromgeving_bijwerken {
+    title 'Hoofdplaat / Leeromgeving bijwerken'
+    description 'Waar de koppeling Leeromgeving bijwerken op de hoofdplaat ligt. Zij is van geen applicatiedienst afgeleid: het component dat haar aanbiedt, heeft er op de hoofdplaat geen.'
+
+    autoLayout TopBottom 50 50
+
+    include instelling, instelling.co, instelling.oc, instelling.p, instelling.rooster, instelling.sks, instelling.sis, instelling.lms
+    include instelling.co.ad_nominale_route_meerjaar, instelling.oc.ad_onderwijsspecificatie_uitwerking, instelling.p.ad_capaciteitsplanning, instelling.p.ad_jaarplanning, instelling.p.ad_nominale_route_schooljaar, instelling.p.ad_periode_planning, instelling.sis.ad_inschrijving, instelling.sks.ad_keuze_opleidingseenheid, instelling.sks.ad_keuze_leergelegenheid, instelling.sks.ad_keuze_lesgelegenheid, instelling.sks.ad_accorderen, instelling.sks.ad_keuze_aanvraag_beheer, instelling.sks.ad_verwerken_definitieve_keuzes
+    include legenda, legenda.*
+    include instelling.rooster with {
+      description ''
+    }
+    include instelling.lms with {
+      description ''
+    }
+    include spec.koppelingen.k_leeromgeving_bijwerken with {
+      color markering
+      description ''
+    }
+    exclude spec
+    exclude * -> *
+    include spec.koppelingen.k_leeromgeving_bijwerken -> instelling.** where tag is #hoofdplaat
+    include legenda.koppeling -> legenda.*
+  }
+
+  view hp_toetsresultaat_doorgeven {
+    title 'Hoofdplaat / Toetsresultaat doorgeven'
+    description 'Waar de koppeling Toetsresultaat doorgeven op de hoofdplaat ligt. Zij is van geen applicatiedienst afgeleid: het component dat haar aanbiedt, heeft er op de hoofdplaat geen.'
+
+    autoLayout TopBottom 50 50
+
+    include instelling, instelling.co, instelling.oc, instelling.p, instelling.rooster, instelling.sks, instelling.sis, instelling.lms
+    include instelling.co.ad_nominale_route_meerjaar, instelling.oc.ad_onderwijsspecificatie_uitwerking, instelling.p.ad_capaciteitsplanning, instelling.p.ad_jaarplanning, instelling.p.ad_nominale_route_schooljaar, instelling.p.ad_periode_planning, instelling.sis.ad_inschrijving, instelling.sks.ad_keuze_opleidingseenheid, instelling.sks.ad_keuze_leergelegenheid, instelling.sks.ad_keuze_lesgelegenheid, instelling.sks.ad_accorderen, instelling.sks.ad_keuze_aanvraag_beheer, instelling.sks.ad_verwerken_definitieve_keuzes
+    include legenda, legenda.*
+    include instelling.rooster with {
+      description ''
+    }
+    include instelling.lms with {
+      description ''
+    }
+    include spec.koppelingen.k_toetsresultaat_doorgeven with {
+      color markering
+      description ''
+    }
+    exclude spec
+    exclude * -> *
+    include spec.koppelingen.k_toetsresultaat_doorgeven -> instelling.** where tag is #hoofdplaat
+    include legenda.koppeling -> legenda.*
+  }
+
+  view hp_nominaal_template_inrichten {
+    title 'Hoofdplaat / Nominaal template inrichten'
+    description 'Waar de koppeling Nominaal template inrichten op de hoofdplaat ligt. Zij is van geen applicatiedienst afgeleid: het component dat haar aanbiedt, heeft er op de hoofdplaat geen.'
+
+    autoLayout TopBottom 50 50
+
+    include instelling, instelling.co, instelling.oc, instelling.p, instelling.rooster, instelling.sks, instelling.sis, instelling.lms
+    include instelling.co.ad_nominale_route_meerjaar, instelling.oc.ad_onderwijsspecificatie_uitwerking, instelling.p.ad_capaciteitsplanning, instelling.p.ad_jaarplanning, instelling.p.ad_nominale_route_schooljaar, instelling.p.ad_periode_planning, instelling.sis.ad_inschrijving, instelling.sks.ad_keuze_opleidingseenheid, instelling.sks.ad_keuze_leergelegenheid, instelling.sks.ad_keuze_lesgelegenheid, instelling.sks.ad_accorderen, instelling.sks.ad_keuze_aanvraag_beheer, instelling.sks.ad_verwerken_definitieve_keuzes
+    include legenda, legenda.*
+    include instelling.rooster with {
+      description ''
+    }
+    include instelling.lms with {
+      description ''
+    }
+    include spec.koppelingen.k_nominaal_template_inrichten with {
+      color markering
+      description ''
+    }
+    exclude spec
+    exclude * -> *
+    include spec.koppelingen.k_nominaal_template_inrichten -> instelling.** where tag is #hoofdplaat
+    include legenda.koppeling -> legenda.*
+  }
+
+  view hp_examenplanwijziging_toetsen {
+    title 'Hoofdplaat / Examenplanwijziging toetsen'
+    description 'Waar de koppeling Examenplanwijziging toetsen op de hoofdplaat ligt. Zij is van geen applicatiedienst afgeleid: het component dat haar aanbiedt, heeft er op de hoofdplaat geen.'
+
+    autoLayout TopBottom 50 50
+
+    include instelling, instelling.co, instelling.oc, instelling.p, instelling.rooster, instelling.sks, instelling.sis, instelling.lms
+    include instelling.co.ad_nominale_route_meerjaar, instelling.oc.ad_onderwijsspecificatie_uitwerking, instelling.p.ad_capaciteitsplanning, instelling.p.ad_jaarplanning, instelling.p.ad_nominale_route_schooljaar, instelling.p.ad_periode_planning, instelling.sis.ad_inschrijving, instelling.sks.ad_keuze_opleidingseenheid, instelling.sks.ad_keuze_leergelegenheid, instelling.sks.ad_keuze_lesgelegenheid, instelling.sks.ad_accorderen, instelling.sks.ad_keuze_aanvraag_beheer, instelling.sks.ad_verwerken_definitieve_keuzes
+    include legenda, legenda.*
+    include instelling.rooster with {
+      description ''
+    }
+    include instelling.lms with {
+      description ''
+    }
+    include spec.koppelingen.k_examenplanwijziging_toetsen with {
+      color markering
+      description ''
+    }
+    exclude spec
+    exclude * -> *
+    include spec.koppelingen.k_examenplanwijziging_toetsen -> instelling.** where tag is #hoofdplaat
+    include legenda.koppeling -> legenda.*
+  }
+
+}

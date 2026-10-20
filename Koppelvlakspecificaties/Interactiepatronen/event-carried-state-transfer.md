@@ -8,16 +8,7 @@ De wijziging is volledig in het event uit te drukken en er valt niets zinnigs op
 
 ## Verloop
 
-```mermaid
-sequenceDiagram
-    autonumber
-    participant Bezitter
-    participant Consument
-
-    Note over Bezitter: De status van de resource wijzigt, de resource zelf niet
-    Bezitter-)Consument: Event: object-id, oude status, nieuwe status
-    Note over Consument: Werkt zijn afgeleide status bij, zonder opvraag
-```
+![Event-Carried State Transfer: volgorde van de interacties](../src/diagrammen/interactiepatronen/event-carried-state-transfer.png)
 
 | Bericht | Richting | Synchroniciteit | Draagt | Draagt niet |
 |---|---|---|---|---|
@@ -35,4 +26,4 @@ Wat de ontvanger met de overgang doet is applicatiefunctionaliteit en valt buite
 
 | Koppeling | Wat gemeld wordt |
 |---|---|
-| [Onderwijscatalogus naar planning en roostering](../Koppelingspecificaties/onderwijscatalogus-planning-en-roostering.md) | Specificatiestatus gewijzigd buiten een versiewijziging om, bijvoorbeeld van `gepubliceerd` naar `gedeactiveerd` |
+| [Specificatiestatus volgen](../Koppelingen/specificatiestatus-volgen.md) | Specificatiestatus gewijzigd buiten een versiewijziging om, bijvoorbeeld van `gepubliceerd` naar `gedeactiveerd` |

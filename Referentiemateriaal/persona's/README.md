@@ -12,4 +12,4 @@ Een persona is geen aparte casus in de keten. Hij of zij illustreert waarom deze
 
 Elke persona beschrijft twee kanten van dezelfde route: de **studentjourney** (wat de student meemaakt) en de **instellingsjourney** (wat de instelling daarvoor doet). Dat onderscheid loopt door in de kaderscenario's zelf.
 
-Ze staan als eigen documenten en niet in het kaderscenario, omdat meerdere documenten ernaar verwijzen: de kaderscenario's, de [uitgangspunten van de koppelingspecificaties](../../Koppelvlakspecificaties/uitgangspunten.md) en de koppelingspecificaties zelf. Eén bron, geen gedupliceerde tekst.
+Ze staan als eigen documenten en niet in het kaderscenario, omdat meerdere documenten ernaar verwijzen: de kaderscenario's, de [uitgangspunten van de koppelingen](../../Koppelvlakspecificaties/uitgangspunten.md) en de koppelingen zelf. Eén bron, geen gedupliceerde tekst.

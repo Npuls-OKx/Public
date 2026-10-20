@@ -1,8 +1,8 @@
 # Auth-standaard voor koppelvlakken
 
-**Aanleiding.** Geen enkele koppelingspecificatie in dit pakket legt vast hoe een consument zich bij een endpoint authenticeert. Zonder een gedeelde standaard verzint elke koppeling dat opnieuw, en twee leveranciers die beide "aan de koppelingspecificatie voldoen" kunnen alsnog niet verbinden omdat de een OAuth2 verwacht en de ander een API-sleutel. Dit document legt één mechanisme vast voor alle koppelvlakken in dit pakket.
+**Aanleiding.** Geen enkele koppeling in dit pakket legt vast hoe een consument zich bij een endpoint authenticeert. Zonder een gedeelde standaard verzint elke koppeling dat opnieuw, en twee leveranciers die beide "aan de koppeling voldoen" kunnen alsnog niet verbinden omdat de een OAuth2 verwacht en de ander een API-sleutel. Dit document legt één mechanisme vast voor alle koppelvlakken in dit pakket.
 
-Dit is, net als de uitgangspunten, een repo-brede keuze, geen keuze per koppeling: elke koppelingspecificatie verwijst hierheen in plaats van authenticatie opnieuw te beschrijven.
+Dit is, net als de uitgangspunten, een repo-brede keuze, geen keuze per koppeling: elke koppeling verwijst hierheen in plaats van authenticatie opnieuw te beschrijven.
 
 ## Mechanisme: OAuth 2.0 Client Credentials
 
@@ -10,19 +10,7 @@ Consument en leverancier wisselen vooraf, buiten de koppeling om, een `client_id
 
 Elk systeem dat endpoints serveert is verantwoordelijk voor zijn eigen token-endpoint (of een eigen identity provider erachter); er is geen centrale OKx-brede autorisatieserver. Dat sluit aan bij [U3, resource-eigenaarschap](uitgangspunten.md#u3-resource-eigenaarschap): wie de resource bezit, bezit ook de toegang ertoe.
 
-```mermaid
-sequenceDiagram
-    autonumber
-    participant C as Consument
-    participant TE as Token-endpoint (bij de leverancier)
-    participant API as Endpoint (bij de leverancier)
-
-    Note over C,TE: client_id + client_secret vooraf uitgewisseld (onboarding)
-    C->>TE: POST /token (grant_type=client_credentials, client_id, client_secret)
-    TE-->>C: access_token (Bearer, met vervaltijd)
-    C->>API: GET/POST, Authorization: Bearer <token>
-    API-->>C: response
-```
+![Token ophalen en een endpoint aanroepen: volgorde van de interacties](src/diagrammen/beveiliging/token-ophalen-en-een-endpoint-aanroepen.png)
 
 ## Toepassing op webhook-aflevering
 

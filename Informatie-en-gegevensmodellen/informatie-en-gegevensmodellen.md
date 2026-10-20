@@ -24,7 +24,7 @@ Dit document legt de vorm vast waarin onderwijsgegevens over een koppeling gaan:
 | 3. Logisch gegevensmodel | Entiteiten, velden en relaties, techniekonafhankelijk | Dit document |
 | 4. Technisch gegevensmodel | De JSON Schema's waartegen een implementatie valideert | Dit document |
 
-De [koppelvlakspecificatie](../Koppelvlakspecificaties/inleiding.md) beschrijft welke applicatiediensten een systeem implementeert en welk berichtverkeer daaroverheen gaat; zij verwijst naar dit pakket op een vastgelegde versie voor de vorm van wat er in die berichten zit. Deze modellen zijn **alfa en indicatief** ([U1](../Koppelvlakspecificaties/uitgangspunten.md#u1-indicatief-en-onderbouwend-niet-voorschrijvend)) en volgen de payloadvorm uit [U7](../Koppelvlakspecificaties/uitgangspunten.md#u7-payload-plat-met-verwijzingen-en-de-sleutelconventie): plat, met verwijzingen tussen objecten in plaats van nesting, zodat een consument alleen ophaalt wat hij nodig heeft.
+De [koppelvlakspecificatie](../Koppelvlakspecificaties/inleiding.md) beschrijft welke applicatiediensten een systeem implementeert en welk berichtverkeer daaroverheen gaat; zij verwijst naar dit pakket op een vastgelegde versie voor de vorm van wat er in die berichten zit. Deze modellen zijn **alfa**: ze kunnen nog wijzigen voordat ze worden vastgesteld. Wie ze implementeert, volgt ze zoals ze in de gebruikte uitgave staan ([U1](../Koppelvlakspecificaties/uitgangspunten.md#u1-bouwblokken-liggen-vast-de-keuze-van-koppelingen-is-vrij)). Ze volgen de payloadvorm uit [U7](../Koppelvlakspecificaties/uitgangspunten.md#u7-payload-plat-met-verwijzingen-en-de-sleutelconventie): plat, met verwijzingen tussen objecten in plaats van nesting, zodat een consument alleen ophaalt wat hij nodig heeft.
 
 **Doel.** Een bouwer moet hieruit kunnen afleiden welke objecten er zijn, hoe ze samenhangen, welke velden ze dragen, en wat er geldt bovenop wat het schema afdwingt. Geslaagd is het document wanneer twee partijen die er onafhankelijk tegenaan bouwen berichten uitwisselen die elkaar begrijpen.
 
@@ -40,9 +40,9 @@ De [koppelvlakspecificatie](../Koppelvlakspecificaties/inleiding.md) beschrijft 
   - [2.1 Onderwijsspecificatie](#21-onderwijsspecificatie)
   - [2.2 Onderwijsaanbod](#22-onderwijsaanbod)
   - [2.3 Resultaatstructuur en examenplan](#23-resultaatstructuur-en-examenplan)
-  - [2.4 Onderwijscatalogus naar planning en roostering](#24-onderwijscatalogus-naar-planning-en-roostering)
-  - [2.5 Onderwijscatalogus naar studentinformatiesysteem](#25-onderwijscatalogus-naar-studentinformatiesysteem)
-  - [2.6 Onderwijscatalogus naar leermanagementsysteem](#26-onderwijscatalogus-naar-leermanagementsysteem)
+  - [2.4 Specificatie en opleidingsaanbod](#24-specificatie-en-opleidingsaanbod)
+  - [2.5 Specificatie en resultaat](#25-specificatie-en-resultaat)
+  - [2.6 Specificatie en leeromgeving](#26-specificatie-en-leeromgeving)
   - [2.7 Regels bij de schema's](#27-regels-bij-de-schemas)
 - [3 Technisch gegevensmodel](#3-technisch-gegevensmodel)
   - [3.1 address.json](#31-addressjson)
@@ -99,9 +99,6 @@ De [koppelvlakspecificatie](../Koppelvlakspecificaties/inleiding.md) beschrijft 
     - [3.26.23 Specificatie-status-gewijzigd — Specification status changed](#32623-specificatie-status-gewijzigd--specification-status-changed)
     - [3.26.24 Verwerkingsstatus — Processing status](#32624-verwerkingsstatus--processing-status)
 - [4 Gebruiksprofielen](#4-gebruiksprofielen)
-  - [4.1 Onderwijscatalogus naar planning en roostering](#41-onderwijscatalogus-naar-planning-en-roostering)
-  - [4.2 Onderwijscatalogus naar studentinformatiesysteem](#42-onderwijscatalogus-naar-studentinformatiesysteem)
-  - [4.3 Onderwijscatalogus naar leermanagementsysteem](#43-onderwijscatalogus-naar-leermanagementsysteem)
 
 <!-- pagina-einde -->
 
@@ -348,9 +345,9 @@ erDiagram
     }
 ```
 
-### 2.4 Onderwijscatalogus naar planning en roostering
+### 2.4 Specificatie en opleidingsaanbod
 
-De begrippen uit het semantisch kader en hun relaties, in de context van dit proces. Links de wereld van OC (specificeren), rechts die van P (instantiëren); de koppeling verbindt ze via de verwijzing "instantieert".
+De begrippen uit het semantisch kader en hun relaties, in de context van dit proces. Links de wereld van OC (specificeren), rechts die van P (instantiëren); de koppelingen [Onderwijsspecificatie ophalen](../Koppelvlakspecificaties/Koppelingen/onderwijsspecificatie-ophalen.md) en [Opleidingsaanbod aanmaken](../Koppelvlakspecificaties/Koppelingen/opleidingsaanbod-aanmaken.md) verbinden ze via de verwijzing "instantieert".
 
 ```mermaid
 erDiagram
@@ -365,7 +362,7 @@ erDiagram
     ROOSTER }o--|| ONDERWIJSAANBOD : "plaatst in de tijd (context)"
 ```
 
-### 2.5 Onderwijscatalogus naar studentinformatiesysteem
+### 2.5 Specificatie en resultaat
 
 Conform het ROSA Kernmodel Onderwijsinformatie (KOI) en [ADR 0022](../Referentiemateriaal/adr/0022-resultaatbegrippen-conform-rosa-koi.md): een onderwijsresultaat wordt behaald op leeruitkomsten, en meerdere toetsonderdeelresultaten leiden gewogen tot dat onderwijsresultaat. De verbintenis hoort bij het aanbod (ankertabel), niet bij de specificatie, en staat daarom niet in dit kernmodel.
 
@@ -389,7 +386,7 @@ erDiagram
     ONDERWIJSRESULTAAT }o--|| INDIVIDUEEL_EXAMENPLAN : "telt mee in"
 ```
 
-### 2.6 Onderwijscatalogus naar leermanagementsysteem
+### 2.6 Specificatie en leeromgeving
 
 ```mermaid
 erDiagram
@@ -635,7 +632,7 @@ Wat een JSON Schema niet kan uitdrukken, maar wel geldt. Zonder deze regels vali
   "$comment": "Alfa en indicatief. Deze vorm onderbouwt welke velden het koppelvlak nodig heeft en kan wijzigen zolang de payload niet is vastgesteld.",
   "type": "object",
   "required": ["educationSpecifications"],
-  "$comment_required": "Alleen onderwijsspecificaties is altijd aanwezig. Of leeruitkomsten en regelsets meekomen bepaalt het gebruiksprofiel van de koppeling; binnen onderwijscatalogus naar planning en roostering blijven leeruitkomsten weg ([ADR 0023](../../Referentiemateriaal/adr/0023-leeruitkomsten-als-opaque-sleutels-in-koppeling-oc-p-en-r.md)).",
+  "$comment_required": "Alleen onderwijsspecificaties is altijd aanwezig. Of leeruitkomsten en regelsets meekomen bepaalt het gebruiksprofiel van de koppeling; in de koppeling Onderwijsspecificatie ophalen laat het planningssysteem de leeruitkomsten liggen ([gebruiksprofielen](../gebruiksprofielen.md), [ADR 0026](../../Referentiemateriaal/adr/0026-leeruitkomst-als-verbindende-sleutel.md)).",
   "properties": {
     "learningOutcomes": {
       "type": "array",
@@ -1003,7 +1000,7 @@ Wat een JSON Schema niet kan uitdrukken, maar wel geldt. Zonder deze regels vali
   "$id": "https://okx.npuls.nl/schema/specification-changed/alfa",
   "title": "Specification changed",
   "DutchName": "Specificatie-gewijzigd",
-  "$comment": "Alfa en indicatief. Deze vorm onderbouwt welke velden het koppelvlak nodig heeft en kan wijzigen zolang de payload niet is vastgesteld. Wijzigingsklasse volgt de classificatie in de lifecycle-uitwerking, §4.",
+  "$comment": "Alfa en indicatief. Deze vorm onderbouwt welke velden het koppelvlak nodig heeft en kan wijzigen zolang de payload niet is vastgesteld. Wijzigingsklasse volgt de classificatie in regels.md, onder Wijzigingsklasse.",
   "type": "object",
   "required": ["objectId", "oldVersion", "newVersion", "changeClass"],
   "properties": {
@@ -1041,7 +1038,7 @@ Wat een JSON Schema niet kan uitdrukken, maar wel geldt. Zonder deze regels vali
   "$id": "https://okx.npuls.nl/schema/specification-status-changed/alfa",
   "title": "Specification status changed",
   "DutchName": "Specificatie-status-gewijzigd",
-  "$comment": "Alfa en indicatief. Deze vorm onderbouwt welke velden het koppelvlak nodig heeft en kan wijzigen zolang de payload niet is vastgesteld. Status-lifecycle volgt de lifecycle-uitwerking, §3.",
+  "$comment": "Alfa en indicatief. Deze vorm onderbouwt welke velden het koppelvlak nodig heeft en kan wijzigen zolang de payload niet is vastgesteld. De statussen volgen regels.md, onder Deactiveren, niet verwijderen.",
   "type": "object",
   "required": ["objectId", "oldStatus", "newStatus"],
   "properties": {
@@ -1068,7 +1065,7 @@ Wat een JSON Schema niet kan uitdrukken, maar wel geldt. Zonder deze regels vali
     "callbackUrl": { "type": "string", "format": "uri", "DutchName": "callbackUrl" },
     "events": {
       "type": "array",
-      "items": { "enum": ["specificatie-planbaar", "specificatie-gewijzigd", "specificatie-status-gewijzigd", "verwerkingsstatus"] },
+      "items": { "enum": ["specificatie-beschikbaar", "specificatie-gewijzigd", "specificatie-status-gewijzigd", "resultaatstructuur-beschikbaar", "examenplanspecificatie-gewijzigd", "leermiddelkoppeling-beschikbaar", "verwerkingsuitkomst"] },
       "DutchName": "events"
     }
   }
@@ -2180,7 +2177,7 @@ Leerroute 1. De `specificatieVerwijzing`-uuid's komen uit de [voorbeeld onderwij
 }
 ```
 
-Loopt de planning vast, dan bestaat de instantie wel maar draagt die status en knelpunten. Zie het faalpad in de [Planning niet gelukt melden](../Koppelvlakspecificaties/Koppelingspecificaties/onderwijscatalogus-planning-en-roostering.md#planning-niet-gelukt-melden):
+Loopt de planning vast, dan bestaat de instantie wel maar draagt die status en knelpunten. Zie het faalpad in de [Planning niet gelukt melden](../Koppelvlakspecificaties/Koppelingen/opleidingsaanbod-aanmaken.md#planning-niet-gelukt-melden):
 
 ```json
 {
@@ -2742,32 +2739,16 @@ Velden per item in `educationSpecifications`:
 
 ## 4 Gebruiksprofielen
 
-Alle koppelingen delen dezelfde onderwijsspecificatie-payload; per koppeling verschilt welke onderdelen meegaan. Dat verschil staat hier, niet in het schema: het schema legt de vorm vast, het profiel wat een koppeling ervan gebruikt.
+Elke afnemer van de koppeling [Onderwijsspecificatie ophalen](../Koppelvlakspecificaties/Koppelingen/onderwijsspecificatie-ophalen.md) haalt dezelfde onderwijsspecificatie-payload op; per afnemer verschilt welke onderdelen hij gebruikt. Dat verschil staat hier, niet in het schema: het schema legt de vorm vast, het profiel wat een afnemer ervan gebruikt.
 
-### 4.1 Onderwijscatalogus naar planning en roostering
+| Onderdeel | Planningssysteem | Studentinformatiesysteem (SVS) | Leermanagementsysteem |
+|---|---|---|---|
+| `onderwijsspecificaties` | Volledig, inclusief manifest | Volledig, inclusief manifest (nominaal template) | Volledig tot en met `leeronderdeelspecificatie` |
+| `regelsets` | Volledig; `voorwaardeVooraf` bevat leeruitkomst-ids uitsluitend als **verbindende sleutels** voor volgordebepaling: planning gebruikt ze zonder de inhoud te kennen ([ADR 0026](../Referentiemateriaal/adr/0026-leeruitkomst-als-verbindende-sleutel.md)) | Volledig (kiesbaarheid keuzedeelruimte, voorwaarden in behaalde leeruitkomsten) | **Niet nodig.** Kiesbaarheid is het domein van SKS en SIS |
+| `leeruitkomsten` | **Niet nodig.** Planning heeft de betekenis, aggregatie en inhoud van leeruitkomsten niet nodig ([ADR 0026](../Referentiemateriaal/adr/0026-leeruitkomst-als-verbindende-sleutel.md)) | **Volledig**, inclusief aggregatie (`bovenliggendLeeruitkomstId`), `waardedocument` en `indicatieveOmvang`: de sleutel tussen specificatie, resultaatstructuur en onderwijsresultaat ([ADR 0022](../Referentiemateriaal/adr/0022-resultaatbegrippen-conform-rosa-koi.md)) | **Met inhoudsvelden** (`omschrijving`, `resultaat`, `gedrag`): dat is precies wat het LMS uitwerkt en aan de student exposet |
 
-| Onderdeel | Gebruik in onderwijscatalogus naar planning en roostering |
-|---|---|
-| `onderwijsspecificaties` | Volledig, inclusief manifest |
-| `regelsets` | Volledig; `voorwaardeVooraf` bevat leeruitkomst-ids uitsluitend als **verbindende sleutels** voor volgordebepaling: planning gebruikt ze zonder de inhoud te kennen ([ADR 0026](../Referentiemateriaal/adr/0026-leeruitkomst-als-verbindende-sleutel.md)) |
-| `leeruitkomsten` | **Niet meegeleverd.** Planning heeft de betekenis, aggregatie en inhoud van leeruitkomsten niet nodig ([ADR 0026](../Referentiemateriaal/adr/0026-leeruitkomst-als-verbindende-sleutel.md)) |
+Wat een afnemer niet nodig heeft, laat hij liggen. De koppeling verbiedt de aanbieder niet om het mee te leveren, want alle afnemers halen op hetzelfde endpoint op ([ontwerpregels](../Koppelvlakspecificaties/Koppelingen/README.md#ontwerpregels)). Een parameter waarmee een afnemer onderdelen uitsluit, is bij [onderwijsspecificatiestructuur-aanbieder](../Koppelvlakspecificaties/Koppelvlakdiensten/onderwijsspecificatiestructuur-aanbieder.md) nog niet vastgelegd.
 
-### 4.2 Onderwijscatalogus naar studentinformatiesysteem
+De resultaatstructuur haalt het studentinformatiesysteem op in de koppeling [Resultaatstructuur ophalen](../Koppelvlakspecificaties/Koppelingen/resultaatstructuur-ophalen.md), met [result-structure.json](schemas/result-structure.json) als payload.
 
-| Onderdeel | Gebruik in onderwijscatalogus naar studentinformatiesysteem |
-|---|---|
-| `onderwijsspecificaties` | Volledig, inclusief manifest (nominaal template) |
-| `leeruitkomsten` | **Volledig**, inclusief aggregatie (`bovenliggendLeeruitkomstId`), `waardedocument` en `indicatieveOmvang`: de sleutel tussen specificatie, resultaatstructuur en onderwijsresultaat ([ADR 0022](../Referentiemateriaal/adr/0022-resultaatbegrippen-conform-rosa-koi.md)) |
-| `regelsets` | Volledig (kiesbaarheid keuzedeelruimte, voorwaarden in behaalde leeruitkomsten) |
-
-Voor het ophalen van de resultaatstructuur geldt daarnaast [result-structure.json](schemas/result-structure.json) als aparte payload.
-
-### 4.3 Onderwijscatalogus naar leermanagementsysteem
-
-| Onderdeel | Gebruik in onderwijscatalogus naar leermanagementsysteem |
-|---|---|
-| `onderwijsspecificaties` | Volledig tot en met `leeronderdeelspecificatie` |
-| `leeruitkomsten` | **Met inhoudsvelden** (`omschrijving`, `resultaat`, `gedrag`): dat is precies wat het LMS uitwerkt en aan de student exposet |
-| `regelsets` | Niet meegeleverd (kiesbaarheid is het domein van SKS en SIS) |
-
-De leermiddelkoppeling-payload is nog niet uitgewerkt. Verwachte kern: `id`, `versie`, en per specificatie de leermiddelgroepen met een `specificatieVerwijzing` (id en versie).
+De payload van de leermiddelkoppeling in [Leeromgeving inrichten](../Koppelvlakspecificaties/Koppelingen/leeromgeving-inrichten.md) is nog niet uitgewerkt. Verwachte kern: `id`, `versie`, en per specificatie de leermiddelgroepen met een `specificatieVerwijzing` (id en versie).

@@ -2,7 +2,7 @@
 """Testgevallen voor scripts/validate-requirementsboom-navigatie.py.
 
 Elk testgeval volgt de given-when-then-conventie:
-- Given: een verse kopie van de requirementsboom plus de koppelingspecificaties,
+- Given: een verse kopie van de requirementsboom plus de koppelingen,
   al dan niet met precies een geinjecteerde breuk;
 - When: het validatiescript draait tegen die kopie;
 - Then: exitcode en melding zijn zoals verwacht.
@@ -19,7 +19,7 @@ import unittest
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SCRIPT = os.path.join(REPO_ROOT, "scripts", "validate-requirementsboom-navigatie.py")
 TREE_DIR = os.path.join(REPO_ROOT, "Referentiemateriaal", "requirementsboom")
-KS_DIR = os.path.join(REPO_ROOT, "Koppelvlakspecificaties", "Koppelingspecificaties")
+KS_DIR = os.path.join(REPO_ROOT, "Koppelvlakspecificaties", "Koppelingen")
 
 
 def run_validator(tree_dir: str) -> tuple[int, str]:
@@ -30,10 +30,10 @@ def run_validator(tree_dir: str) -> tuple[int, str]:
 
 
 def copy_tree(tmp: str) -> str:
-    """Kopieer boom en koppelingspecificaties in de echte mappenstructuur."""
+    """Kopieer boom en koppelingen in de echte mappenstructuur."""
     boom = os.path.join(tmp, "Referentiemateriaal", "requirementsboom")
     shutil.copytree(TREE_DIR, boom)
-    shutil.copytree(KS_DIR, os.path.join(tmp, "Koppelvlakspecificaties", "Koppelingspecificaties"))
+    shutil.copytree(KS_DIR, os.path.join(tmp, "Koppelvlakspecificaties", "Koppelingen"))
     return boom
 
 
@@ -74,7 +74,7 @@ class BrokenTreeTest(unittest.TestCase):
 
     def assert_break_detected(self, rel_file: str, old: str, new: str,
                               expected_fragment: str) -> None:
-        # Given: een verse kopie van boom en koppelingspecificaties met precies
+        # Given: een verse kopie van boom en koppelingen met precies
         # een geinjecteerde breuk (rel_file is relatief aan de kopie-root)
         with tempfile.TemporaryDirectory() as tmp:
             boom = copy_tree(tmp)
@@ -91,7 +91,7 @@ class BrokenTreeTest(unittest.TestCase):
             self.assertIn(expected_fragment, output)
 
     BOOM = "Referentiemateriaal/requirementsboom/"
-    IP = "Koppelvlakspecificaties/Koppelingspecificaties/"
+    IP = "Koppelvlakspecificaties/Koppelingen/"
 
     def test_given_removed_anchor_when_validated_then_dead_link_reported(self):
         self.assert_break_detected(
@@ -135,8 +135,8 @@ class BrokenTreeTest(unittest.TestCase):
     def test_given_dead_requirement_link_when_validated_then_missing_anchor_reported(self):
         self.assert_break_detected(
             self.BOOM + "stories.md",
-            "planning-en-roostering.md#acceptatietoets-bij-late-wijziging",
-            "planning-en-roostering.md#bestaat-niet", "geen kop in")
+            "late-wijziging-toetsen.md#acceptatietoets-bij-late-wijziging",
+            "late-wijziging-toetsen.md#bestaat-niet", "geen kop in")
 
     def test_given_anchor_violating_id_convention_when_validated_then_reported(self):
         self.assert_break_detected(
@@ -146,14 +146,14 @@ class BrokenTreeTest(unittest.TestCase):
     def test_given_story_removed_from_backlink_cell_when_validated_then_mismatch(self):
         # Terugleiding: de Stories-tabel noemt de story niet meer.
         self.assert_break_detected(
-            self.IP + "onderwijscatalogus-planning-en-roostering.md",
+            self.IP + "late-wijziging-toetsen.md",
             "| [story-0002](../../Referentiemateriaal/requirementsboom/stories.md#story-0002) |",
             "| geen |", "terugleiding")
 
     def test_given_backlink_to_unrelated_story_when_validated_then_mismatch(self):
         # Terugleiding: de Stories-tabel noemt een story die niet terugwijst.
         self.assert_break_detected(
-            self.IP + "onderwijscatalogus-planning-en-roostering.md",
+            self.IP + "late-wijziging-toetsen.md",
             "[story-0002](../../Referentiemateriaal/requirementsboom/stories.md#story-0002)",
             "[story-0009](../../Referentiemateriaal/requirementsboom/stories.md#story-0009)",
             "terugleiding")
@@ -163,8 +163,8 @@ class BrokenTreeTest(unittest.TestCase):
         # meer aan, terwijl de Stories-tabel de story blijft noemen.
         self.assert_break_detected(
             self.BOOM + "stories.md",
-            "[Acceptatietoets bij late wijziging](../../Koppelvlakspecificaties/Koppelingspecificaties/"
-            "onderwijscatalogus-planning-en-roostering.md#acceptatietoets-bij-late-wijziging)",
+            "[Acceptatietoets bij late wijziging](../../Koppelvlakspecificaties/Koppelingen/"
+            "late-wijziging-toetsen.md#acceptatietoets-bij-late-wijziging)",
             "geen", "terugleiding")
 
 

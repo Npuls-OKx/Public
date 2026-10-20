@@ -23,6 +23,8 @@ SemVer, en de **zwaarste wijziging wint**: één breaking change maakt de hele r
 
 Twijfel je tussen minor en major, dan is het major. Een breaking change hoort al tijdens refinement helder te zijn, niet pas bij de release.
 
+Voor de koppelvlakspecificatie geldt daarbovenop het eigen versiebeheer ([release management §4](../../Koppelvlakspecificaties/release-management.md#4-versiebeheer)). Elke gewijzigde koppeling krijgt haar eigen versie (§4.2). Een nieuwe koppeling of een nieuwe major van een koppeling naast de vorige is voor het pakket een minor; een major van het pakket is er alleen bij een van de twee uitzonderingen uit §4.4. De release notes noemen per koppeling wat er bij is gekomen (§5).
+
 Bouwt een ander pakket op dit pakket, dan hoort de versie in zijn `afhankelijkheden` mee te bewegen: stel per afhankelijk pakket vast of de wijziging daar doorwerkt, en neem het bijwerken van die versie mee in dezelfde wijziging. Zolang dat niet gebeurd is, faalt de bouw van dat pakket.
 
 ## 3. Controleer de baseline

@@ -1,8 +1,8 @@
 // De applicatiecomponenten uit de keten, met per component het koppelvlak: de
-// applicatiediensten die het claimt en de endpoints waarmee het die levert.
+// koppelvlakdiensten die het implementeert en de endpoints waarmee het die levert.
 //
 // De bron is Applicatiecomponenten/ voor de diensten per component en
-// Applicatiediensten/ voor de endpoints per dienst. Wijzigt daar iets, dan
+// Koppelvlakdiensten/ voor de endpoints per dienst. Wijzigt daar iets, dan
 // wijzigt het hier mee; het model verzint niets.
 //
 // Een dienst is altijd een container. Levert hij geen eigen endpoint, dan draagt
@@ -48,13 +48,10 @@ model {
         }
 
         oc_uitkomst_afnemer = dienst 'verwerkingsuitkomst-afnemer' {
-          description 'Neemt de uitkomst van een verwerking aan, onder de naam die de koppeling eraan geeft.'
+          description 'Neemt de uitkomst van een verwerking aan.'
 
-          oc_hook_verwerkingsstatus = endpoint 'POST verwerkingsstatus' {
-            description 'processing-status.json; van planning'
-          }
-          oc_hook_inrichtingsstatus = endpoint 'POST inrichtingsstatus' {
-            description 'draagt geen schema; van het LMS en het SIS'
+          oc_hook_verwerkingsuitkomst = endpoint 'POST verwerkingsuitkomst' {
+            description 'processing-status.json; van planning, het SIS en het LMS'
           }
         }
 
@@ -99,13 +96,12 @@ model {
       description 'Maakt planbaar opleidingsaanbod van een gepubliceerde specificatie. Bezit het onderwijsaanbod (U3).'
       technology 'P'
 
-      kv_p = koppelvlak 'Koppelvlak planning en roostering' {
-        description 'Gedeeld met het roostersysteem; het rooster zelf blijft daar.'
+      kv_p = koppelvlak 'Koppelvlak planningssysteem' {
 
         p_spec_afnemer = dienst 'onderwijsspecificatiestructuur-afnemer' {
           description 'Neemt de meldingen over specificaties aan en haalt op wanneer het hem uitkomt.'
 
-          p_hook_planbaar = endpoint 'POST specificatie-planbaar' {
+          p_hook_beschikbaar = endpoint 'POST specificatie-beschikbaar' {
             description 'specification-reference.json'
           }
           p_hook_gewijzigd = endpoint 'POST specificatie-gewijzigd' {
@@ -166,7 +162,7 @@ model {
         sis_spec_afnemer = dienst 'onderwijsspecificatiestructuur-afnemer' {
           description 'Neemt de meldingen over specificaties aan en haalt op wanneer het hem uitkomt.'
 
-          sis_hook_beschikbaar = endpoint 'POST specificatie-en-resultaatstructuur-beschikbaar' {
+          sis_hook_beschikbaar = endpoint 'POST specificatie-beschikbaar' {
             description 'specification-reference.json'
           }
           sis_hook_gewijzigd = endpoint 'POST specificatie-gewijzigd' {
@@ -240,20 +236,21 @@ model {
     }
 
     // ─────────────────────────────────────────────────────────────────────
-    // Componenten zonder eigen koppelvlak in dit pakket
+    // Componenten waarvan dit pakket nog geen koppelvlakdienst met endpoints beschrijft;
+    // hun koppelvlakdiensten staan op de componentpagina's
     // ─────────────────────────────────────────────────────────────────────
     co = systeem 'Curriculum-ontwerptool' {
-      description 'Ontwerpt de onderwijsspecificatie die de catalogus vaststelt. Draagt in dit pakket nog geen dienst.'
+      description 'Ontwerpt de onderwijsspecificatie die de catalogus vaststelt.'
       technology 'CO'
     }
 
     rooster = systeem 'Roostersysteem' {
-      description 'Plaatst het geplande aanbod in tijd en ruimte. Kent in dit pakket geen eigen koppeling en draagt geen endpoints.'
+      description 'Plaatst het geplande aanbod in tijd en ruimte.'
       technology 'R'
     }
 
     sks = systeem 'Studentkeuzesysteem' {
-      description 'Ondersteunt de student bij het kiezen. Draagt in dit pakket nog geen dienst.'
+      description 'Ondersteunt de student bij het kiezen.'
       technology 'SKS'
     }
   }
@@ -263,29 +260,29 @@ model {
   // het doel is het endpoint dat hem aanneemt.
   // ───────────────────────────────────────────────────────────────────────
 
-  oc_spec_melden -[melding]-> p_hook_planbaar 'meldt: specificatie planbaar'
+  oc_spec_melden -[melding]-> p_hook_beschikbaar 'meldt: specificatie beschikbaar'
   oc_spec_melden -[melding]-> p_hook_gewijzigd 'meldt: specificatie gewijzigd'
   oc_spec_melden -[melding]-> p_hook_status 'meldt: status gewijzigd'
   p_spec_afnemer -[aanroep]-> oc_get_spec 'haalt structuur op'
   p_spec_afnemer -[aanroep]-> oc_get_delta 'haalt delta op'
   p_spec_afnemer -[aanroep]-> oc_get_speclijst 'reconciliatie na gemist event'
-  p_uitkomst_melden -[melding]-> oc_hook_verwerkingsstatus 'meldt: uitkomst planproces'
+  p_uitkomst_melden -[melding]-> oc_hook_verwerkingsuitkomst 'meldt: uitkomst planproces'
   oc_aanbod_ophalen -[aanroep]-> p_get_aanbod_id 'haalt opleidingsaanbod op'
   oc_aanbod_ophalen -[aanroep]-> p_get_aanbod 'reconciliatie na gemiste status'
   p_abonnement_registreren -[aanroep]-> oc_post_abonnementen 'registreert afleveradres'
   oc_abonnement_registreren -[aanroep]-> p_post_abonnementen 'registreert afleveradres'
 
-  oc_spec_melden -[melding]-> sis_hook_beschikbaar 'meldt: specificatie en resultaatstructuur beschikbaar'
+  oc_spec_melden -[melding]-> sis_hook_beschikbaar 'meldt: specificatie beschikbaar'
   oc_spec_melden -[melding]-> sis_hook_examenplan 'meldt: examenplanspecificatie gewijzigd'
   sis_spec_afnemer -[aanroep]-> oc_get_spec 'haalt structuur op'
   sis_resultaat_afnemer -[aanroep]-> oc_get_examenplan 'haalt resultaatstructuur op'
-  sis_uitkomst_melden -[melding]-> oc_hook_inrichtingsstatus 'meldt: uitkomst inrichting'
+  sis_uitkomst_melden -[melding]-> oc_hook_verwerkingsuitkomst 'meldt: uitkomst inrichting'
 
   oc_spec_melden -[melding]-> lms_hook_beschikbaar 'meldt: specificatie beschikbaar'
   oc_spec_melden -[melding]-> lms_hook_gewijzigd 'meldt: specificatie gewijzigd'
   lms_spec_afnemer -[aanroep]-> oc_get_spec 'haalt structuur op'
   lms_spec_afnemer -[aanroep]-> oc_get_delta 'haalt delta op'
-  lms_uitkomst_melden -[melding]-> oc_hook_inrichtingsstatus 'meldt: uitkomst inrichting'
+  lms_uitkomst_melden -[melding]-> oc_hook_verwerkingsuitkomst 'meldt: uitkomst inrichting'
   lms_leermiddel_aanbieder -[melding]-> oc_hook_leermiddel 'meldt: leermiddelkoppeling beschikbaar'
   oc_leermiddel_afnemer -[aanroep]-> lms_get_leermiddel 'haalt leermiddelkoppeling op'
 

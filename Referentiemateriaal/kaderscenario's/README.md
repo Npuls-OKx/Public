@@ -1,8 +1,8 @@
 # Kaderscenario's
 
-Per **Npuls-leerroute** één document dat de route uitwerkt tot een kaderstellend scenario: wat er in de keten gebeurt, wie welke rol speelt, welke informatie ontstaat en wat er tussen systemen moet bewegen. Deze documenten zijn de gedeelde basis waarop de koppelingspecificaties en latere uitwerkingen doorbouwen.
+Per **Npuls-leerroute** één document dat de route uitwerkt tot een kaderstellend scenario: wat er in de keten gebeurt, wie welke rol speelt, welke informatie ontstaat en wat er tussen systemen moet bewegen. Deze documenten zijn de gedeelde basis waarop de koppelingen en latere uitwerkingen doorbouwen.
 
-"Kaderstellend" betekent: beschrijvend en onderbouwend, niet voorschrijvend. Een kaderscenario legt niet op hoe een instelling haar onderwijs organiseert; het maakt zichtbaar welke informatie-uitwisseling nodig is om die route mogelijk te maken. Dat is dezelfde doelbinding als uitgangspunt U1 van de [koppelingspecificaties](../../Koppelvlakspecificaties/uitgangspunten.md).
+"Kaderstellend" betekent: beschrijvend en onderbouwend, niet voorschrijvend. Een kaderscenario legt niet op hoe een instelling haar onderwijs organiseert; het maakt zichtbaar welke informatie-uitwisseling nodig is om die route mogelijk te maken. Dat is dezelfde doelbinding als uitgangspunt U1 van de [koppelingen](../../Koppelvlakspecificaties/uitgangspunten.md).
 
 ## De reeks
 
@@ -33,7 +33,7 @@ Elk kaderscenario levert daarom vier dingen op over het ecosysteem:
 | **Wie bron is van welk informatie-object** | Eén feit, één bron: dit voorkomt schaduwkopieën en tegenstrijdige gegevens ([OKx-AP13](../principes/principes.md#okx-ap13--source-system-ownership-en-doelbinding-per-referentiecomponent)) |
 | **Welke informatiestromen ertussen lopen** | De stromen zijn de kandidaat-koppelingen; de som ervan levert het koppelvlak per component op |
 
-Die laatste stap is de overgang naar [`Koppelvlakspecificaties/`](../../Koppelvlakspecificaties/): een informatiestroom die hier conceptueel is beschreven, wordt daar een gestandaardiseerde koppeling met berichten, patronen en payloads. Het kaderscenario zegt *dat* en *waarom* er iets beweegt; de koppelingspecificatie zegt *wat* er precies in het bericht staat.
+Die laatste stap is de overgang naar [`Koppelvlakspecificaties/`](../../Koppelvlakspecificaties/): een informatiestroom die hier conceptueel is beschreven, wordt daar een gestandaardiseerde koppeling met berichten, patronen en payloads. Het kaderscenario zegt *dat* en *waarom* er iets beweegt; de koppeling zegt *wat* er precies in het bericht staat.
 
 De componenten en stromen blijven in een kaderscenario bewust **conceptueel**. Er staan geen endpoints, berichtformaten of API-details in; die horen bij een latere AMIGO-stap.
 

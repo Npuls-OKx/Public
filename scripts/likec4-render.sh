@@ -5,8 +5,8 @@
 #   scripts/likec4-render.sh Koppelvlakspecificaties/model Koppelvlakspecificaties/src/diagrammen
 #
 # De stappen: valideren, de berekende afmetingen als JSON ophalen, de plaatsing
-# van de views zonder relaties herberekenen, renderen, en de platen in een map
-# per categorie zetten. Die indeling komt uit de titel van de view, dus uit het
+# van de views zonder relaties herberekenen, de hoofdplaatviews op een vaste
+# plaat leggen, renderen, en de platen in een map per categorie zetten. Die indeling komt uit de titel van de view, dus uit het
 # model; zie scripts/likec4-plaatsen.py.
 #
 # Drie rondes renderen, waarbij een latere ronde overschrijft wat anders moet.
@@ -28,19 +28,22 @@ beeldmap="$2"
 
 rm -rf "${modelmap}/.likec4" likec4.json
 npx --yes likec4 validate "$modelmap"
-npx --yes likec4 export json "$modelmap"
+npx --yes likec4 export json "$modelmap" --project koppelvlakspecificatie
 python3 scripts/likec4-layout.py "$modelmap"
+python3 scripts/likec4-hoofdplaat.py "$modelmap"
 
 tijdelijk="$(mktemp -d)"
 trap 'rm -rf "$tijdelijk" "${modelmap}/.likec4"' EXIT
 
-npx --yes likec4 export png "$modelmap" --output "$tijdelijk" --theme light --flat --notation
-npx --yes likec4 export png "$modelmap" --output "$tijdelijk" --theme light --flat --notation --seq \
+npx --yes likec4 export png "$modelmap" --project koppelvlakspecificatie --output "$tijdelijk" --theme light --flat
+npx --yes likec4 export png "$modelmap" --project koppelvlakspecificatie --output "$tijdelijk" --theme light --flat --seq \
   --filter 'release_*' --filter 'adoptie_*' --filter 'volgorde_*'
-npx --yes likec4 export png "$modelmap" --output "$tijdelijk" --theme light --flat \
+npx --yes likec4 export png "$modelmap" --project koppelvlakspecificatie --output "$tijdelijk" --theme light --flat \
   --filter 'afnemer_blijft' --filter 'aanbieder_achter' --filter 'derde_major' \
   --filter 'reikwijdte' --filter 'staalkaart_*' --filter 'pad_*' --filter 'versielagen' \
-  --filter 'uitgave_*' --filter 'structuuroverzicht'
+  --filter 'uitgave_*' --filter 'structuuroverzicht' --filter 'werkwijze_*'
+npx --yes likec4 export png "$modelmap" --project koppelvlakspecificatie --output "$tijdelijk" --theme light --flat --seq \
+  --filter 'seq_*'
 
 python3 scripts/likec4-marge.py "$tijdelijk"
 python3 scripts/likec4-plaatsen.py "$tijdelijk" "$beeldmap"

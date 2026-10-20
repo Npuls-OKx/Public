@@ -1,48 +1,50 @@
-// Wat de major-bump aan het koppelvlak verandert. De basis staat in keten.c4;
-// dit bestand voegt eraan toe wat versie 2.0.0 meebrengt en markeert wat vervalt.
+// Wat de major-bump uit het versiescenario aan het koppelvlak verandert. De
+// referentie in componenten.c4 beschrijft de specificatie zoals zij nu is, met de
+// vastgestelde namen; dit bestand voegt de namen toe die de basisversie 1.0.0 van
+// het scenario nog droeg, en markeert welke vervallen en welke erbij komen.
 model {
 
   extend instelling.oc.kv_oc.oc_uitkomst_afnemer {
-    oc_hook_verwerkingsuitkomst = endpoint 'POST verwerkingsuitkomst' {
-      #v2
-      description 'processing-status.json — één naam voor beide tegenpartijen'
+    oc_hook_verwerkingsstatus = endpoint 'POST verwerkingsstatus' {
+      #v1
+      #breaking
+      description 'processing-status.json; van planning'
+    }
+    oc_hook_inrichtingsstatus = endpoint 'POST inrichtingsstatus' {
+      #v1
+      #breaking
+      description 'draagt geen schema; van het LMS'
     }
   }
 
-  extend instelling.oc.kv_oc.oc_uitkomst_afnemer.oc_hook_verwerkingsstatus {
-    #v1
-    #breaking
-  }
-
-  extend instelling.oc.kv_oc.oc_uitkomst_afnemer.oc_hook_inrichtingsstatus {
-    #v1
-    #breaking
+  extend instelling.oc.kv_oc.oc_uitkomst_afnemer.oc_hook_verwerkingsuitkomst {
+    #v2
   }
 
   extend instelling.p.kv_p.p_spec_afnemer {
-    p_hook_beschikbaar = endpoint 'POST specificatie-beschikbaar' {
-      #v2
-      description 'specification-reference.json — dezelfde melding, vastgestelde naam'
+    p_hook_planbaar = endpoint 'POST specificatie-planbaar' {
+      #v1
+      #breaking
+      description 'specification-reference.json; dezelfde melding onder de oude naam'
     }
   }
 
-  extend instelling.p.kv_p.p_spec_afnemer.p_hook_planbaar {
-    #v1
-    #breaking
+  extend instelling.p.kv_p.p_spec_afnemer.p_hook_beschikbaar {
+    #v2
   }
 
   extend instelling.lms.kv_lms.lms_spec_afnemer.lms_hook_beschikbaar {
     #ongewijzigd
   }
 
-  // Het verkeer zoals het na de bump loopt
-  instelling.oc.kv_oc.oc_spec_aanbieder.oc_spec_melden -[melding]-> instelling.p.kv_p.p_spec_afnemer.p_hook_beschikbaar 'meldt: specificatie beschikbaar' {
-    #v2
+  // Het verkeer zoals het in de basisversie liep
+  instelling.oc.kv_oc.oc_spec_aanbieder.oc_spec_melden -[melding]-> instelling.p.kv_p.p_spec_afnemer.p_hook_planbaar 'meldt: specificatie planbaar' {
+    #v1
   }
-  instelling.p.kv_p.p_uitkomst_aanbieder.p_uitkomst_melden -[melding]-> instelling.oc.kv_oc.oc_uitkomst_afnemer.oc_hook_verwerkingsuitkomst 'meldt: uitkomst planproces' {
-    #v2
+  instelling.p.kv_p.p_uitkomst_aanbieder.p_uitkomst_melden -[melding]-> instelling.oc.kv_oc.oc_uitkomst_afnemer.oc_hook_verwerkingsstatus 'meldt: uitkomst planproces' {
+    #v1
   }
-  instelling.lms.kv_lms.lms_uitkomst_aanbieder.lms_uitkomst_melden -[melding]-> instelling.oc.kv_oc.oc_uitkomst_afnemer.oc_hook_verwerkingsuitkomst 'meldt: uitkomst inrichting' {
-    #v2
+  instelling.lms.kv_lms.lms_uitkomst_aanbieder.lms_uitkomst_melden -[melding]-> instelling.oc.kv_oc.oc_uitkomst_afnemer.oc_hook_inrichtingsstatus 'meldt: uitkomst inrichting' {
+    #v1
   }
 }

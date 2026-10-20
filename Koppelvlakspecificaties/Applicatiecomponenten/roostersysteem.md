@@ -4,10 +4,24 @@ Het roostersysteem plaatst het geplande onderwijs in tijd en ruimte: het maakt v
 
 ## Koppelvlak
 
-![Gedeeld koppelvlak van planning en roostering op de hoofdplaat v1.7](../src/koppelvlak_p_en_r_view_ihp_v1_7.png)
+![Planning en roostering op de hoofdplaat v1.7](../src/koppelvlak_p_en_r_view_ihp_v1_7.png)
 
-De view toont het gedeelde koppelvlak van planning en roostering op de informatiestromen-hoofdplaat v1.7.
+De view toont planning en roostering samen, zoals de informatiestromen-hoofdplaat v1.7 ze tekent. Elk van de twee heeft wel een eigen koppelvlak: de optelsom van de koppelingen die het raken ([U2](../uitgangspunten.md#u2-koppeling-versus-koppelvlak)).
 
-## Applicatiediensten
+## Koppelvlakdiensten
 
-Dit pakket belegt nog geen applicatiedienst bij het roostersysteem. De requirements wijzen [geroosterd-onderwijsaanbod-aanbieder](../Applicatiediensten/geroosterd-onderwijsaanbod-aanbieder.md) aan als de dienst die hier hoort. Het systeem komt wel als context voor bij de [koppeling naar planning en roostering](../Koppelingspecificaties/onderwijscatalogus-planning-en-roostering.md#context-doorwerking-naar-het-roostersysteem).
+Dit component implementeert de volgende [koppelvlakdiensten](../Koppelvlakdiensten/README.md):
+
+- [afleverabonnement-aanbieder](../Koppelvlakdiensten/afleverabonnement-aanbieder.md)
+- [afleverabonnement-afnemer](../Koppelvlakdiensten/afleverabonnement-afnemer.md)
+- [geroosterd-onderwijsaanbod-aanbieder](../Koppelvlakdiensten/geroosterd-onderwijsaanbod-aanbieder.md)
+
+## Koppelingen
+
+| Koppeling | Rol |
+|---|---|
+| [Planninggroepen ontsluiten](../Koppelingen/planninggroepen-ontsluiten.md) | Afnemer |
+| [Plaatsing op lesgelegenheid aanvragen](../Koppelingen/plaatsing-op-lesgelegenheid-aanvragen.md) | Aanbieder |
+| [Leergelegenheden roosteren](../Koppelingen/leergelegenheden-roosteren.md) | Aanbieder |
+| [Geroosterde leergelegenheden ontsluiten](../Koppelingen/geroosterde-leergelegenheden-ontsluiten.md) | Aanbieder |
+| [Planninggroepen met studenten ontsluiten](../Koppelingen/planninggroepen-met-studenten-ontsluiten.md) | Aanbieder |

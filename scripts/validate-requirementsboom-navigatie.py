@@ -14,8 +14,8 @@ Controleert de laagverwijzingen in Referentiemateriaal/requirementsboom/:
    sectie waarin de rij staat; de Stories-cel bevat exact de stories die
    met hun featurecel terugwijzen (of "geen").
 5. story -> berichtstroom: elke link uit de kolom "Ingevuld door" resolvet
-   naar een kop in een koppelingspecificatie van deze repository.
-6. Terugleiding: de Stories-tabel in de koppelingspecificaties is exact de
+   naar een kop in een koppeling van deze repository.
+6. Terugleiding: de Stories-tabel in de koppelingen is exact de
    inverse van de kolom "Ingevuld door" in stories.md (set-gelijkheid).
 
 Bekende grenzen: alleen inline-links ([tekst](bestand#anker)) worden
@@ -24,8 +24,8 @@ anker-achtige tekst in codeblokken telt mee als anker (faalt naar de
 veilige kant); de featurecel vereist id en naam als linktekst.
 
 Gebruik: python3 scripts/validate-requirementsboom-navigatie.py [boom-map]
-Standaard: Referentiemateriaal/requirementsboom (koppelingspecificaties worden
-twee mappen hoger onder Koppelvlakspecificaties/Koppelingspecificaties gezocht).
+Standaard: Referentiemateriaal/requirementsboom (koppelingen worden
+twee mappen hoger onder Koppelvlakspecificaties/Koppelingen gezocht).
 Exitcodes: 0 = schoon, 1 = problemen gevonden, 2 = pad niet gevonden.
 Testgevallen: python3 -m unittest discover -s tests -v.
 """
@@ -37,7 +37,7 @@ KINDS = ("doel", "epic", "feature", "story")
 ID_RE = re.compile(r"^(?:%s)-\d{4}$" % "|".join(KINDS))
 ANCHOR_RE = re.compile(r'<a id="([^"]+)"></a>')
 STROOM_LINK_RE = re.compile(
-    r"\]\(\.\./\.\./Koppelvlakspecificaties/Koppelingspecificaties/([\w\-]+\.md)#([\w\-]+)\)")
+    r"\]\(\.\./\.\./Koppelvlakspecificaties/Koppelingen/([\w\-]+\.md)#([\w\-]+)\)")
 HEADING_RE = re.compile(r"^(#{1,6})\s+(.+?)\s*$", re.MULTILINE)
 LINK_MARKUP_RE = re.compile(r"\[([^\]]*)\]\([^)]*\)")
 
@@ -178,9 +178,9 @@ def main() -> int:
                 f"{sorted(feature_stories.get(feature, []))} "
                 f"!= terugwijzend {sorted(stories_backward.get(feature, []))}")
 
-    # 5 en 6. story -> berichtstroom en de terugleiding in de koppelingspecificaties
+    # 5 en 6. story -> berichtstroom en de terugleiding in de koppelingen
     ks_dir = os.path.normpath(os.path.join(tree_dir, "..", "..",
-                                           "Koppelvlakspecificaties", "Koppelingspecificaties"))
+                                           "Koppelvlakspecificaties", "Koppelingen"))
     total_links = sum(len(v) for v in requirement_links.values())
     if os.path.isdir(ks_dir):
         ks_texts = {name: read_text(os.path.join(ks_dir, name))
@@ -209,9 +209,9 @@ def main() -> int:
             if requirement_links.get(story, set()) != reverse.get(story, set()):
                 problems.append(
                     f"terugleiding: {story} stories.md {sorted(requirement_links.get(story, []))} "
-                    f"!= koppelingspecificaties {sorted(reverse.get(story, []))}")
+                    f"!= koppelingen {sorted(reverse.get(story, []))}")
     else:
-        problems.append(f"koppelingspecificaties-map niet gevonden: {ks_dir}")
+        problems.append(f"koppelingen-map niet gevonden: {ks_dir}")
 
     for problem in problems:
         print(problem)

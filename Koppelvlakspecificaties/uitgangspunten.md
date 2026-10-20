@@ -1,35 +1,36 @@
-# Uitgangspunten voor koppelingspecificaties
+# Uitgangspunten voor koppelingen
 
-**Aanleiding.** Bij het uitwerken van de eerste koppelingen bleek dat elk document dezelfde aannames opnieuw uitlegde: waarom een beschrijving indicatief is, wie welke resource bezit, waarom een event dun blijft. Die herhaling maakte de documenten langer dan nodig en, erger, liet de redenering op meerdere plekken uit elkaar lopen zodra er iets wijzigde. Daarom staan de gedeelde aannames hier eenmaal.
+**Aanleiding.** Bij het uitwerken van de eerste koppelingen bleek dat elk document dezelfde aannames opnieuw uitlegde: wat een beschrijving vastlegt en wat niet, wie welke resource bezit, waarom een event dun blijft. Die herhaling maakte de documenten langer dan nodig en, erger, liet de redenering op meerdere plekken uit elkaar lopen zodra er iets wijzigde. Daarom staan de gedeelde aannames hier eenmaal.
 
-Deze uitgangspunten gelden voor **elke** koppelingspecificatie en payload-specificatie in deze map. Een individueel document noemt het uitgangspunt in één regel en verwijst hierheen; het herhaalt de motivering niet. Zo hoeft een wijziging in de redenering maar op één plek te gebeuren.
+Deze uitgangspunten gelden voor **elke** koppeling in dit pakket en voor de payloads die zij uitwisselt. Een individueel document noemt het uitgangspunt in één regel en verwijst hierheen; het herhaalt de motivering niet. Zo hoeft een wijziging in de redenering maar op één plek te gebeuren.
 
 De uitgangspunten zijn genummerd (U1 tot en met U11) zodat je er in een document of een review naar kunt verwijzen: "conform U5".
 
 Herkomst: de [OKx-architectuurprincipes](../Referentiemateriaal/principes/principes.md) en [OKx-uitgangspunten](../Referentiemateriaal/principes/uitgangspunten.md), plus de architectuurbesluiten in [`Referentiemateriaal/adr/`](../Referentiemateriaal/adr/). Waar een uitgangspunt op een besluit steunt, staat dat erbij. Alle aangehaalde besluiten hebben op dit moment de status voorstel.
 
-## U1. Indicatief en onderbouwend, niet voorschrijvend
+## U1. Bouwblokken liggen vast, de keuze van koppelingen is vrij
 
-Een koppelingspecificatie beschrijft hoe een informatiestroom er in een scenario uit **kan** zien. OKx legt de sector niet op hoe een koppeling gerealiseerd moet worden; instellingen en leveranciers geven hun koppelingen zelf vorm.
+De **bouwblokken** zijn normatief: de koppelvlakdiensten met hun endpoints en payloads, en de interactiepatronen. Wie een bouwblok implementeert, implementeert het zoals het beschreven staat. Daardoor sluiten twee partijen die dezelfde berichtstroom implementeren op elkaar aan zonder aanvullende afspraak. Hoe een partij een bouwblok intern realiseert, blijft haar eigen keuze.
 
-Waarom we ze dan beschrijven: we hebben nog beperkt zicht op de werking van het ecosysteem. Door koppeling voor koppeling en scenario voor scenario de interacties te bestuderen, ontdekken we welke operaties, endpoints en data nodig zijn. De **som** van de koppelingbeschrijvingen levert de koppelvlakspecificatie per referentiecomponent op: de endpoints en operaties die dat component waarschijnlijk moet bieden, elk gegrond in een beschreven interactie.
+De **keuze van koppelingen** is vrij. Een partij implementeert de koppelingen die zij nodig heeft; OKx verplicht niemand tot een koppeling en legt niet op wie met wie koppelt. Binnen een koppeling is niets vrij: wie haar implementeert, implementeert in zijn rol elke berichtstroom ervan. Voor twee partijen die dezelfde koppeling implementeren, staat daarmee vast welke stromen er tussen hen lopen.
 
-```mermaid
-flowchart LR
-    S["Scenario's leerroute 1-3<br/>(persona's)"] --> KB["Koppelingbeschrijvingen<br/>per informatiestroom"]
-    N["Nieuwe behoeften<br/>uit later scenario"] --> KB
-    KB --> KV["Koppelvlakspecificatie per component<br/>endpoints en operaties, onderbouwd"]
-```
+De afweging is die tussen vrijheid en aansluiting. Een vrije keuze per stroom laat elke partij precies bouwen wat zij nodig heeft, maar garandeert niet dat twee partijen dezelfde stromen hebben. Een koppeling legt de verplichting op het niveau van één doel. De prijs is dat een partij een stroom implementeert die zij binnen die koppeling zelf niet nodig heeft.
+
+De scenario's waarmee een stroom wordt toegelicht zijn illustratief: ze onderbouwen waarom een bouwblok bestaat, maar leggen zelf niets vast.
+
+De bouwblokken komen voort uit die scenario's. We hebben nog beperkt zicht op de werking van het ecosysteem; door koppeling voor koppeling en scenario voor scenario de interacties te bestuderen, ontdekken we welke operaties, endpoints en data nodig zijn. De **som** van de koppelingbeschrijvingen levert de koppelvlakspecificatie per referentiecomponent op: de endpoints en operaties die dat component kan bieden, elk gegrond in een beschreven interactie.
+
+![Van scenario naar koppelvlakspecificatie: scenario's en latere behoeften leveren koppelingen op, die samen per component de koppelvlakspecificatie vormen](src/diagrammen/uitgangspunten/van-scenario-naar-koppelvlakspecificatie.png)
 
 De beschreven koppelingen zijn **niet uitputtend**. Nieuwe functionaliteit kan operaties vragen die niet uit de huidige scenario's naar voren komen. Voorbeeld: een studentkeuzesysteem dat namens een student onderwijs aanvraagt dat nog niet bestaat. Zo'n behoefte komt binnen als nieuw scenario met een eigen koppelingbeschrijving, en onderbouwt daarmee een nieuwe operatie op het koppelvlak. Het koppelvlak houdt die ruimte.
 
-Sluit aan op [OKx-AP02 — Semantiek vóór techniek](../Referentiemateriaal/principes/principes.md#okx-ap02--semantiek-vóór-techniek) (geen API-first zonder voorafgaande keten- en informatiemodelcontext) en [OKx-AP06 — Contracten zijn versieerbaar en evolueerbaar](../Referentiemateriaal/principes/principes.md#okx-ap06--contracten-zijn-versieerbaar-en-evolueerbaar).
+Sluit aan op [OKx-AP04 — Koppelvlakken als open, gestandaardiseerde contracten](../Referentiemateriaal/principes/principes.md#okx-ap04--koppelvlakken-als-open-gestandaardiseerde-contracten) (het externe contract ligt vast, de interne realisatie niet), [OKx-AP02 — Semantiek vóór techniek](../Referentiemateriaal/principes/principes.md#okx-ap02--semantiek-vóór-techniek) (geen API-first zonder voorafgaande keten- en informatiemodelcontext) en [OKx-AP06 — Contracten zijn versieerbaar en evolueerbaar](../Referentiemateriaal/principes/principes.md#okx-ap06--contracten-zijn-versieerbaar-en-evolueerbaar).
 
 ## U2. Koppeling versus koppelvlak
 
-Een **koppeling** is de gestandaardiseerde informatiestroom tussen twee referentiecomponenten. Een **koppelvlak** is de verzameling van alle koppelingen die één component raken. Een koppelingspecificatie beschrijft dus één stroom; de koppelvlakspecificatie is de optelsom per component.
+Een **koppeling** is één of meer endpoint-interacties met één doel, tussen een aanbieder en een afnemer. Zij is afgeleid van een applicatiedienst uit de domeinarchitectuur en komt één op één overeen met een OEAPI-profiel; de opbouw en de ontwerpregels staan bij [Koppelingen](Koppelingen/README.md). Een **koppelvlak** is de verzameling van alle koppelingen die één component raken, als aanbieder of als afnemer; de koppelvlakspecificatie is de optelsom per component.
 
-Vastgelegd in [ADR 0021](../Referentiemateriaal/adr/0021-koppeling-versus-koppelvlak-terminologie.md).
+Dit verfijnt [ADR 0021](../Referentiemateriaal/adr/0021-koppeling-versus-koppelvlak-terminologie.md), waarin een koppeling de volledige informatiestroom tussen twee referentiecomponenten was. Wat dat besluit één koppeling noemt, zoals onderwijscatalogus naar planning en roostering, bestaat hier uit meerdere koppelingen met elk een eigen doel.
 
 ## U3. Resource-eigenaarschap
 
@@ -45,7 +46,7 @@ Dit uitgangspunt legt de keuze vast en niet het patroon: elke koppeling in dit p
 
 ## U5. Bericht versus kanaal
 
-Een koppelingspecificatie legt het **bericht** vast: wat erin staat, wanneer het wordt verstuurd, hoe een ontvanger een herhaling herkent, en in welke volgorde berichten over dezelfde sleutel aankomen.
+Een koppeling legt het **bericht** vast: wat erin staat, wanneer het wordt verstuurd, hoe een ontvanger een herhaling herkent, en in welke volgorde berichten over dezelfde sleutel aankomen.
 
 Hoe dat bericht bij de ontvanger komt, het **kanaal**, is een inrichtingskeuze van instelling en leverancier: een webhook, een bus, een broker of een cloud-pubsubdienst. OKx schrijft dat product niet voor.
 
@@ -74,13 +75,13 @@ Objecten staan in **platte arrays** met een zelfverwijzende ouder-pointer, niet 
 
 **Sleutelconventie.** Het eigen sleutelveld van een object binnen zijn array heet `id`. Zodra een veld naar een ander object wijst, draagt het een expliciete naam die zegt waarheen: `bovenliggendSpecificatieId`, `bovenliggendAanbodId`, `leeruitkomstId`, `locatieId`, `specificatieVerwijzing.specificatieId`. Een kaal `bovenliggendId` is context-gevoelig en dus niet toegestaan.
 
-Dit wijkt bewust af van de Open Onderwijs API, die getypeerde sleutels hanteert zoals `educationSpecificationId`. De payloads zijn Nederlandstalig en indicatief, dus die afwijking bestond al; te betrekken bij de latere binding (uitgangspunt [OEAPI, tenzij](../Referentiemateriaal/principes/uitgangspunten.md#technologie-en-standaarden)).
+Dit wijkt bewust af van de Open Onderwijs API, die getypeerde sleutels hanteert zoals `educationSpecificationId`. De payloads zijn Nederlandstalig, dus die afwijking bestond al; te betrekken bij de latere binding (uitgangspunt [OEAPI, tenzij](../Referentiemateriaal/principes/uitgangspunten.md#technologie-en-standaarden)).
 
 **Taal.** Veldnamen en waarden in het Nederlands, met de Engelse of OEAPI-term tussen haakjes waar dat helpt.
 
 ## U8. Machine-interpreteerbaar, met leesbare weergaven
 
-Elke payload-specificatie draagt een **JSON Schema** (draft 2020-12) dat de vorm vastlegt: types, verplicht of optioneel, enums en patronen. Enumeraties horen daar, niet in een aparte tabel. De volwassenheid wordt op het schema zelf gemarkeerd (`$comment`), niet in de documenttitel of de doelstelling (zie U10).
+Elke payload heeft een **JSON Schema** (draft 2020-12) in de [informatie- en gegevensmodellen](../Informatie-en-gegevensmodellen/README.md) dat de vorm vastlegt: types, verplicht of optioneel, enums en patronen. Enumeraties horen daar, niet in een aparte tabel. De volwassenheid wordt op het schema zelf gemarkeerd (`$comment`), niet in de documenttitel of de doelstelling (zie U10).
 
 Sluit aan op de uitgangspunten [machine-interpreteerbare formaten](../Referentiemateriaal/principes/uitgangspunten.md#technologie-en-standaarden) en [show don't tell](../Referentiemateriaal/principes/uitgangspunten.md#afstemming-en-beschrijvingswijze).
 
@@ -88,7 +89,7 @@ Sluit aan op de uitgangspunten [machine-interpreteerbare formaten](../Referentie
 
 Documenten werken **leerroute 1** (regulier) uit aan de hand van persona **Jochem**, opleiding Apothekersassistent (SBB-kwalificatiedossier 23450, kwalificatie 27141). Leerroute 2 (temporiseren) en 3 (versnellen) volgen als **verschil** ten opzichte daarvan: de structuur blijft gelijk, een handvol attributen wijzigt.
 
-De route en de persona staan volledig uitgewerkt in het [kaderscenario leerroute 1 — regulier](../Referentiemateriaal/kaderscenario's/leerroute-1-regulier.md). Dat document is de kaderstellende basis waarop de koppelingspecificaties hier doorbouwen; het beschrijft per processtap wat er gebeurt en welke informatie beweegt. De overige leerroutes: [`kaderscenario's/`](../Referentiemateriaal/kaderscenario's/).
+De route en de persona staan volledig uitgewerkt in het [kaderscenario leerroute 1 — regulier](../Referentiemateriaal/kaderscenario's/leerroute-1-regulier.md). Dat document is de kaderstellende basis waarop de koppelingen hier doorbouwen; het beschrijft per processtap wat er gebeurt en welke informatie beweegt. De overige leerroutes: [`kaderscenario's/`](../Referentiemateriaal/kaderscenario's/).
 
 ## U10. Scope- en documentdiscipline
 
@@ -113,4 +114,4 @@ OKx definieert endpoints die ook toekomstige scenario's mogelijk maken. Waar een
 
 Waarom: de keten kent implementaties van verschillende volwassenheid, en scenario's die we nog niet kennen. Eén verplichte vorm dwingt óf onnodige complexiteit af (delta-berekening voor wie die niet nodig heeft) óf onnodig zwaar verkeer (volledige structuur voor wie alleen de wijziging wil). Twee vormen op dezelfde resource houden beide routes open zonder de semantiek te splitsen.
 
-Zichtbaar in de [koppelingspecificatie onderwijscatalogus naar planning en roostering](Koppelingspecificaties/onderwijscatalogus-planning-en-roostering.md#opleidingsaanbod-aanmaken): de planbaar-melding is dun (conform U4), waarna de afnemer de volledige structuur of de delta ophaalt.
+Zichtbaar in de koppeling [Onderwijsspecificatie ophalen](Koppelingen/onderwijsspecificatie-ophalen.md#specificatiewijziging-melden): de wijzigingsmelding is dun (conform U4), waarna de afnemer de volledige structuur of de delta ophaalt.

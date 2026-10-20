@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Genereert schema- en instantiebomen bij de JSON-payloads in de koppelingspecificaties.
+"""Genereert schema- en instantiebomen bij de JSON-payloads in de payload-documenten.
 
 De payloads gebruiken platte arrays met een zelfverwijzende ouder-pointer. Daardoor is
 de boomstructuur in de JSON zelf onzichtbaar: je kunt hem alleen reconstrueren door

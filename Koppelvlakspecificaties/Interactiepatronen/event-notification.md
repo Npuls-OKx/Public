@@ -10,18 +10,7 @@ Event Notification haalt die twee uit elkaar. Het event draagt de aanleiding, de
 
 ## Verloop
 
-```mermaid
-sequenceDiagram
-    autonumber
-    participant Bezitter
-    participant Consument
-
-    Note over Bezitter: De resource wijzigt
-    Bezitter-)Consument: Event: resource-id en versie
-    Note over Consument: Moment van ophalen bepaalt de consument
-    Consument->>Bezitter: Opvraag op id en versie
-    Bezitter-->>Consument: De resource, of de delta tussen twee versies
-```
+![Event Notification: volgorde van de interacties](../src/diagrammen/interactiepatronen/event-notification.png)
 
 | Bericht | Richting | Synchroniciteit | Draagt | Draagt niet |
 |---|---|---|---|---|
@@ -43,7 +32,6 @@ Het event is idempotent op event-id en de volgorde blijft behouden per resource-
 
 | Koppeling | Wat gemeld wordt | Wat opgehaald wordt |
 |---|---|---|
-| [Onderwijscatalogus naar planning en roostering](../Koppelingspecificaties/onderwijscatalogus-planning-en-roostering.md) | Specificatie planbaar; specificatie gewijzigd | Onderwijsspecificatiestructuur of delta |
-| [Onderwijscatalogus naar studentinformatiesysteem](../Koppelingspecificaties/onderwijscatalogus-studentinformatiesysteem.md) | Specificatie en resultaatstructuur beschikbaar; examenplanspecificatie gewijzigd | Onderwijsspecificatiestructuur, resultaatstructuur |
-| [Onderwijscatalogus naar leermanagementsysteem](../Koppelingspecificaties/onderwijscatalogus-leermanagementsysteem.md) | Specificatie beschikbaar; specificatie gewijzigd | Onderwijsspecificatiestructuur of delta |
-| [Onderwijscatalogus naar leermanagementsysteem](../Koppelingspecificaties/onderwijscatalogus-leermanagementsysteem.md) | Leermiddelkoppeling beschikbaar, met referentie | De leermiddelkoppeling, op die referentie |
+| [Onderwijsspecificatie ophalen](../Koppelingen/onderwijsspecificatie-ophalen.md) | Specificatie beschikbaar; specificatie gewijzigd | Onderwijsspecificatiestructuur of delta |
+| [Resultaatstructuur ophalen](../Koppelingen/resultaatstructuur-ophalen.md) | Resultaatstructuur beschikbaar; examenplanspecificatie gewijzigd | Resultaatstructuur |
+| [Leeromgeving inrichten](../Koppelingen/leeromgeving-inrichten.md) | Leermiddelkoppeling beschikbaar, met referentie | De leermiddelkoppeling, op die referentie |

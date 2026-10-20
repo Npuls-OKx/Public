@@ -1,12 +1,12 @@
 # Inleiding
 
-Dit document specificeert het koppelvlak van elk systeem dat deelneemt aan de uitwisseling van onderwijsspecificaties. Het beschrijft welke applicatiediensten een systeem implementeert en welke endpoints daarbij horen, per koppeling welk berichtverkeer daaroverheen gaat en in welke volgorde, en welke payload er bij elke interactie hoort. De vorm van die payloads staat in de [informatie- en gegevensmodellen](../Informatie-en-gegevensmodellen/inleiding.md): het logisch gegevensmodel, de JSON Schema's en de regels die zo'n schema niet kan uitdrukken. Dat is een eigen releasepakket met een eigen versie, omdat de vorm van de gegevens en het berichtverkeer eromheen niet samen veranderen; deze specificatie bouwt op de versie die haar manifest noemt.
+Dit document specificeert het koppelvlak van elk systeem dat deelneemt aan de uitwisseling van onderwijsspecificaties. Het beschrijft welke koppelvlakdiensten een systeem implementeert en welke endpoints daarbij horen, per koppeling welk berichtverkeer daaroverheen gaat en in welke volgorde, en welke payload er bij elke interactie hoort. De vorm van die payloads staat in de [informatie- en gegevensmodellen](../Informatie-en-gegevensmodellen/inleiding.md): het logisch gegevensmodel, de JSON Schema's en de regels die zo'n schema niet kan uitdrukken. Dat is een eigen releasepakket met een eigen versie, omdat de vorm van de gegevens en het berichtverkeer eromheen niet samen veranderen; deze specificatie bouwt op de versie die haar manifest noemt.
 
-Waar de eisen vandaan komen staat in de [requirementsboom](../Referentiemateriaal/requirementsboom/README.md): van de opdracht via epics en features naar stories, en vandaar naar de berichtstroom in een koppelingspecificatie die de story invult. Voorschrijven doet het document niet; de [uitgangspunten](uitgangspunten.md) leggen die doelbinding vast in U1, samen met negen andere aannames die voor het hele pakket gelden. Elk document noemt zo'n uitgangspunt in één regel en verwijst erheen.
+Waar de eisen vandaan komen staat in de [requirementsboom](../Referentiemateriaal/requirementsboom/README.md): van de opdracht via epics en features naar stories, en vandaar naar de berichtstroom in een koppeling die de story invult. Wat daarin vastligt en wat vrij is, leggen de [uitgangspunten](uitgangspunten.md) vast in U1: de bouwblokken zijn normatief, de keuze van koppelingen is aan de partijen. Daar staan ook de andere aannames die voor het hele pakket gelden. Elk document noemt zo'n uitgangspunt in één regel en verwijst erheen.
 
 ## Kernbegrippen
 
-- **Koppeling en koppelvlak** ([ADR 0021](../Referentiemateriaal/adr/0021-koppeling-versus-koppelvlak-terminologie.md)): een koppeling is de informatiestroom tussen twee referentiecomponenten; het koppelvlak van een component is de verzameling koppelingen die dat component raken. De koppelvlakspecificatie van een component is daarmee de optelsom van zijn koppelingen.
+- **Koppeling en koppelvlak** ([U2](uitgangspunten.md#u2-koppeling-versus-koppelvlak)): een koppeling is één of meer endpoint-interacties met één doel, tussen een aanbieder en een afnemer; zij is afgeleid van een applicatiedienst uit de domeinarchitectuur en komt één op één overeen met een OEAPI-profiel. Het koppelvlak van een component is de verzameling koppelingen die dat component raken. De koppelvlakspecificatie van een component is daarmee de optelsom van zijn koppelingen.
 - **Ankertabel, zes begrippenfamilies**: kader, beoogde leeruitkomst, specificatie, aanbod, verbintenis, resultaat. De leeruitkomst verbindt die families: specificaties verankeren erop en onderwijsresultaten worden erop behaald. De tabel staat voluit in het [kaderscenario leerroute 1](../Referentiemateriaal/kaderscenario's/leerroute-1-regulier.md#betrokken-informatie-bij-proces).
 - **Event notification**: het patroon onder vrijwel elke uitwisseling in dit document. De bezitter meldt dun, de afnemer haalt op. Uitgewerkt bij [Event Notification](Interactiepatronen/event-notification.md), als keuze vastgelegd in [U4](uitgangspunten.md#u4-event-notification).
 
@@ -14,15 +14,15 @@ De uitwerking volgt leerroute 1, de reguliere route, aan de hand van persona Joc
 
 ## Koppelvlak versus koppeling
 
-![Koppelvlak versus koppeling](src/applicatie_component_koppelvlak_view.png)
+![Het koppelvlak van het leermanagementsysteem: de zeven koppelingen die het raken, elk met de rol die het daarin heeft](src/diagrammen/uitgangspunten/koppelvlak-versus-koppeling.png)
 
-Een koppeling is de gestandaardiseerde informatiestroom tussen twee applicatiecomponenten; een koppelvlak is de optelsom van alle koppelingen die één component raken ([ADR 0021](../Referentiemateriaal/adr/0021-koppeling-versus-koppelvlak-terminologie.md)). Dit document volgt die knip: de interactiepatronen beschrijven per koppeling de functionele eisen en het berichtgedrag, en de applicatiecomponent-hoofdstukken tonen per component het koppelvlak met de endpoints en events die het serveert.
+Een koppeling is één of meer endpoint-interacties met één doel; een koppelvlak is de optelsom van alle koppelingen die één component raken ([U2](uitgangspunten.md#u2-koppeling-versus-koppelvlak)). Dit document volgt die knip: de koppelingen beschrijven per doel de berichtstromen en het berichtgedrag, en de applicatiecomponent-hoofdstukken tonen per component het koppelvlak met de endpoints en events die het serveert.
 
 Elke interactie van een koppelvlak is te herleiden tot een informatiestroom op de informatiestromen-hoofdplaat:
 
 ![Informatiestromen-hoofdplaat v1.7](src/informatiestromen_hoofdplaat_v1_7.png)
 
-Die lijn loopt van scenario naar informatiestroom, naar koppeling, naar koppelvlak: een scenario maakt zichtbaar welke informatie moet bewegen, de hoofdplaat toont die beweging als stroom (versie 1.7 is leidend; de legenda draagt nog "concept", dus richtinggevend), de koppeling standaardiseert de stroom, en het koppelvlak bundelt wat één component daarvan serveert. Per component staat die bundel als view op de hoofdplaat in het bijbehorende hoofdstuk.
+Die lijn loopt van scenario naar informatiestroom, naar koppeling, naar koppelvlak: een scenario maakt zichtbaar welke informatie moet bewegen, de hoofdplaat toont die beweging als stroom (versie 1.7 is leidend; de legenda draagt nog "concept", dus richtinggevend), de koppelingen standaardiseren die stroom, elk voor één doel, en het koppelvlak bundelt wat één component daarvan serveert. Per component staat die bundel als view op de hoofdplaat in het bijbehorende hoofdstuk.
 
 ## Afkortingen
 

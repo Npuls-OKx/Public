@@ -12,9 +12,10 @@ views {
     title 'Versiescenario / Basisversie'
     order 5
     description '
-      Het vertrekpunt. Alle drie de systemen implementeren dezelfde versie van
-      het releasepakket, dat op zijn beurt een vastgelegde versie van de
-      informatie- en gegevensmodellen gebruikt.
+      Het vertrekpunt. Alle drie de systemen implementeren hun koppelingen op
+      versie 1.0, zoals uitgave v1.0.0 van het releasepakket ze beschrijft; die
+      uitgave bouwt op een vastgelegde versie van de informatie- en
+      gegevensmodellen.
     '
 
     autoLayout TopBottom 40 40
@@ -41,9 +42,10 @@ views {
     title 'Versiescenario / Na de bump'
     order 12
     description '
-      De catalogus draagt beide majors zolang niet iedereen over is. Planning
-      staat volledig op v2, het leermanagementsysteem blijft tot zijn
-      halfjaarrelease op latest-1.
+      De catalogus bedient de zes geraakte koppelingen op 1.0 én 2.0 zolang niet
+      iedereen over is. Planning spreekt volledig 2.0; het leermanagementsysteem
+      blijft tot zijn halfjaarrelease op 1.0 van Leeromgeving inrichten en
+      Leeromgeving bijwerken.
     '
 
     autoLayout TopBottom 40 40
@@ -132,7 +134,7 @@ views {
 
     okx.store.pkg_kvs.kvs_v2 -> lev_lms 'eigen naam blijft, de aanroep verandert'
     lev_lms -> instelling.lms 'plant de halfjaarrelease'
-    instelling.lms -> instelling.oc 'blijft op inrichtingsstatus (latest-1)'
+    instelling.lms -> instelling.oc 'blijft op inrichtingsstatus, versie 1.0'
     lev_lms -> instelling.lms 'verlegt naar verwerkingsuitkomst'
     lev_oc -> instelling.oc 'verwijdert de twee oude endpoints'
   }
@@ -193,20 +195,39 @@ views {
 
 views {
   view koppelingen_in_scope {
-    title 'Versiescenario / De twee koppelingen met hun berichtstromen'
+    title 'Versiescenario / De koppelingen in dit scenario'
     order 10
     description '
-      Niet de hele keten, maar de twee koppelingen waarover dit document gaat,
-      met de berichtstromen waaruit ze bestaan. Elke stroom draagt een eigen
-      versienummer; dat is de eenheid waarop versiebeheer plaatsvindt.
+      Niet de hele keten, maar de negen koppelingen met een versie tussen de drie systemen in dit
+      scenario, met de berichtstromen waaruit ze bestaan. Elke koppeling draagt een
+      eigen versienummer; dat is de eenheid waarop versiebeheer plaatsvindt.
     '
 
     autoLayout TopBottom 40 40
 
-    include spec, spec.kop_oc_p, spec.kop_oc_p.*, spec.kop_oc_lms, spec.kop_oc_lms.*
-    exclude spec.patronen
+    include spec, spec.koppelingen
+    include
+      spec.koppelingen.k_onderwijsspecificatie_ophalen.*,
+      spec.koppelingen.k_specificatiestatus_volgen.*,
+      spec.koppelingen.k_opleidingsaanbod_aanmaken.*,
+      spec.koppelingen.k_opleidingsaanbod_herplannen.*,
+      spec.koppelingen.k_late_wijziging_toetsen.*,
+      spec.koppelingen.k_leeromgeving_inrichten.*,
+      spec.koppelingen.k_leeromgeving_bijwerken.*,
+      spec.koppelingen.k_afleverabonnement_registreren.*,
+      spec.koppelingen.k_reconciliatie.*
+    include spec.koppelingen.k_onderwijsspecificatie_ophalen with { title 'Onderwijsspecificatie ophalen, versie 1.0' }
+    include spec.koppelingen.k_specificatiestatus_volgen with { title 'Specificatiestatus volgen, versie 1.0' }
+    include spec.koppelingen.k_opleidingsaanbod_aanmaken with { title 'Opleidingsaanbod aanmaken, versie 1.0' }
+    include spec.koppelingen.k_opleidingsaanbod_herplannen with { title 'Opleidingsaanbod herplannen, versie 1.0' }
+    include spec.koppelingen.k_late_wijziging_toetsen with { title 'Late wijziging toetsen, versie 1.0' }
+    include spec.koppelingen.k_leeromgeving_inrichten with { title 'Leeromgeving inrichten, versie 1.0' }
+    include spec.koppelingen.k_leeromgeving_bijwerken with { title 'Leeromgeving bijwerken, versie 1.0' }
+    include spec.koppelingen.k_afleverabonnement_registreren with { title 'Afleverabonnement registreren, versie 1.0' }
+    include spec.koppelingen.k_reconciliatie with { title 'Reconciliatie, versie 1.0' }
     exclude * -> *
   }
+
 }
 
 views {

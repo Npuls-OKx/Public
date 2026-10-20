@@ -1,0 +1,803 @@
+// De applicatiediensten uit de domeinarchitectuur, zoals de informatiestromen-
+// hoofdplaat v1.7 en de view op de functionaliteit van het studentkeuzesysteem
+// ze tonen. Per koppeling staat vast van welke dienst zij is afgeleid en tussen
+// welke componenten zij ligt; die relaties dragen de tag #hoofdplaat en komen
+// alleen op de hoofdplaatviews voor.
+//
+// Bron: het ArchiMate-model in Npuls-OKx/meta, en Koppelingen/ voor de afleiding.
+
+specification {
+  element applicatiedienst {
+    notation 'Applicatiedienst uit de domeinarchitectuur'
+    style {
+      textSize md
+      shape rectangle
+      color archi-applicatie
+      size md
+      padding sm
+      border solid
+      icon ./icons/service.svg
+      iconPosition right
+      iconSize xs
+    }
+  }
+
+  tag hoofdplaat
+}
+
+model {
+
+  extend instelling {
+    metadata {
+      hoofdplaatrij '1'
+      hoofdplaatkolom '1'
+    }
+  }
+
+  extend instelling.co {
+    metadata {
+      hoofdplaatrij '1'
+      hoofdplaatkolom '1'
+    }
+    ad_nominale_route_meerjaar = applicatiedienst 'Nominale route meerjaar uitwerking'
+  }
+
+  extend instelling.oc {
+    metadata {
+      hoofdplaatrij '1'
+      hoofdplaatkolom '2'
+    }
+    ad_onderwijsspecificatie_uitwerking = applicatiedienst 'Onderwijsspecificatie uitwerking'
+  }
+
+  extend instelling.p {
+    metadata {
+      hoofdplaatrij '1'
+      hoofdplaatkolom '3'
+    }
+    ad_capaciteitsplanning = applicatiedienst '(Meer)jaar capaciteitsplanning'
+    ad_jaarplanning = applicatiedienst 'Jaarplanning'
+    ad_nominale_route_schooljaar = applicatiedienst 'Nominale route schooljaar'
+    ad_periode_planning = applicatiedienst 'Periode planning'
+  }
+
+  extend instelling.rooster {
+    metadata {
+      hoofdplaatrij '1'
+      hoofdplaatkolom '4'
+    }
+  }
+
+  extend instelling.lms {
+    metadata {
+      hoofdplaatrij '2'
+      hoofdplaatkolom '1'
+    }
+  }
+
+  extend instelling.sks {
+    metadata {
+      hoofdplaatrij '2'
+      hoofdplaatkolom '2'
+    }
+    ad_keuze_opleidingseenheid = applicatiedienst 'Keuze op opleidingseenheid'
+    ad_keuze_leergelegenheid = applicatiedienst 'Keuze op leergelegenheid'
+    ad_keuze_lesgelegenheid = applicatiedienst 'Keuze op lesgelegenheid'
+    ad_accorderen = applicatiedienst 'Accorderen van keuzes'
+    ad_keuze_aanvraag_beheer = applicatiedienst 'Keuze aanvraag beheer'
+    ad_verwerken_definitieve_keuzes = applicatiedienst 'Verwerken van definitieve keuzes'
+  }
+
+  extend instelling.sis {
+    metadata {
+      hoofdplaatrij '3'
+      hoofdplaatkolom '1'
+    }
+    ad_inschrijving = applicatiedienst 'Inschrijving op opleidingsprogramma'
+  }
+
+  extern = organisatie 'Buiten de instelling' {
+    metadata {
+      hoofdplaatrij '1'
+      hoofdplaatkolom '2'
+    }
+    eduhub = systeem 'EduHub' {
+      metadata {
+        hoofdplaatrij '1'
+        hoofdplaatkolom '1'
+      }
+    }
+    cambo = systeem 'Voorziening Centraal Aanmelden (CAMBO)' {
+      metadata {
+        hoofdplaatrij '2'
+        hoofdplaatkolom '1'
+      }
+    }
+  }
+
+  // De legenda van de hoofdplaatviews. Geen onderdeel van de keten: een voorbeeld
+  // van wat de kleur en de twee lijnen op de plaat betekenen.
+  legenda = organisatie 'Legenda' {
+    koppeling = koppeling 'Koppeling' {
+      metadata {
+        hoofdplaatrij '1'
+        hoofdplaatkolom '1'
+      }
+      style {
+        color markering
+        size sm
+      }
+    }
+    rol = systeem 'Aanbieder of afnemer' {
+      metadata {
+        hoofdplaatrij '2'
+        hoofdplaatkolom '1'
+      }
+      style {
+        size sm
+      }
+    }
+    dienst = applicatiedienst 'Applicatiedienst waarvan de koppeling is afgeleid' {
+      metadata {
+        hoofdplaatrij '2'
+        hoofdplaatkolom '2'
+      }
+      style {
+        color markering
+        size sm
+      }
+    }
+  }
+  legenda.koppeling -> legenda.rol {
+    #hoofdplaat
+    style {
+      line solid
+      head none
+    }
+  }
+  legenda.koppeling -> legenda.dienst {
+    #hoofdplaat
+    style {
+      line dotted
+      head onormal
+    }
+  }
+
+  // Onderwijsspecificatie ophalen
+  spec.koppelingen.k_onderwijsspecificatie_ophalen -> instelling.oc.ad_onderwijsspecificatie_uitwerking 'afgeleid van' {
+    #hoofdplaat
+    style {
+      line dotted
+      head onormal
+    }
+  }
+  spec.koppelingen.k_onderwijsspecificatie_ophalen -> instelling.oc 'aanbieder' {
+    #hoofdplaat
+    style {
+      line solid
+      head none
+    }
+  }
+  spec.koppelingen.k_onderwijsspecificatie_ophalen -> instelling.p 'afnemer' {
+    #hoofdplaat
+    style {
+      line solid
+      head none
+    }
+  }
+  spec.koppelingen.k_onderwijsspecificatie_ophalen -> instelling.sis 'afnemer' {
+    #hoofdplaat
+    style {
+      line solid
+      head none
+    }
+  }
+  spec.koppelingen.k_onderwijsspecificatie_ophalen -> instelling.lms 'afnemer' {
+    #hoofdplaat
+    style {
+      line solid
+      head none
+    }
+  }
+  spec.koppelingen.k_onderwijsspecificatie_ophalen -> instelling.sks 'afnemer' {
+    #hoofdplaat
+    style {
+      line solid
+      head none
+    }
+  }
+
+  // Specificatiestatus volgen
+  spec.koppelingen.k_specificatiestatus_volgen -> instelling.oc.ad_onderwijsspecificatie_uitwerking 'afgeleid van' {
+    #hoofdplaat
+    style {
+      line dotted
+      head onormal
+    }
+  }
+  spec.koppelingen.k_specificatiestatus_volgen -> instelling.oc 'aanbieder' {
+    #hoofdplaat
+    style {
+      line solid
+      head none
+    }
+  }
+  spec.koppelingen.k_specificatiestatus_volgen -> instelling.p 'afnemer' {
+    #hoofdplaat
+    style {
+      line solid
+      head none
+    }
+  }
+  spec.koppelingen.k_specificatiestatus_volgen -> instelling.lms 'afnemer' {
+    #hoofdplaat
+    style {
+      line solid
+      head none
+    }
+  }
+
+  // Resultaatstructuur ophalen
+  spec.koppelingen.k_resultaatstructuur_ophalen -> instelling.oc.ad_onderwijsspecificatie_uitwerking 'afgeleid van' {
+    #hoofdplaat
+    style {
+      line dotted
+      head onormal
+    }
+  }
+  spec.koppelingen.k_resultaatstructuur_ophalen -> instelling.oc 'aanbieder' {
+    #hoofdplaat
+    style {
+      line solid
+      head none
+    }
+  }
+  spec.koppelingen.k_resultaatstructuur_ophalen -> instelling.sis 'afnemer' {
+    #hoofdplaat
+    style {
+      line solid
+      head none
+    }
+  }
+
+  // Specificatie aanpassen op verzoek
+  spec.koppelingen.k_specificatie_aanpassen_op_verzoek -> instelling.oc.ad_onderwijsspecificatie_uitwerking 'afgeleid van' {
+    #hoofdplaat
+    style {
+      line dotted
+      head onormal
+    }
+  }
+  spec.koppelingen.k_specificatie_aanpassen_op_verzoek -> instelling.oc 'aanbieder' {
+    #hoofdplaat
+    style {
+      line solid
+      head none
+    }
+  }
+  spec.koppelingen.k_specificatie_aanpassen_op_verzoek -> instelling.p 'afnemer' {
+    #hoofdplaat
+    style {
+      line solid
+      head none
+    }
+  }
+
+  // Keuzeaanbod ontsluiten
+  spec.koppelingen.k_keuzeaanbod_ontsluiten -> instelling.oc.ad_onderwijsspecificatie_uitwerking 'afgeleid van' {
+    #hoofdplaat
+    style {
+      line dotted
+      head onormal
+    }
+  }
+  spec.koppelingen.k_keuzeaanbod_ontsluiten -> instelling.oc 'aanbieder' {
+    #hoofdplaat
+    style {
+      line solid
+      head none
+    }
+  }
+  spec.koppelingen.k_keuzeaanbod_ontsluiten -> instelling.sks 'afnemer' {
+    #hoofdplaat
+    style {
+      line solid
+      head none
+    }
+  }
+
+  // Inschrijfbaar aanbod ontsluiten
+  spec.koppelingen.k_inschrijfbaar_aanbod_ontsluiten -> instelling.oc.ad_onderwijsspecificatie_uitwerking 'afgeleid van' {
+    #hoofdplaat
+    style {
+      line dotted
+      head onormal
+    }
+  }
+  spec.koppelingen.k_inschrijfbaar_aanbod_ontsluiten -> instelling.oc 'aanbieder' {
+    #hoofdplaat
+    style {
+      line solid
+      head none
+    }
+  }
+  spec.koppelingen.k_inschrijfbaar_aanbod_ontsluiten -> instelling.sis 'afnemer' {
+    #hoofdplaat
+    style {
+      line solid
+      head none
+    }
+  }
+  spec.koppelingen.k_inschrijfbaar_aanbod_ontsluiten -> extern.eduhub 'afnemer' {
+    #hoofdplaat
+    style {
+      line solid
+      head none
+    }
+  }
+  spec.koppelingen.k_inschrijfbaar_aanbod_ontsluiten -> extern.cambo 'afnemer' {
+    #hoofdplaat
+    style {
+      line solid
+      head none
+    }
+  }
+
+  // Specificatie ter vaststelling aanbieden
+  spec.koppelingen.k_specificatie_ter_vaststelling_aanbieden -> instelling.co.ad_nominale_route_meerjaar 'afgeleid van' {
+    #hoofdplaat
+    style {
+      line dotted
+      head onormal
+    }
+  }
+  spec.koppelingen.k_specificatie_ter_vaststelling_aanbieden -> instelling.oc 'aanbieder' {
+    #hoofdplaat
+    style {
+      line solid
+      head none
+    }
+  }
+  spec.koppelingen.k_specificatie_ter_vaststelling_aanbieden -> instelling.co 'afnemer' {
+    #hoofdplaat
+    style {
+      line solid
+      head none
+    }
+  }
+
+  // Opleidingsaanbod aanmaken
+  spec.koppelingen.k_opleidingsaanbod_aanmaken -> instelling.p.ad_capaciteitsplanning 'afgeleid van' {
+    #hoofdplaat
+    style {
+      line dotted
+      head onormal
+    }
+  }
+  spec.koppelingen.k_opleidingsaanbod_aanmaken -> instelling.p 'aanbieder' {
+    #hoofdplaat
+    style {
+      line solid
+      head none
+    }
+  }
+  spec.koppelingen.k_opleidingsaanbod_aanmaken -> instelling.oc 'afnemer' {
+    #hoofdplaat
+    style {
+      line solid
+      head none
+    }
+  }
+
+  // Opleidingsaanbod herplannen
+  spec.koppelingen.k_opleidingsaanbod_herplannen -> instelling.p.ad_capaciteitsplanning 'afgeleid van' {
+    #hoofdplaat
+    style {
+      line dotted
+      head onormal
+    }
+  }
+  spec.koppelingen.k_opleidingsaanbod_herplannen -> instelling.p 'aanbieder' {
+    #hoofdplaat
+    style {
+      line solid
+      head none
+    }
+  }
+  spec.koppelingen.k_opleidingsaanbod_herplannen -> instelling.oc 'afnemer' {
+    #hoofdplaat
+    style {
+      line solid
+      head none
+    }
+  }
+
+  // Late wijziging toetsen
+  spec.koppelingen.k_late_wijziging_toetsen -> instelling.p.ad_capaciteitsplanning 'afgeleid van' {
+    #hoofdplaat
+    style {
+      line dotted
+      head onormal
+    }
+  }
+  spec.koppelingen.k_late_wijziging_toetsen -> instelling.p 'aanbieder' {
+    #hoofdplaat
+    style {
+      line solid
+      head none
+    }
+  }
+  spec.koppelingen.k_late_wijziging_toetsen -> instelling.oc 'afnemer' {
+    #hoofdplaat
+    style {
+      line solid
+      head none
+    }
+  }
+
+  // Planningselementen ontsluiten
+  spec.koppelingen.k_planningselementen_ontsluiten -> instelling.p.ad_capaciteitsplanning 'afgeleid van' {
+    #hoofdplaat
+    style {
+      line dotted
+      head onormal
+    }
+  }
+  spec.koppelingen.k_planningselementen_ontsluiten -> instelling.p 'aanbieder' {
+    #hoofdplaat
+    style {
+      line solid
+      head none
+    }
+  }
+  spec.koppelingen.k_planningselementen_ontsluiten -> instelling.oc 'afnemer' {
+    #hoofdplaat
+    style {
+      line solid
+      head none
+    }
+  }
+
+  // Geplande leergelegenheden ontsluiten
+  spec.koppelingen.k_geplande_leergelegenheden_ontsluiten -> instelling.p.ad_periode_planning 'afgeleid van' {
+    #hoofdplaat
+    style {
+      line dotted
+      head onormal
+    }
+  }
+  spec.koppelingen.k_geplande_leergelegenheden_ontsluiten -> instelling.p 'aanbieder' {
+    #hoofdplaat
+    style {
+      line solid
+      head none
+    }
+  }
+  spec.koppelingen.k_geplande_leergelegenheden_ontsluiten -> instelling.sks 'afnemer' {
+    #hoofdplaat
+    style {
+      line solid
+      head none
+    }
+  }
+
+  // Planninggroepen ontsluiten
+  spec.koppelingen.k_planninggroepen_ontsluiten -> instelling.p.ad_periode_planning 'afgeleid van' {
+    #hoofdplaat
+    style {
+      line dotted
+      head onormal
+    }
+  }
+  spec.koppelingen.k_planninggroepen_ontsluiten -> instelling.p 'aanbieder' {
+    #hoofdplaat
+    style {
+      line solid
+      head none
+    }
+  }
+  spec.koppelingen.k_planninggroepen_ontsluiten -> instelling.rooster 'afnemer' {
+    #hoofdplaat
+    style {
+      line solid
+      head none
+    }
+  }
+
+  // Plaatsingsgroepen ontsluiten
+  spec.koppelingen.k_plaatsingsgroepen_ontsluiten -> instelling.sis.ad_inschrijving 'afgeleid van' {
+    #hoofdplaat
+    style {
+      line dotted
+      head onormal
+    }
+  }
+  spec.koppelingen.k_plaatsingsgroepen_ontsluiten -> instelling.sis 'aanbieder' {
+    #hoofdplaat
+    style {
+      line solid
+      head none
+    }
+  }
+  spec.koppelingen.k_plaatsingsgroepen_ontsluiten -> instelling.p 'afnemer' {
+    #hoofdplaat
+    style {
+      line solid
+      head none
+    }
+  }
+
+  // Opleidingsprogrammaverbintenis ontsluiten
+  spec.koppelingen.k_opleidingsprogrammaverbintenis_ontsluiten -> instelling.sis.ad_inschrijving 'afgeleid van' {
+    #hoofdplaat
+    style {
+      line dotted
+      head onormal
+    }
+  }
+  spec.koppelingen.k_opleidingsprogrammaverbintenis_ontsluiten -> instelling.sis 'aanbieder' {
+    #hoofdplaat
+    style {
+      line solid
+      head none
+    }
+  }
+  spec.koppelingen.k_opleidingsprogrammaverbintenis_ontsluiten -> instelling.sks 'afnemer' {
+    #hoofdplaat
+    style {
+      line solid
+      head none
+    }
+  }
+  spec.koppelingen.k_opleidingsprogrammaverbintenis_ontsluiten -> instelling.lms 'afnemer' {
+    #hoofdplaat
+    style {
+      line solid
+      head none
+    }
+  }
+
+  // Animo doorgeven
+  spec.koppelingen.k_animo_doorgeven -> instelling.sks.ad_keuze_aanvraag_beheer 'afgeleid van' {
+    #hoofdplaat
+    style {
+      line dotted
+      head onormal
+    }
+  }
+  spec.koppelingen.k_animo_doorgeven -> instelling.sks 'aanbieder' {
+    #hoofdplaat
+    style {
+      line solid
+      head none
+    }
+  }
+  spec.koppelingen.k_animo_doorgeven -> instelling.p 'afnemer' {
+    #hoofdplaat
+    style {
+      line solid
+      head none
+    }
+  }
+
+  // Plaatsing op lesgelegenheid aanvragen
+  spec.koppelingen.k_plaatsing_op_lesgelegenheid_aanvragen -> instelling.sks.ad_verwerken_definitieve_keuzes 'afgeleid van' {
+    #hoofdplaat
+    style {
+      line dotted
+      head onormal
+    }
+  }
+  spec.koppelingen.k_plaatsing_op_lesgelegenheid_aanvragen -> instelling.rooster 'aanbieder' {
+    #hoofdplaat
+    style {
+      line solid
+      head none
+    }
+  }
+  spec.koppelingen.k_plaatsing_op_lesgelegenheid_aanvragen -> instelling.sks 'afnemer' {
+    #hoofdplaat
+    style {
+      line solid
+      head none
+    }
+  }
+
+  // Keuzeverbintenis vastleggen
+  spec.koppelingen.k_keuzeverbintenis_vastleggen -> instelling.sks.ad_verwerken_definitieve_keuzes 'afgeleid van' {
+    #hoofdplaat
+    style {
+      line dotted
+      head onormal
+    }
+  }
+  spec.koppelingen.k_keuzeverbintenis_vastleggen -> instelling.sks 'aanbieder' {
+    #hoofdplaat
+    style {
+      line solid
+      head none
+    }
+  }
+  spec.koppelingen.k_keuzeverbintenis_vastleggen -> instelling.sis 'afnemer' {
+    #hoofdplaat
+    style {
+      line solid
+      head none
+    }
+  }
+
+  // Onderwijseenheidverbintenis doorgeven
+  spec.koppelingen.k_onderwijseenheidverbintenis_doorgeven -> instelling.sks.ad_verwerken_definitieve_keuzes 'afgeleid van' {
+    #hoofdplaat
+    style {
+      line dotted
+      head onormal
+    }
+  }
+  spec.koppelingen.k_onderwijseenheidverbintenis_doorgeven -> instelling.sks 'aanbieder' {
+    #hoofdplaat
+    style {
+      line solid
+      head none
+    }
+  }
+  spec.koppelingen.k_onderwijseenheidverbintenis_doorgeven -> instelling.sis 'afnemer' {
+    #hoofdplaat
+    style {
+      line solid
+      head none
+    }
+  }
+
+  // Verbintenis en planninggroep doorgeven
+  spec.koppelingen.k_verbintenis_en_planninggroep_doorgeven -> instelling.sks.ad_verwerken_definitieve_keuzes 'afgeleid van' {
+    #hoofdplaat
+    style {
+      line dotted
+      head onormal
+    }
+  }
+  spec.koppelingen.k_verbintenis_en_planninggroep_doorgeven -> instelling.sks 'aanbieder' {
+    #hoofdplaat
+    style {
+      line solid
+      head none
+    }
+  }
+  spec.koppelingen.k_verbintenis_en_planninggroep_doorgeven -> instelling.lms 'afnemer' {
+    #hoofdplaat
+    style {
+      line solid
+      head none
+    }
+  }
+
+  // Leergelegenheden roosteren
+  spec.koppelingen.k_leergelegenheden_roosteren -> instelling.rooster 'aanbieder' {
+    #hoofdplaat
+    style {
+      line solid
+      head none
+    }
+  }
+  spec.koppelingen.k_leergelegenheden_roosteren -> instelling.p 'afnemer' {
+    #hoofdplaat
+    style {
+      line solid
+      head none
+    }
+  }
+
+  // Geroosterde leergelegenheden ontsluiten
+  spec.koppelingen.k_geroosterde_leergelegenheden_ontsluiten -> instelling.rooster 'aanbieder' {
+    #hoofdplaat
+    style {
+      line solid
+      head none
+    }
+  }
+  spec.koppelingen.k_geroosterde_leergelegenheden_ontsluiten -> instelling.sks 'afnemer' {
+    #hoofdplaat
+    style {
+      line solid
+      head none
+    }
+  }
+
+  // Planninggroepen met studenten ontsluiten
+  spec.koppelingen.k_planninggroepen_met_studenten_ontsluiten -> instelling.rooster 'aanbieder' {
+    #hoofdplaat
+    style {
+      line solid
+      head none
+    }
+  }
+  spec.koppelingen.k_planninggroepen_met_studenten_ontsluiten -> instelling.sis 'afnemer' {
+    #hoofdplaat
+    style {
+      line solid
+      head none
+    }
+  }
+
+  // Leeromgeving inrichten
+  spec.koppelingen.k_leeromgeving_inrichten -> instelling.lms 'aanbieder' {
+    #hoofdplaat
+    style {
+      line solid
+      head none
+    }
+  }
+  spec.koppelingen.k_leeromgeving_inrichten -> instelling.oc 'afnemer' {
+    #hoofdplaat
+    style {
+      line solid
+      head none
+    }
+  }
+
+  // Leeromgeving bijwerken
+  spec.koppelingen.k_leeromgeving_bijwerken -> instelling.lms 'aanbieder' {
+    #hoofdplaat
+    style {
+      line solid
+      head none
+    }
+  }
+  spec.koppelingen.k_leeromgeving_bijwerken -> instelling.oc 'afnemer' {
+    #hoofdplaat
+    style {
+      line solid
+      head none
+    }
+  }
+
+  // Toetsresultaat doorgeven
+  spec.koppelingen.k_toetsresultaat_doorgeven -> instelling.lms 'aanbieder' {
+    #hoofdplaat
+    style {
+      line solid
+      head none
+    }
+  }
+  spec.koppelingen.k_toetsresultaat_doorgeven -> instelling.sis 'afnemer' {
+    #hoofdplaat
+    style {
+      line solid
+      head none
+    }
+  }
+
+  // Nominaal template inrichten
+  spec.koppelingen.k_nominaal_template_inrichten -> instelling.sis 'aanbieder' {
+    #hoofdplaat
+    style {
+      line solid
+      head none
+    }
+  }
+  spec.koppelingen.k_nominaal_template_inrichten -> instelling.oc 'afnemer' {
+    #hoofdplaat
+    style {
+      line solid
+      head none
+    }
+  }
+
+  // Examenplanwijziging toetsen
+  spec.koppelingen.k_examenplanwijziging_toetsen -> instelling.sis 'aanbieder' {
+    #hoofdplaat
+    style {
+      line solid
+      head none
+    }
+  }
+  spec.koppelingen.k_examenplanwijziging_toetsen -> instelling.oc 'afnemer' {
+    #hoofdplaat
+    style {
+      line solid
+      head none
+    }
+  }
+
+}

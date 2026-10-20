@@ -1,11 +1,28 @@
 specification {
 
+  // De kleuren van ArchiMate, zoals Archi ze standaard gebruikt en het
+  // OKx-model ze toepast: de applicatielaag lichtblauw, de OKx-componenten zoals
+  // op de informatiestromen-hoofdplaat, business geel, motivatie paars,
+  // implementatie en migratie roze, en een grouping grijs.
+  // De vlakkleur staat hier; de rand en de zwarte tekst staan per kleur in
+  // likec4.config.json.
+  color archi-applicatie #B5FFFF
+  color archi-component #80FFFF
+  color archi-business #FFFFB5
+  color archi-motivatie #CCCCFF
+  color archi-implementatie #FFE0E0
+  color archi-grouping #D2D7D7
+
+  // Een markering, geen laag: op een hoofdplaatview licht zij de koppeling op en
+  // de applicatiedienst waarvan die is afgeleid.
+  color markering #FFD966
+
   element organisatie {
     notation 'Organisatie of afgebakend geheel'
     style {
       textSize lg
       shape rectangle
-      color gray
+      color archi-grouping
       opacity 5%
       border dashed
     }
@@ -16,7 +33,7 @@ specification {
     style {
       textSize md
       shape person
-      color secondary
+      color archi-business
       size xs
     }
   }
@@ -25,10 +42,26 @@ specification {
     notation 'Applicatiecomponent uit de keten'
     style {
       textSize lg
-      shape component
-      color green
-      opacity 5%
-      border dashed
+      shape rectangle
+      color archi-component
+      opacity 100%
+      border solid
+      icon ./icons/component.svg
+      iconPosition right
+      iconSize xs
+    }
+  }
+
+  element rolsysteem {
+    notation 'Rol die een component in een interactie speelt'
+    style {
+      textSize lg
+      shape rectangle
+      color archi-applicatie
+      icon ./icons/component.svg
+      iconPosition right
+      iconSize xs
+      border solid
     }
   }
 
@@ -37,21 +70,28 @@ specification {
     style {
       textSize lg
       shape rectangle
-      color slate
-      opacity 15%
-      border dotted
+      color archi-applicatie
+      opacity 100%
+      border solid
+      icon ./icons/interface.svg
+      iconPosition right
+      iconSize xs
     }
   }
 
   element dienst {
-    notation 'Applicatiedienst die het component implementeert'
+    notation 'Koppelvlakdienst die het component implementeert'
     style {
       textSize md
       shape rectangle
-      color blue
-      opacity 25%
+      color archi-applicatie
       size sm
       padding sm
+      opacity 100%
+      border solid
+      icon ./icons/service.svg
+      iconPosition right
+      iconSize xs
     }
   }
 
@@ -60,9 +100,13 @@ specification {
     style {
       textSize md
       shape rectangle
-      color gray
+      color archi-applicatie
       size md
       padding sm
+      icon ./icons/function.svg
+      iconPosition right
+      iconSize xs
+      border solid
     }
   }
 
@@ -71,9 +115,13 @@ specification {
     style {
       textSize md
       shape rectangle
-      color sky
+      color archi-applicatie
       size md
       padding sm
+      icon ./icons/interface.svg
+      iconPosition right
+      iconSize xs
+      border solid
     }
   }
 
@@ -82,8 +130,9 @@ specification {
     style {
       textSize md
       shape document
-      color green
+      color archi-implementatie
       size sm
+      border solid
     }
   }
 
@@ -91,9 +140,13 @@ specification {
     notation 'Branch in het repository'
     style {
       textSize md
-      shape queue
-      color amber
+      shape rectangle
+      color archi-implementatie
       size xs
+      icon ./icons/workpackage.svg
+      iconPosition right
+      iconSize xs
+      border solid
     }
   }
 
@@ -124,7 +177,7 @@ global {
       color green
     }
     style element.tag = #ongewijzigd {
-      color sky
+      color archi-applicatie
     }
     style element.tag = #breaking {
       color red

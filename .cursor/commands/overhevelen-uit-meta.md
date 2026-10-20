@@ -21,7 +21,7 @@ Volg de containers uit de rule over repo-structuur. Bepaal per bestand of het **
 
 ## 3. Schoon de bestandsnamen op
 
-Weg met datum- en versieprefixen. `20260723_1156_okx-lr1-koppelingspecificatie-oc-p-en-r.md` wordt `onderwijscatalogus-planning-en-roostering.md`. Die prefixen zijn een werkproces-conventie uit meta en horen niet in een releaseartefact.
+Weg met datum- en versieprefixen. `20260723_1156_okx-lr1-koppelingspecificatie-oc-p-en-r.md` wordt `opleidingsaanbod-aanmaken.md`. Die prefixen zijn een werkproces-conventie uit meta en horen niet in een releaseartefact.
 
 ## 4. Herschrijf alle verwijzingen
 
@@ -62,7 +62,7 @@ python3 scripts/json-tree.py --check <document>.md    # payload-documenten
 Controleer daarnaast met de hand:
 
 - Bestaan alle gepinde meta-paden op de gekozen commit?
-- Staan alle afbeeldingen in de nieuwe `img/`, en zijn ze allemaal in gebruik?
+- Staan alle afbeeldingen in de nieuwe `img/`, of komen ze als plaat uit het LikeC4-model, en zijn ze allemaal in gebruik?
 - Zijn code fences en HTML-comment-markers in balans, als je een extract uit een groter document hebt genomen?
 
 Meld in de pull request wat je in de bron bent tegengekomen dat daar aandacht vraagt.

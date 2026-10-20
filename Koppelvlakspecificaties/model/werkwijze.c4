@@ -1,0 +1,155 @@
+// De werkwijze rond de specificatie: hoe koppelingen uit scenario's ontstaan, en
+// hoe de requirementsboom op de koppelingen aansluit.
+//
+// Bron: uitgangspunten.md (U1) en Referentiemateriaal/requirementsboom/.
+
+specification {
+  element artefact {
+    notation 'Artefact in de werkwijze'
+    style {
+      textSize md
+      shape document
+      color archi-implementatie
+      size md
+      border solid
+    }
+  }
+
+  element eis {
+    notation 'Laag of knoop uit de requirementsboom'
+    style {
+      textSize md
+      shape rectangle
+      color archi-motivatie
+      size md
+      padding sm
+      icon ./icons/goal.svg
+      iconPosition right
+      iconSize xs
+      border solid
+    }
+  }
+}
+
+model {
+
+  werkwijze = organisatie 'Van scenario naar koppelvlakspecificatie' {
+    ww_scenario = artefact "Scenario's leerroute 1-3" {
+      description "met persona's"
+    }
+    ww_behoefte = artefact 'Nieuwe behoeften' {
+      description 'uit een later scenario'
+    }
+    ww_koppeling = artefact 'Koppelingen' {
+      description 'één per doel, afgeleid van een applicatiedienst'
+    }
+    ww_kvs = artefact 'Koppelvlakspecificatie per component' {
+      description 'endpoints en operaties, onderbouwd'
+    }
+  }
+
+  ww_scenario -> ww_koppeling
+  ww_behoefte -> ww_koppeling
+  ww_koppeling -> ww_kvs 'tellen op tot'
+
+  boom = organisatie 'Requirementsboom' {
+    rb_lzd = eis 'Leren zonder Drempels'
+    rb_doelen = organisatie 'OKx-projectdoelen' {
+      rb_dl1 = eis 'doel-0001 gezamenlijke taal'
+      rb_dl2 = eis 'doel-0002 gegevensuitwisseling en mobiliteit'
+      rb_dl3 = eis 'doel-0003 keuze en personalisering'
+    }
+    rb_ep1 = eis 'epic-0001 Gezamenlijke taal en standaard'
+    rb_ep2 = eis 'epic-0002 Onderwijsaanbod specificeren en ontsluiten'
+    rb_ep3 = eis 'epic-0003 Aanbod plannen en roosteren'
+    rb_ep4 = eis 'epic-0004 Betrouwbare en vervangbare koppelingen'
+    rb_ep5 = eis 'epic-0005 Standaard beproeven en adopteren'
+    rb_ep6 = eis 'epic-0006 Student kiest onderwijsspecificaties'
+    rb_ep7 = eis 'epic-0007 Keuze en verbintenis vastleggen'
+    rb_ep8 = eis 'epic-0008 Voortgang en resultaat op leeruitkomsten'
+    rb_features = eis 'features' {
+      description 'per epic, zie de tabel'
+      style {
+        border dashed
+        opacity 30%
+      }
+    }
+    rb_stories = eis 'stories' {
+      description 'per feature, zie de tabel'
+      style {
+        border dashed
+        opacity 30%
+      }
+    }
+  }
+
+  rb_lzd -> rb_dl1
+  rb_lzd -> rb_dl2
+  rb_lzd -> rb_dl3
+  rb_dl1 -> rb_ep1
+  rb_dl2 -> rb_ep2
+  rb_dl2 -> rb_ep3
+  rb_dl2 -> rb_ep4
+  rb_dl2 -> rb_ep5
+  rb_dl3 -> rb_ep6
+  rb_dl3 -> rb_ep7
+  rb_dl3 -> rb_ep8
+  rb_ep1 -> rb_features
+  rb_ep2 -> rb_features
+  rb_ep3 -> rb_features
+  rb_ep4 -> rb_features
+  rb_ep5 -> rb_features
+  rb_ep6 -> rb_features
+  rb_ep7 -> rb_features
+  rb_ep8 -> rb_features
+  rb_features -> rb_stories
+
+  aansluiting = organisatie 'Aansluiting op de techniek' {
+    as_boom = organisatie 'Requirementsboom' {
+      as_opdracht = eis 'opdracht'
+      as_doel = eis 'doel'
+      as_epic = eis 'epic'
+      as_feature = eis 'feature'
+      as_story = eis 'story'
+    }
+    as_kvs = organisatie 'Koppelvlakspecificatie' {
+      as_koppeling = koppeling 'koppeling'
+      as_stroom = berichtstroom 'berichtstroom'
+      as_dienst = dienst 'koppelvlakdienst'
+      as_endpoint = endpoint 'endpoint'
+    }
+  }
+
+  as_opdracht -> as_doel
+  as_doel -> as_epic
+  as_epic -> as_feature
+  as_feature -> as_story
+  as_story -> as_stroom 'ingevuld door'
+  as_koppeling -> as_stroom 'bepaalt'
+  as_stroom -> as_dienst 'zet in'
+  as_dienst -> as_endpoint 'levert via'
+}
+
+views {
+
+  view werkwijze_van_scenario_naar_koppelvlak {
+    title 'Uitgangspunten / Van scenario naar koppelvlakspecificatie'
+    description "Scenario's en latere behoeften leveren koppelingen op; samen vormen die per component de koppelvlakspecificatie."
+    autoLayout LeftRight 60 40
+    include werkwijze, werkwijze.*
+  }
+
+  view werkwijze_requirementsboom {
+    title 'Requirementsboom / Van opdracht naar story'
+    description 'Leren zonder Drempels, de OKx-projectdoelen en de epics; onder elke epic hangen features en daaronder stories.'
+    autoLayout LeftRight 60 40
+    include boom, boom.*, rb_doelen.*
+  }
+
+  view werkwijze_aansluiting_techniek {
+    title 'Requirementsboom / Aansluiting op de techniek'
+    description 'Een story wordt ingevuld door een berichtstroom in een koppeling; de stroom zet koppelvlakdiensten in, die via endpoints leveren.'
+    autoLayout LeftRight 60 40
+    include aansluiting, as_boom, as_boom.*, as_kvs, as_kvs.*
+  }
+}

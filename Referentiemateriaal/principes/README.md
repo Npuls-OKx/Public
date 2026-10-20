@@ -11,7 +11,7 @@ Bij twijfel of uitzondering op een principe hoort een besluit in [`../adr/`](../
 
 ## Niet te verwarren met
 
-De koppelingspecificaties hebben hun **eigen** uitgangspunten, genummerd U1 tot en met U10: zie [`Koppelvlakspecificaties/uitgangspunten.md`](../../Koppelvlakspecificaties/uitgangspunten.md). Die gaan specifiek over hoe je een koppelingspecificatie schrijft (doelbinding, notify-then-pull, payloadvorm, sleutelconventie). De uitgangspunten hier gelden voor OKx als geheel en staan er een niveau boven; U1 steunt bijvoorbeeld op [OKx-AP04](principes.md#okx-ap04--koppelvlakken-als-open-gestandaardiseerde-contracten) en [OKx-AP05](principes.md#okx-ap05--referentiecomponenten-als-gedeeld-referentiekader).
+De koppelingen hebben hun **eigen** uitgangspunten, genummerd U1 tot en met U11: zie [`Koppelvlakspecificaties/uitgangspunten.md`](../../Koppelvlakspecificaties/uitgangspunten.md). Die gaan specifiek over hoe je een koppeling schrijft (doelbinding, notify-then-pull, payloadvorm, sleutelconventie). De uitgangspunten hier gelden voor OKx als geheel en staan er een niveau boven; U1 steunt bijvoorbeeld op [OKx-AP04](principes.md#okx-ap04--koppelvlakken-als-open-gestandaardiseerde-contracten) en [OKx-AP05](principes.md#okx-ap05--referentiecomponenten-als-gedeeld-referentiekader).
 
 ## Herkomst
 

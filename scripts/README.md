@@ -11,6 +11,7 @@ Gereedschap om te controleren wat machinaal te controleren is, en om het release
 | [`validate-requirementsboom-navigatie.py`](validate-requirementsboom-navigatie.py) | Vangt gebroken navigatie in de requirementsboom: dode ankers, eenzijdige laagverwijzingen, terugleiding die niet spoort met de stories |
 | [`likec4-render.sh`](likec4-render.sh) | Rendert de LikeC4-views van een pakket naar PNG: valideren, plaatsing berekenen, exporteren, marge eromheen |
 | [`likec4-layout.py`](likec4-layout.py) | Berekent de plaatsing van views zonder relaties, waar graphviz geen bruikbare oplevert |
+| [`likec4-hoofdplaat.py`](likec4-hoofdplaat.py) | Legt de hoofdplaatviews op één vaste plaat en trekt de lijnen er zelf overheen, zodat de plaat in elke view gelijk ligt |
 | [`likec4-marge.py`](likec4-marge.py) | Zet een geëxporteerde plaat op een witte ondergrond met lucht eromheen |
 | [`likec4-plaatsen.py`](likec4-plaatsen.py) | Zet elke plaat in de map van zijn categorie, met een bestandsnaam uit de titel van de view |
 
@@ -29,7 +30,7 @@ npm run diagrammen:controle                       # LikeC4-model valideren
 npm run diagrammen:render                         # de platen opnieuw renderen
 ```
 
-De vier `likec4`-scripts horen bij elkaar en worden via `npm run diagrammen:render` in de goede volgorde gedraaid; zie [`.agents/skills/okx-diagrammen/`](../.agents/skills/okx-diagrammen/SKILL.md) voor wat ze doen en waarom de plaatsing apart wordt berekend.
+De vijf `likec4`-scripts horen bij elkaar en worden via `npm run diagrammen:render` in de goede volgorde gedraaid; zie [`.agents/skills/okx-diagrammen/`](../.agents/skills/okx-diagrammen/SKILL.md) voor wat ze doen en waarom de plaatsing apart wordt berekend.
 
 De controlescripts geven exitcode 1 bij een probleem, zodat ze in een pre-commit hook of workflow passen.
 
@@ -53,11 +54,11 @@ Bouwt een pakket op een ander, dan noemt zijn manifest dat onder `afhankelijkhed
 
 Drie dingen doet het script die pandoc alleen niet doet.
 
-**Mermaid renderen.** De specificaties dragen tientallen mermaid-diagrammen. Pandoc kent mermaid niet en zou die codeblokken als letterlijke tekst afdrukken. Elk blok gaat daarom eerst door mermaid-cli naar een PNG.
+**Mermaid renderen.** Een deel van de documenten draagt nog mermaid-diagrammen, zoals de ER-diagrammen van het logisch gegevensmodel. Pandoc kent mermaid niet en zou die codeblokken als letterlijke tekst afdrukken. Elk blok gaat daarom eerst door mermaid-cli naar een PNG.
 
-**Verwijzingen herschrijven.** In een docx bestaat `../Koppelingspecificaties/...md#anchor` niet. In het gebundelde document worden verwijzingen tussen documenten interne verwijzingen; in de losse documenten, en voor alles buiten het pakket zoals `Referentiemateriaal/`, worden het GitHub-URL's op de gebouwde ref. Die blijven altijd werken, ook als iemand het document jaren later opent.
+**Verwijzingen herschrijven.** In een docx bestaat `../Koppelingen/...md#anchor` niet. In het gebundelde document worden verwijzingen tussen documenten interne verwijzingen; in de losse documenten, en voor alles buiten het pakket zoals `Referentiemateriaal/`, worden het GitHub-URL's op de gebouwde ref. Die blijven altijd werken, ook als iemand het document jaren later opent.
 
-**Botsende anchors voorkomen.** Meerdere documenten dragen een kop `## 3. Interactieoverzicht`. Gebundeld levert dat dubbele id's op, en dan landt een verwijzing stilzwijgend in het verkeerde hoofdstuk. Elke kop krijgt daarom een id met het document als voorvoegsel.
+**Botsende anchors voorkomen.** Elke koppeling draagt een kop `## Stories`. Gebundeld levert dat dubbele id's op, en dan landt een verwijzing stilzwijgend in het verkeerde hoofdstuk. Elke kop krijgt daarom een id met het document als voorvoegsel.
 
 Lokaal bouwen vraagt `pandoc`, `node` en `npx`. In de workflow staat pandoc op een vaste versie: een releaseartefact hoort reproduceerbaar te zijn, en de pandoc uit apt verschilt per runner-image.
 
