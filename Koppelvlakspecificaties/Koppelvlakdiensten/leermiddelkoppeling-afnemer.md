@@ -17,6 +17,8 @@ De endpoints die het component implementeert om deze dienst te leveren.
 |---|---|---|---|---|---|
 | `leermiddelkoppeling-beschikbaar` | POST | — | Referentie naar de koppeling, specificatie-id en versie. Payloadschema nog niet uitgewerkt | — | 200 |
 
+Daarnaast haalt het component de koppeling op bij [leermiddelkoppeling-aanbieder](leermiddelkoppeling-aanbieder.md), met `GET /leermiddelkoppelingen/{id}`. **Ophalen is vereist** om de koppeling te tonen of te gebruiken: de melding draagt alleen een verwijzing.
+
 ## Gebruikt in
 
 - [Leeromgeving inrichten](../Koppelingen/leeromgeving-inrichten.md)

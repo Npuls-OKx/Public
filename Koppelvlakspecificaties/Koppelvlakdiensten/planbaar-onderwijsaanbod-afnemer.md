@@ -14,7 +14,7 @@ Een component dat deze dienst implementeert:
 
 De endpoints die het component implementeert om deze dienst te leveren.
 
-Geen. Deze dienst vraagt geen eigen endpoints: de afnemer haalt op bij de aanbieder en stelt zelf niets beschikbaar. Dat er aanbod is, blijkt uit [verwerkingsuitkomst-afnemer](verwerkingsuitkomst-afnemer.md).
+Geen eigen endpoint. **Ophalen is vereist**: het component haalt het aanbod op bij [planbaar-onderwijsaanbod-aanbieder](planbaar-onderwijsaanbod-aanbieder.md), met `GET /onderwijsaanbod/{id}` en `GET /onderwijsaanbod`, wanneer het de inhoud nodig heeft. Dat er aanbod is, hoort het op het endpoint van [verwerkingsuitkomst-afnemer](verwerkingsuitkomst-afnemer.md).
 
 ## Gebruikt in
 

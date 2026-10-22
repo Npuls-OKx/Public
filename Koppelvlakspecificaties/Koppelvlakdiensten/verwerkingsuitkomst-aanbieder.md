@@ -6,7 +6,7 @@ Het implementerende component maakt bekend wat zijn verwerking van een aangeleve
 
 Een component dat deze dienst implementeert:
 
-- stelt de uitkomst beschikbaar: ontvangen, gestart, gelukt, niet gelukt of afgekeurd.
+- meldt de uitkomst: ontvangen, gestart, gelukt, niet gelukt of afgekeurd.
 - onderscheidt niet-terminale van terminale uitkomsten, zodat de afnemer weet wanneer hij zijn eigen status mag bijstellen.
 - draagt bij een geslaagde verwerking een referentie naar wat is aangemaakt, en niet de instantie zelf ([U3](../uitgangspunten.md#u3-resource-eigenaarschap)).
 - draagt bij afkeuring of falen de reden, in een vorm die de afnemer kan verwerken.
@@ -16,7 +16,7 @@ Een component dat deze dienst implementeert:
 
 De endpoints die het component implementeert om deze dienst te leveren.
 
-Geen. De uitkomst wordt gemeld, niet aangeboden op een eigen endpoint; waar zij landt is een inrichtingskeuze van de koppeling. Het endpoint dat haar aanneemt staat bij [verwerkingsuitkomst-afnemer](verwerkingsuitkomst-afnemer.md).
+Geen eigen endpoint: het component verstuurt de uitkomst alleen. Het endpoint dat haar aanneemt, `verwerkingsuitkomst`, staat bij [verwerkingsuitkomst-afnemer](verwerkingsuitkomst-afnemer.md).
 
 ## Gebruikt in
 

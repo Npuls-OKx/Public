@@ -19,6 +19,8 @@ De endpoints die het component implementeert om deze dienst te leveren.
 | `resultaatstructuur-beschikbaar` | POST | — | Specificatie-id en versie, examenplan-id en versie. Payloadschema nog niet uitgewerkt | — | 200 |
 | `examenplanspecificatie-gewijzigd` | POST | — | [specification-changed.json](../../Informatie-en-gegevensmodellen/schemas/specification-changed.json), met wijzigingsklasse | — | 200 |
 
+Daarnaast haalt het component de resultaatstructuur op bij [resultaatstructuur-aanbieder](resultaatstructuur-aanbieder.md), met `GET /examenplanspecificaties/{id}`. **Ophalen is vereist**: een melding draagt alleen een verwijzing.
+
 ## Gebruikt in
 
 - [Resultaatstructuur ophalen](../Koppelingen/resultaatstructuur-ophalen.md)

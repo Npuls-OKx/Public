@@ -78,6 +78,7 @@ De verdeling van de endpoints over de drie koppelvlakken ziet er in die basisver
 | Planningssysteem | [afleverabonnement-aanbieder](Koppelvlakdiensten/afleverabonnement-aanbieder.md) | `POST /abonnementen` |
 | Leermanagementsysteem | [onderwijsspecificatiestructuur-afnemer](Koppelvlakdiensten/onderwijsspecificatiestructuur-afnemer.md) | `POST specificatie-beschikbaar`, `POST specificatie-gewijzigd`, `POST specificatie-status-gewijzigd` |
 | Leermanagementsysteem | [leermiddelkoppeling-aanbieder](Koppelvlakdiensten/leermiddelkoppeling-aanbieder.md) | `GET /leermiddelkoppelingen/{id}` |
+| Leermanagementsysteem | [afleverabonnement-aanbieder](Koppelvlakdiensten/afleverabonnement-aanbieder.md) | `POST /abonnementen` |
 
 ## 4. Waar een versie zit
 

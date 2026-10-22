@@ -36,9 +36,9 @@ views {
   dynamic view seq_specificatiestatus_volgen_1 {
     title "Koppelingen / Specificatiestatus gewijzigd melden"
     variant sequence
-    instelling.oc -> instelling.oc "Specificatie krijgt een nieuwe status, los van de versie (bv. gepubliceerd naar gedeactiveerd)"
+    instelling.oc -> instelling.oc "Specificatie wisselt van status, zonder nieuwe versie"
     instelling.oc -> rollen.afnemer "[specificatie-status-gewijzigd] Event: specificatiestatus gewijzigd (object-id, oude status, nieuwe status)" { line dotted }
-    rollen.afnemer -> rollen.afnemer "Wat de afnemer met de statuswijziging doet is applicatiefunctionaliteit, buiten deze specificatie"
+    rollen.afnemer -> rollen.afnemer "Verwerkt de statuswijziging"
   }
 
   dynamic view seq_resultaatstructuur_ophalen_1 {
@@ -86,7 +86,7 @@ views {
   dynamic view seq_opleidingsaanbod_aanmaken_2 {
     title "Koppelingen / Planning niet gelukt melden"
     variant sequence
-    instelling.p -> instelling.p "Planproces vindt geen geldige planning (bv. capaciteit of expertise ontoereikend)"
+    instelling.p -> instelling.p "Planproces vindt geen geldige planning: capaciteit of expertise schiet tekort"
     instelling.p -> instelling.oc "[verwerkingsuitkomst] Status niet gelukt, met referentie naar opleidingsaanbod" { line dotted }
     instelling.p -> rollen.planner "Signaal niet realiseerbaar, met knelpunten"
     opt "de onderwijscatalogus wil de reden inzien" {
@@ -94,7 +94,7 @@ views {
       instelling.p -> instelling.oc "opleidingsaanbod-instantie met status en knelpunten"
     }
     instelling.oc -> instelling.oc "Specificatie blijft gepubliceerd, geen planbaar aanbod voor dit cohort"
-    instelling.oc -> instelling.oc "Vervolg is ketenafstemming buiten deze koppeling, specificatie aanpassen (curriculum-ontwerptool), capaciteit uitbreiden of cohort uitstellen"
+    instelling.oc -> instelling.oc "Stemt het vervolg af: specificatie aanpassen, capaciteit uitbreiden of cohort uitstellen"
   }
 
   dynamic view seq_opleidingsaanbod_herplannen_1 {
@@ -116,7 +116,7 @@ views {
       }
       when "Brekend of planimpact" {
         instelling.p -> instelling.oc "[verwerkingsuitkomst] Status: wijziging niet verwerkt, ketenafstemming vereist" { line dotted }
-        instelling.oc -> instelling.oc "Besluit buiten deze koppeling (memo van Niels), uitzonderlijk accepteren en herplannen, of terugdraaien"
+        instelling.oc -> instelling.oc "Besluit: uitzonderlijk accepteren en herplannen, of de wijziging terugdraaien"
       }
     }
   }
@@ -137,7 +137,7 @@ views {
   dynamic view seq_leeromgeving_bijwerken_1 {
     title "Koppelingen / Inrichting bijwerken na wijziging"
     variant sequence
-    instelling.lms -> instelling.lms "Wat het leermanagementsysteem met de wijziging doet is applicatiefunctionaliteit, buiten deze specificatie"
+    instelling.lms -> instelling.lms "Verwerkt de wijziging in de leeromgeving"
     instelling.lms -> instelling.oc "[verwerkingsuitkomst] Status: inrichting bijgewerkt, of afstemming nodig" { line dotted }
   }
 
@@ -167,7 +167,7 @@ views {
       }
       when "Lopende verbintenissen geraakt" {
         instelling.sis -> instelling.oc "[verwerkingsuitkomst] Status: niet verwerkt, expliciete impactanalyse en besluit vereist" { line dotted }
-        instelling.oc -> instelling.oc "Besluit buiten deze koppeling, gelijktijdig actieve versies per cohort (regels bij de schema's)"
+        instelling.oc -> instelling.oc "Besluit welke versies per cohort tegelijk actief blijven"
       }
     }
   }
@@ -190,7 +190,7 @@ views {
       }
       when "de onderwijscatalogus heeft een verwerkingsuitkomst gemist" {
         instelling.oc -> instelling.p "[GET /onderwijsaanbod] onderwijsaanbod (specificatieId, versie optioneel)" { line solid }
-        instelling.p -> instelling.oc "aanbodInstanties die deze specificatie instantieert"
+        instelling.p -> instelling.oc "aanbodInstanties van de opgevraagde onderwijsspecificatie"
       }
     }
   }

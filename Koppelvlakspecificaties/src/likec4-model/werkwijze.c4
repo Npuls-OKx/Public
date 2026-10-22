@@ -68,14 +68,14 @@ model {
     rb_ep7 = eis 'epic-0007 Keuze en verbintenis vastleggen'
     rb_ep8 = eis 'epic-0008 Voortgang en resultaat op leeruitkomsten'
     rb_features = eis 'features' {
-      description 'per epic, zie de tabel'
+      description 'per epic'
       style {
         border dashed
         opacity 30%
       }
     }
     rb_stories = eis 'stories' {
-      description 'per feature, zie de tabel'
+      description 'per feature'
       style {
         border dashed
         opacity 30%

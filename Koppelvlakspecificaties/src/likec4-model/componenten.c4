@@ -11,13 +11,13 @@
 model {
 
   instelling = organisatie 'Instelling' {
-    description 'De koppelingen worden eerst binnen één instelling uitgewerkt (U10).'
+    description 'De koppelingen zijn uitgewerkt binnen één instelling.'
 
     // ─────────────────────────────────────────────────────────────────────
     // Onderwijscatalogus
     // ─────────────────────────────────────────────────────────────────────
     oc = systeem 'Onderwijscatalogus' {
-      description 'Distributiepunt voor onderwijsspecificaties. Bezit ze (U3) en meldt elke wijziging (U4).'
+      description 'Distributiepunt voor onderwijsspecificaties. Bezit ze en meldt elke wijziging.'
       technology 'OC'
 
       kv_oc = koppelvlak 'Koppelvlak onderwijscatalogus' {
@@ -35,7 +35,7 @@ model {
             description 'specification-reference.json'
           }
           oc_spec_melden = gedrag 'Maakt bekend dat een specificatie beschikbaar of gewijzigd is' {
-            description 'Vraagt geen endpoint van de aanbieder: waar de melding landt hangt af van hoe de koppeling is ingericht.'
+            description 'Verstuurt de melding naar het endpoint van de afnemer.'
           }
         }
 
@@ -56,10 +56,10 @@ model {
         }
 
         oc_aanbod_afnemer = dienst 'planbaar-onderwijsaanbod-afnemer' {
-          description 'Haalt op bij de aanbieder en stelt zelf niets beschikbaar.'
+          description 'Haalt het aanbod op bij de aanbieder; heeft geen eigen endpoint.'
 
           oc_aanbod_ophalen = gedrag 'Haalt het opleidingsaanbod op bij de aanbieder' {
-            description 'Stelt zelf niets beschikbaar, dus geen eigen endpoint.'
+            description 'Ophalen is vereist: de melding van de uitkomst draagt alleen een verwijzing.'
           }
         }
 
@@ -68,6 +68,9 @@ model {
 
           oc_hook_leermiddel = endpoint 'POST leermiddelkoppeling-beschikbaar' {
             description 'payloadschema nog niet uitgewerkt'
+          }
+          oc_leermiddel_ophalen = gedrag 'Haalt de koppeling op bij de aanbieder' {
+            description 'Ophalen is vereist om de koppeling te tonen of te gebruiken.'
           }
         }
 
@@ -80,10 +83,10 @@ model {
         }
 
         oc_abonnement_afnemer = dienst 'afleverabonnement-afnemer' {
-          description 'Registreert zich bij de aanbieder en stelt zelf niets beschikbaar.'
+          description 'Registreert het afleveradres bij de aanbieder; heeft geen eigen endpoint.'
 
           oc_abonnement_registreren = gedrag 'Registreert het afleveradres bij de aanbieder' {
-            description 'Stelt zelf niets beschikbaar, dus geen eigen endpoint.'
+            description 'De meldingen komen binnen op de endpoints van de afnemerdienst waarop het abonnement slaat.'
           }
         }
       }
@@ -93,7 +96,7 @@ model {
     // Planningssysteem
     // ─────────────────────────────────────────────────────────────────────
     p = systeem 'Planningssysteem' {
-      description 'Maakt planbaar opleidingsaanbod van een gepubliceerde specificatie. Bezit het onderwijsaanbod (U3).'
+      description 'Maakt planbaar opleidingsaanbod van een gepubliceerde specificatie. Bezit het onderwijsaanbod.'
       technology 'P'
 
       kv_p = koppelvlak 'Koppelvlak planningssysteem' {
@@ -110,6 +113,9 @@ model {
           p_hook_status = endpoint 'POST specificatie-status-gewijzigd' {
             description 'specification-status-changed.json'
           }
+          p_spec_ophalen = gedrag 'Haalt de structuur of de delta op bij de aanbieder' {
+            description 'Ophalen is vereist: een melding draagt alleen een verwijzing.'
+          }
         }
 
         p_aanbod_aanbieder = dienst 'planbaar-onderwijsaanbod-aanbieder' {
@@ -124,10 +130,10 @@ model {
         }
 
         p_uitkomst_aanbieder = dienst 'verwerkingsuitkomst-aanbieder' {
-          description 'Meldt de uitkomst; die wordt niet op een eigen endpoint aangeboden.'
+          description 'Meldt de uitkomst; heeft geen eigen endpoint.'
 
           p_uitkomst_melden = gedrag 'Meldt de uitkomst van het planproces' {
-            description 'Waar de melding landt is een inrichtingskeuze van de koppeling.'
+            description 'Verstuurt de uitkomst naar het endpoint van de afnemer.'
           }
         }
 
@@ -140,10 +146,10 @@ model {
         }
 
         p_abonnement_afnemer = dienst 'afleverabonnement-afnemer' {
-          description 'Registreert zich bij de aanbieder en stelt zelf niets beschikbaar.'
+          description 'Registreert het afleveradres bij de aanbieder; heeft geen eigen endpoint.'
 
           p_abonnement_registreren = gedrag 'Registreert het afleveradres bij de aanbieder' {
-            description 'Stelt zelf niets beschikbaar, dus geen eigen endpoint.'
+            description 'De meldingen komen binnen op de endpoints van de afnemerdienst waarop het abonnement slaat.'
           }
         }
       }
@@ -153,7 +159,7 @@ model {
     // Studentinformatiesysteem
     // ─────────────────────────────────────────────────────────────────────
     sis = systeem 'Studentinformatiesysteem' {
-      description 'Kernregistratie en studievoortgang. Bezit de verbintenissen, de voortgang en de resultaten (U3).'
+      description 'Kernregistratie en studievoortgang. Bezit de verbintenissen, de voortgang en de resultaten.'
       technology 'SIS'
 
       kv_sis = koppelvlak 'Koppelvlak studentinformatiesysteem' {
@@ -171,6 +177,9 @@ model {
           sis_hook_status = endpoint 'POST specificatie-status-gewijzigd' {
             description 'specification-status-changed.json'
           }
+          sis_spec_ophalen = gedrag 'Haalt de structuur of de delta op bij de aanbieder' {
+            description 'Ophalen is vereist: een melding draagt alleen een verwijzing.'
+          }
         }
 
         sis_resultaat_afnemer = dienst 'resultaatstructuur-afnemer' {
@@ -182,13 +191,32 @@ model {
           sis_hook_examenplan = endpoint 'POST examenplanspecificatie-gewijzigd' {
             description 'specification-changed.json, met wijzigingsklasse'
           }
+          sis_resultaat_ophalen = gedrag 'Haalt de resultaatstructuur op bij de aanbieder' {
+            description 'Ophalen is vereist: een melding draagt alleen een verwijzing.'
+          }
         }
 
         sis_uitkomst_aanbieder = dienst 'verwerkingsuitkomst-aanbieder' {
-          description 'Meldt de uitkomst; die wordt niet op een eigen endpoint aangeboden.'
+          description 'Meldt de uitkomst; heeft geen eigen endpoint.'
 
           sis_uitkomst_melden = gedrag 'Meldt de uitkomst van de inrichting' {
-            description 'Waar de melding landt is een inrichtingskeuze van de koppeling.'
+            description 'Verstuurt de uitkomst naar het endpoint van de afnemer.'
+          }
+        }
+
+        sis_abonnement_aanbieder = dienst 'afleverabonnement-aanbieder' {
+          description 'Legt vast waar en waarvoor een partij meldingen wil ontvangen.'
+
+          sis_post_abonnementen = endpoint 'POST /abonnementen' {
+            description 'subscription.json'
+          }
+        }
+
+        sis_abonnement_afnemer = dienst 'afleverabonnement-afnemer' {
+          description 'Registreert het afleveradres bij de aanbieder; heeft geen eigen endpoint.'
+
+          sis_abonnement_registreren = gedrag 'Registreert het afleveradres bij de aanbieder' {
+            description 'De meldingen komen binnen op de endpoints van de afnemerdienst waarop het abonnement slaat.'
           }
         }
       }
@@ -198,7 +226,7 @@ model {
     // Leermanagementsysteem
     // ─────────────────────────────────────────────────────────────────────
     lms = systeem 'Leermanagementsysteem' {
-      description 'De leeromgeving waarin de student het onderwijs volgt. Bezit de leermiddelkoppeling (U3).'
+      description 'De leeromgeving waarin de student het onderwijs volgt. Bezit de leermiddelkoppeling.'
       technology 'LMS'
 
       kv_lms = koppelvlak 'Koppelvlak leermanagementsysteem' {
@@ -215,6 +243,9 @@ model {
           lms_hook_status = endpoint 'POST specificatie-status-gewijzigd' {
             description 'specification-status-changed.json'
           }
+          lms_spec_ophalen = gedrag 'Haalt de structuur of de delta op bij de aanbieder' {
+            description 'Ophalen is vereist: een melding draagt alleen een verwijzing.'
+          }
         }
 
         lms_leermiddel_aanbieder = dienst 'leermiddelkoppeling-aanbieder' {
@@ -226,10 +257,26 @@ model {
         }
 
         lms_uitkomst_aanbieder = dienst 'verwerkingsuitkomst-aanbieder' {
-          description 'Meldt de uitkomst; die wordt niet op een eigen endpoint aangeboden.'
+          description 'Meldt de uitkomst; heeft geen eigen endpoint.'
 
           lms_uitkomst_melden = gedrag 'Meldt de uitkomst van de inrichting' {
-            description 'Waar de melding landt is een inrichtingskeuze van de koppeling.'
+            description 'Verstuurt de uitkomst naar het endpoint van de afnemer.'
+          }
+        }
+
+        lms_abonnement_aanbieder = dienst 'afleverabonnement-aanbieder' {
+          description 'Legt vast waar en waarvoor een partij meldingen wil ontvangen.'
+
+          lms_post_abonnementen = endpoint 'POST /abonnementen' {
+            description 'subscription.json'
+          }
+        }
+
+        lms_abonnement_afnemer = dienst 'afleverabonnement-afnemer' {
+          description 'Registreert het afleveradres bij de aanbieder; heeft geen eigen endpoint.'
+
+          lms_abonnement_registreren = gedrag 'Registreert het afleveradres bij de aanbieder' {
+            description 'De meldingen komen binnen op de endpoints van de afnemerdienst waarop het abonnement slaat.'
           }
         }
       }

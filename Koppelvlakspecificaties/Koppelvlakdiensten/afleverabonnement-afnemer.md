@@ -14,7 +14,7 @@ Een component dat deze dienst implementeert:
 
 De endpoints die het component implementeert om deze dienst te leveren.
 
-Geen. Deze dienst vraagt geen eigen endpoints: de afnemer registreert zich bij de aanbieder en stelt zelf niets beschikbaar.
+Geen eigen endpoint: het component verstuurt alleen, met `POST /abonnementen` bij [afleverabonnement-aanbieder](afleverabonnement-aanbieder.md). De meldingen zelf neemt het aan op de endpoints van de afnemerdienst waarop het abonnement slaat, zoals `specificatie-beschikbaar` bij [onderwijsspecificatiestructuur-afnemer](onderwijsspecificatiestructuur-afnemer.md); de `callbackUrl` wijst naar zo'n endpoint.
 
 ## Gebruikt in
 

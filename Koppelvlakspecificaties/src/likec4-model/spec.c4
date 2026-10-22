@@ -151,7 +151,7 @@ specification {
   }
 
   relationship melding {
-    notation 'Melding: een dun event met een verwijzing (U4)'
+    notation 'Melding: een dun event met een verwijzing naar de resource'
     line dotted
   }
 

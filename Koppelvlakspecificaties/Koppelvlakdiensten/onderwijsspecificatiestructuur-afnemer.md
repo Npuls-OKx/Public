@@ -22,6 +22,8 @@ De endpoints die het component implementeert om deze dienst te leveren.
 | `specificatie-gewijzigd` | POST | — | [specification-changed.json](../../Informatie-en-gegevensmodellen/schemas/specification-changed.json) | — | 200 |
 | `specificatie-status-gewijzigd` | POST | — | [specification-status-changed.json](../../Informatie-en-gegevensmodellen/schemas/specification-status-changed.json) | — | 200 |
 
+Daarnaast haalt het component op bij [onderwijsspecificatiestructuur-aanbieder](onderwijsspecificatiestructuur-aanbieder.md), met `GET /onderwijsspecificaties/{id}`, `GET /onderwijsspecificaties/{id}/delta` en `GET /onderwijsspecificaties`. **Ophalen is vereist**: een melding draagt alleen een verwijzing.
+
 ## Gebruikt in
 
 - [Onderwijsspecificatie ophalen](../Koppelingen/onderwijsspecificatie-ophalen.md)

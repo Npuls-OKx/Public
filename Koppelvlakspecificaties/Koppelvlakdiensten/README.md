@@ -4,6 +4,8 @@ Een koppelvlakdienst is het contract waarmee een component een deel van zijn ged
 
 Een aanbieder zorgt dat hij een gegeven of een functionaliteit levert; een afnemer zorgt dat hij die kan afnemen. Dat zijn **twee losse diensten**, niet twee kanten van één, en op een pagina staan daarom alleen verplichtingen van één van beide richtingen. Een component dat onderwijsspecificaties publiceert implementeert `onderwijsspecificatiestructuur-aanbieder`; een component dat ze wil gebruiken implementeert `onderwijsspecificatiestructuur-afnemer`. Beide zijn zelfstandig te implementeren; een versie draagt alleen de koppeling die ze inzet ([release management §4.2](../release-management.md#42-een-koppeling-draagt-haar-eigen-versie)).
 
+**Wie gegevens aanneemt, heeft een endpoint.** Krijgt een component gegevens toegestuurd, dan heeft het een endpoint nodig: de verzender moet ze ergens heen sturen. Een dienst zonder eigen endpoint neemt dus niets aan; het component haalt op of verstuurt alleen. Haalt het op, dan staat op de dienstpagina dat ophalen vereist is.
+
 Met welk patroon een dienst wordt gebruikt is een keuze van de berichtstroom die hem inzet, niet een eigenschap van de dienst.
 
 | Aanbieder | Afnemer | Waarover |

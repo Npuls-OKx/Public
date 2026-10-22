@@ -1949,6 +1949,8 @@ Een koppelvlakdienst is het contract waarmee een component een deel van zijn ged
 
 Een aanbieder zorgt dat hij een gegeven of een functionaliteit levert; een afnemer zorgt dat hij die kan afnemen. Dat zijn **twee losse diensten**, niet twee kanten van één, en op een pagina staan daarom alleen verplichtingen van één van beide richtingen. Een component dat onderwijsspecificaties publiceert implementeert `onderwijsspecificatiestructuur-aanbieder`; een component dat ze wil gebruiken implementeert `onderwijsspecificatiestructuur-afnemer`. Beide zijn zelfstandig te implementeren; een versie draagt alleen de koppeling die ze inzet ([release management §4.2](release-management.md#42-een-koppeling-draagt-haar-eigen-versie)).
 
+**Wie gegevens aanneemt, heeft een endpoint.** Krijgt een component gegevens toegestuurd, dan heeft het een endpoint nodig: de verzender moet ze ergens heen sturen. Een dienst zonder eigen endpoint neemt dus niets aan; het component haalt op of verstuurt alleen. Haalt het op, dan staat op de dienstpagina dat ophalen vereist is.
+
 Met welk patroon een dienst wordt gebruikt is een keuze van de berichtstroom die hem inzet, niet een eigenschap van de dienst.
 
 | Aanbieder | Afnemer | Waarover |
@@ -2037,6 +2039,8 @@ De endpoints die het component implementeert om deze dienst te leveren.
 | `specificatie-beschikbaar` | POST | — | [specification-reference.json](https://github.com/Npuls-OKx/Public/blob/informatie-en-gegevensmodellen-v0.1.0/Informatie-en-gegevensmodellen/schemas/specification-reference.json) | — | 200 |
 | `specificatie-gewijzigd` | POST | — | [specification-changed.json](https://github.com/Npuls-OKx/Public/blob/informatie-en-gegevensmodellen-v0.1.0/Informatie-en-gegevensmodellen/schemas/specification-changed.json) | — | 200 |
 | `specificatie-status-gewijzigd` | POST | — | [specification-status-changed.json](https://github.com/Npuls-OKx/Public/blob/informatie-en-gegevensmodellen-v0.1.0/Informatie-en-gegevensmodellen/schemas/specification-status-changed.json) | — | 200 |
+
+Daarnaast haalt het component op bij [onderwijsspecificatiestructuur-aanbieder](#52-onderwijsspecificatiestructuur-aanbieder), met `GET /onderwijsspecificaties/{id}`, `GET /onderwijsspecificaties/{id}/delta` en `GET /onderwijsspecificaties`. **Ophalen is vereist**: een melding draagt alleen een verwijzing.
 
 #### 5.3.2 Gebruikt in
 
@@ -2196,7 +2200,7 @@ Een component dat deze dienst implementeert:
 
 De endpoints die het component implementeert om deze dienst te leveren.
 
-Geen. Deze dienst vraagt geen eigen endpoints: de afnemer haalt op bij de aanbieder en stelt zelf niets beschikbaar. Dat er aanbod is, blijkt uit [verwerkingsuitkomst-afnemer](#527-verwerkingsuitkomst-afnemer).
+Geen eigen endpoint. **Ophalen is vereist**: het component haalt het aanbod op bij [planbaar-onderwijsaanbod-aanbieder](#58-planbaar-onderwijsaanbod-aanbieder), met `GET /onderwijsaanbod/{id}` en `GET /onderwijsaanbod`, wanneer het de inhoud nodig heeft. Dat er aanbod is, hoort het op het endpoint van [verwerkingsuitkomst-afnemer](#527-verwerkingsuitkomst-afnemer).
 
 #### 5.9.2 Gebruikt in
 
@@ -2508,6 +2512,8 @@ De endpoints die het component implementeert om deze dienst te leveren.
 | `resultaatstructuur-beschikbaar` | POST | — | Specificatie-id en versie, examenplan-id en versie. Payloadschema nog niet uitgewerkt | — | 200 |
 | `examenplanspecificatie-gewijzigd` | POST | — | [specification-changed.json](https://github.com/Npuls-OKx/Public/blob/informatie-en-gegevensmodellen-v0.1.0/Informatie-en-gegevensmodellen/schemas/specification-changed.json), met wijzigingsklasse | — | 200 |
 
+Daarnaast haalt het component de resultaatstructuur op bij [resultaatstructuur-aanbieder](#520-resultaatstructuur-aanbieder), met `GET /examenplanspecificaties/{id}`. **Ophalen is vereist**: een melding draagt alleen een verwijzing.
+
 #### 5.21.2 Gebruikt in
 
 - [Resultaatstructuur ophalen](#45-resultaatstructuur-ophalen)
@@ -2611,6 +2617,8 @@ De endpoints die het component implementeert om deze dienst te leveren.
 |---|---|---|---|---|---|
 | `leermiddelkoppeling-beschikbaar` | POST | — | Referentie naar de koppeling, specificatie-id en versie. Payloadschema nog niet uitgewerkt | — | 200 |
 
+Daarnaast haalt het component de koppeling op bij [leermiddelkoppeling-aanbieder](#524-leermiddelkoppeling-aanbieder), met `GET /leermiddelkoppelingen/{id}`. **Ophalen is vereist** om de koppeling te tonen of te gebruiken: de melding draagt alleen een verwijzing.
+
 #### 5.25.2 Gebruikt in
 
 - [Leeromgeving inrichten](#426-leeromgeving-inrichten)
@@ -2626,7 +2634,7 @@ Het implementerende component maakt bekend wat zijn verwerking van een aangeleve
 
 Een component dat deze dienst implementeert:
 
-- stelt de uitkomst beschikbaar: ontvangen, gestart, gelukt, niet gelukt of afgekeurd.
+- meldt de uitkomst: ontvangen, gestart, gelukt, niet gelukt of afgekeurd.
 - onderscheidt niet-terminale van terminale uitkomsten, zodat de afnemer weet wanneer hij zijn eigen status mag bijstellen.
 - draagt bij een geslaagde verwerking een referentie naar wat is aangemaakt, en niet de instantie zelf ([U3](#83-u3-resource-eigenaarschap)).
 - draagt bij afkeuring of falen de reden, in een vorm die de afnemer kan verwerken.
@@ -2636,7 +2644,7 @@ Een component dat deze dienst implementeert:
 
 De endpoints die het component implementeert om deze dienst te leveren.
 
-Geen. De uitkomst wordt gemeld, niet aangeboden op een eigen endpoint; waar zij landt is een inrichtingskeuze van de koppeling. Het endpoint dat haar aanneemt staat bij [verwerkingsuitkomst-afnemer](#527-verwerkingsuitkomst-afnemer).
+Geen eigen endpoint: het component verstuurt de uitkomst alleen. Het endpoint dat haar aanneemt, `verwerkingsuitkomst`, staat bij [verwerkingsuitkomst-afnemer](#527-verwerkingsuitkomst-afnemer).
 
 #### 5.26.2 Gebruikt in
 
@@ -2728,7 +2736,7 @@ Een component dat deze dienst implementeert:
 
 De endpoints die het component implementeert om deze dienst te leveren.
 
-Geen. Deze dienst vraagt geen eigen endpoints: de afnemer registreert zich bij de aanbieder en stelt zelf niets beschikbaar.
+Geen eigen endpoint: het component verstuurt alleen, met `POST /abonnementen` bij [afleverabonnement-aanbieder](#528-afleverabonnement-aanbieder). De meldingen zelf neemt het aan op de endpoints van de afnemerdienst waarop het abonnement slaat, zoals `specificatie-beschikbaar` bij [onderwijsspecificatiestructuur-afnemer](#53-onderwijsspecificatiestructuur-afnemer); de `callbackUrl` wijst naar zo'n endpoint.
 
 #### 5.29.2 Gebruikt in
 
