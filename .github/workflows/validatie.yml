@@ -61,7 +61,7 @@ jobs:
       - name: Gereedschap installeren
         run: npm ci
 
-      # Vangt syntax en semantiek van het model, en een snapshot in model/.likec4/
+      # Vangt syntax en semantiek van het model, en een snapshot in src/likec4-model/.likec4/
       # die niet meer bij het model past. Die snapshots horen er niet te staan: de
       # renderstap ruimt ze op. Staat er toch een, dan is een rit afgebroken.
       - name: Model valideren

@@ -21,7 +21,7 @@ Een koppeling draagt een kenmerkentabel (Aanbieder, Afnemer, Afgeleid van, Versi
 Daarbuiten werk je bij:
 
 - het overzicht in [`Koppelingen/README.md`](../../Koppelvlakspecificaties/Koppelingen/README.md), de pagina's van aanbieder en afnemer in `Applicatiecomponenten/`, en **Gebruikt in** op de koppelvlakdienstpagina's;
-- in `Koppelvlakspecificaties/model/`: de koppeling met haar stromen in `koppelingen.c4`, de relaties naar aanbieder, afnemer en applicatiedienst in `applicatiediensten.c4` met een view in `views-hoofdplaat.c4`, en per stroom een sequentiediagram in `views-sequenties.c4`; render daarna met `npm run diagrammen:render`;
+- in `Koppelvlakspecificaties/src/likec4-model/`: de koppeling met haar stromen in `koppelingen.c4`, de relaties naar aanbieder, afnemer en applicatiedienst in `applicatiediensten.c4` met een view in `views-hoofdplaat.c4`, en per stroom een sequentiediagram in `views-sequenties.c4`; render daarna met `npm run diagrammen:render`;
 - [`release.json`](../../Koppelvlakspecificaties/release.json): de koppeling in de sectie Koppelingen.
 
 ## Schrijven

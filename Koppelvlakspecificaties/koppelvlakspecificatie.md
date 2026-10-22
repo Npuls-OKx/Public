@@ -629,7 +629,7 @@ De view toont het koppelvlak van de onderwijscatalogus: de optelsom van haar kop
 
 ![Koppelvlakdiensten en endpoints van het koppelvlak](src/diagrammen/referentie/koppelvlak-van-de-onderwijscatalogus.png)
 
-Dezelfde optelsom van binnen: elke koppelvlakdienst die de catalogus implementeert, met daaronder de endpoints waarmee zij die levert. Een dienst die zelf niets aanbiedt draagt in plaats daarvan een blok dat benoemt wat hij dan doet. De plaat wordt gegenereerd uit [`model/componenten.c4`](model/componenten.c4); die bron gaat met de release mee, zodat de inhoud machinaal te lezen is en niet alleen als plaat.
+Dezelfde optelsom van binnen: elke koppelvlakdienst die de catalogus implementeert, met daaronder de endpoints waarmee zij die levert. Een dienst die zelf niets aanbiedt draagt in plaats daarvan een blok dat benoemt wat hij dan doet. De plaat wordt gegenereerd uit [`src/likec4-model/componenten.c4`](src/likec4-model/componenten.c4); die bron gaat met de release mee, zodat de inhoud machinaal te lezen is en niet alleen als plaat.
 
 #### 3.2.2 Koppelvlakdiensten
 
@@ -680,7 +680,7 @@ De view toont planning en roostering samen, zoals de informatiestromen-hoofdplaa
 
 ![Koppelvlakdiensten en endpoints van het koppelvlak](src/diagrammen/referentie/koppelvlak-van-het-planningssysteem.png)
 
-Dezelfde optelsom van binnen: elke koppelvlakdienst die het planningssysteem implementeert, met daaronder de endpoints waarmee het die levert. Een dienst die zelf niets aanbiedt draagt in plaats daarvan een blok dat benoemt wat hij dan doet. De plaat wordt gegenereerd uit [`model/componenten.c4`](model/componenten.c4); die bron gaat met de release mee, zodat de inhoud machinaal te lezen is en niet alleen als plaat.
+Dezelfde optelsom van binnen: elke koppelvlakdienst die het planningssysteem implementeert, met daaronder de endpoints waarmee het die levert. Een dienst die zelf niets aanbiedt draagt in plaats daarvan een blok dat benoemt wat hij dan doet. De plaat wordt gegenereerd uit [`src/likec4-model/componenten.c4`](src/likec4-model/componenten.c4); die bron gaat met de release mee, zodat de inhoud machinaal te lezen is en niet alleen als plaat.
 
 #### 3.3.2 Koppelvlakdiensten
 
@@ -725,7 +725,7 @@ De view toont het koppelvlak van het studentinformatiesysteem op de informatiest
 
 ![Koppelvlakdiensten en endpoints van het koppelvlak](src/diagrammen/referentie/koppelvlak-van-het-studentinformatiesysteem.png)
 
-Dezelfde optelsom van binnen: elke koppelvlakdienst die het studentinformatiesysteem implementeert, met daaronder de endpoints waarmee het die levert. Een dienst die zelf niets aanbiedt draagt in plaats daarvan een blok dat benoemt wat hij dan doet. De plaat wordt gegenereerd uit [`model/componenten.c4`](model/componenten.c4); die bron gaat met de release mee, zodat de inhoud machinaal te lezen is en niet alleen als plaat.
+Dezelfde optelsom van binnen: elke koppelvlakdienst die het studentinformatiesysteem implementeert, met daaronder de endpoints waarmee het die levert. Een dienst die zelf niets aanbiedt draagt in plaats daarvan een blok dat benoemt wat hij dan doet. De plaat wordt gegenereerd uit [`src/likec4-model/componenten.c4`](src/likec4-model/componenten.c4); die bron gaat met de release mee, zodat de inhoud machinaal te lezen is en niet alleen als plaat.
 
 #### 3.4.2 Koppelvlakdiensten
 
@@ -769,7 +769,7 @@ De view toont het koppelvlak van het leermanagementsysteem: de optelsom van zijn
 
 ![Koppelvlakdiensten en endpoints van het koppelvlak](src/diagrammen/referentie/koppelvlak-van-het-leermanagementsysteem.png)
 
-Dezelfde optelsom van binnen: elke koppelvlakdienst die het leermanagementsysteem implementeert, met daaronder de endpoints waarmee het die levert. Een dienst die zelf niets aanbiedt draagt in plaats daarvan een blok dat benoemt wat hij dan doet. De plaat wordt gegenereerd uit [`model/componenten.c4`](model/componenten.c4); die bron gaat met de release mee, zodat de inhoud machinaal te lezen is en niet alleen als plaat.
+Dezelfde optelsom van binnen: elke koppelvlakdienst die het leermanagementsysteem implementeert, met daaronder de endpoints waarmee het die levert. Een dienst die zelf niets aanbiedt draagt in plaats daarvan een blok dat benoemt wat hij dan doet. De plaat wordt gegenereerd uit [`src/likec4-model/componenten.c4`](src/likec4-model/componenten.c4); die bron gaat met de release mee, zodat de inhoud machinaal te lezen is en niet alleen als plaat.
 
 #### 3.5.2 Koppelvlakdiensten
 

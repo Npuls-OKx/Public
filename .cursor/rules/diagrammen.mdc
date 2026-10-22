@@ -3,9 +3,9 @@ description: Diagrammen komen uit een model, niet uit een tekening
 alwaysApply: true
 ---
 
-Een **structuurdiagram** — een koppelvlak, een applicatiecomponent, een ketenbeeld — komt uit het LikeC4-model in [`Koppelvlakspecificaties/model/`](../../Koppelvlakspecificaties/model/). De PNG in `src/` is gegenereerd: wijzig hem niet, maar wijzig het model en render opnieuw met `npm run diagrammen:render`.
+Een **structuurdiagram** — een koppelvlak, een applicatiecomponent, een ketenbeeld — komt uit het LikeC4-model in [`Koppelvlakspecificaties/src/likec4-model/`](../../Koppelvlakspecificaties/src/likec4-model/). De PNG in `src/` is gegenereerd: wijzig hem niet, maar wijzig het model en render opnieuw met `npm run diagrammen:render`.
 
-Een **sequentiediagram** komt ook uit het model: een dynamische view met `variant sequence` in [`views-sequenties.c4`](../../Koppelvlakspecificaties/model/views-sequenties.c4), gerenderd met genummerde stappen en met `alt`, `opt` en `par` als blokken. Mermaid wordt in de koppelvlakspecificatie niet meer gebruikt.
+Een **sequentiediagram** komt ook uit het model: een dynamische view met `variant sequence` in [`views-sequenties.c4`](../../Koppelvlakspecificaties/src/likec4-model/views-sequenties.c4), gerenderd met genummerde stappen en met `alt`, `opt` en `par` als blokken. Mermaid wordt in de koppelvlakspecificatie niet meer gebruikt.
 
 De modelleerconventies, de rendervolgorde en de valkuilen van het gereedschap staan in [`.agents/skills/okx-diagrammen/`](../../.agents/skills/okx-diagrammen/SKILL.md). Twee daarvan gaan het vaakst mis:
 

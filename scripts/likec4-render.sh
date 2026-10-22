@@ -2,7 +2,7 @@
 # Rendert de LikeC4-views van een pakket naar PNG, ingedeeld per categorie.
 #
 #   scripts/likec4-render.sh <modelmap> <beeldmap>
-#   scripts/likec4-render.sh Koppelvlakspecificaties/model Koppelvlakspecificaties/src/diagrammen
+#   scripts/likec4-render.sh Koppelvlakspecificaties/src/likec4-model Koppelvlakspecificaties/src/diagrammen
 #
 # De stappen: valideren, de berekende afmetingen als JSON ophalen, de plaatsing
 # van de views zonder relaties herberekenen, de hoofdplaatviews op een vaste

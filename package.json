@@ -6,8 +6,8 @@
     "likec4": "^1.59.4"
   },
   "scripts": {
-    "diagrammen:controle": "likec4 validate Koppelvlakspecificaties/model",
-    "diagrammen:preview": "likec4 start Koppelvlakspecificaties/model",
-    "diagrammen:render": "bash scripts/likec4-render.sh Koppelvlakspecificaties/model Koppelvlakspecificaties/src/diagrammen"
+    "diagrammen:controle": "likec4 validate Koppelvlakspecificaties/src/likec4-model",
+    "diagrammen:preview": "likec4 start Koppelvlakspecificaties/src/likec4-model",
+    "diagrammen:render": "bash scripts/likec4-render.sh Koppelvlakspecificaties/src/likec4-model Koppelvlakspecificaties/src/diagrammen"
   }
 }

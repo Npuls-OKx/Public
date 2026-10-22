@@ -123,6 +123,6 @@
     }
   ],
   "meeleveren": [
-    "model"
+    "src/likec4-model"
   ]
 }

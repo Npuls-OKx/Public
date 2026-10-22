@@ -42,7 +42,7 @@ Koppelvlakspecificaties/
 ├── Koppelingen/                 per koppeling één document: één doel, één aanbieder, één OEAPI-profiel
 ├── Koppelvlakdiensten/          per dienst de verplichtingen en endpoints
 ├── Interactiepatronen/          de patronen, in rollen in plaats van systeemnamen
-├── model/                       het LikeC4-model, bron van de diagrammen
+├── src/likec4-model/            het LikeC4-model, bron van de diagrammen
 ├── src/diagrammen/              de gerenderde platen, per categorie
 └── release.json                 manifest: wat er in welke volgorde in de release komt
 ```
