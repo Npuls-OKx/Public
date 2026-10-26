@@ -592,7 +592,7 @@ Het studentinformatiesysteem is hier de combinatie van het **kernregistratiesyst
 
 ![Koppelvlak van het studentinformatiesysteem op de hoofdplaat v1.7a](src/koppelvlak_sis_krs_svs_view_ihp_v1_7a.png)
 
-De view toont het koppelvlak van het studentinformatiesysteem op de informatiestromen-hoofdplaat v1.7a. Kernregistratie (KRS) en studievoortgang (SVS) maken er deel van uit. Het studentvolgsysteem meldt het studentkeuzesysteem welk opleidingsprogramma of welke onderwijseenheid de student heeft voltooid, zodat dat onderdeel niet opnieuw als keuze verschijnt.
+De view toont het koppelvlak van het studentinformatiesysteem op de informatiestromen-hoofdplaat v1.7a. Het kernregistratiesysteem (KRS) en het studentvolgsysteem (SVS) maken er deel van uit. Het studentvolgsysteem meldt afgeronde onderdelen aan het [studentkeuzesysteem](#371-koppelvlak).
 
 #### 3.4.2 Endpoints
 
@@ -656,7 +656,7 @@ Dit pakket specificeert geen koppeling met het studentkeuzesysteem, en levert er
 
 De view toont het koppelvlak van het studentkeuzesysteem: de optelsom van zijn koppelingen op de informatiestromen-hoofdplaat v1.7a.
 
-Het studentvolgsysteem meldt het studentkeuzesysteem welk opleidingsprogramma of welke onderwijseenheid de student heeft voltooid: al gevolgd en afgerond. Zo biedt het studentkeuzesysteem een voltooid onderdeel niet opnieuw als keuze aan. Een vrijstelling valt niet onder deze stroom.
+Het studentvolgsysteem meldt het studentkeuzesysteem welk opleidingsprogramma of welke onderwijseenheid de student heeft gevolgd en afgerond. Het studentkeuzesysteem laat een afgerond onderdeel daarna weg uit de keuzes. Deze stroom gaat alleen over afgeronde onderdelen; een vrijstelling hoort er niet bij.
 
 
 <!-- pagina-einde -->
@@ -680,7 +680,7 @@ Het interactiepatroon van deze koppeling: de systeem-naar-systeemberichten (mach
 
 ![Koppeling onderwijscatalogus naar planning en roostering op de hoofdplaat](src/highlight_oc_p_en_r_informatiestromen_hoofdplaat_v1_7.png)
 
-De uitsnede komt uit de informatiestromen-hoofdplaat v1.7 (richtinggevend; de legenda draagt nog "concept"), met deze koppeling gemarkeerd. De koppeling is in versie 1.7a niet veranderd. De koppelvlakken van beide componenten staan bij de [onderwijscatalogus](#32-onderwijscatalogus-oc) en het [planningssysteem](#33-planningssysteem-p).
+De uitsnede komt uit de informatiestromen-hoofdplaat v1.7 (richtinggevend; de legenda draagt nog "concept"), met deze koppeling gemarkeerd. Deze koppeling is in v1.7 en v1.7a gelijk. De koppelvlakken van beide componenten staan bij de [onderwijscatalogus](#32-onderwijscatalogus-oc) en het [planningssysteem](#33-planningssysteem-p).
 
 #### 4.1.2 Functionele eisen
 
@@ -989,7 +989,7 @@ Het interactiepatroon van deze koppeling: de systeem-naar-systeemberichten (mach
 
 ![Koppeling onderwijscatalogus naar het studentinformatiesysteem op de hoofdplaat](src/highlight_oc_sis_informatiestromen_hoofdplaat_v1_7.png)
 
-De uitsnede komt uit de informatiestromen-hoofdplaat v1.7 (richtinggevend; de legenda draagt nog "concept"), met deze koppeling gemarkeerd. De koppeling is in versie 1.7a niet veranderd. De koppelvlakken van beide componenten staan bij de [onderwijscatalogus](#32-onderwijscatalogus-oc) en het [studentinformatiesysteem](#34-studentinformatiesysteem-sis).
+De uitsnede komt uit de informatiestromen-hoofdplaat v1.7 (richtinggevend; de legenda draagt nog "concept"), met deze koppeling gemarkeerd. Deze koppeling is in v1.7 en v1.7a gelijk. De koppelvlakken van beide componenten staan bij de [onderwijscatalogus](#32-onderwijscatalogus-oc) en het [studentinformatiesysteem](#34-studentinformatiesysteem-sis).
 
 #### 4.2.2 Functionele eisen
 
@@ -1115,7 +1115,7 @@ Het interactiepatroon van deze koppeling: de systeem-naar-systeemberichten (mach
 
 ![Koppeling onderwijscatalogus naar het leermanagementsysteem op de hoofdplaat](src/highlight_oc_lms_informatiestromen_hoofdplaat_v1_7.png)
 
-De uitsnede komt uit de informatiestromen-hoofdplaat v1.7 (richtinggevend; de legenda draagt nog "concept"), met deze koppeling gemarkeerd. De koppeling is in versie 1.7a niet veranderd. De koppelvlakken van beide componenten staan bij de [onderwijscatalogus](#32-onderwijscatalogus-oc) en het [leermanagementsysteem](#35-leermanagementsysteem-lms).
+De uitsnede komt uit de informatiestromen-hoofdplaat v1.7 (richtinggevend; de legenda draagt nog "concept"), met deze koppeling gemarkeerd. Deze koppeling is in v1.7 en v1.7a gelijk. De koppelvlakken van beide componenten staan bij de [onderwijscatalogus](#32-onderwijscatalogus-oc) en het [leermanagementsysteem](#35-leermanagementsysteem-lms).
 
 #### 4.3.2 Functionele eisen
 

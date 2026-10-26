@@ -10,4 +10,4 @@ Dit pakket specificeert geen koppeling met het studentkeuzesysteem, en levert er
 
 De view toont het koppelvlak van het studentkeuzesysteem: de optelsom van zijn koppelingen op de informatiestromen-hoofdplaat v1.7a.
 
-Het studentvolgsysteem meldt het studentkeuzesysteem welk opleidingsprogramma of welke onderwijseenheid de student heeft voltooid: al gevolgd en afgerond. Zo biedt het studentkeuzesysteem een voltooid onderdeel niet opnieuw als keuze aan. Een vrijstelling valt niet onder deze stroom.
+Het studentvolgsysteem meldt het studentkeuzesysteem welk opleidingsprogramma of welke onderwijseenheid de student heeft gevolgd en afgerond. Het studentkeuzesysteem laat een afgerond onderdeel daarna weg uit de keuzes. Deze stroom gaat alleen over afgeronde onderdelen; een vrijstelling hoort er niet bij.
