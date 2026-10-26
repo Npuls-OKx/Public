@@ -5,7 +5,7 @@ Het koppelvlak van een component is de optelsom van alle koppelingen die het rak
 
 ## Ecosysteem
 
-![Informatiestromen-hoofdplaat v1.7](../src/informatiestromen_hoofdplaat_v1_7.png)
+![Informatiestromen-hoofdplaat v1.7a](../src/informatiestromen_hoofdplaat_v1_7a.png)
 
-De hoofdplaat toont het volledige ecosysteem: alle informatiestromen tussen de applicatiecomponenten in de keten. Versie 1.7 is leidend; de legenda draagt nog de aanduiding "concept", dus de plaat is richtinggevend.
+De hoofdplaat toont het volledige ecosysteem: alle informatiestromen tussen de applicatiecomponenten in de keten. Versie 1.7a is leidend; de legenda draagt nog de aanduiding "concept", dus de plaat is richtinggevend.
 

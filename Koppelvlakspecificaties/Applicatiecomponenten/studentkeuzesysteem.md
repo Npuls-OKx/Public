@@ -6,6 +6,8 @@ Dit pakket specificeert geen koppeling met het studentkeuzesysteem, en levert er
 
 ## Koppelvlak
 
-![Koppelvlak van het studentkeuzesysteem op de hoofdplaat v1.7](../src/koppelvlak_sks_view_ihp_v1_7.png)
+![Koppelvlak van het studentkeuzesysteem op de hoofdplaat v1.7a](../src/koppelvlak_sks_view_ihp_v1_7a.png)
 
-De view toont het koppelvlak van het studentkeuzesysteem: de optelsom van zijn koppelingen op de informatiestromen-hoofdplaat v1.7.
+De view toont het koppelvlak van het studentkeuzesysteem: de optelsom van zijn koppelingen op de informatiestromen-hoofdplaat v1.7a.
+
+Het studentvolgsysteem meldt het studentkeuzesysteem welk opleidingsprogramma of welke onderwijseenheid de student heeft voltooid: al gevolgd en afgerond. Zo biedt het studentkeuzesysteem een voltooid onderdeel niet opnieuw als keuze aan. Een vrijstelling valt niet onder deze stroom.
