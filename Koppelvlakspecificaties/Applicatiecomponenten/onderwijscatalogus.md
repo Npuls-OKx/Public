@@ -4,9 +4,9 @@ De onderwijscatalogus is het distributiepunt voor onderwijsspecificaties: zij ne
 
 ## Koppelvlak
 
-![Koppelvlak van de onderwijscatalogus op de hoofdplaat v1.7](../src/koppelvlak_oc_view_ihp_v1_7.png)
+![Koppelvlak van de onderwijscatalogus op de hoofdplaat v1.7a](../src/koppelvlak_oc_view_ihp_v1_7a.png)
 
-De view toont het koppelvlak van de onderwijscatalogus: de optelsom van haar koppelingen op de informatiestromen-hoofdplaat v1.7.
+De view toont het koppelvlak van de onderwijscatalogus: de optelsom van haar koppelingen op de informatiestromen-hoofdplaat v1.7a.
 
 ## Endpoints
 
