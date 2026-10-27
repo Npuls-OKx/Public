@@ -51,6 +51,9 @@ model {
           #v2
           description 'koppelvlakspecificatie: twee endpoints hernoemd, dus major'
         }
+        kvs_v201 = pakket 'v2.0.1' {
+          description 'koppelvlakspecificatie: parameternaam in de tekst gelijkgetrokken met het schema, dus patch'
+        }
       }
       pkg_igm = pakket 'informatie-en-gegevensmodellen' {
         description 'De vorm waarin onderwijsgegevens over een koppeling gaan.'
@@ -62,9 +65,6 @@ model {
         igm_v110 = pakket 'v1.1.0' {
           #additief
           description 'gegevensmodellen: optioneel veld erbij, dus minor'
-        }
-        igm_v111 = pakket 'v1.1.1' {
-          description 'gegevensmodellen: parameternaam in de tekst gelijkgetrokken met het schema, dus patch'
         }
       }
     }
@@ -119,9 +119,9 @@ model {
   }
   lo_10 -> instelling.lms 'draait hier nog'
   lo_20 -> instelling.oc 'draait hier'
-  lo_30 -> instelling.oc 'zou hier moeten landen'
+  lo_30 -> instelling.oc 'landt hier, naast 2.0'
 
   // Wat elke sprong van de betrokken partijen vraagt. De patch vraagt niets en
   // heeft daarom geen enkele relatie naar een systeem; dat is precies het punt.
-  igm_v110 -> instelling.oc 'mag de nieuwe waarde leveren, hoeft niet'
+  igm_v110 -> instelling.oc 'mag het nieuwe veld leveren, hoeft niet'
 }

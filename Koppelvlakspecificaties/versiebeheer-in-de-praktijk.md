@@ -2,7 +2,7 @@
 
 ## 1. Inleiding
 
-**Aanleiding.** De [algemene releaseregels](../Algemeen/release-management/Release-management-algemeen.md) leggen vast wanneer een release een major, een minor of een patch is. Dat is de kant van de uitgever. Wat zo'n release doet bij de instelling die draaiende koppelvlakken heeft en bij de leveranciers die ze onderhouden, is niet doorgerekend, en daarmee is onbekend of de afspraken houden op het moment dat het erop aankomt.
+**Aanleiding.** De [algemene releaseregels](../Algemeen/release-management/Release-management-algemeen.md) en het [versiebeheer van dit pakket](release-management.md#4-versiebeheer) leggen vast wanneer een release een major, een minor of een patch is, en waaraan een partij zich houdt. Dat is de kant van de uitgever. Wat zo'n release doet bij de instelling die draaiende koppelvlakken heeft en bij de leveranciers die ze onderhouden, is niet doorgerekend, en daarmee is onbekend of de afspraken houden op het moment dat het erop aankomt.
 
 **Context.** De koppelvlakspecificatie wordt onder een eigen tag uitgebracht en bouwt via `release.json` op een vastgelegde versie van de [informatie- en gegevensmodellen](../Informatie-en-gegevensmodellen/README.md). Wie een koppelvlak bouwt, neemt zo'n getagde versie als uitgangspunt.
 
@@ -15,9 +15,9 @@
 
 Geslaagd wanneer een architect eruit kan afleiden wat een aangekondigde major voor zijn eigen systeem betekent, en wanneer de punten waarop het beleid zwijgt benoemd zijn in plaats van ontdekt bij de eerste echte release.
 
-**De uitkomst.** Voor het gewone geval houdt het: de regels laten zich toepassen en de drie partijen komen eruit. Het knelt op tijd. Er staat geen termijn op een migratie, dus het venster sluit pas als de traagste leverancier wil, en de toezegging van hoogstens twee gelijktijdige majors hangt daarmee op elke afzonderlijke afnemer. Eén eigen regel is niet nagekomen: de verhouding tussen de versienummers van de twee pakketten hoort expliciet vastgelegd te zijn en is dat niet. De afweging per regel staat in [§12](#12-houdt-de-huidige-manier-van-versioneren-stand).
+**De uitkomst.** De regels laten zich toepassen, ook op het zwaarste geval, en de drie partijen komen eruit. Dat zwaarste geval is een wijziging in plaats: de uitzondering waarbij elke partij moet overstappen. In het gewone geval komt een nieuwe major van een koppeling naast de vorige en hoeft niemand iets. Bij de uitzondering knelt het op tijd en volgorde. Het beleid spreekt van een aangekondigde termijn, maar zegt niet hoe lang die is of wat er gebeurt als een partij hem niet haalt, en het zegt nergens dat de aanbieder eerst moet. Daarnaast spreekt de grens van hoogstens twee majors per koppeling, die bij de koppelvlakdiensten staat, de hoofdregel tegen. De afweging per regel staat in [§12](#12-houdt-de-huidige-manier-van-versioneren-stand).
 
-**Aanpak.** Eén major volledig doorgerekend, van het change request tot de laatste afnemer die overstapt; een minor en een patch komen erbij om te laten zien hoeveel het scheelt waar een wijziging vandaan komt. Drie systemen is het kleinste aantal waarbij de partijen niet in hetzelfde tempo hoeven te bewegen, en dat tempoverschil stelt het beleid op de proef.
+**Aanpak.** Eén major volledig doorgerekend, van het change request tot de laatste afnemer die overstapt. Het is een wijziging in plaats, de uitzondering uit [release management §4.4](release-management.md#44-twee-uitzonderingen), omdat het beleid daar het zwaarst op de proef staat. De gewone weg, een nieuwe major naast de vorige, komt erbij om te laten zien wat die uitzondering kost, net als een minor en een patch. Drie systemen is het kleinste aantal waarbij de partijen niet in hetzelfde tempo hoeven te bewegen, en dat tempoverschil stelt het beleid op de proef.
 
 **Scope.** Drie applicatiecomponenten binnen één instelling — de [onderwijscatalogus](Applicatiecomponenten/onderwijscatalogus.md), het [planningssysteem](Applicatiecomponenten/planningssysteem.md) en het [leermanagementsysteem](Applicatiecomponenten/leermanagementsysteem.md) — met de koppelingen daartussen. Het studentinformatiesysteem, het roostersysteem, de curriculum-ontwerptool, het studentkeuzesysteem en de OpenAPI-specificatie vallen erbuiten, en al het overige ook.
 
@@ -98,7 +98,7 @@ De vier platen hierna lopen van de kleinste reikwijdte naar de grootste. Ze zijn
 
 ![Een wijziging in één berichtstroom](src/diagrammen/bouwblokken/vertrekpunt-een-berichtstroom.png)
 
-Een extra stap in `Acceptatietoets bij late wijziging` raakt die ene stroom en zijn koppeling, *Late wijziging toetsen*, en verder niets: de dienst, het endpoint en het schema blijven, en de acht andere koppelingen ook. De koppeling krijgt een nieuwe versie, het pakket een minor, en geen enkele partij die deze koppeling niet implementeert merkt er iets van. Dit is waar de modulariteit zijn werk doet.
+Een extra stap in `Acceptatietoets bij late wijziging` raakt die ene stroom en zijn koppeling, *Late wijziging toetsen*, en verder niets: de dienst, het endpoint en het schema blijven, en de acht andere koppelingen ook. De stroom verloopt anders, dus de koppeling krijgt een nieuwe major, `2.0`, naast `1.0` ([release management §4.2](release-management.md#42-een-koppeling-draagt-haar-eigen-versie)). Voor het pakket is dat een minor, want `1.0` blijft staan ([§4.3](release-management.md#43-toevoegen-is-de-hoofdregel)). Geen enkele partij merkt er iets van: wie `1.0` implementeert blijft conform, en wie `2.0` wil stapt over wanneer het hem uitkomt. Dit is waar de modulariteit zijn werk doet.
 
 ### Vertrekpunt: een koppelvlakdienst
 
@@ -122,7 +122,7 @@ Een patroon wordt over koppelingen heen hergebruikt. Event Notification zit onde
 
 ![Een wijziging in een schema](src/diagrammen/bouwblokken/vertrekpunt-een-schema.png)
 
-Een schema staat onder endpoints van meerdere componenten. `specification-changed.json` staat onder het `specificatie-gewijzigd`-endpoint van zowel planning als het leermanagementsysteem. Rechtstreeks raakt het daarmee één stroom, *Specificatiewijziging melden* in *Onderwijsspecificatie ophalen*; maar vijf andere koppelingen vereisen die koppeling en bewegen via die afhankelijkheid mee ([release management §4.2](release-management.md#42-een-koppeling-draagt-haar-eigen-versie)). Bovendien komt de wijziging uit het andere releasepakket, dus zij passeert ook nog de afhankelijkheid in `release.json`.
+Een schema staat onder endpoints van meerdere componenten. `specification-changed.json` staat onder het `specificatie-gewijzigd`-endpoint van zowel planning als het leermanagementsysteem. Rechtstreeks raakt het daarmee één stroom, *Specificatiewijziging melden* in *Onderwijsspecificatie ophalen*; maar vijf andere koppelingen vereisen die koppeling en bewegen via die afhankelijkheid mee. Kunnen zij haar nieuwe major aan, dan krijgen zij een minor waarin zij beide accepteren; kunnen zij dat niet, dan krijgen ook zij een nieuwe major ([release management §4.2](release-management.md#42-een-koppeling-draagt-haar-eigen-versie)). Bovendien komt de wijziging uit het andere releasepakket, dus zij passeert ook nog de afhankelijkheid in `release.json`.
 
 ### De reikwijdte naast elkaar
 
@@ -133,7 +133,7 @@ Een schema staat onder endpoints van meerdere componenten. `specification-change
 | Koppelvlakdienst | 2 | 1 | 6 van 11 | 5 van 9 |
 | Schema | 2 | 2 | 1 van 11 | 1 van 9, en 5 die haar vereisen |
 
-Twee dingen vallen daaraan op. Alle vier de vertrekpunten kunnen een major opleveren, terwijl ze een heel verschillend deel van de keten raken. Dat is geen tekortkoming van het versienummer — dat signaleert een compatibiliteitsklasse en niet meer — maar een kwestie van de eenheid waaraan het hangt: het pakket beweegt bij elke release mee, dus zijn nummer zegt een afnemer niet of híj geraakt wordt.
+Twee dingen vallen daaraan op. Alle vier de vertrekpunten kunnen een major opleveren van de koppelingen die ze raken, terwijl ze een heel verschillend deel van de keten raken. Dat is geen tekortkoming van het versienummer — dat signaleert een compatibiliteitsklasse en niet meer — maar een kwestie van de eenheid waaraan het hangt: het pakket beweegt bij elke release mee, dus zijn nummer zegt een afnemer niet of híj geraakt wordt.
 
 De koppeling heeft wél de goede maat, want een afnemer implementeert koppelingen en geen pakketten. Wie de versies van zijn eigen koppelingen vergelijkt, weet meteen of hij aan de beurt is; wát er dan veranderd is, leest hij in het verschil tussen de twee tags, dat het releasebeleid juist bewust mogelijk maakt.
 
@@ -145,13 +145,15 @@ Twee change requests komen samen in één release. Het eerste beslecht de naamke
 
 Het scenario rekent met hernoemen in plaats: de oude naam verdwijnt, in plaats van dat er een nieuwe major van de koppeling naast komt. Dat is een van de twee uitzonderingen in [release management §4.4](release-management.md#44-twee-uitzonderingen), en de enige vorm van wijzigen waarbij een migratievenster ontstaat. Het hernoemen van een endpoint breekt bestaande aanroepen en is daarmee een major. Het optionele veld breekt niemand: het schema zet `additionalProperties` niet, dus een afnemer die het veld niet kent valideert nog steeds en negeert het. Dat is een minor. Omdat de zwaarste wijziging de bump van het hele pakket bepaalt, gaat de koppelvlakspecificatie naar `v2.0.0` en de informatie- en gegevensmodellen naar `v1.1.0` — twee pakketten, twee bumps, één release.
 
-Op bouwblokniveau, in de termen van [§4](#4-waar-een-versie-zit), raakt de hernoeming drie endpoints op twee koppelvlakdiensten: `specificatie-planbaar` op `onderwijsspecificatiestructuur-afnemer`, en `verwerkingsstatus` en `inrichtingsstatus` op `verwerkingsuitkomst-afnemer`. Zeven van de elf berichtstromen gebruiken een van die drie, verdeeld over zes van de negen koppelingen: *Onderwijsspecificatie ophalen*, *Opleidingsaanbod aanmaken*, *Opleidingsaanbod herplannen*, *Late wijziging toetsen*, *Leeromgeving inrichten* en *Leeromgeving bijwerken*. Elk van die zes gaat naar versie `2.0`, en versie `1.0` vervalt aan het eind van het venster; *Specificatiestatus volgen*, *Afleverabonnement registreren* en *Reconciliatie* blijven op `1.0`.
+Op bouwblokniveau, in de termen van [§4](#4-waar-een-versie-zit), raakt de hernoeming drie endpoints op twee koppelvlakdiensten: `specificatie-planbaar` op `onderwijsspecificatiestructuur-afnemer`, en `verwerkingsstatus` en `inrichtingsstatus` op `verwerkingsuitkomst-afnemer`. Zeven van de elf berichtstromen gebruiken een van die drie, verdeeld over zes van de negen koppelingen: *Onderwijsspecificatie ophalen*, *Opleidingsaanbod aanmaken*, *Opleidingsaanbod herplannen*, *Late wijziging toetsen*, *Leeromgeving inrichten* en *Leeromgeving bijwerken*. Elk van die zes gaat naar versie `2.0`, en versie `1.0` vervalt aan het eind van de aangekondigde termijn; *Specificatiestatus volgen*, *Afleverabonnement registreren* en *Reconciliatie* blijven op `1.0`.
 
 Let op het verschil tussen dienst en endpoint. `onderwijsspecificatiestructuur-afnemer` wordt ingezet door drie stromen in twee koppelingen, maar alleen *Specificatie beschikbaar melden* gebruikt het hernoemde endpoint; *Specificatiewijziging melden* en *Specificatiestatus gewijzigd melden* gebruiken namen die niet veranderen. Hoe fijnmaziger je kijkt, hoe kleiner de reikwijdte, en dat verschil is precies wat een afnemer wil weten: wie alleen *Specificatiestatus volgen*, *Afleverabonnement registreren* en *Reconciliatie* implementeert, hoeft bij deze major niets te doen.
 
-De keuze om te hernoemen is niet de goedkoopste. Je kunt de drie namen laten staan: dat breekt niemand, maar elke nieuwe afnemer moet dan te horen krijgen welke van de drie namen voor hém geldt, en de dienstpagina blijft een contract met drie gezichten. Je kunt de oude naam ook eerst als vervallen markeren en pas in een volgende major verwijderen: dat verkort de onderbreking bij de afnemer, maar verlengt de periode waarin de aanbieder twee paden onderhoudt. Hier wint begrijpelijkheid van het contract, en de prijs is een migratie die drie leveranciers raakt en die de traagste van de drie bepaalt.
+De keuze om in plaats te hernoemen is niet de goedkoopste. De gewone weg is de hoofdregel uit [release management §4.3](release-management.md#43-toevoegen-is-de-hoofdregel): de zes koppelingen krijgen een versie `2.0` met de nieuwe namen naast `1.0`, en `1.0` blijft gepubliceerd zolang er partijen op draaien. Dan hoeft niemand over, is er geen venster en geen volgorde, en krijgt het pakket een minor in plaats van een major. De prijs is dat de catalogus de oude namen serveert zolang één tegenpartij `1.0` spreekt, mogelijk voor onbepaalde tijd, en dat de specificatie het contract met drie gezichten blijft beschrijven naast het rechtgetrokken contract. Wie later toch wil opruimen, laat `1.0` vervallen: de tweede uitzondering, met een aankondiging vooraf. Je kunt de drie namen ook laten staan zonder nieuwe major: dat breekt niemand, maar elke nieuwe afnemer moet dan te horen krijgen welke van de drie namen voor hém geldt.
 
-Eén ding maakt deze major mild, en dat is de moeite waard om te benoemen omdat het niet voor elke major geldt. Een hernoemd endpoint is een nieuw pad naast het oude; een aanbieder kan beide tegelijk serveren zonder dat de een de ander in de weg zit. Een major die de payload breekt heeft die uitweg niet, want daar draagt hetzelfde pad twee onverenigbare vormen. De koppelvlakspecificatie legt niet vast hoe je in dat geval twee majors tegelijk aanspreekt (zie [§12](#12-houdt-de-huidige-manier-van-versioneren-stand)).
+Hier wint begrijpelijkheid van het contract. Dat is een besluit en geen constatering, en release management wijst er een eigen rij voor aan in [zijn eigenaarschap](release-management.md#3-eigenaarschap). De prijs is een migratie die drie leveranciers raakt en die de traagste van de drie bepaalt.
+
+Eén ding maakt deze major mild, en dat is de moeite waard om te benoemen omdat het niet voor elke major geldt. Een hernoemd endpoint is een nieuw pad naast het oude; een aanbieder kan beide tegelijk serveren zonder dat de een de ander in de weg zit. Een major die de payload breekt heeft die uitweg niet, want daar draagt hetzelfde pad twee onverenigbare vormen. Hoe een afnemer in dat geval aangeeft welke major hij spreekt, ligt nog niet vast ([release management §4.8](release-management.md#48-nog-te-beslissen)).
 
 ## 6. Stap voor stap: de release
 
@@ -163,7 +165,7 @@ Diagram 12 volgt de twee change requests tot op de release branches, met de roll
 
 ![Van change request naar de release branches](src/diagrammen/versiescenario/van-change-request-naar-de-release-branches.png)
 
-De contributor dient beide wijzigingen in op een feature branch en stelt per change request de bump voor. De maintainer reviewt en keurt goed, waarna de feature branch naar `dev` merget. Vanaf `dev` gaan beide wijzigingen naar release branch N, maar naar release branch N-1 gaat alleen de enum-uitbreiding: op de vorige major landt geen breaking change, dat is precies waar die tweede branch voor is.
+De contributor dient beide wijzigingen in op een feature branch en stelt per change request de bump voor. De maintainer reviewt en keurt goed, waarna de feature branch naar `dev` merget. Vanaf `dev` gaan beide wijzigingen naar release branch N, maar naar release branch N-1 gaat alleen het optionele veld: op de vorige major landt geen breaking change, dat is precies waar die tweede branch voor is. Dat de tweede branch hier in beeld komt, komt door de uitzondering: bij een uitgave die alleen toevoegt, landt alles op beide branches ([release management §6](release-management.md#6-releaseproces)).
 
 Diagram 13 loopt door tot de gepubliceerde release.
 
@@ -171,9 +173,9 @@ Diagram 13 loopt door tot de gepubliceerde release.
 
 ![Van baseline naar gepubliceerde release](src/diagrammen/versiescenario/van-baseline-naar-gepubliceerde-release.png)
 
-De maintainer bepaalt de bump voor het pakket als geheel en controleert de afhankelijkheid. De tester toetst de baseline op beide release branches aan de kwaliteitsrichtlijnen. Daarna krijgen beide pakketten hun tag, `informatie-en-gegevensmodellen-v1.1.0` en `koppelvlakspecificatie-v2.0.0`, en legt `release.json` van het tweede vast op welke versie van het eerste het bouwt. De product manager publiceert de release notes met een migratieparagraaf langs de standaardroute.
+De maintainer bepaalt de bump voor het pakket als geheel en controleert de afhankelijkheid. De tester toetst de baseline op beide release branches aan de kwaliteitsrichtlijnen. Daarna krijgen beide pakketten hun tag, `informatie-en-gegevensmodellen-v1.1.0` en `koppelvlakspecificatie-v2.0.0`, en legt `release.json` van het tweede vast op welke versie van het eerste het bouwt. De product manager publiceert de release notes langs de standaardroute. Die noemen per koppeling wat er anders is, en bij deze uitzondering ook welke koppelingen geraakt worden, welk bouwblok wijzigt en binnen welke termijn partijen over moeten ([release management §5](release-management.md#5-communicatie)).
 
-Die migratieparagraaf is het enige wat de drie leveranciers straks in handen hebben, en hij moet daarom per tegenpartij zeggen wat er verandert. Voor de catalogus is dat iets anders dan voor het planningssysteem, en voor het leermanagementsysteem weer iets anders.
+De release notes zijn het enige wat de drie leveranciers straks in handen hebben, en hun migratieparagraaf moet daarom per tegenpartij zeggen wat er verandert. Voor de catalogus is dat iets anders dan voor het planningssysteem, en voor het leermanagementsysteem weer iets anders. Wat zij ook moeten zeggen, en wat het beleid niet vraagt, is in welke volgorde de partijen overstappen ([§9](#9-wanneer-niet-iedereen-meegaat)).
 
 ## 7. Stap voor stap: de adoptie
 
@@ -236,7 +238,7 @@ De rekening viel te betalen, en dat is geen toeval. Vijf eigenschappen van de sp
 | Wat het droeg | Wat er zonder was gebeurd |
 |---|---|
 | Een hernoemd endpoint is een nieuw pad naast het oude, dus de aanbieder kan beide majors tegelijk serveren | De catalogus had moeten kiezen tussen planning en het leermanagementsysteem, en één van de twee lag stil |
-| Release branch N-1 draagt wat niet breekt | Het leermanagementsysteem had het nieuwe veld pas een halfjaar later gekregen, alleen omdat het nog op versie `1.0` van zijn koppelingen zat |
+| Een endpoint draagt een reeks modelversies ([release management §4.6](release-management.md#46-verhouding-tot-de-informatie--en-gegevensmodellen)) | Het optionele veld had een nieuwe major gevraagd van elke koppeling die het endpoint inzet, en het leermanagementsysteem had het pas na zijn eigen overstap gekregen |
 | Het schema zet `additionalProperties` niet | Elk nieuw veld was een major geweest, en de specificatie uitbreiden had de hele keten in beweging gezet |
 | Elke koppeling draagt een eigen versie | Drie van de negen koppelingen bewogen nu niet mee; zonder dat onderscheid had elke afnemer de hele release moeten beoordelen |
 | Het afleveradres is geregistreerd in plaats van vastgelegd in code ([afleverabonnement](Koppelvlakdiensten/afleverabonnement-aanbieder.md)) | Het verleggen van een melding was een codewijziging bij beide partijen geweest in plaats van een registratie |
@@ -264,7 +266,9 @@ Diagram 19 loopt de vierde rij af. De afnemer doet precies wat de release notes 
 
 ![Een afnemer die eerder overstapt dan zijn aanbieder](src/diagrammen/situaties/de-volgorde-die-niet-werkt.png)
 
-Daaruit volgt een regel die het beleid nergens uitspreekt: **de aanbieder gaat eerst**. In [§7](#7-stap-voor-stap-de-adoptie) gaat dat goed omdat de catalogus en het planningssysteem in dezelfde kwartaalronde zitten en de catalogus toevoegt zonder weg te halen. Vallen die rondes anders, dan is dat geen detail maar een voorwaarde.
+Daaruit volgt een regel die het beleid nergens uitspreekt: **bij een wijziging in plaats gaat de aanbieder eerst**. In [§7](#7-stap-voor-stap-de-adoptie) gaat dat goed omdat de catalogus en het planningssysteem in dezelfde kwartaalronde zitten en de catalogus toevoegt zonder weg te halen. Vallen die rondes anders, dan is dat geen detail maar een voorwaarde.
+
+Bij een nieuwe major naast de vorige speelt het minder, omdat niemand hoeft over te stappen. Wie dat wel wil, moet weten dat zijn tegenpartij de nieuwe major al biedt. Het voorgestelde [metadata-endpoint](release-management.md#47-wat-een-component-ondersteunt) maakt dat opvraagbaar zodra het gespecificeerd is.
 
 ### De afnemer gaat niet mee
 
@@ -274,7 +278,11 @@ De leverancier van het leermanagementsysteem kan besluiten versie `2.0` over te 
 
 ![De afnemer gaat niet mee](src/diagrammen/situaties/de-afnemer-gaat-niet-mee.png)
 
-De catalogus draagt het oude pad voor onbepaalde tijd, en de toezegging van hoogstens twee gelijktijdige majors hangt daarmee op één leverancier. De instelling heeft twee uitwegen, geen van beide in de specificatie belegd: bij de aankondiging een termijn afspreken waarbinnen elke afnemer over is, of accepteren dat deze koppeling op `1.0` bevriest en hem behandelen als bilaterale afspraak buiten de standaard — met als prijs dat de catalogus een pad onderhoudt dat nergens meer beschreven staat.
+De catalogus draagt het oude pad zolang het leermanagementsysteem erop meldt. Release management laat versie `1.0` vervallen aan het eind van een aangekondigde termijn ([§4.4 en §4.5](release-management.md#44-twee-uitzonderingen)), maar zegt niet hoe lang die termijn is of wat er gebeurt als een afnemer hem niet haalt. Loopt de termijn af terwijl het leermanagementsysteem nog op `1.0` meldt, dan zijn er drie uitwegen, geen van alle belegd:
+
+- De catalogus haalt het oude pad weg, en de koppeling met het leermanagementsysteem breekt.
+- De catalogus houdt het in de lucht als bilaterale afspraak buiten de standaard, met als prijs een pad dat nergens meer beschreven staat.
+- De uitgever besluit `1.0` toch te laten staan. Dan is de wijziging achteraf een nieuwe major naast de vorige geworden, en geldt de hoofdregel.
 
 ### De aanbieder loopt achter
 
@@ -288,17 +296,19 @@ Een achterblijvende afnemer houdt één koppeling op `1.0`; een achterblijvende 
 
 ### Een tweede major tijdens het venster
 
-Komt er een nieuwe major van dezelfde koppeling voordat de traagste afnemer de vorige heeft gehaald, dan loopt de keten tegen de grens van twee gelijktijdig actieve majors aan.
+Komt er een nieuwe major van dezelfde koppeling voordat de traagste afnemer de vorige heeft gehaald, dan komt die volgens de hoofdregel naast de bestaande ([release management §4.3](release-management.md#43-toevoegen-is-de-hoofdregel)).
 
 **Diagram 22 — Een tweede major terwijl er nog een koppeling op de oudste draait.**
 
 ![Een tweede major tijdens het venster](src/diagrammen/situaties/een-tweede-major-tijdens-het-venster.png)
 
-Met hoogstens twee actieve majors per koppeling zijn `3.0` en `2.0` van *Leeromgeving inrichten* actief en valt `1.0` af, terwijl het leermanagementsysteem er nog op draait. Er zijn dan drie uitwegen — de catalogus bedient drie majors en breekt daarmee de regel, de koppeling met het leermanagementsysteem breekt, of `3.0` wacht — en welke het wordt legt geen document vast ([§12](#12-houdt-de-huidige-manier-van-versioneren-stand)).
+Van *Leeromgeving inrichten* zijn dan drie versies tegelijk gepubliceerd: `1.0` tot het eind van zijn termijn, `2.0` en `3.0` zolang er partijen op draaien. De catalogus serveert in die periode drie varianten van dezelfde terugmelding. Release management noemt dat de prijs van de hoofdregel: versies stapelen zich op, en wie ze bedient onderhoudt ze allemaal.
+
+De [koppelvlakdiensten](Koppelvlakdiensten/README.md) noemen daarentegen hoogstens twee gelijktijdig actieve majors per koppeling. Met die grens had `1.0` moeten vallen zodra `3.0` verschijnt, terwijl het leermanagementsysteem er nog op draait. De twee regels spreken elkaar tegen ([§12](#12-houdt-de-huidige-manier-van-versioneren-stand)).
 
 ## 10. Wat een instelling en een leverancier bijhouden
 
-Voor de instelling is een bump geen gebeurtenis maar een periode. Zij begint bij de release notes en eindigt pas als de traagste leverancier heeft uitgerold, en zolang die periode loopt draaien er twee majors naast elkaar in haar eigen landschap. Om daarop te kunnen sturen moet zij vier dingen van haar eigen keten weten; geen daarvan staat in de specificatie, want het zijn eigenschappen van haar implementatie en niet van de standaard.
+Bij een wijziging in plaats is een release voor de instelling geen gebeurtenis maar een periode. Zij begint bij de release notes en eindigt pas als de traagste leverancier heeft uitgerold, en zolang die periode loopt draaien er twee majors naast elkaar in haar eigen landschap. Om daarop te kunnen sturen moet zij vier dingen van haar eigen keten weten; geen daarvan staat in de specificatie, want het zijn eigenschappen van haar implementatie en niet van de standaard.
 
 | Wat zij bijhoudt | Waarom zij dat nodig heeft |
 |---|---|
@@ -311,11 +321,11 @@ Waarop zij kan sturen is beperkter dan wat zij moet weten. Technisch valt er wei
 
 Voor een leverancier ligt het anders, en zwaarder. Hij bedient meer dan één instelling, en die stappen niet tegelijk over. Waar een instelling per koppeling één versie bijhoudt, houdt hij per klant een toestand bij, terwijl hij één product uitrolt. Dat maakt "beide majors tegelijk dragen" bij hem geen tijdelijke maatregel maar een eigenschap van zijn release: zolang één klant nog op de oude versie zit, moet die in het product blijven zitten. Het scenario laat dat niet zien omdat het één instelling volgt; de conclusie eruit is wel dat het venster dat een instelling voor zichzelf afspreekt, voor de leverancier het maximum van alle klanten is.
 
-Dat is ook de plek waar de grens van twee gelijktijdige majors gaat knellen. Per koppeling zijn hoogstens twee majors tegelijk actief ([koppelvlakdiensten](Koppelvlakdiensten/README.md)). Zolang er één bump loopt is dat ruim; komt er een tweede major voordat de traagste afnemer de eerste heeft gehaald, dan moet de instelling kiezen tussen wachten met de nieuwe major of de oudste laten vallen. Die afweging maakt zij alleen op tijd als zij de bovenste twee rijen van de tabel actueel houdt.
+Bij de leverancier stapelen de versies zich ook op. Volgens de hoofdregel blijft een major gepubliceerd zolang er partijen op draaien ([release management §4.3](release-management.md#43-toevoegen-is-de-hoofdregel)), en voor hem is dat zolang één klant hem gebruikt. Hij haalt een major dus pas uit zijn product als de uitgever hem laat vervallen of als geen klant hem meer spreekt. Dat laatste weet hij alleen als zijn klanten de bovenste twee rijen van de tabel actueel houden.
 
 ## 11. Drie versiesprongen naast elkaar
 
-Een major is het zwaarste geval en daarmee niet het gewone geval. Diagram 23 zet de drie bumptypes naast elkaar; het aantal pijlen is het verhaal.
+Een major van het pakket is het zwaarste geval en daarmee niet het gewone geval. Het gewone geval is de minor: ook een nieuwe major van een koppeling naast de vorige is voor het pakket een minor ([release management §4.5](release-management.md#45-wanneer-welke-bump)). Diagram 23 zet de drie bumptypes naast elkaar; het aantal pijlen is het verhaal.
 
 **Diagram 23 — Wat elke sprong van de partijen vraagt.**
 
@@ -324,80 +334,75 @@ Een major is het zwaarste geval en daarmee niet het gewone geval. Diagram 23 zet
 | | Major | Minor | Patch |
 |---|---|---|---|
 | **Voorbeeld** | Twee endpoints hernoemd naar één naam per bericht | Een optioneel veld erbij in de onderwijsspecificatie | Een parameternaam in de tekst gelijkgetrokken met het schema |
-| **Pakket en versie** | `koppelvlakspecificatie-v2.0.0` | `informatie-en-gegevensmodellen-v1.1.0` | `informatie-en-gegevensmodellen-v1.1.1` |
+| **Pakket en versie** | `koppelvlakspecificatie-v2.0.0` | `informatie-en-gegevensmodellen-v1.1.0` | `koppelvlakspecificatie-v2.0.1` |
+| **Koppelingen** | Zes naar `2.0`; `1.0` vervalt na de termijn | *Onderwijsspecificatie ophalen* krijgt een minor | Geen nieuwe versie |
 | **Release branch** | Alleen N; op N-1 landt geen breaking change | N én N-1 | N én N-1 |
-| **Wie moet iets doen** | Alle drie de systemen, in een vastgelegde volgorde | Alleen wie de nieuwe waarde wil gebruiken | Niemand |
+| **Wie moet iets doen** | Alle drie de systemen, in een vastgelegde volgorde | Alleen wie het nieuwe veld wil gebruiken | Niemand |
 | **Doorlooptijd** | Twee releaseronden bij de aanbieder, plus de kalender van de traagste afnemer | Eén releaseronde, en alleen bij wie hem wil | Geen |
-| **Communicatie** | Release notes met migratieparagraaf per tegenpartij | Release notes: wat er bij komt en dat er niets breekt | Release notes langs dezelfde route, zonder actie |
+| **Communicatie** | Release notes per koppeling, met de termijn en een migratieparagraaf per tegenpartij | Release notes: wat er bij komt en dat er niets breekt | Release notes langs dezelfde route, zonder actie |
 
 ### De major: twee endpoints hernoemd
 
-Dit is het geval dat [§5](#5-de-wijziging-en-waarom-die-breekt) tot en met [§10](#10-wat-een-instelling-en-een-leverancier-bijhouden) uitwerken. Kern: het contract verandert, elke partij moet iets, en de volgorde waarin dat gebeurt is een voorwaarde en geen detail. De aanbieder draagt beide paden totdat de laatste afnemer over is, en de laatste afnemer bepaalt daarmee hoe lang dat duurt.
+Dit is het geval dat [§5](#5-de-wijziging-en-waarom-die-breekt) tot en met [§10](#10-wat-een-instelling-en-een-leverancier-bijhouden) uitwerken: een wijziging in plaats, de enige route naar een major van het pakket. Kern: het contract verandert, elke partij moet iets, en de volgorde waarin dat gebeurt is een voorwaarde en geen detail. De aanbieder draagt beide paden totdat de laatste afnemer over is, en de laatste afnemer bepaalt daarmee hoe lang dat duurt.
 
 ### De minor: een optioneel veld erbij
 
-[education-specification.json](../Informatie-en-gegevensmodellen/schemas/education-specification.json) zet `additionalProperties` niet. Een afnemer die tegen dat schema valideert accepteert daardoor een veld dat hij niet kent, en negeert het. Een optioneel veld toevoegen breekt dus niemand, en het landt daarom ook op release branch N-1: een afnemer die op versie `1.0` van zijn koppelingen blijft, krijgt het gewoon mee.
+[education-specification.json](../Informatie-en-gegevensmodellen/schemas/education-specification.json) zet `additionalProperties` niet. Een afnemer die tegen dat schema valideert accepteert daardoor een veld dat hij niet kent, en negeert het. Een optioneel veld toevoegen breekt dus niemand.
+
+Het endpoint dat de onderwijsspecificatie levert, `GET /onderwijsspecificaties/{id}`, draagt daarna twee modelversies, `1.0` en `1.1` ([release management §4.6](release-management.md#46-verhouding-tot-de-informatie--en-gegevensmodellen)). De koppeling die dat endpoint inzet, *Onderwijsspecificatie ophalen*, krijgt daarmee een minor ([§4.2](release-management.md#42-een-koppeling-draagt-haar-eigen-versie)); in deze release gaat zij al naar `2.0` vanwege de hernoeming. Omdat niets breekt, landt de wijziging ook op release branch N-1, en een afnemer die op `1.0` van zijn koppelingen blijft valideert nog steeds.
 
 Wat er in de keten gebeurt is bijna niets. De catalogus mág het veld vullen zodra haar leverancier het ondersteunt. Planning en het leermanagementsysteem hoeven niets: zij lezen wat zij kennen en laten de rest staan. Er is geen migratievenster, geen herregistratie en geen volgorde tussen aanbieder en afnemer.
 
 Niet elke toevoeging aan een schema is echter zo goedkoop, en het verschil zit in het schema zelf. Naast open lijsten — `programmatype`, `doelgroep`, `keuzedeelKlasse` en `tijdsverdeling` zijn getypeerd als `string` met de toegestane waarden in een `$comment` — staan gesloten enumeraties: `specificatieType`, `status`, `curriculumtype`, `programmaLaag` en `leerweg` zijn een echte `enum`. Bij een open lijst is een waarde erbij een tekstwijziging en verder niets. Bij een gesloten enumeratie wijzigt het schema, en een afnemer die daartegen valideert wijst de nieuwe waarde af.
 
-Dat botst met de algemene releaseregels, die een nieuwe enum-waarde zonder voorbehoud een minor noemen. Voor de vier open lijsten klopt dat; voor de vijf gesloten enumeraties niet. Welke van de twee vormen een veld krijgt, is daarmee een versioneringsbesluit en niet alleen een modelleerkeuze ([§12](#12-houdt-de-huidige-manier-van-versioneren-stand)).
+Dat botst met de algemene releaseregels en met [release management §4.5](release-management.md#45-wanneer-welke-bump), die een nieuwe enum-waarde zonder voorbehoud een minor noemen. Voor de vier open lijsten klopt dat; voor de vijf gesloten enumeraties niet. Welke van de twee vormen een veld krijgt, is daarmee een versioneringsbesluit en niet alleen een modelleerkeuze ([§12](#12-houdt-de-huidige-manier-van-versioneren-stand)).
 
 ### De patch: een correctie zonder contractwijziging
 
-De endpointtabel bij [planbaar-onderwijsaanbod-aanbieder](Koppelvlakdiensten/planbaar-onderwijsaanbod-aanbieder.md) noemt de parameters van `GET /onderwijsaanbod`. Staat daar een parameternaam anders gespeld dan in het schema, dan is dat een fout in de tekst. Hem gelijktrekken verandert het contract niet, want het schema was al leidend. Patch, en niemand hoeft iets.
+De endpointtabel bij [planbaar-onderwijsaanbod-aanbieder](Koppelvlakdiensten/planbaar-onderwijsaanbod-aanbieder.md) noemt de parameters van `GET /onderwijsaanbod`. Staat daar een parameternaam anders gespeld dan in het schema, dan is dat een fout in de tekst. Hem gelijktrekken verandert het contract niet, want het schema was al leidend. Het pakket gaat naar `v2.0.1`, geen koppeling krijgt een nieuwe versie ([release management §4.2](release-management.md#42-een-koppeling-draagt-haar-eigen-versie)), en niemand hoeft iets.
 
 Daar zit wel een val in die het onderscheid scherp maakt. Bij een verschil tussen de tekst en het schema hangt het bumptype af van welke kant je corrigeert. Pas je de tekst aan het schema aan, dan is het een patch. Pas je het schema aan de tekst aan, dan wijzigt het contract en is het, afhankelijk van de wijziging, een minor of een major. Dezelfde waarneming levert dus drie verschillende releases op, en welke het wordt is een besluit en geen constatering.
 
 ## 12. Houdt de huidige manier van versioneren stand?
 
-Dit is de tweede vraag uit [§1](#1-inleiding). Het scenario heeft zes regels uit het beleid in werking gezet; de tabel zegt per regel wat ervan bleek.
+Dit is de tweede vraag uit [§1](#1-inleiding). Het scenario heeft acht regels uit de algemene releaseregels en het versiebeheer van dit pakket in werking gezet; de tabel zegt per regel wat ervan bleek.
 
-| Regel | Getoetst | Uitkomst |
+| Regel | Waar | Uitkomst |
 |---|---|---|
-| MAJOR is breaking, MINOR additief, PATCH een correctie | Ja, alle drie | Houdt. Het onderscheid liet zich in elk van de drie gevallen maken |
-| Eén release, één bumptype: de zwaarste wint | Ja | Houdt. Wel zegt het pakketnummer een afnemer niet of híj geraakt wordt, want het beweegt bij elke release mee ([§4](#4-waar-een-versie-zit)) |
-| Naar release branch N-1 gaat alleen wat niet breekt | Ja | Houdt. De enum-uitbreiding landde op beide branches, de hernoeming alleen op N |
-| Een release ligt vast onder een tag, met release notes langs de standaardroute | Ja | Houdt, met één kanttekening: de migratieparagraaf moet per tegenpartij verschillen en het format zegt daar niets over |
-| De verhouding tussen de versienummers van afhankelijke pakketten wordt expliciet vastgelegd | Ja | **Niet nagekomen.** `release.json` pint een versie maar legt geen regel vast |
-| Hoogstens twee gelijktijdig actieve majors per koppeling | Ja | Houdt zolang iedereen meegaat, en verder niet ([§9](#9-wanneer-niet-iedereen-meegaat)) |
+| MAJOR is breaking, MINOR additief, PATCH een correctie | [Algemene regels §3](../Algemeen/release-management/Release-management-algemeen.md#3-versienummering) | Houdt. Het onderscheid liet zich in elk van de drie gevallen maken |
+| Eén release, één bumptype: de zwaarste wint | [Algemene regels §3](../Algemeen/release-management/Release-management-algemeen.md#3-versienummering) | Houdt. Wel zegt het pakketnummer een afnemer niet of híj geraakt wordt, want het beweegt bij elke release mee ([§4](#4-waar-een-versie-zit)) |
+| Een koppeling draagt haar eigen versie | [Release management §4.2](release-management.md#42-een-koppeling-draagt-haar-eigen-versie) | Houdt. Zes koppelingen gingen naar `2.0`, drie bleven op `1.0`, en wie alleen die drie implementeert hoefde niets |
+| Een uitgave voegt toe; wijzigen in plaats is een besluit | [Release management §4.3 en §4.4](release-management.md#43-toevoegen-is-de-hoofdregel) | Houdt. Het scenario is die uitzondering, en laat zien wat zij kost: een migratie die alle drie de partijen raakt en waarvan de traagste het eind bepaalt |
+| Bij een wijziging in plaats stapt een afnemer over binnen de aangekondigde termijn | [Release management §4.5](release-management.md#45-wanneer-welke-bump) | **Niet toe te passen zoals het er staat.** De termijn heeft geen lengte en geen gevolg |
+| De versienummers van de twee pakketten zijn onafhankelijk; een endpoint draagt een reeks modelversies | [Algemene regels §4](../Algemeen/release-management/Release-management-algemeen.md#4-compatibiliteit-tussen-afhankelijke-artifacts), [release management §4.6](release-management.md#46-verhouding-tot-de-informatie--en-gegevensmodellen) | Houdt in het beleid: de koppelvlakspecificatie gaat naar `2.0.0` terwijl de gegevensmodellen binnen `1.x` blijven. Geen dienstpagina noemt nog op welke modelversies een endpoint staat |
+| Naar release branch N-1 gaat alleen wat niet breekt | [Algemene regels §6](../Algemeen/release-management/Release-management-algemeen.md#6-releaseproces), [release management §6](release-management.md#6-releaseproces) | Houdt. Het optionele veld landde op beide branches, de hernoeming alleen op N |
+| Een release ligt vast onder een tag, met release notes per koppeling | [Algemene regels §5](../Algemeen/release-management/Release-management-algemeen.md#5-communicatie-naar-belanghebbenden), [release management §5](release-management.md#5-communicatie) | Houdt, met één kanttekening: de migratieparagraaf moet per tegenpartij verschillen en de volgorde noemen, en het format zegt over geen van beide iets |
 
-Het antwoord is daarmee: ja voor het gewone geval, en de knelpunten gaan niet over de regels zelf maar over wat eromheen niet is geregeld. Acht punten geven het beleid geen antwoord waar een instelling of leverancier er wel een nodig heeft. Ze staan hier als vaststelling, niet als voorstel.
+Het antwoord is daarmee: ja, ook voor de uitzondering, en wat knelt gaat niet over de regels zelf maar over wat eromheen niet is geregeld. Acht punten geven het beleid geen antwoord waar een instelling of leverancier er wel een nodig heeft. Ze staan hier als vaststelling, niet als voorstel. De eerste twee raken alleen de wijziging in plaats; de andere zes ook het gewone geval.
 
-**Een abonnement kun je niet intrekken.** De dienst [afleverabonnement-aanbieder](Koppelvlakdiensten/afleverabonnement-aanbieder.md) draagt één endpoint, `POST /abonnementen`. De koppeling [Afleverabonnement registreren](Koppelingen/afleverabonnement-registreren.md) legt vast dat herregistratie op dezelfde callback-URL plus event-type overschrijft en dus idempotent is. Verandert de URL, zoals bij deze bump, dan ontstaat er een tweede abonnement naast het eerste en levert de aanbieder dezelfde melding twee keer af. Hoe je het oude abonnement opruimt is niet vastgelegd.
-
-**Twee majors tegelijk aanspreken is niet belegd.** Het pakket stelt dat er per koppeling hoogstens twee majors tegelijk actief zijn ([koppelvlakdiensten](Koppelvlakdiensten/README.md)), en de algemene releaseregels houden twee release branches aan, maar die gaan over majors van het pakket en niet van een koppeling. Hoe een afnemer die twee majors onderscheidt staat nergens: niet in het pad, niet in een header, niet in het abonnement. Bij een hernoemd endpoint lost het zichzelf op, omdat de twee majors verschillende paden dragen. Bij een breaking wijziging in de payload is dat niet zo.
-
-**De verhouding tussen de twee pakketten is niet vastgelegd.** De algemene regels schrijven voor dat je expliciet vastlegt hoe de versienummers van een pakket en zijn afhankelijkheid zich verhouden, en noemen als bruikbaar patroon dat het afhankelijke pakket de MAJOR van het andere deelt. In dit scenario lopen ze uiteen: de koppelvlakspecificatie gaat naar `2.0.0` terwijl de informatie- en gegevensmodellen binnen `1.x` blijven. Dat is verdedigbaar, want er wijzigt geen schema. Had je het patroon wel toegepast, dan had een naamswijziging in de endpoints een major op de gegevensmodellen afgedwongen zonder dat er één schema veranderde. `release.json` pint vandaag een versie, maar legt geen regel vast; welke van de twee geldt, is een keuze die nog niet is gemaakt.
-
-**Er is geen termijn.** Het venster sluit in dit scenario zodra de traagste leverancier heeft uitgerold. Welke termijn daarvoor staat, en wat er gebeurt als een partij die termijn niet haalt of er bewust niet aan begint, legt geen document vast. Dat maakt de toezegging van hoogstens twee gelijktijdige majors afhankelijk van de goede wil van elke afzonderlijke leverancier: één afnemer die niet meegaat houdt de oudste major onbeperkt in de lucht, en bij een volgende major moet iemand kiezen tussen wachten, de oudste laten vallen en een derde major dragen. Die drie uitwegen staan uitgewerkt in [§9](#9-wanneer-niet-iedereen-meegaat).
-
-**Een partij kan niet uitdrukken wat zij ondersteunt.** De specificatie beschrijft wat een component kán implementeren; zij kent geen vorm waarin een component vastlegt wat het feitelijk ondersteunt. De [applicatiecomponentpagina](Applicatiecomponenten/README.md) noemde toen de koppelvlakdiensten die een component claimt, maar niet welke stromen het draaide en op welke versie, terwijl dat de eenheid is waarin twee partijen elkaar moeten vinden. Een dienst claimen zei weinig: een component kon `onderwijsspecificatiestructuur-afnemer` implementeren en toch maar twee van de vier stromen ondersteunen die die dienst inzetten.
-
-Het begrip bestond al half. De [gebruiksprofielen](../Informatie-en-gegevensmodellen/gebruiksprofielen.md) leggen per koppeling vast welke onderdelen van de payload meegaan — een profiel dus, maar een die OKx voorschrijft en niet een die een implementerende partij afgeeft. Wat ontbrak was de tegenhanger: een ondersteuningsprofiel waarin een component zegt welke stromen het draait, op welke versie, en welke niet.
-
-Zonder die vorm was er geen manier om vooraf vast te stellen of twee partijen kunnen koppelen, en ook geen manier om te controleren of de toezegging van hoogstens twee gelijktijdige majors wordt gehaald. In dit scenario valt dat niet op, omdat één instelling drie leveranciers kent en het onderling afstemt. Een leverancier die tien instellingen bedient kan zich dat niet veroorloven: hij moet per klant weten wat er draait, terwijl hij één product uitrolt en er niets is om dat in uit te drukken.
-
-**Het versienummer van een berichtstroom hing nergens aan vast.** Elke berichtstroom droeg toen een eigen versie, overal `1.0`. Wat er gebeurde als er één naar `1.1` ging, legde geen document vast: of het pakket dan een minor kreeg, of een afnemer mocht zeggen dat hij stroom X op `1.0` implementeerde terwijl het pakket op `2.0.0` stond, en of twee versies van dezelfde stroom naast elkaar mochten bestaan.
-
-**Een nieuwe enum-waarde is niet altijd een minor.** De algemene regels noemen een nieuwe enum-waarde als voorbeeld van een minor. Dat gaat op voor de velden die als open lijst zijn gemodelleerd, en niet voor de velden die een echte `enum` dragen: daar wijzigt het schema en wijst een validerende afnemer de nieuwe waarde af. Beide vormen staan naast elkaar in hetzelfde object van [education-specification.json](../Informatie-en-gegevensmodellen/schemas/education-specification.json), vier open lijsten tegen vijf gesloten enumeraties, zonder dat ergens staat wanneer je welke kiest. Daarmee bepaalt een modelleerkeuze ongemerkt of een latere uitbreiding gratis is of brekend.
+**De termijn heeft geen lengte.** Bij een wijziging in plaats vervalt de oude versie van elke geraakte koppeling, en volgens [release management §4.5](release-management.md#45-wanneer-welke-bump) stapt een afnemer over binnen de aangekondigde termijn. Hoe lang die termijn is, en wat er gebeurt als een partij hem niet haalt of er bewust niet aan begint, legt geen document vast. In dit scenario sluit het venster daarom pas als de traagste leverancier heeft uitgerold. De uitwegen voor een afnemer die niet meegaat staan in [§9](#de-afnemer-gaat-niet-mee).
 
 **De volgorde tussen aanbieder en afnemer staat nergens.** Een afnemer die eerder overstapt dan zijn aanbieder roept een endpoint aan dat nog niet bestaat, en dat is de enige combinatie van versies die niet werkt ([§9](#9-wanneer-niet-iedereen-meegaat)). De release notes vertellen elke partij wat er voor haar verandert, maar niet dat de aanbieder als eerste moet. Bij koppelingen waarvan de releasekalenders uiteenlopen is dat het verschil tussen een migratie en een storing.
 
-### Waar deze punten inmiddels op zijn beland
+**Een afnemer kan niet aangeven welke major hij spreekt.** Een aanbieder kan twee majors van een koppeling tegelijk bedienen, maar hoe een afnemer laat weten welke van de twee hij spreekt, in het pad, in een header of in zijn afleverabonnement, ligt nog niet vast ([release management §4.8](release-management.md#48-nog-te-beslissen)). Bij een hernoemd endpoint lost het zichzelf op, omdat de twee majors verschillende paden dragen. Bij een brekende wijziging in de payload is dat niet zo: zolang dit niet vastligt, is er geen manier om de nieuwe major op hetzelfde pad naast de oude te serveren.
 
-De acht punten hierboven zijn vastgesteld tegen het beleid en de indeling zoals die golden toen dit scenario voor het eerst werd doorgerekend. Het [versiebeheer van dit pakket](release-management.md#4-versiebeheer) is daarna op een andere leest geschoeid: een uitgave voegt toe en wijzigt niet, elke koppeling draagt een eigen versie, en conformiteit hangt aan de koppelingen die een partij implementeert in plaats van aan het versienummer van het pakket.
+**De grens van twee majors spreekt de hoofdregel tegen.** De [koppelvlakdiensten](Koppelvlakdiensten/README.md) noemen hoogstens twee gelijktijdig actieve majors per koppeling. [Release management §4.3](release-management.md#43-toevoegen-is-de-hoofdregel) laat een major gepubliceerd zolang er partijen op draaien, en een versie vervalt daar alleen bij besluit, met een aankondiging vooraf. Komt er een derde major terwijl de oudste nog draait, dan zegt de ene regel dat de oudste valt en de andere dat hij blijft ([§9](#een-tweede-major-tijdens-het-venster)).
 
-Dat beantwoordt vier van de acht, en een vijfde half. Er hoeft geen termijn te zijn wanneer niemand hoeft over te stappen, en er is geen volgorde tussen aanbieder en afnemer wanneer er geen endpoint verdwijnt: een nieuwe major van een koppeling komt naast de vorige. Wat een partij ondersteunt, noemt zij met koppeling, versie en rol, en een voorgeschreven [metadata-endpoint](release-management.md#47-wat-een-component-ondersteunt) maakt dat opvraagbaar. Het versienummer zit op de koppeling, met regels voor wanneer het ophoogt ([release management §4.2](release-management.md#42-een-koppeling-draagt-haar-eigen-versie)). Van het aanspreken van twee majors tegelijk is één helft opgelost, want een aanbieder bedient beide majors van een koppeling; hoe een afnemer aangeeft welke hij spreekt, staat nog open ([release management §4.8](release-management.md#48-nog-te-beslissen)).
+**Wat een partij ondersteunt, is nog niet opvraagbaar.** Een partij noemt wat zij implementeert met koppeling, versie en rol ([release management §4.1](release-management.md#41-waaraan-een-partij-zich-houdt)), en die aanduidingen liggen vast. Het [metadata-endpoint](release-management.md#47-wat-een-component-ondersteunt) waarmee een component dat bij een ander opvraagt, is voorgesteld maar niet gespecificeerd. In dit scenario valt dat niet op, omdat één instelling drie leveranciers kent en het onderling afstemt. Een leverancier die tien instellingen bedient kan zich dat niet veroorloven: hij moet per klant weten wat er draait, terwijl hij één product uitrolt.
 
-De drie overige punten staan nog open, en het zijn de punten die over de inhoud gaan in plaats van over het mechanisme: het intrekken van een abonnement, de verhouding tussen de versienummers van de twee pakketten, en de vraag wanneer een veld een gesloten enumeratie krijgt en wanneer een open lijst.
+**Geen endpoint noemt zijn modelversies.** Release management legt de afhankelijkheid op de gegevensmodellen bij het endpoint: elk endpoint noemt de reeks modelversies waarop zijn payload staat ([§4.6](release-management.md#46-verhouding-tot-de-informatie--en-gegevensmodellen)). Dat maakt de minor uit [§11](#de-minor-een-optioneel-veld-erbij) mogelijk zonder dat een koppeling een nieuwe major krijgt. Op de dienstpagina's staat die reeks bij geen enkel endpoint, dus een afnemer kan niet nalezen of een endpoint het nieuwe veld al draagt.
+
+**Een abonnement kun je niet intrekken.** De dienst [afleverabonnement-aanbieder](Koppelvlakdiensten/afleverabonnement-aanbieder.md) draagt één endpoint, `POST /abonnementen`. De koppeling [Afleverabonnement registreren](Koppelingen/afleverabonnement-registreren.md) legt vast dat herregistratie op dezelfde callback-URL plus event-type overschrijft en dus idempotent is. Verandert de URL, zoals bij deze wijziging, dan ontstaat er een tweede abonnement naast het eerste en levert de aanbieder dezelfde melding twee keer af. Hoe je het oude abonnement opruimt is niet vastgelegd.
+
+**Een nieuwe enum-waarde is niet altijd een minor.** De algemene regels en [release management §4.5](release-management.md#45-wanneer-welke-bump) noemen een nieuwe enum-waarde als voorbeeld van een minor. Dat gaat op voor de velden die als open lijst zijn gemodelleerd, en niet voor de velden die een echte `enum` dragen: daar wijzigt het schema en wijst een validerende afnemer de nieuwe waarde af. Beide vormen staan naast elkaar in hetzelfde object van [education-specification.json](../Informatie-en-gegevensmodellen/schemas/education-specification.json), vier open lijsten tegen vijf gesloten enumeraties, zonder dat ergens staat wanneer je welke kiest. Daarmee bepaalt een modelleerkeuze ongemerkt of een latere uitbreiding gratis is of brekend.
 
 ## 13. Conclusie
 
 [§12](#12-houdt-de-huidige-manier-van-versioneren-stand) beantwoordt of het beleid standhoudt. Deze paragraaf zet daar de vraag naast die een instelling of leverancier moet beantwoorden voordat er iets gebeurt: welke wijzigingen kun je verwachten, en hoe hard komen ze aan.
 
 De reikwijdte in de tabel is geteld op het model van dit scenario: negen koppelingen, elf berichtstromen. De kans is een inschatting, geen meting, en berust op drie waarneembare dingen. Het pakket staat op `0.0.1` en het ecosysteem is niet compleet, dus toevoegen is nu de norm. De schema's dragen `alfa` in hun `$comment` en mogen wijzigen zolang de payload niet is vastgesteld. En er stonden twee naamkeuzes open; dit document rekent door wat beslechten kost wanneer er al gebouwd is. Na `1.0` verschuift dat beeld, en dat is de tweede kanskolom.
+
+De reikwijdte geldt voor een wijziging in plaats. Komt er een nieuwe major naast de vorige ([release management §4.3](release-management.md#43-toevoegen-is-de-hoofdregel)), dan raakt een wijziging in een koppeling of haar bouwblokken alleen wie die nieuwe major wil gebruiken. Twee soorten wijzigingen hebben die uitweg niet: een brekende payload op hetzelfde pad, zolang niet vastligt hoe een afnemer een major kiest, en de twee onderaan de tabel, die niet aan één koppeling hangen.
 
 | Wijziging | Waar in de structuur | Reikwijdte | Kans in de `0.x`-fase | Kans na `1.0` |
 |---|---|---|---|---|
@@ -420,4 +425,4 @@ Drie dingen volgen daaruit.
 
 **De twee met maximale reikwijdte hebben geen migratiepad.** Een wijziging in de auth-standaard of in een uitgangspunt raakt alles tegelijk, en voor geen van beide beschrijft het beleid hoe je dat gefaseerd doet. Ze zijn onwaarschijnlijk, en dat is nu de enige reden dat het geen probleem is.
 
-**De koppeling is de eenheid waarin partijen elkaar moeten kunnen vinden.** Niet het bumptype, want dat is voor elk van de vier grote gevallen hierboven een major, en niet het pakketnummer, want dat beweegt bij alles mee. Twee partijen koppelen niet op een pakket maar op een koppeling, en de vraag die zij elkaar moeten kunnen stellen is niet "welke release draai jij" maar "welke koppelingen implementeer je, in welke rol en op welke versie". De aanduidingen daarvoor liggen inmiddels vast; zolang het metadata-endpoint niet is gespecificeerd, is de tabel hierboven een hulpmiddel om mee te plannen en niet iets wat twee systemen onderling kunnen vaststellen.
+**De koppeling is de eenheid waarin partijen elkaar moeten kunnen vinden.** Niet het bumptype, want dat is voor elk van de vier grote gevallen hierboven een major, en niet het pakketnummer, want dat beweegt bij alles mee. Twee partijen koppelen niet op een pakket maar op een koppeling, en de vraag die zij elkaar moeten kunnen stellen is niet "welke release draai jij" maar "welke koppelingen implementeer je, in welke rol en op welke versie". De aanduidingen daarvoor liggen vast ([release management §4.2](release-management.md#42-een-koppeling-draagt-haar-eigen-versie)); zolang het metadata-endpoint niet is gespecificeerd, is de tabel hierboven een hulpmiddel om mee te plannen en niet iets wat twee systemen onderling kunnen vaststellen.

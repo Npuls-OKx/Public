@@ -85,7 +85,7 @@ views {
     okx.maintainer -> okx.repo.br_feature 'reviewt en keurt goed'
     okx.repo.br_feature -> okx.repo.br_dev 'merge'
     okx.repo.br_dev -> okx.repo.br_n 'beide wijzigingen'
-    okx.repo.br_dev -> okx.repo.br_n1 'alleen de enum-uitbreiding'
+    okx.repo.br_dev -> okx.repo.br_n1 'alleen het optionele veld'
   }
 
   dynamic view release_publicatie {

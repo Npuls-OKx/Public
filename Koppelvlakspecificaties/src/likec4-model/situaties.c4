@@ -27,9 +27,9 @@ views {
     title 'Situaties / De afnemer gaat niet mee'
     order 14
     description '
-      Het venster sluit niet uit zichzelf. De catalogus draagt het oude pad voor
-      onbepaalde tijd naast het nieuwe, en de toezegging van hoogstens twee
-      gelijktijdige majors hangt op één leverancier.
+      Het venster sluit niet uit zichzelf. De catalogus draagt het oude pad naast
+      het nieuwe zolang het leermanagementsysteem erop meldt, en wat er gebeurt
+      als de termijn afloopt, legt het beleid niet vast.
     '
 
     autoLayout TopBottom 40 40
@@ -109,23 +109,28 @@ views {
     title 'Situaties / Een tweede major tijdens het venster'
     order 16
     description '
-      Per koppeling zijn hoogstens twee majors tegelijk actief. Komt 3.0 terwijl
-      het leermanagementsysteem nog op 1.0 draait, dan moet iemand kiezen.
+      Volgens de hoofdregel komt 3.0 naast 2.0. Zolang het leermanagementsysteem
+      nog op 1.0 draait, zijn er drie versies tegelijk gepubliceerd, en de
+      catalogus bedient ze alle drie.
     '
 
     autoLayout TopBottom 40 40
 
-    include lo_versies, instelling, instelling.oc, instelling.lms
+    include lo_versies, instelling, instelling.lms
+    include instelling.oc with {
+      description 'Bedient 1.0, 2.0 en 3.0 tegelijk'
+      color amber
+    }
     include lo_versies.lo_10 with {
-      description 'Valt af zodra 3.0 verschijnt'
+      description 'Vervalt aan het eind van de termijn'
       color red
     }
     include lo_versies.lo_20 with {
-      description 'Actief'
+      description 'Blijft zolang er partijen op draaien'
       color green
     }
     include lo_versies.lo_30 with {
-      description 'Actief zodra gepubliceerd'
+      description 'Komt ernaast'
       color green
     }
     include lo_versies.lo_10 -> instelling.lms with {
@@ -164,7 +169,7 @@ views {
       description 'minor: optioneel veld erbij'
       color amber
     }
-    include okx.store.pkg_igm.igm_v111 with {
+    include okx.store.pkg_kvs.kvs_v201 with {
       description 'patch: tekst gelijkgetrokken met het schema — geen enkele partij hoeft iets'
       color green
     }
@@ -181,7 +186,7 @@ views {
       color red
     }
     include okx.store.pkg_igm.igm_v110 -> instelling.oc with {
-      title 'mag de nieuwe waarde leveren, hoeft niet'
+      title 'mag het nieuwe veld leveren, hoeft niet'
       color amber
     }
 
