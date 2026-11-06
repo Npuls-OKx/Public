@@ -6,7 +6,7 @@ Datum: 2026-11-04
 
 ### Context
 
-Een instelling meldt haar onderwijsaanbod aan bij het Register Instellingen en Opleidingen (RIO) en stelt het beschikbaar voor Aanmelden en Inschrijven (AI). Vandaag wordt die informatie in de praktijk samengesteld vanuit het studentinformatiesysteem: dat systeem staat centraal in het landschap, en de koppelingen naar RIO en CAMBO worden daaruit gerealiseerd. De vorm van wat er uitgaat volgt dan de interne structuur van die leverancier, en elke instelling krijgt een eigen vertaling tussen haar aanbod en wat het register verwacht.
+Een instelling meldt haar onderwijsaanbod aan bij het Register Instellingen en Opleidingen (RIO) en stelt het beschikbaar voor Aanmelden, Intekenen en Inschrijven (AII) of het huidige CAMBO. Vandaag wordt die informatie in de praktijk samengesteld vanuit het studentinformatiesysteem: dat systeem staat centraal in het landschap, en de koppelingen naar RIO en CAMBO worden daaruit gerealiseerd. De vorm van wat er uitgaat volgt dan de interne structuur van die leverancier, en elke instelling krijgt een eigen vertaling tussen haar aanbod en wat het register verwacht.
 
 De onderwijscatalogus is in het OKx-landschap de plek waar het onderwijsaanbod ontstaat en waar het aanmeld- en inschrijfbare aanbod vandaan komt. Dat de catalogus bron is voor de kernregistratie bestaat vandaag nog niet; OKx introduceert dat. Daarmee ligt de vraag open welke vorm het aanbod krijgt op weg naar RIO en AI, en wie die vorm bepaalt.
 
