@@ -29,9 +29,9 @@ De onderbouwing is dat een interne vorm gebruiken onlogisch is zolang er een cor
 
 ### Consequenties
 
-- De koppeling van de onderwijscatalogus richting RIO en AI wordt beschreven in RIO-begrippen. Dat raakt de interactieketen onderwijsaanbod en de bijbehorende payload.
-- CAMBO wordt uitgefaseerd en vervangen door Aanmelden en Inschrijven. RIO blijft bestaan voor het registreren van onderwijsaanbod en locaties. De hoofdplaat informatiestromen toont die drie vandaag nog als een groep; die groep beweegt mee met die uitfasering.
-- De aanmeldmodule heeft meer nodig dan de kernregistratie: daar speelt capaciteit wel een rol. Die informatie loopt via dezelfde lijn naar RIO en AI, en niet via de kernregistratie.
+- De koppeling van de onderwijscatalogus richting RIO en AII wordt beschreven in RIO-begrippen. Dat raakt de interactieketen onderwijsaanbod en de bijbehorende payload.
+- CAMBO wordt uitgefaseerd en vervangen door Aanmelden, Intekenen en Inschrijven. RIO blijft bestaan voor het registreren van onderwijsaanbod en locaties. De hoofdplaat informatiestromen toont die drie vandaag nog als een groep; die groep beweegt mee met die uitfasering.
+- De aanmeldmodule heeft meer nodig dan de kernregistratie: daar speelt capaciteit wel een rol. Die informatie loopt via dezelfde lijn naar RIO en AII, en niet via de kernregistratie.
 - Een instelling die haar aanbod vandaag vanuit het studentinformatiesysteem aanmeldt, verlegt die route naar de onderwijscatalogus. Dat is een migratie, geen configuratie.
 - Een leverancier van een onderwijscatalogus krijgt er een uitgaande koppeling bij; een leverancier van een studentinformatiesysteem verliest er een.
 
