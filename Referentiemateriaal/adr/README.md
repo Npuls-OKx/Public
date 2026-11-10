@@ -36,6 +36,7 @@ Alle besluiten hebben op dit moment de status **voorstel**.
 | [0024](0024-consolidatie-architectuurprincipes.md) | Consolidatie van de architectuurprincipes en de introductie van uitgangspunten |
 | [0025](0025-requirementsboom-als-koppeling-business-techniek.md) | Requirementsboom als getoonde koppeling tussen business en techniek |
 | [0026](0026-leeruitkomst-als-verbindende-sleutel.md) | Leeruitkomst als verbindende sleutel (vervangt 0023) |
+| [0027](0027-eisen-voor-techniekkeuze.md) | Eisen vóór de techniekkeuze; een standaard-mismatch is een signalering, geen afwijzing |
 
 ## Een besluit toevoegen
 
