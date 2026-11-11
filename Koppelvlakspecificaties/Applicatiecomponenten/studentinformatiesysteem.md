@@ -4,9 +4,9 @@ Het studentinformatiesysteem is hier de combinatie van het **kernregistratiesyst
 
 ## Koppelvlak
 
-![Koppelvlak van het studentinformatiesysteem op de hoofdplaat v1.7](../src/koppelvlak_sis_krs_svs_view_ihp_v1_7.png)
+![Koppelvlak van het studentinformatiesysteem op de hoofdplaat v1.7a](../src/koppelvlak_sis_krs_svs_view_ihp_v1_7a.png)
 
-De view toont het koppelvlak van het studentinformatiesysteem op de informatiestromen-hoofdplaat v1.7. Kernregistratie (KRS) en studievoortgang (SVS) maken er deel van uit.
+De view toont het koppelvlak van het studentinformatiesysteem op de informatiestromen-hoofdplaat v1.7a. Het kernregistratiesysteem (KRS) en het studentvolgsysteem (SVS) maken er deel van uit. Het studentvolgsysteem meldt afgeronde onderdelen aan het [studentkeuzesysteem](studentkeuzesysteem.md#koppelvlak).
 
 ## Endpoints
 

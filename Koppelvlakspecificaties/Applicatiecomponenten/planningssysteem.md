@@ -4,9 +4,9 @@ Het planningssysteem maakt van een gepubliceerde onderwijsspecificatie planbaar 
 
 ## Koppelvlak
 
-![Gedeeld koppelvlak van planning en roostering op de hoofdplaat v1.7](../src/koppelvlak_p_en_r_view_ihp_v1_7.png)
+![Gedeeld koppelvlak van planning en roostering op de hoofdplaat v1.7a](../src/koppelvlak_p_en_r_view_ihp_v1_7a.png)
 
-De view toont het gedeelde koppelvlak van planning en roostering op de informatiestromen-hoofdplaat v1.7. Beide componenten delen dit koppelvlak; het rooster zelf blijft bij het roostersysteem.
+De view toont het gedeelde koppelvlak van planning en roostering op de informatiestromen-hoofdplaat v1.7a. Beide componenten delen dit koppelvlak; het rooster zelf blijft bij het roostersysteem.
 
 ## Endpoints
 

@@ -6,7 +6,7 @@ Het interactiepatroon van deze koppeling: de systeem-naar-systeemberichten (mach
 
 ![Koppeling onderwijscatalogus naar planning en roostering op de hoofdplaat](../src/highlight_oc_p_en_r_informatiestromen_hoofdplaat_v1_7.png)
 
-De uitsnede komt uit de informatiestromen-hoofdplaat v1.7 (richtinggevend; de legenda draagt nog "concept"), met deze koppeling gemarkeerd. De koppelvlakken van beide componenten staan bij de [onderwijscatalogus](../Applicatiecomponenten/onderwijscatalogus.md) en het [planningssysteem](../Applicatiecomponenten/planningssysteem.md).
+De uitsnede komt uit de informatiestromen-hoofdplaat v1.7 (richtinggevend; de legenda draagt nog "concept"), met deze koppeling gemarkeerd. Deze koppeling is in v1.7 en v1.7a gelijk. De koppelvlakken van beide componenten staan bij de [onderwijscatalogus](../Applicatiecomponenten/onderwijscatalogus.md) en het [planningssysteem](../Applicatiecomponenten/planningssysteem.md).
 
 ## Functionele eisen
 
