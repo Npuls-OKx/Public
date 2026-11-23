@@ -21,7 +21,7 @@
     "roomType"
   ],
   "bron": {
-    "model": "https://github.com/Npuls-OKx/meta/blob/bdf5e07e77622d4117f2025e700fde4ed3d3664f/architecture/model/model.archimate",
+    "model": "https://github.com/Npuls-OKx/meta/blob/1b0c8943cb221e0a302378fab106d490259bfedc/architecture/model/model.archimate",
     "views": [
       "OKx informatiemodel",
       "OKx informatiemodel en mapping OEAPI"
@@ -43,7 +43,7 @@
       "oeapi": null
     },
     {
-      "naam": "Cohort / periode",
+      "naam": "Cohort",
       "kolom": null,
       "scope": "binnen",
       "vulkleur": null,
@@ -51,7 +51,7 @@
     },
     {
       "naam": "Competenties / Skills",
-      "kolom": "Onderwijskundigkader instelling",
+      "kolom": "Onderwijskundig kader instelling",
       "scope": "buiten",
       "vulkleur": "#e8e8e8",
       "oeapi": null
@@ -150,14 +150,14 @@
     },
     {
       "naam": "Inzicht",
-      "kolom": "Onderwijskundigkader instelling",
+      "kolom": "Onderwijskundig kader instelling",
       "scope": "buiten",
       "vulkleur": "#e8e8e8",
       "oeapi": null
     },
     {
       "naam": "Kennis",
-      "kolom": "Onderwijskundigkader instelling",
+      "kolom": "Onderwijskundig kader instelling",
       "scope": "buiten",
       "vulkleur": "#e8e8e8",
       "oeapi": null
@@ -287,7 +287,7 @@
     },
     {
       "naam": "Leeruitkomst",
-      "kolom": "Onderwijskundigkader instelling",
+      "kolom": "Onderwijskundig kader instelling",
       "scope": "binnen",
       "vulkleur": null,
       "oeapi": [
@@ -328,6 +328,15 @@
       "vulkleur": "#ffffb5",
       "oeapi": [
         "LearningComponentOfferingAssociation"
+      ]
+    },
+    {
+      "naam": "Lesgroep",
+      "kolom": "Onderwijsverbintenis",
+      "scope": "binnen",
+      "vulkleur": null,
+      "oeapi": [
+        "Group"
       ]
     },
     {
@@ -375,6 +384,15 @@
     },
     {
       "naam": "Minor specificatie",
+      "kolom": "Onderwijsspecificatie",
+      "scope": "binnen",
+      "vulkleur": null,
+      "oeapi": [
+        "Programme"
+      ]
+    },
+    {
+      "naam": "Nominale Leerroute",
       "kolom": "Onderwijsspecificatie",
       "scope": "binnen",
       "vulkleur": null,
@@ -562,7 +580,16 @@
     },
     {
       "naam": "Plaatsingsgroep",
-      "kolom": null,
+      "kolom": "Onderwijsverbintenis",
+      "scope": "binnen",
+      "vulkleur": null,
+      "oeapi": [
+        "Group"
+      ]
+    },
+    {
+      "naam": "Planningsgroep",
+      "kolom": "Onderwijsverbintenis",
       "scope": "binnen",
       "vulkleur": null,
       "oeapi": [
@@ -656,7 +683,7 @@
     },
     {
       "naam": "Vaardigheid",
-      "kolom": "Onderwijskundigkader instelling",
+      "kolom": "Onderwijskundig kader instelling",
       "scope": "buiten",
       "vulkleur": "#e8e8e8",
       "oeapi": null
@@ -1017,13 +1044,13 @@
     },
     {
       "soort": "Association",
-      "van": "Cohort / periode",
+      "van": "Cohort",
       "naar": "OER",
       "label": "wordt uitgewerkt in"
     },
     {
       "soort": "Association",
-      "van": "Cohort / periode",
+      "van": "Cohort",
       "naar": "Summatieve resultaat structuur",
       "label": "Groepeert Studenten op toepasbare"
     },
@@ -1132,7 +1159,7 @@
     {
       "soort": "Association",
       "van": "Inschrijving",
-      "naar": "Cohort / periode",
+      "naar": "Cohort",
       "label": "Leidt tot deelname aan"
     },
     {
@@ -1229,7 +1256,7 @@
       "soort": "Association",
       "van": "Keuzedeel specificatie",
       "naar": "Keuzedeel aanbod",
-      "label": null
+      "label": "wordt aangeboden als"
     },
     {
       "soort": "Association",
@@ -1275,9 +1302,15 @@
     },
     {
       "soort": "Association",
+      "van": "Leergelegenheid verbintenis",
+      "naar": "Lesgroep",
+      "label": "Groepeert tot"
+    },
+    {
+      "soort": "Association",
       "van": "Leeronderdeel specificatie",
       "naar": "Leergelegenheid",
-      "label": null
+      "label": "wordt aangeboden als"
     },
     {
       "soort": "Association",
@@ -1313,7 +1346,7 @@
       "soort": "Association",
       "van": "Les specificatie",
       "naar": "Lesgelegenheid",
-      "label": null
+      "label": "wordt aangeboden als"
     },
     {
       "soort": "Association",
@@ -1373,7 +1406,7 @@
       "soort": "Association",
       "van": "Minor specificatie",
       "naar": "Minor aanbod",
-      "label": null
+      "label": "wordt aangeboden als"
     },
     {
       "soort": "Association",
@@ -1427,7 +1460,7 @@
       "soort": "Association",
       "van": "Onderwijseenheid specificatie",
       "naar": "Onderwijseenheid aanbod",
-      "label": null
+      "label": "wordt aangeboden als"
     },
     {
       "soort": "Association",
@@ -1487,7 +1520,7 @@
       "soort": "Association",
       "van": "Opleiding specificatie",
       "naar": "Opleiding aanbod",
-      "label": null
+      "label": "wordt aangeboden als"
     },
     {
       "soort": "Association",
@@ -1528,8 +1561,14 @@
     {
       "soort": "Association",
       "van": "Opleidingsprogramma specificatie",
+      "naar": "Nominale Leerroute",
+      "label": "Staat model voor"
+    },
+    {
+      "soort": "Association",
+      "van": "Opleidingsprogramma specificatie",
       "naar": "Opleidingsprogramma aanbod",
-      "label": null
+      "label": "wordt aangeboden als"
     },
     {
       "soort": "Association",
@@ -1928,6 +1967,12 @@
       "label": "Minimaal 1"
     },
     {
+      "soort": "Composition",
+      "van": "Plaatsingsgroep",
+      "naar": "Planningsgroep",
+      "label": null
+    },
+    {
       "soort": "Specialization",
       "van": "Examengelegenheid",
       "naar": "Toetsgelegenheid",
@@ -2164,6 +2209,11 @@
       "relatie": "Realization"
     },
     {
+      "okx": "Lesgroep",
+      "oeapi": "Group",
+      "relatie": "Realization"
+    },
+    {
       "okx": "Minor aanbod",
       "oeapi": "ProgrammeOffering",
       "relatie": "Realization"
@@ -2185,6 +2235,11 @@
     },
     {
       "okx": "Minor specificatie",
+      "oeapi": "Programme",
+      "relatie": "Realization"
+    },
+    {
+      "okx": "Nominale Leerroute",
       "oeapi": "Programme",
       "relatie": "Realization"
     },
@@ -2270,6 +2325,11 @@
     },
     {
       "okx": "Plaatsingsgroep",
+      "oeapi": "Group",
+      "relatie": "Realization"
+    },
+    {
+      "okx": "Planningsgroep",
       "oeapi": "Group",
       "relatie": "Realization"
     },
