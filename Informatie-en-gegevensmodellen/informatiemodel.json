@@ -21,7 +21,7 @@
     "roomType"
   ],
   "bron": {
-    "model": "https://github.com/Npuls-OKx/meta/blob/911b1438c836320032977393cb57469796e5e79d/architecture/model/model.archimate",
+    "model": "https://github.com/Npuls-OKx/meta/blob/636593d644e86a0e53d4663a8c36d88213da48a7/architecture/model/model.archimate",
     "views": [
       "OKx informatiemodel",
       "OKx informatiemodel en mapping OEAPI"
