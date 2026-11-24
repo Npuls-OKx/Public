@@ -4,9 +4,9 @@ Het leermanagementsysteem is de online leeromgeving waarin de student het onderw
 
 ## Koppelvlak
 
-![Koppelvlak van het leermanagementsysteem op de hoofdplaat v1.7a](../src/koppelvlak_lms_view_ihp_v1_7a.png)
+![Koppelvlak van het leermanagementsysteem op de hoofdplaat v1.7.1](../src/koppelvlak_lms_view_ihp_v1_7_1.png)
 
-De view toont het koppelvlak van het leermanagementsysteem: de optelsom van zijn koppelingen op de informatiestromen-hoofdplaat v1.7a.
+De view toont het koppelvlak van het leermanagementsysteem: de optelsom van zijn koppelingen op de informatiestromen-hoofdplaat v1.7.1.
 
 ## Endpoints
 
