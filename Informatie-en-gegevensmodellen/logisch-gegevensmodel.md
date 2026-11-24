@@ -18,18 +18,19 @@ erDiagram
     REGELSET }o--o{ LEERUITKOMST : "stelt deelname-voorwaarden in behaalde leeruitkomsten"
     KEUZEDEELPROGRAMMASPECIFICATIE ||--o{ ONDERWIJSEENHEIDSPECIFICATIE : onderdeel_van
 
-    OPLEIDINGSSPECIFICATIE }o--|| LEERUITKOMST : "verankert op"
-    OPLEIDINGSPROGRAMMASPECIFICATIE_LEERWEG }o--|| LEERUITKOMST : "verankert op"
-    OPLEIDINGSPROGRAMMASPECIFICATIE_DOELGROEP }o--|| LEERUITKOMST : "verankert op"
-    ONDERWIJSEENHEIDSPECIFICATIE }o--|| LEERUITKOMST : "verankert op"
-    LEERONDERDEELSPECIFICATIE }o--|| LEERUITKOMST : "verankert op"
-    KEUZEDEELPROGRAMMASPECIFICATIE }o--|| LEERUITKOMST : "verankert op"
+    OPLEIDINGSSPECIFICATIE ||--o{ SPECIFICATIE_LEERUITKOMST : "verankert op"
+    OPLEIDINGSPROGRAMMASPECIFICATIE_LEERWEG ||--o{ SPECIFICATIE_LEERUITKOMST : "verankert op"
+    OPLEIDINGSPROGRAMMASPECIFICATIE_DOELGROEP ||--o{ SPECIFICATIE_LEERUITKOMST : "verankert op"
+    ONDERWIJSEENHEIDSPECIFICATIE ||--o{ SPECIFICATIE_LEERUITKOMST : "verankert op"
+    LEERONDERDEELSPECIFICATIE ||--o{ SPECIFICATIE_LEERUITKOMST : "verankert op"
+    KEUZEDEELPROGRAMMASPECIFICATIE ||--o{ SPECIFICATIE_LEERUITKOMST : "verankert op"
+    SPECIFICATIE_LEERUITKOMST }o--|| LEERUITKOMST : "verwijst naar"
+    LEERUITKOMST ||--o{ LEERUITKOMST_KWALIFICATIEKADER : "draagt bij aan"
     LEERUITKOMST ||--o{ LEERUITKOMST : "aggregeert bottom-up en top-down"
     LEERUITKOMST {
         uuid id PK
         string versie "eigen lifecycle"
         string naam
-        object bron "standaard (nu sbb-kwalificatiekader, later bv. competentnl) + type + code"
         uuid bovenliggendLeeruitkomstId FK "recursief, orde van grootte per niveau"
         string waardedocument "diploma, certificaat, later microcredential"
         array indicatieveOmvang "SBU en/of EC naast elkaar ([ADR 0004](../Referentiemateriaal/adr/0004-leeruitkomsten-sbu-ec-logistieke-containergrootte.md))"
@@ -38,11 +39,19 @@ erDiagram
         array gedrag "optioneel"
         int nlqfNiveau
     }
+    LEERUITKOMST_KWALIFICATIEKADER {
+        uuid leeruitkomstId FK "sleutel naar leeruitkomst"
+        object bron "standaard (nu sbb-kwalificatiekader, later bv. competentnl) + type + code"
+    }
+    SPECIFICATIE_LEERUITKOMST {
+        uuid specificatieId FK "sleutel naar de specificatie"
+        string specificatieVersie
+        uuid leeruitkomstId FK "sleutel naar leeruitkomst"
+    }
     OPLEIDINGSSPECIFICATIE {
         uuid id PK
         string specificatieType "opleidingsspecificatie"
         uuid bovenliggendSpecificatieId "null"
-        uuid leeruitkomstId FK "sleutel naar leeruitkomst"
         string naam
         string curriculumtype
         string versie
@@ -56,7 +65,6 @@ erDiagram
         uuid id PK
         string specificatieType "opleidingsprogrammaspecificatie"
         uuid bovenliggendSpecificatieId FK "opleiding"
-        uuid leeruitkomstId FK "sleutel naar leeruitkomst"
         string programmaLaag "leerweg"
         string leerweg "BOL of BBL"
         string programmatype "diplomaprogramma"
@@ -66,7 +74,6 @@ erDiagram
         uuid id PK
         string specificatieType "opleidingsprogrammaspecificatie"
         uuid bovenliggendSpecificatieId FK "leerweg-programma"
-        uuid leeruitkomstId FK "sleutel naar leeruitkomst"
         string programmaLaag "doelgroep"
         string doelgroep "regulier, zijinstromer, hybride, organisatiespecifiek"
         string leerweg
@@ -83,7 +90,6 @@ erDiagram
         uuid id PK
         string specificatieType "onderwijseenheidspecificatie"
         uuid bovenliggendSpecificatieId FK "programma of keuzedeelprogramma"
-        uuid leeruitkomstId FK "sleutel naar leeruitkomst"
         string naam
         object studielast
     }
@@ -91,7 +97,6 @@ erDiagram
         uuid id PK
         string specificatieType "leeronderdeelspecificatie"
         uuid bovenliggendSpecificatieId FK "onderwijseenheid"
-        uuid leeruitkomstId FK "sleutel naar leeruitkomst"
         string naam
         string tijdsverdeling "BOT of OOT"
         object studielast
@@ -107,7 +112,6 @@ erDiagram
         uuid id PK
         string specificatieType "opleidingsprogrammaspecificatie"
         uuid bovenliggendSpecificatieId "null, zelfstandig"
-        uuid leeruitkomstId FK "sleutel naar leeruitkomst"
         string programmatype "keuzedeelprogramma"
         string keuzedeelKlasse "algemeen-verbredend of beroepsspecifiek-verdiepend"
         object studielast
@@ -120,7 +124,14 @@ erDiagram
     }
 ```
 
-Het model toont de relatie tussen specificatie en leeruitkomst als veel-op-veel. De payload implementeert dat voorlopig als één `leeruitkomstId` per specificatie; een array-vorm is nog niet uitgewerkt.
+Leeruitkomsten hangen aan twee kanten veel-op-veel, en daarom staat er aan elke kant een koppeltabel ([ontwerpkeuze 2 in het informatiemodel](informatiemodel.md#ontwerpkeuzes)):
+
+| Koppeltabel | Wat zij koppelt | Waarom |
+|---|---|---|
+| `LEERUITKOMST_KWALIFICATIEKADER` | een leeruitkomst aan een kwalificatie, kerntaak, werkproces of keuzedeel | een werkproces draagt bij aan meerdere leeruitkomsten en een leeruitkomst dekt meerdere werkprocessen; per regel blijft herleidbaar aan welk deel van het kwalificatiekader een leeruitkomst bijdraagt, want het examenplan draagt die relatie verplicht |
+| `SPECIFICATIE_LEERUITKOMST` | een specificatie in een bepaalde versie aan een leeruitkomst | een specificatie verankert op meerdere leeruitkomsten, en een leeruitkomst is via meerdere specificaties te bereiken |
+
+Hoeveel een leeruitkomst bijdraagt staat in de summatieve resultaatstructuur, die de wegingen draagt; de koppeltabellen dragen alleen de relatie. Voorstel. De schema's volgen in een volgende versie: de payload draagt nu nog één `leeruitkomstId` per specificatie en één `bron` per leeruitkomst.
 
 ## Onderwijsaanbod
 
