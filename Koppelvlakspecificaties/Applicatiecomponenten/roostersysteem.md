@@ -6,6 +6,6 @@ Dit pakket specificeert geen koppeling met het roostersysteem, en levert er dus 
 
 ## Koppelvlak
 
-![Gedeeld koppelvlak van planning en roostering op de hoofdplaat v1.7.1](../src/koppelvlak_p_en_r_view_ihp_v1_7_1.png)
+![Gedeeld koppelvlak van planning en roostering op de hoofdplaat v1.7.2](../src/koppelvlak_p_en_r_view_ihp_v1_7_2.png)
 
-De view toont het gedeelde koppelvlak van planning en roostering op de informatiestromen-hoofdplaat v1.7.1.
+De view toont het gedeelde koppelvlak van planning en roostering op de informatiestromen-hoofdplaat v1.7.2.

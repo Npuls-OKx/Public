@@ -4,9 +4,9 @@ Het interactiepatroon van deze koppeling: de systeem-naar-systeemberichten (mach
 
 ## Plek in de keten
 
-![Koppeling onderwijscatalogus naar het leermanagementsysteem op de hoofdplaat](../src/highlight_oc_lms_informatiestromen_hoofdplaat_v1_7_1.png)
+![Koppeling onderwijscatalogus naar het leermanagementsysteem op de hoofdplaat](../src/highlight_oc_lms_informatiestromen_hoofdplaat_v1_7_2.png)
 
-De uitsnede komt uit de informatiestromen-hoofdplaat v1.7.1 (richtinggevend; de legenda draagt nog "concept"), met deze koppeling gemarkeerd. De koppelvlakken van beide componenten staan bij de [onderwijscatalogus](../Applicatiecomponenten/onderwijscatalogus.md) en het [leermanagementsysteem](../Applicatiecomponenten/leermanagementsysteem.md).
+De uitsnede komt uit de informatiestromen-hoofdplaat v1.7.2 (richtinggevend; de legenda draagt nog "concept"), met deze koppeling gemarkeerd. De koppelvlakken van beide componenten staan bij de [onderwijscatalogus](../Applicatiecomponenten/onderwijscatalogus.md) en het [leermanagementsysteem](../Applicatiecomponenten/leermanagementsysteem.md).
 
 ## Functionele eisen
 
