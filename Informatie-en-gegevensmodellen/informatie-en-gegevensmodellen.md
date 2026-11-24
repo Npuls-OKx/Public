@@ -358,9 +358,9 @@ De omgekeerde dekking: objecten uit MORA en KOI die bij het zoeken naar tegenhan
 | [Informatiemodel OKx](#3-conceptueel-informatiemodel) | De objecttypen en hun samenhang; deze lijst geeft er de definities bij |
 | [Ankertabel kaderscenario leerroute 1](../Referentiemateriaal/kaderscenario's/leerroute-1-regulier.md#betrokken-informatie-bij-proces) | De families, de niveaus en de stadia |
 | [`begrippen.json`](begrippen.json) | Deze lijst machineleesbaar; dit document wordt eruit gegenereerd |
-| [`begrippen-extractie.json`](https://github.com/Npuls-OKx/meta/blob/bdf5e07e77622d4117f2025e700fde4ed3d3664f/architecture/docs/specificatie/begrippen/begrippen-extractie.json) | Elke term tussen backquotes in de meta-repository en in dit repository, met vindplaatsen |
+| [`begrippen-extractie.json`](https://github.com/Npuls-OKx/meta/blob/025fd435/architecture/docs/specificatie/begrippen/begrippen-extractie.json) | Elke term tussen backquotes in de meta-repository en in dit repository, met vindplaatsen |
 | [`referentiekaders.json`](referentiekaders.json) | De letterlijk overgenomen definities uit MORA en KOI, met bron-URL en ophaaldatum |
-| [MORA-definitiemapping v0.4](https://github.com/Npuls-OKx/meta/tree/bdf5e07e77622d4117f2025e700fde4ed3d3664f/architecture/docs/definitie_mapping_MORA_OEAPI_excel/) | Eerdere mapping van MORA-objecten op OEAPI, als werkblad; deze lijst vervangt hem niet en verwijst ernaar waar de keuzes verschillen |
+| [MORA-definitiemapping v0.4](https://github.com/Npuls-OKx/meta/tree/025fd435/architecture/docs/definitie_mapping_MORA_OEAPI_excel/) | Eerdere mapping van MORA-objecten op OEAPI, als werkblad; deze lijst vervangt hem niet en verwijst ernaar waar de keuzes verschillen |
 
 
 <!-- pagina-einde -->
@@ -392,7 +392,7 @@ De scope volgt de beschouwingsniveaus van het [Metamodel Informatie Modellering 
 
 Verder buiten scope: applicatiecomponenten, techniekkeuzes en federatie tussen instellingen. Welke component welk objecttype bezit staat in [uitgangspunt U3](../Koppelvlakspecificaties/uitgangspunten.md#u3-resource-eigenaarschap) van de koppelvlakspecificatie. Een conceptueel informatiemodel is volgens MIM onafhankelijk van standaarden voor gegevensuitwisseling; de verhouding tot de Open Education API (OEAPI) staat daarom in een [apart document](#310-informatiemodel-okx-naast-oeapi-v6).
 
-![Informatiemodel OKx, versie v0.2 van 19 oktober 2026](img/informatiemodel.jpg)
+![Informatiemodel OKx, versie v0.2 van 14 oktober 2026](img/informatiemodel.jpg)
 
 ### 3.5 Lezers en detailniveau
 
@@ -443,13 +443,13 @@ Elke keuze noemt zijn bron; staat er *voorstel*, dan is de keuze in dit model ge
 3. **Randvoorwaarde: uitwisseling tussen instellingen vraagt landelijk gestandaardiseerde leeruitkomsten.** Zonder een landelijk beheerde set blijft een leeruitkomst instellingseigen en is aanbod van verschillende instellingen niet te vergelijken. Dit model gaat van die set uit; de onderwijskundige vrijheid van de instelling zit in de specificaties waarmee zij de leeruitkomsten bereikt. Randvoorwaarde voor een latere fase; federatie valt buiten dit model.
 4. **Het niveau waarop iets gespecificeerd wordt ligt niet vast.** Een `Onderwijseenheid specificatie` kan op kerntaakniveau liggen of op een ander niveau dat de instelling kiest. De koppeling loopt via de leeruitkomst, en daarom is het niveau geen eigenschap van de objecttypen. Voorstel.
 5. **Een specificatie kan zelfstandig bestaan.** Specificaties onder de `Opleiding specificatie` kunnen onderdeel zijn van een bovenliggende specificatie, maar hoeven dat niet. Een `Opleidingsprogramma specificatie` zonder bovenliggende `Opleiding specificatie` is geldig. Voorstel.
-6. **De student kiest uit specificaties, de voorwaarde staat in behaalde leeruitkomsten.** De `Student keuze regelset` wijst naar de specificatietypen waaruit gekozen kan worden. Een voorwaarde vooraf in die regelset wordt uitgedrukt in behaalde leeruitkomsten en niet in doorlopen specificaties: deelname aan Ruimtelijk inzicht vereist dat de leeruitkomst van Wiskunde 1 behaald is, ongeacht via welke specificatie. Bron: [R7 in de keuze-requirements](https://github.com/Npuls-OKx/meta/blob/bdf5e07e77622d4117f2025e700fde4ed3d3664f/architecture/docs/specificatie/student-keuze/keuze-requirements.md) en [ADR 0026](../Referentiemateriaal/adr/0026-leeruitkomst-als-verbindende-sleutel.md).
+6. **De student kiest uit specificaties, de voorwaarde staat in behaalde leeruitkomsten.** De `Student keuze regelset` wijst naar de specificatietypen waaruit gekozen kan worden. Een voorwaarde vooraf in die regelset wordt uitgedrukt in behaalde leeruitkomsten en niet in doorlopen specificaties: deelname aan Ruimtelijk inzicht vereist dat de leeruitkomst van Wiskunde 1 behaald is, ongeacht via welke specificatie. Bron: [R7 in de keuze-requirements](https://github.com/Npuls-OKx/meta/blob/025fd435/architecture/docs/specificatie/student-keuze/keuze-requirements.md) en [ADR 0026](../Referentiemateriaal/adr/0026-leeruitkomst-als-verbindende-sleutel.md).
 7. **Resultaten hangen aan verbintenissen, niet rechtstreeks aan leeruitkomsten.** Een student toont een leeruitkomst aan door toetsen en examens af te ronden; die resultaten ontstaan op de verbintenis, via specificatie, aanbod en verbintenis. De summatieve resultaatstructuur wijst naar de leeruitkomsten en zegt welke resultaten samen het bewijs vormen, ook voor een leeruitkomstenregister, Edubadges of een eduwallet. Daarom heeft geen enkel resultaattype een eigen relatie met `Leeruitkomst`. Een resultaat ontstaat op elk niveau waarop een verbintenis bestaat: opleiding, opleidingsprogramma, onderwijseenheid, leergelegenheid, lesgelegenheid, toetsgelegenheid en examengelegenheid. `Leergelegenheid resultaat` en `Aanwezigheid` staan buiten scope van OKx; zij bestaan in het model omdat de keten ze kent. Voorstel; verfijnt [ADR 0022](../Referentiemateriaal/adr/0022-resultaatbegrippen-conform-rosa-koi.md), dat "behaald op leeruitkomsten" zegt zonder de weg via de structuur te noemen.
 8. **De inhoud van een les valt buiten de uitwisseling, de les in het rooster niet.** `Les specificatie` blijft erbuiten: wat er in een les gebeurt is onderwijskundige vrijheid van de instelling. `Lesgelegenheid`, `Lesgelegenheid verbintenis` en `Lesgelegenheid resultaat` staan binnen scope, want de les in het rooster, de deelname eraan en het resultaat erop zijn logistiek en worden uitgewisseld. Voorstel.
 9. **Een examenonderdeel is een specialisatie van een toetsonderdeel, en formatief of summatief is een kenmerk van het resultaat.** Toetsonderdeel en examenonderdeel delen dezelfde informatiestructuur; hun totstandkoming verschilt: een examenonderdeel stelt de examencommissie vast, een toetsonderdeel volgt instellingsbeleid. De specificatie draagt in haar definitie of zij formatief of summatief is, en `Formatief resultaat` en `Summatief resultaat` hangen onder het toets- respectievelijk examenresultaat. Er zijn dus geen twee takken door het model. De summatieve resultaatstructuur is samengesteld uit toetsonderdelen, zodat een instelling een formatief toetsonderdeel summatief kan laten meetellen; vanaf dat moment volgt het de examenketen. De term examenonderdeel komt uit het mbo; het hoger onderwijs gebruikt haar anders, en het model legt daarom het onderscheid in de totstandkoming vast en niet in het woord. Voorstel.
 10. **OKx wisselt de summatieve resultaatstructuur uit, niet het examenplan.** De `Summatieve resultaat structuur` draagt de examenonderdelen met hun wegingen en het afrondingscriterium dat de zak-slaagregeling draagt. Zij is onderdeel van een examenplan en verwijst daarnaar; het examenplan zelf, het document dat de examencommissie vaststelt, valt buiten de uitwisseling, net als de `OER` (onderwijs- en examenregeling) die het examenplan bevat en de kwalificatie beschrijft. Bron: MORA onderscheidt OER, examenplan en summatieve resultaatstructuur op dezelfde manier.
 11. **Een leeruitkomst is een geformuleerde competentie, en draagt als enige een niveau.** `Leeruitkomst` specialiseert `Competenties / Skills`: dezelfde informatiestructuur, uitgedrukt op het niveau waarop de instelling formuleert. De onderliggende begrippen kennis, vaardigheid en inzicht staan in het model en vallen buiten de uitwisseling. Het niveau is NLQF, met EQF als Europese equivalent: mbo 1 tot 4 en hoger onderwijs 5 tot 8 op dezelfde lat. Kerntaak en werkproces zijn een vindplaats in het mbo-dossier en geen niveau. Een vaardigheid eronder draagt geen niveau; de [metadateringsmethodologie van CompetentNL](https://publications.tno.nl/publication/34645225/UfmHs0kr/competentNL-2025-metadatering.pdf) stelt dat het gevraagde niveau per context verschilt. Het objecttype dat die lat draagt staat nog niet in het model; een objecttype dat die lat draagt is in voorbereiding. Voorstel.
-12. **Keuzedeel en minor zijn bijzondere gevallen van een opleidingsprogramma, en een ruimte is de oningevulde variant ervan.** Een keuzedeelruimte is onderwijskundig vrijgemaakte ruimte van een bepaalde omvang waarin een student een keuzedeel kiest; een minorruimte doet hetzelfde voor het hoger onderwijs. `Keuzedeel specificatie`, `Keuzedeelruimte`, `Minor specificatie` en `Minor ruimte` specialiseren alle `Opleidingsprogramma specificatie`, en de minor loopt door over aanbod, verbintenis en resultaat. Het keuzedeel is landelijk vastgesteld en valt daarmee ook onder het kwalificatiekader: `Kwalificatie dossier`, `Kwalificatie` en `Keuzedeel` specialiseren alle `Kwalificatiestructuur SBB`, het objecttype dat vastlegt wat S-BB landelijk vaststelt. Het landelijke `Keuzedeel` staat daarmee in het kwalificatiekader en draagt de K-code; wat de instelling daarvan maakt is `Keuzedeel specificatie` in de kolom onderwijsspecificatie.
+12. **Keuzedeel en minor zijn bijzondere gevallen van een opleidingsprogramma, en een ruimte is de oningevulde variant ervan.** Een keuzedeelruimte is onderwijskundig vrijgemaakte ruimte van een bepaalde omvang waarin een student een keuzedeel kiest; een minorruimte doet hetzelfde voor het hoger onderwijs. `Keuzedeel`, `Keuzedeelruimte`, `Minor` en `Minor ruimte` specialiseren alle `Opleidingsprogramma specificatie`, en de minor loopt door over aanbod, verbintenis en resultaat. Het keuzedeel is landelijk vastgesteld en staat daarmee ook in het kwalificatiekader; het model draagt het als specificatie, met de landelijke code als verwijzing. Voorstel.
 13. **Intekenen, aanmelden en inschrijven zijn drie stappen.** Het `Verzoek tot Aanbod / Intekening op specificatie` is een verzoek om aanbod te maken voor een specificatie. Het heeft specificaties als input en leidt tot aanbod; aanmelden gebeurt daarna op dat aanbod en inschrijven is de verbintenis. De `Aanmelding` gaat `Op basis van` een aanbod, in elke fase waarin dat aanbod zich bevindt, loopt `middels` een verbintenis en `wordt` een `Inschrijving`: de overeenkomst tussen instelling en student, die bij het studentinformatiesysteem blijft. Bron: de afstemming van 14 september 2026 met een planner en een instelling; aanbod rijpt van intentie via grofmazig gepland naar geroosterd, en intekenen kan op de specificatie en op aanbod in elke fase. Of die fasering een toestand op het aanbod is of eigen objecttypen vraagt, is open.
 14. **Student en medewerker zijn rollen van een persoon.** `Student` en `Medewerker` specialiseren `Persoon`; een persoon kan beide tegelijk zijn. Toegang tot de objecttypen loopt via `Persoon`. Voorstel.
 15. **Een verbintenis loopt bij voorkeur via een groep.** `Plaatsingsgroep` maakt regulier onderwijs makkelijker te plannen en te roosteren en geldt voor elk verbintenistype. Het model sluit individuele verbintenissen niet uit. Voorstel.
@@ -513,10 +513,10 @@ Uit `informatiemodel.json`: de 35 realisaties en de associatie van `Persoon` naa
 | `Examengelegenheid resultaat` | Onderwijsresultaat | `Result` | te grof: draagt 8 OKx-objecttypen binnen scope, het onderscheid ligt buiten de standaard |
 | `Examengelegenheid verbintenis` | Onderwijsverbintenis | `TestComponentOfferingAssociation` | te grof: draagt 2 OKx-objecttypen binnen scope, het onderscheid ligt buiten de standaard |
 | `Examenonderdeelspecificatie` | Onderwijsspecificatie | `TestComponent` | te grof: draagt 2 OKx-objecttypen binnen scope, het onderscheid ligt buiten de standaard |
+| `Keuzedeel` | Onderwijsspecificatie | `Programme` | te grof: draagt 6 OKx-objecttypen binnen scope, het onderscheid ligt buiten de standaard |
 | `Keuzedeel aanbod` | Onderwijsaanbod | `ProgrammeOffering` | te grof: draagt 4 OKx-objecttypen binnen scope, het onderscheid ligt buiten de standaard |
 | `Keuzedeel aanbod verbintenis` | Onderwijsverbintenis | `ProgrammeOfferingAssociation` | te grof: draagt 4 OKx-objecttypen binnen scope, het onderscheid ligt buiten de standaard |
 | `Keuzedeel resultaat` | Onderwijsresultaat | `Result` | te grof: draagt 8 OKx-objecttypen binnen scope, het onderscheid ligt buiten de standaard |
-| `Keuzedeel specificatie` | Onderwijsspecificatie | `Programme` | te grof: draagt 6 OKx-objecttypen binnen scope, het onderscheid ligt buiten de standaard |
 | `Keuzedeelruimte` | Onderwijsspecificatie | `Programme` | te grof: draagt 6 OKx-objecttypen binnen scope, het onderscheid ligt buiten de standaard |
 | `Leergelegenheid` | Onderwijsaanbod | `LearningComponentOffering` | te grof: draagt 2 OKx-objecttypen binnen scope, het onderscheid ligt buiten de standaard |
 | `Leergelegenheid resultaat` | Onderwijsresultaat | `Result` | buiten scope: de leslaag valt buiten de uitwisseling |
@@ -527,11 +527,11 @@ Uit `informatiemodel.json`: de 35 realisaties en de associatie van `Persoon` naa
 | `Lesgelegenheid` | Onderwijsaanbod | `LearningComponentOffering` | te grof: draagt 2 OKx-objecttypen binnen scope, het onderscheid ligt buiten de standaard |
 | `Lesgelegenheid resultaat` | Onderwijsresultaat | `Result` | te grof: draagt 8 OKx-objecttypen binnen scope, het onderscheid ligt buiten de standaard |
 | `Lesgelegenheid verbintenis` | Onderwijsverbintenis | `LearningComponentOfferingAssociation` | te grof: draagt 2 OKx-objecttypen binnen scope, het onderscheid ligt buiten de standaard |
+| `Minor` | Onderwijsspecificatie | `Programme` | te grof: draagt 6 OKx-objecttypen binnen scope, het onderscheid ligt buiten de standaard |
 | `Minor aanbod` | Onderwijsaanbod | `ProgrammeOffering` | te grof: draagt 4 OKx-objecttypen binnen scope, het onderscheid ligt buiten de standaard |
 | `Minor aanbod verbintenis` | Onderwijsverbintenis | `ProgrammeOfferingAssociation` | te grof: draagt 4 OKx-objecttypen binnen scope, het onderscheid ligt buiten de standaard |
 | `Minor resultaat` | Onderwijsresultaat | `Result` | te grof: draagt 8 OKx-objecttypen binnen scope, het onderscheid ligt buiten de standaard |
 | `Minor ruimte` | Onderwijsspecificatie | `Programme` | te grof: draagt 6 OKx-objecttypen binnen scope, het onderscheid ligt buiten de standaard |
-| `Minor specificatie` | Onderwijsspecificatie | `Programme` | te grof: draagt 6 OKx-objecttypen binnen scope, het onderscheid ligt buiten de standaard |
 | `Onderwijseenheid aanbod` | Onderwijsaanbod | `CourseOffering` | volstaat |
 | `Onderwijseenheid aanbod verbintenis` | Onderwijsverbintenis | `CourseOfferingAssociation` | volstaat |
 | `Onderwijseenheid resultaat` | Onderwijsresultaat | `Result` | te grof: draagt 8 OKx-objecttypen binnen scope, het onderscheid ligt buiten de standaard |
@@ -612,19 +612,18 @@ erDiagram
     REGELSET }o--o{ LEERUITKOMST : "stelt deelname-voorwaarden in behaalde leeruitkomsten"
     KEUZEDEELPROGRAMMASPECIFICATIE ||--o{ ONDERWIJSEENHEIDSPECIFICATIE : onderdeel_van
 
-    OPLEIDINGSSPECIFICATIE ||--o{ SPECIFICATIE_LEERUITKOMST : "verankert op"
-    OPLEIDINGSPROGRAMMASPECIFICATIE_LEERWEG ||--o{ SPECIFICATIE_LEERUITKOMST : "verankert op"
-    OPLEIDINGSPROGRAMMASPECIFICATIE_DOELGROEP ||--o{ SPECIFICATIE_LEERUITKOMST : "verankert op"
-    ONDERWIJSEENHEIDSPECIFICATIE ||--o{ SPECIFICATIE_LEERUITKOMST : "verankert op"
-    LEERONDERDEELSPECIFICATIE ||--o{ SPECIFICATIE_LEERUITKOMST : "verankert op"
-    KEUZEDEELPROGRAMMASPECIFICATIE ||--o{ SPECIFICATIE_LEERUITKOMST : "verankert op"
-    SPECIFICATIE_LEERUITKOMST }o--|| LEERUITKOMST : "verwijst naar"
-    LEERUITKOMST ||--o{ LEERUITKOMST_KWALIFICATIEKADER : "draagt bij aan"
+    OPLEIDINGSSPECIFICATIE }o--|| LEERUITKOMST : "verankert op"
+    OPLEIDINGSPROGRAMMASPECIFICATIE_LEERWEG }o--|| LEERUITKOMST : "verankert op"
+    OPLEIDINGSPROGRAMMASPECIFICATIE_DOELGROEP }o--|| LEERUITKOMST : "verankert op"
+    ONDERWIJSEENHEIDSPECIFICATIE }o--|| LEERUITKOMST : "verankert op"
+    LEERONDERDEELSPECIFICATIE }o--|| LEERUITKOMST : "verankert op"
+    KEUZEDEELPROGRAMMASPECIFICATIE }o--|| LEERUITKOMST : "verankert op"
     LEERUITKOMST ||--o{ LEERUITKOMST : "aggregeert bottom-up en top-down"
     LEERUITKOMST {
         uuid id PK
         string versie "eigen lifecycle"
         string naam
+        object bron "standaard (nu sbb-kwalificatiekader, later bv. competentnl) + type + code"
         uuid bovenliggendLeeruitkomstId FK "recursief, orde van grootte per niveau"
         string waardedocument "diploma, certificaat, later microcredential"
         array indicatieveOmvang "SBU en/of EC naast elkaar ([ADR 0004](../Referentiemateriaal/adr/0004-leeruitkomsten-sbu-ec-logistieke-containergrootte.md))"
@@ -633,19 +632,11 @@ erDiagram
         array gedrag "optioneel"
         int nlqfNiveau
     }
-    LEERUITKOMST_KWALIFICATIEKADER {
-        uuid leeruitkomstId FK "sleutel naar leeruitkomst"
-        object bron "standaard (nu sbb-kwalificatiekader, later bv. competentnl) + type + code"
-    }
-    SPECIFICATIE_LEERUITKOMST {
-        uuid specificatieId FK "sleutel naar de specificatie"
-        string specificatieVersie
-        uuid leeruitkomstId FK "sleutel naar leeruitkomst"
-    }
     OPLEIDINGSSPECIFICATIE {
         uuid id PK
         string specificatieType "opleidingsspecificatie"
         uuid bovenliggendSpecificatieId "null"
+        uuid leeruitkomstId FK "sleutel naar leeruitkomst"
         string naam
         string curriculumtype
         string versie
@@ -659,6 +650,7 @@ erDiagram
         uuid id PK
         string specificatieType "opleidingsprogrammaspecificatie"
         uuid bovenliggendSpecificatieId FK "opleiding"
+        uuid leeruitkomstId FK "sleutel naar leeruitkomst"
         string programmaLaag "leerweg"
         string leerweg "BOL of BBL"
         string programmatype "diplomaprogramma"
@@ -668,6 +660,7 @@ erDiagram
         uuid id PK
         string specificatieType "opleidingsprogrammaspecificatie"
         uuid bovenliggendSpecificatieId FK "leerweg-programma"
+        uuid leeruitkomstId FK "sleutel naar leeruitkomst"
         string programmaLaag "doelgroep"
         string doelgroep "regulier, zijinstromer, hybride, organisatiespecifiek"
         string leerweg
@@ -684,6 +677,7 @@ erDiagram
         uuid id PK
         string specificatieType "onderwijseenheidspecificatie"
         uuid bovenliggendSpecificatieId FK "programma of keuzedeelprogramma"
+        uuid leeruitkomstId FK "sleutel naar leeruitkomst"
         string naam
         object studielast
     }
@@ -691,6 +685,7 @@ erDiagram
         uuid id PK
         string specificatieType "leeronderdeelspecificatie"
         uuid bovenliggendSpecificatieId FK "onderwijseenheid"
+        uuid leeruitkomstId FK "sleutel naar leeruitkomst"
         string naam
         string tijdsverdeling "BOT of OOT"
         object studielast
@@ -706,6 +701,7 @@ erDiagram
         uuid id PK
         string specificatieType "opleidingsprogrammaspecificatie"
         uuid bovenliggendSpecificatieId "null, zelfstandig"
+        uuid leeruitkomstId FK "sleutel naar leeruitkomst"
         string programmatype "keuzedeelprogramma"
         string keuzedeelKlasse "algemeen-verbredend of beroepsspecifiek-verdiepend"
         object studielast
@@ -718,14 +714,7 @@ erDiagram
     }
 ```
 
-Leeruitkomsten hangen aan twee kanten veel-op-veel, en daarom staat er aan elke kant een koppeltabel ([ontwerpkeuze 2 in het informatiemodel](#38-ontwerpkeuzes)):
-
-| Koppeltabel | Wat zij koppelt | Waarom |
-|---|---|---|
-| `LEERUITKOMST_KWALIFICATIEKADER` | een leeruitkomst aan een kwalificatie, kerntaak, werkproces of keuzedeel | een werkproces draagt bij aan meerdere leeruitkomsten en een leeruitkomst dekt meerdere werkprocessen; per regel blijft herleidbaar aan welk deel van het kwalificatiekader een leeruitkomst bijdraagt, want het examenplan draagt die relatie verplicht |
-| `SPECIFICATIE_LEERUITKOMST` | een specificatie in een bepaalde versie aan een leeruitkomst | een specificatie verankert op meerdere leeruitkomsten, en een leeruitkomst is via meerdere specificaties te bereiken |
-
-Hoeveel een leeruitkomst bijdraagt staat in de summatieve resultaatstructuur, die de wegingen draagt; de koppeltabellen dragen alleen de relatie. Voorstel. De schema's volgen in een volgende versie: de payload draagt nu nog één `leeruitkomstId` per specificatie en één `bron` per leeruitkomst.
+Het model toont de relatie tussen specificatie en leeruitkomst als veel-op-veel. De payload implementeert dat voorlopig als één `leeruitkomstId` per specificatie; een array-vorm is nog niet uitgewerkt.
 
 ### 4.2 Onderwijsaanbod
 
